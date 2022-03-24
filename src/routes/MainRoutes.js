@@ -6,7 +6,8 @@ import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
 // sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+// const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const DashboardPage = Loadable(lazy(() => import('views/studio-admin/dashboard')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -20,11 +21,11 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <SamplePage />
+            element: <DashboardPage />
         },
         {
-            path: '/sample-page',
-            element: <SamplePage />
+            path: '/dashboard',
+            element: <DashboardPage />
         }
     ]
 };
