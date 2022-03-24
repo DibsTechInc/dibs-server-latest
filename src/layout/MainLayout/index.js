@@ -29,11 +29,11 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
             duration: theme.transitions.duration.shorter
         }),
         [theme.breakpoints.up('md')]: {
-            marginLeft: -(drawerWidth - 20),
+            marginLeft: -(drawerWidth - 5),
             width: `calc(100% - ${drawerWidth}px)`
         },
         [theme.breakpoints.down('md')]: {
-            marginLeft: '20px',
+            marginLeft: '10px',
             width: `calc(100% - ${drawerWidth}px)`,
             padding: '16px'
         },
@@ -54,7 +54,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
         borderBottomRightRadius: 0,
         width: `calc(100% - ${drawerWidth}px)`,
         [theme.breakpoints.down('md')]: {
-            marginLeft: '20px'
+            marginLeft: '10px'
         },
         [theme.breakpoints.down('sm')]: {
             marginLeft: '10px'

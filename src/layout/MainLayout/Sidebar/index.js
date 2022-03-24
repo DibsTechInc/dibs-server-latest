@@ -44,7 +44,7 @@ const Sidebar = ({ window }) => {
                 component="div"
                 style={{
                     height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
-                    paddingLeft: '16px',
+                    paddingLeft: '5px',
                     paddingRight: '16px'
                 }}
             >

@@ -2,14 +2,14 @@
 import { FormattedMessage } from 'react-intl';
 
 // assets
-import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
+// import { IconBrandChrome, IconHelp, IconSitemap } from '@tabler/icons';
 
 // constant
-const icons = {
-    IconBrandChrome,
-    IconHelp,
-    IconSitemap
-};
+// const icons = {
+//     IconBrandChrome,
+//     IconHelp,
+//     IconSitemap
+// };
 
 // ==============================|| SAMPLE PAGE & DOCUMENTATION MENU ITEMS ||============================== //
 

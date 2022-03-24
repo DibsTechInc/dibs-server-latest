@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
+import { Avatar, Chip, ListItemButton, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import useConfig from 'hooks/useConfig';
@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from 'store';
 import { activeItem, openDrawer } from 'store/slices/menu';
 
 // assets
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+// import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
@@ -24,18 +24,18 @@ const NavItem = ({ item, level }) => {
     const dispatch = useDispatch();
     const { openItem } = useSelector((state) => state.menu);
 
-    const Icon = item?.icon;
-    const itemIcon = item?.icon ? (
-        <Icon stroke={1.5} size="1.3rem" />
-    ) : (
-        <FiberManualRecordIcon
-            sx={{
-                width: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
-                height: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6
-            }}
-            fontSize={level > 0 ? 'inherit' : 'medium'}
-        />
-    );
+    // const Icon = item?.icon;
+    // const itemIcon = item?.icon ? (
+    //     <Icon stroke={1.5} size="1.3rem" />
+    // ) : (
+    //     <FiberManualRecordIcon
+    //         sx={{
+    //             width: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
+    //             height: openItem.findIndex((id) => id === item?.id) > -1 ? 8 : 6
+    //         }}
+    //         fontSize={level > 0 ? 'inherit' : 'medium'}
+    //     />
+    // );
 
     let itemTarget = '_self';
     if (item.target) {
@@ -69,9 +69,10 @@ const NavItem = ({ item, level }) => {
             {...listItemProps}
             disabled={item.disabled}
             sx={{
+                height: 37,
                 borderRadius: `${borderRadius}px`,
                 mb: 0.5,
-                alignItems: 'flex-start',
+                // alignItems: 'flex-start',
                 backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`
