@@ -27,6 +27,12 @@ const Dashboard = () => {
             title: 'This month',
             revenue: '12829',
             comparedwith: 'lastmonth'
+        },
+        {
+            id: 4,
+            title: 'This year',
+            revenue: '57622',
+            comparedwith: 'lastmonth'
         }
     ];
     console.log('data-values');
@@ -43,25 +49,25 @@ const Dashboard = () => {
                 <Box
                     xs={12}
                     sx={{
-                        marginTop: '20px',
-                        marginLeft: '25px',
+                        marginTop: '50px',
+                        marginLeft: '35px',
                         marginRight: '20px',
                         display: 'flex',
                         flexDirection: 'row',
                         width: '100%'
                     }}
                 >
-                    <Grid item xs={9}>
+                    <Grid item xs={9} sx={{ marginRight: '30px' }}>
                         <Typography gutterBottom variant="h3">
                             SALES REVENUE
                         </Typography>
                         <Typography gutterBottom variant="h6">
                             Revenue generated from purchases (retail, package, classes).
                         </Typography>
-                        <Grid container>
+                        <Grid container spacing={2}>
                             {dataValues.map((value, i) => (
-                                <Grid key={i} item>
-                                    <EarningCard data={value} />
+                                <Grid key={i} item xs={3} sx={{ marginTop: '20px' }}>
+                                    <EarningCard title={value.title} />
                                 </Grid>
                             ))}
                         </Grid>
