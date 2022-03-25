@@ -56,6 +56,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
+            seriesreplace: chartData.seriesreplace[value],
             xaxis: {
                 categories: chartData.options.xaxis.categories[value],
                 labels: {

@@ -36,8 +36,8 @@ const chartData = {
             type: 'category',
             categories: {
                 monthly: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                weekly: ['1', '2', '3'],
-                annually: ['2018', '2019', '2020', '2021']
+                weekly: ['1/14', '1/21', '1/28', '2/5', '2/12', '2/18', '2/22', '2/29', '3/5'],
+                annually: ['2016', '2017', '2018', '2019', '2020', '2021', '2022']
             }
         },
         legend: {
@@ -70,21 +70,77 @@ const chartData = {
     },
     series: [
         {
-            name: 'Package Revenue',
-            data: [1245, 762, 1888, 90, 222, 100, 120, 150, 160, 180, 190, 200]
+            name: 'Investment',
+            data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
         },
         {
-            name: 'Membership Revenue',
+            name: 'Loss',
             data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
         },
         {
-            name: 'Single Class Revenue',
+            name: 'Profit',
             data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
         },
         {
-            name: 'Retail Revenue',
+            name: 'Maintenance',
             data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
         }
-    ]
+    ],
+    seriesreplace: {
+        weekly: [
+            {
+                name: 'Investment',
+                data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
+            },
+            {
+                name: 'Loss',
+                data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
+            },
+            {
+                name: 'Profit',
+                data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
+            },
+            {
+                name: 'Maintenance',
+                data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
+            }
+        ],
+        monthly: [
+            {
+                name: 'Investment',
+                data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
+            },
+            {
+                name: 'Loss',
+                data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
+            },
+            {
+                name: 'Profit',
+                data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
+            },
+            {
+                name: 'Maintenance',
+                data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
+            }
+        ],
+        annually: [
+            {
+                name: 'Investment',
+                data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
+            },
+            {
+                name: 'Loss',
+                data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
+            },
+            {
+                name: 'Profit',
+                data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
+            },
+            {
+                name: 'Maintenance',
+                data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
+            }
+        ]
+    }
 };
 export default chartData;
