@@ -4,6 +4,9 @@ import { Outlet } from 'react-router-dom';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, Container, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import useScrollTrigger from '@mui/material/useScrollTrigger';
+import Slide from '@mui/material/Slide';
+import HideAppBar from './Header/HideAppBarOnScroll';
 
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
@@ -85,24 +88,23 @@ const MainLayout = () => {
         ),
         []
     );
-
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             {/* header */}
-            <AppBar
+            <HideAppBar
                 enableColorOnDark
                 position="fixed"
                 color="inherit"
                 elevation={0}
+                drawerOpenStatus={drawerOpen}
                 sx={{
                     bgcolor: theme.palette.background.default,
                     transition: drawerOpen ? theme.transitions.create('width') : 'none'
                 }}
             >
                 {header}
-            </AppBar>
-
+            </HideAppBar>
             {/* drawer */}
             <Sidebar />
 

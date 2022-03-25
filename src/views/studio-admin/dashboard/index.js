@@ -2,6 +2,7 @@
 import { Typography, Grid, Paper, Box } from '@mui/material';
 import EarningCard from '../../../components/EarningCard';
 import GlanceStats from '../../../components/GlanceStats';
+import SalesRevenueChart from '../../../components/SalesRevenueChart';
 
 // project imports
 import { useTheme } from '@emotion/react';
@@ -13,27 +14,35 @@ const Dashboard = () => {
     const dataValues = [
         {
             id: 1,
-            title: 'Today',
+            title: 'TODAY',
             revenue: '$26',
-            comparedwith: 'yesterday'
+            up: 0,
+            comparedwith: 'yesterday',
+            percentage: 2
         },
         {
             id: 2,
-            title: 'This week',
+            title: 'WEEK-TO-DATE',
             revenue: '$250',
-            comparedwith: 'last week'
+            up: 1,
+            comparedwith: 'last week',
+            percentage: 32
         },
         {
             id: 3,
-            title: 'This month',
-            revenue: '12829',
-            comparedwith: 'lastmonth'
+            title: 'MONTH-TO-DATE',
+            revenue: '$12,829',
+            up: 0,
+            comparedwith: 'lastmonth',
+            percentage: 12
         },
         {
             id: 4,
-            title: 'This year',
-            revenue: '57622',
-            comparedwith: 'lastmonth'
+            title: 'YEAR-TO-DATE',
+            revenue: '$57,622',
+            up: 1,
+            comparedwith: 'lastmonth',
+            percentage: 87
         }
     ];
     console.log('data-values');
@@ -58,7 +67,7 @@ const Dashboard = () => {
                         width: '100%'
                     }}
                 >
-                    <Grid item xs={9} sx={{ marginRight: '30px' }}>
+                    <Grid item xs={9} sx={{ marginRight: '100px' }}>
                         <Typography gutterBottom variant="h3">
                             SALES REVENUE
                         </Typography>
@@ -67,10 +76,27 @@ const Dashboard = () => {
                         </Typography>
                         <Grid container spacing={2}>
                             {dataValues.map((value, i) => (
-                                <Grid key={i} item xs={3} sx={{ marginTop: '20px' }}>
-                                    <EarningCard title={value.title} />
+                                <Grid key={i} item xs={3} sx={{ marginTop: '40px' }}>
+                                    <EarningCard
+                                        title={value.title}
+                                        revenue={value.revenue}
+                                        stateUp={value.up}
+                                        percentage={value.percentage}
+                                    />
                                 </Grid>
                             ))}
+                        </Grid>
+                        <Grid container>
+                            <Grid item xs={12} sx={{ marginTop: '60px' }}>
+                                <Typography gutterBottom variant="h3">
+                                    SALES REVENUE TRENDS
+                                </Typography>
+                                <Grid container>
+                                    <Grid item xs={12} sx={{ marginTop: '15px' }}>
+                                        <SalesRevenueChart />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={3}>

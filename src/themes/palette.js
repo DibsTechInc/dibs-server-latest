@@ -82,6 +82,10 @@ const Palette = (navType, presetColor) => {
             tableValues: {
                 main: colors.tableValuesMain
             },
+            tileHeaders: {
+                header: colors.tileHeaders,
+                main: colors.tileRevenueNumber
+            },
             grey: {
                 50: colors.grey50,
                 100: colors.grey100,

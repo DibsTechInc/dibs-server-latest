@@ -32,7 +32,7 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     },
     subtitle1: {
         fontSize: '0.875rem',
-        fontWeight: 500,
+        fontWeight: 200,
         color: theme.palette.text.dark
     },
     subtitle2: {
@@ -43,6 +43,20 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     tableValue: {
         fontWeight: 900,
         color: theme.palette.tableValues.main
+    },
+    tileHeader: {
+        fontWeight: 500,
+        color: theme.palette.tileHeaders.header
+    },
+    tileRevenue: {
+        fontSize: '1.8rem',
+        fontWeight: 900,
+        color: theme.palette.tileHeaders.main
+    },
+    tileSubheader: {
+        fontSize: '0.75rem',
+        fontWeight: 400,
+        color: theme.palette.tileHeaders.main
     },
     caption: {
         fontSize: '0.75rem',

@@ -24,8 +24,10 @@ $success200: #69f0ae;
 $successMain: #00e676;
 $successDark: #00c853;
 
-// table colors
+// dashboard colors
 $tableValuesMain: #8cd4ba;
+$tileheaders: #e7b2a5;
+$tileRevenueNumber: #4f4f4f;
 
 // error
 $errorLight: #ef9a9a;
@@ -109,6 +111,8 @@ $darkTextSecondary: #8492c4;
 
     // table values
     tableValuesMain: $tableValuesMain;
+    tileHeaders: $tileheaders;
+    tileRevenueNumber: $tileRevenueNumber;
 
     // error
     errorLight: $errorLight;
