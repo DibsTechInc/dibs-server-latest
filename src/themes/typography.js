@@ -18,7 +18,7 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     h3: {
         fontSize: '1.25rem',
         color: theme.palette.grey[600],
-        fontWeight: 600
+        fontWeight: 500
     },
     h2: {
         fontSize: '1.5rem',
@@ -103,6 +103,10 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontWeight: 500,
         color: theme.palette.text.secondary,
         textTransform: 'capitalize'
+    },
+    contentSpacing: {
+        marginTop: '10px',
+        marginLeft: '10px'
     },
     commonAvatar: {
         cursor: 'pointer',
