@@ -194,7 +194,8 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
             styleOverrides: {
                 select: {
                     '&:focus': {
-                        backgroundColor: 'transparent'
+                        backgroundColor: 'transparent',
+                        border: '2px'
                     }
                 }
             }

@@ -20,23 +20,23 @@ import chartData from './chart-data/total-growth-bar-chart';
 
 const status = [
     {
-        value: 'today',
-        label: 'Today'
+        value: 'weekly',
+        label: 'Weekly'
     },
     {
-        value: 'month',
-        label: 'This Month'
+        value: 'monthly',
+        label: 'Monthly'
     },
     {
-        value: 'year',
-        label: 'This Year'
+        value: 'annually',
+        label: 'Annually'
     }
 ];
 
 // ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
-    const [value, setValue] = React.useState('today');
+    const [value, setValue] = React.useState('monthly');
     const theme = useTheme();
     const { navType } = useConfig();
 
@@ -50,11 +50,14 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryMain = theme.palette.secondary.main;
     const secondaryLight = theme.palette.secondary.light;
 
+    console.log(`value of today is: ${value}`);
+
     React.useEffect(() => {
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
             xaxis: {
+                categories: chartData.options.xaxis.categories[value],
                 labels: {
                     style: {
                         colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
@@ -85,7 +88,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         if (!isLoading) {
             ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
         }
-    }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500]);
+    }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500, value]);
 
     return (
         <>
@@ -99,7 +102,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                 <Grid item>
                                     <Grid container direction="column" spacing={1}>
                                         <Grid item>
-                                            <Typography variant="subtitle2">Total Growth</Typography>
+                                            <Typography variant="subtitle2">Total Revenue</Typography>
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="h3">$2,324.00</Typography>
