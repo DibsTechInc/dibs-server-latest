@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Grid } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
 import PropTypes from 'prop-types';
+import { useTheme } from '@mui/material/styles';
 
 const EarningCard = (props) => {
     const { title } = props;
+    const theme = useTheme();
 
     return (
-        <Card>
+        <Card variant="outlined" sx={{ borderColor: theme.palette.grey[300] }}>
             <CardContent>
                 <Grid container direction="column">
                     <Grid item>

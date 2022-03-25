@@ -40,6 +40,10 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontWeight: 400,
         color: theme.palette.text.secondary
     },
+    tableValue: {
+        fontWeight: 900,
+        color: theme.palette.tableValues.main
+    },
     caption: {
         fontSize: '0.75rem',
         color: theme.palette.text.secondary,

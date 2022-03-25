@@ -79,6 +79,9 @@ const Palette = (navType, presetColor) => {
                 main: colors.successMain,
                 dark: colors.successDark
             },
+            tableValues: {
+                main: colors.tableValuesMain
+            },
             grey: {
                 50: colors.grey50,
                 100: colors.grey100,

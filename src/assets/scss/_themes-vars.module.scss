@@ -24,6 +24,9 @@ $success200: #69f0ae;
 $successMain: #00e676;
 $successDark: #00c853;
 
+// table colors
+$tableValuesMain: #8cd4ba;
+
 // error
 $errorLight: #ef9a9a;
 $errorMain: #f44336;
@@ -103,6 +106,9 @@ $darkTextSecondary: #8492c4;
     success200: $success200;
     successMain: $successMain;
     successDark: $successDark;
+
+    // table values
+    tableValuesMain: $tableValuesMain;
 
     // error
     errorLight: $errorLight;

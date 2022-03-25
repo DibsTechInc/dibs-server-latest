@@ -1,6 +1,7 @@
 // material-ui
 import { Typography, Grid, Paper, Box } from '@mui/material';
 import EarningCard from '../../../components/EarningCard';
+import GlanceStats from '../../../components/GlanceStats';
 
 // project imports
 import { useTheme } from '@emotion/react';
@@ -74,8 +75,9 @@ const Dashboard = () => {
                     </Grid>
                     <Grid item xs={3}>
                         <Typography gutterBottom variant="h3">
-                            SUMMARY STATS
+                            MARCH SUMMARY
                         </Typography>
+                        <GlanceStats />
                     </Grid>
                 </Box>
             </Grid>
