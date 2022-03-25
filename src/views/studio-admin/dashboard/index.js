@@ -2,8 +2,6 @@
 import { Typography, Grid, Paper, Box } from '@mui/material';
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
-import EarningCard from 'components/EarningCard';
 import { useTheme } from '@emotion/react';
 
 // ==============================|| Dashboard Page ||============================== //
@@ -22,7 +20,8 @@ const Dashboard = () => {
                 <Box
                     xs={12}
                     sx={{
-                        m: 2,
+                        marginTop: '20px',
+                        marginLeft: '25px',
                         display: 'flex',
                         flexDirection: 'row',
                         width: '100%'
@@ -37,7 +36,6 @@ const Dashboard = () => {
                         <Typography gutterBottom variant="h3">
                             SUMMARY STATS
                         </Typography>
-                        <EarningCard />
                     </Grid>
                 </Box>
             </Grid>
