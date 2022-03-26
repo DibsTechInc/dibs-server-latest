@@ -54,9 +54,17 @@ const Palette = (navType, presetColor) => {
             secondary: {
                 light: navType === 'dark' ? colors.darkSecondaryLight : colors.secondaryLight,
                 main: navType === 'dark' ? colors.darkSecondaryMain : colors.secondaryMain,
+                notaslight: colors.secondaryNotAsLight,
                 dark: navType === 'dark' ? colors.darkSecondaryDark : colors.secondaryDark,
                 200: navType === 'dark' ? colors.darkSecondary200 : colors.secondary200,
                 800: navType === 'dark' ? colors.darkSecondary800 : colors.secondary800
+            },
+            chart: {
+                light: colors.chartLight,
+                main: colors.chartMain,
+                dark: colors.chartDark,
+                200: colors.chart200,
+                800: colors.chart800
             },
             error: {
                 light: colors.errorLight,

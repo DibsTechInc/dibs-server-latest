@@ -45,10 +45,10 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const grey200 = theme.palette.grey[200];
     const grey500 = theme.palette.grey[500];
 
-    const primary200 = theme.palette.primary[200];
-    const primaryDark = theme.palette.primary.dark;
-    const secondaryMain = theme.palette.secondary.main;
-    const secondaryLight = theme.palette.secondary.light;
+    const primary200 = theme.palette.chart[200];
+    const primaryDark = theme.palette.chart.dark;
+    const secondaryMain = theme.palette.chart.main;
+    const secondaryLight = theme.palette.chart.light;
 
     console.log(`value of today is: ${value}`);
 

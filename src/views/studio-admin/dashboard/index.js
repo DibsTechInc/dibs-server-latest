@@ -67,7 +67,7 @@ const Dashboard = () => {
                         width: '100%'
                     }}
                 >
-                    <Grid item xs={9} sx={{ marginRight: '100px' }}>
+                    <Grid item xs={9} sx={{ marginRight: '120px' }}>
                         <Typography gutterBottom variant="h3">
                             SALES REVENUE
                         </Typography>
@@ -99,7 +99,7 @@ const Dashboard = () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={3} sx={{ marginRight: '20px' }}>
                         <Typography gutterBottom variant="h3">
                             MARCH SUMMARY
                         </Typography>

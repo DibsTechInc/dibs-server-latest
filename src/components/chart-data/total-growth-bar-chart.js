@@ -70,11 +70,11 @@ const chartData = {
     },
     series: [
         {
-            name: 'Investment',
+            name: 'Memberships',
             data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
         },
         {
-            name: 'Loss',
+            name: 'Packages',
             data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
         },
         {
@@ -89,55 +89,55 @@ const chartData = {
     seriesreplace: {
         weekly: [
             {
-                name: 'Investment',
+                name: 'Memberships',
                 data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
             },
             {
-                name: 'Loss',
+                name: 'Packages',
                 data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
             },
             {
-                name: 'Profit',
+                name: 'Single',
                 data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
             },
             {
-                name: 'Maintenance',
+                name: 'Retail',
                 data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
             }
         ],
         monthly: [
             {
-                name: 'Investment',
-                data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
+                name: 'Memberships',
+                data: [350, 1250, 350, 350, 350, 800, 350, 200, 350, 450, 150, 750]
             },
             {
-                name: 'Loss',
+                name: 'Packages',
                 data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
             },
             {
-                name: 'Profit',
+                name: 'Single',
                 data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
             },
             {
-                name: 'Maintenance',
+                name: 'Retail',
                 data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
             }
         ],
         annually: [
             {
-                name: 'Investment',
+                name: 'Memberships',
                 data: [3500, 12500, 3500, 35, 35, 80]
             },
             {
-                name: 'Loss',
+                name: 'Packages',
                 data: [35, 15, 15, 35, 65, 40, 80]
             },
             {
-                name: 'Profit',
+                name: 'Single',
                 data: [35, 145, 35, 35, 20, 105, 100]
             },
             {
-                name: 'Maintenance',
+                name: 'Retail',
                 data: [0, 0, 75, 0, 0, 115, 0]
             }
         ]
