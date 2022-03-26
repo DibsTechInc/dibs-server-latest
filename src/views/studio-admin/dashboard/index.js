@@ -3,6 +3,7 @@ import { Typography, Grid, Paper, Box } from '@mui/material';
 import EarningCard from '../../../components/EarningCard';
 import GlanceStats from '../../../components/GlanceStats';
 import SalesRevenueChart from '../../../components/SalesRevenueChart';
+import ActiveClientChart from '../../../components/ActiveClientChart';
 
 // project imports
 import { useTheme } from '@emotion/react';
@@ -94,6 +95,16 @@ const Dashboard = () => {
                                 <Grid container>
                                     <Grid item xs={12} sx={{ marginTop: '15px' }}>
                                         <SalesRevenueChart />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs={12} sx={{ marginTop: '60px' }}>
+                                <Typography gutterBottom variant="h3">
+                                    CLIENT TRENDS
+                                </Typography>
+                                <Grid container>
+                                    <Grid item xs={12} sx={{ marginTop: '15px' }}>
+                                        <ActiveClientChart />
                                     </Grid>
                                 </Grid>
                             </Grid>

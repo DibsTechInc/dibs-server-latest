@@ -51,12 +51,15 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryLight = theme.palette.chart.light;
 
     React.useEffect(() => {
+        const categoriestoshow = chartData.options.xaxisreplace[value];
+        console.log(`categories are: ${JSON.stringify(categoriestoshow[0].categories)}`);
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
             series: chartData.seriesreplace[value],
             xaxis: {
-                categories: chartData.options.xaxisreplace[value],
+                type: 'category',
+                categories: categoriestoshow[0].categories,
                 labels: {
                     style: {
                         colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
