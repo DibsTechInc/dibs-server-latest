@@ -26,6 +26,13 @@ const studioAdminMenu = {
             breadcrumbs: false
         },
         {
+            id: 'front-desk',
+            title: <FormattedMessage id="front-desk" />,
+            type: 'item',
+            url: '/front-desk'
+            // icon: icons.IconSitemap
+        },
+        {
             id: 'reporting',
             title: <FormattedMessage id="reporting" />,
             type: 'item',
@@ -33,11 +40,11 @@ const studioAdminMenu = {
             // icon: icons.IconHelp
         },
         {
-            id: 'front-desk',
-            title: <FormattedMessage id="front-desk" />,
+            id: 'action-items',
+            title: <FormattedMessage id="action-items" />,
             type: 'item',
-            url: '#'
-            // icon: icons.IconSitemap
+            url: '/action-items'
+            // icon: icons.IconHelp
         },
         {
             id: 'class-schedule',

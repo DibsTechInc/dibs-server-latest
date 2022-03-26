@@ -8,6 +8,7 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 // sample page routing
 // const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const DashboardPage = Loadable(lazy(() => import('views/studio-admin/dashboard')));
+const FrontDeskPage = Loadable(lazy(() => import('views/studio-admin/front-desk')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -26,6 +27,10 @@ const MainRoutes = {
         {
             path: '/dashboard',
             element: <DashboardPage />
+        },
+        {
+            path: '/front-desk',
+            element: <FrontDeskPage />
         }
     ]
 };
