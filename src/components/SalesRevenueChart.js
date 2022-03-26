@@ -50,15 +50,13 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryMain = theme.palette.chart.main;
     const secondaryLight = theme.palette.chart.light;
 
-    console.log(`value of today is: ${value}`);
-
     React.useEffect(() => {
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
             series: chartData.seriesreplace[value],
             xaxis: {
-                categories: chartData.options.xaxis.categories[value],
+                categories: chartData.options.xaxisreplace[value],
                 labels: {
                     style: {
                         colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]

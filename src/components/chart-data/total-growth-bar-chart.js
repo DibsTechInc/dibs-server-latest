@@ -34,11 +34,24 @@ const chartData = {
         },
         xaxis: {
             type: 'category',
-            categories: {
-                monthly: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                weekly: ['1/14', '1/21', '1/28', '2/5', '2/12', '2/18', '2/22', '2/29', '3/5'],
-                annually: ['2016', '2017', '2018', '2019', '2020', '2021', '2022']
-            }
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        xaxisreplace: {
+            monthly: [
+                {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                }
+            ],
+            weekly: [
+                {
+                    categories: ['1/14', '1/21', '1/28', '2/5', '2/12', '2/18', '2/22', '2/29', '3/5']
+                }
+            ],
+            annually: [
+                {
+                    categories: ['2016', '2017', '2018', '2019', '2020', '2021', '2022']
+                }
+            ]
         },
         legend: {
             show: true,
