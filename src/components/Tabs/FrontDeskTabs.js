@@ -108,37 +108,37 @@ export default function ColorTabs() {
                     to="#"
                     icon={<DiscountOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Promo Codes"
-                    {...a11yProps(1)}
+                    {...a11yProps(2)}
                 />
                 <Tab
                     component={Link}
                     to="#"
                     icon={<CollectionsBookmarkOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Memberships & Packages"
-                    {...a11yProps(1)}
+                    {...a11yProps(3)}
                 />
                 <Tab
                     component={Link}
                     to="#"
                     icon={<OndemandVideoOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Video On Demand (beta)"
-                    {...a11yProps(1)}
+                    {...a11yProps(4)}
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                Anim pariah&apos;s cliche reprehended, enid elusion high life accusals terry richardson ad squid. 3 wolf moon official auth,
-                non cuspidate skateboard dolor brunch.
+                Bring in client page
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Anim pariah&apos;s cliche reprehended, enid elusion high life accusals terry richardson ad squid. 3 wolf moon official auth,
-                non cuspidate skateboard dolor brunch. Food truck quinoa nescient labarum elusion.
+                #2
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Nihil anim keffiyeh helvetic, craft beer laborer wes anderson cred mesclun sapient ea provident. Ad vegan exceptive butcher
-                vice lome.
+                #3
             </TabPanel>
             <TabPanel value={value} index={3}>
-                Nihil anim keffiyeh helmeting, craft beer labourer wes anderson cred mesclun sapiency ea provident.
+                #4
+            </TabPanel>
+            <TabPanel value={value} index={4}>
+                #5
             </TabPanel>
         </>
     );
