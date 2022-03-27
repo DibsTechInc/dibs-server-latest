@@ -1,0 +1,115 @@
+import { useDispatch } from 'store';
+
+// material-ui
+import { Button, Grid, Stack, TextField } from '@mui/material';
+
+// project imports
+import AnimateButton from 'ui-component/extended/AnimateButton';
+import { openSnackbar } from 'store/slices/snackbar';
+import { gridSpacing } from 'store/constant';
+
+// third-party
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+
+/**
+ * 'Enter your email'
+ * yup.string Expected 0 arguments, but got 1 */
+const validationSchema = yup.object({
+    email: yup.string().email('Enter a valid email').required('Email is required'),
+    firstName: yup.string().required('First name is required'),
+    lastName: yup.string().required('Last name is reuqired')
+});
+
+// ==============================|| FORM VALIDATION - NEW CLIENT ACCOUNT  ||============================== //
+
+const NewClientAccountForm = () => {
+    const dispatch = useDispatch();
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema,
+        onSubmit: () => {
+            dispatch(
+                openSnackbar({
+                    open: true,
+                    message: 'Submit Success',
+                    variant: 'alert',
+                    alert: {
+                        color: 'success'
+                    },
+                    close: false
+                })
+            );
+        }
+    });
+
+    return (
+        <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={gridSpacing} xs={6}>
+                <Grid item xs={5}>
+                    <TextField
+                        fullWidth
+                        id="first-name"
+                        size="small"
+                        name="firstname"
+                        label="First Name"
+                        value={formik.values.firstname}
+                        onChange={formik.handleChange}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <TextField
+                        fullWidth
+                        id="last-name"
+                        size="small"
+                        name="lastname"
+                        label="Last Name"
+                        value={formik.values.lastname}
+                        onChange={formik.handleChange}
+                    />
+                </Grid>
+                <Grid item xs={11}>
+                    <TextField
+                        fullWidth
+                        id="email"
+                        size="small"
+                        name="email"
+                        label="Email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email && formik.errors.email}
+                    />
+                </Grid>
+                <Grid item xs={5}>
+                    <TextField
+                        fullWidth
+                        id="phone"
+                        size="small"
+                        name="phone"
+                        label="Phone #"
+                        value={formik.values.phone}
+                        onChange={formik.handleChange}
+                        error={formik.touched.phone && Boolean(formik.errors.phone)}
+                        helperText={formik.touched.phone && formik.errors.phone}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <Stack direction="row" justifyContent="flex-end">
+                        <AnimateButton>
+                            <Button variant="contained" type="submit">
+                                Verify & Submit
+                            </Button>
+                        </AnimateButton>
+                    </Stack>
+                </Grid>
+            </Grid>
+        </form>
+    );
+};
+
+export default NewClientAccountForm;

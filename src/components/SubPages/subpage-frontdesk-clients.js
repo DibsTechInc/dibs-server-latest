@@ -2,13 +2,13 @@
 import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
-import ClientSearch from '../ClientSearch';
+import ClientSearch from '../FrontDesk/ClientSearch';
+import NewClientAccount from '../FrontDesk/NewClientAccount';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const searchGuidance = `Search by email, name, or phone number to edit client information\n and manage your client's memberships, packages, and classes.`;
-const newAccountGuidance = `Create a new account for a client if it doesn't already exist`;
+const newAccountGuidance = `Create a new account for a client that isn't already in your system`;
 const FrontDeskClients = () => (
     <Grid container xs={12} direction="column">
         <Grid item>
@@ -36,6 +36,9 @@ const FrontDeskClients = () => (
             <Typography gutterBottom variant="h7">
                 {newAccountGuidance}
             </Typography>
+        </Grid>
+        <Grid item sx={{ marginTop: '45px', marginBottom: '200px' }}>
+            <NewClientAccount />
         </Grid>
     </Grid>
 );
