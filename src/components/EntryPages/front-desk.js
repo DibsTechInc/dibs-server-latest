@@ -2,7 +2,7 @@
 import { Grid } from '@mui/material';
 
 // project imports
-import ColorTabs from '../Tabs/FrontDeskTabs';
+import FrontDeskTabs from '../Tabs/FrontDeskTabs';
 import { gridSpacing } from 'store/constant';
 
 // ================================|| UI TABS ||================================ //
@@ -10,7 +10,7 @@ import { gridSpacing } from 'store/constant';
 const UITabs = () => (
     <Grid container spacing={gridSpacing}>
         <Grid item xs={12} md={12}>
-            <ColorTabs />
+            <FrontDeskTabs />
         </Grid>
     </Grid>
 );

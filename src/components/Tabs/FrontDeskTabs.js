@@ -7,15 +7,12 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Chip, Tab, Tabs, Typography } from '@mui/material';
 
 // assets
-import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import PanoramaTwoToneIcon from '@mui/icons-material/PanoramaTwoTone';
-import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
-import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone';
 import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import FrontDeskSubPage from '../SubPages/frontdesk-clients';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -126,7 +123,7 @@ export default function ColorTabs() {
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                Bring in client page
+                <FrontDeskSubPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 #2
