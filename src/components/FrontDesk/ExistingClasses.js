@@ -29,29 +29,44 @@ import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // table data
-function createData(classTitle, defaultprice, levelRestrictions, classlength) {
+function createData(
+    classTitle,
+    defaultprice,
+    classlength,
+    defaultDescription,
+    maxCapacity,
+    typeOfClass,
+    waitlist,
+    privacyStatus,
+    showOnSchedule
+) {
     return {
         classTitle,
         defaultprice,
-        levelRestrictions,
-        classlength
+        defaultDescription,
+        maxCapacity,
+        typeOfClass,
+        waitlist,
+        classlength,
+        privacyStatus,
+        showOnSchedule
     };
 }
 
 const rows = [
-    createData('FlexFormer', 305, 3.7, 67, 4.3),
-    createData('Conbody2', 452, 25.0, 51, 4.9),
-    createData('Cool Class', 262, 16.0, 24, 6.0),
-    createData('Fitness', 159, 6.0, 24, 4.0),
-    createData('Super fit', 356, 16.0, 49, 3.9),
-    createData('Combine', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0)
+    createData('FlexFormer', 38, 45, 'Get your fit on. Description.', 1, 'Series'),
+    createData('Conbody2', 42, 60, 'Get your fit on. Description.', 20, 'Group Class'),
+    createData('Cool Class', 45, 45, 'Description', 25, 'Private'),
+    createData('Fitness', 38, 75, 'Description', 25, 'Group Class'),
+    createData('Super fit', 38, 45, 'Description', 25, 'Private'),
+    createData('Combine', 38, 45, 'Description', 30, 'Group Class'),
+    createData('XClass2', 38, 45, 'Description', 25, 'Private'),
+    createData('XClass3', 38, 45, 'Description', 20, 'Private'),
+    createData('XClass4', 38, 60, 'Description', 10, 'Group Class'),
+    createData('ZClass5', 38, 45, 'Description', 10, 'Group Class'),
+    createData('ZClass6', 38, 30, 'Description', 15, 'Group Class'),
+    createData('ZClass7', 38, 45, 'Description', 20, 'Group Class'),
+    createData('ZClass8', 38, 60, 'Description', 15, 'Group Class')
 ];
 
 // table filter
@@ -83,26 +98,58 @@ const headCells = [
     {
         id: 'classTitle',
         numeric: false,
-        disablePadding: true,
-        label: 'Class Title'
+        disablePadding: false,
+        label: 'Class Title',
+        leftAlignment: true
     },
     {
         id: 'defaultPrice',
         numeric: true,
         disablePadding: false,
-        label: 'Default Price'
+        label: 'Default Price',
+        leftAlignment: true
     },
     {
         id: 'classLength',
         numeric: true,
         disablePadding: false,
-        label: 'Class Length'
+        label: 'Class Length',
+        leftAlignment: true
+    },
+    {
+        id: 'defaultDescriptions',
+        numeric: false,
+        disablePadding: false,
+        label: 'Default Description',
+        leftAlignment: true
+    },
+    {
+        id: 'maxCapacity',
+        numeric: true,
+        disablePadding: false,
+        label: 'Max Capacity',
+        leftAlignment: true
+    },
+    {
+        id: 'privacyStatus',
+        numeric: true,
+        disablePadding: false,
+        label: 'Type Of Class',
+        leftAlignment: true
     },
     {
         id: 'levelRestrictions',
         numeric: false,
         disablePadding: false,
-        label: 'Level Restriction'
+        label: 'Level Restrictions',
+        leftAlignment: true
+    },
+    {
+        id: 'showOnSchedule',
+        numeric: true,
+        disablePadding: false,
+        label: 'Publicly Available',
+        leftAlignment: true
     }
 ];
 
@@ -116,7 +163,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox" sx={{ pl: 3 }}>
+                {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
                     <Checkbox
                         color="primary"
                         indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -126,13 +173,14 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
                             'aria-label': 'select all desserts'
                         }}
                     />
-                </TableCell>
+                </TableCell> */}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
-                        align={headCell.numeric ? 'right' : 'left'}
+                        align={headCell.leftAlignment ? 'left' : 'right'}
                         padding={headCell.disablePadding ? 'none' : 'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
+                        sx={{ pl: 3 }}
                     >
                         <TableSortLabel
                             active={orderBy === headCell.id}
@@ -256,7 +304,7 @@ export default function EnhancedTable() {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <Paper sx={{ width: '80%', mb: 2 }}>
+        <Paper sx={{ width: '95%', mb: 2 }}>
             {/* table */}
             <TableContainer>
                 <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
@@ -286,7 +334,7 @@ export default function EnhancedTable() {
                                         key={row.name}
                                         selected={isItemSelected}
                                     >
-                                        <TableCell padding="checkbox" sx={{ pl: 3 }}>
+                                        {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
                                             <Checkbox
                                                 color="primary"
                                                 checked={isItemSelected}
@@ -294,14 +342,24 @@ export default function EnhancedTable() {
                                                     'aria-labelledby': labelId
                                                 }}
                                             />
-                                        </TableCell>
-                                        <TableCell component="th" id={labelId} scope="row" padding="none">
+                                        </TableCell> */}
+                                        <TableCell component="th" id={labelId} scope="row" padding="none" sx={{ pl: 3 }}>
                                             {row.classTitle}
                                         </TableCell>
-                                        <TableCell align="right">${row.defaultprice}</TableCell>
-                                        <TableCell align="right">{row.classlength} mins</TableCell>
-                                        <TableCell sx={{ pr: 3 }} align="right">
-                                            {row.levelRestrictions}
+                                        <TableCell align="left" sx={{ pl: 3.5 }}>
+                                            ${row.defaultprice}
+                                        </TableCell>
+                                        <TableCell align="left" sx={{ pl: 3.5 }}>
+                                            {row.classlength} mins
+                                        </TableCell>
+                                        <TableCell sx={{ pl: 3.5 }} align="left">
+                                            {row.defaultDescription}
+                                        </TableCell>
+                                        <TableCell sx={{ pl: 3.5 }} align="left">
+                                            {row.maxCapacity}
+                                        </TableCell>
+                                        <TableCell sx={{ pl: 3.5 }} align="left">
+                                            {row.typeOfClass}
                                         </TableCell>
                                     </TableRow>
                                 );
