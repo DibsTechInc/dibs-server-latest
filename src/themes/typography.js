@@ -1,5 +1,10 @@
 const Typography = (theme, borderRadius, fontFamily) => ({
     fontFamily,
+    h7: {
+        fontWeight: 300,
+        color: theme.palette.grey[600],
+        fontSize: '0.85rem'
+    },
     h6: {
         fontWeight: 500,
         color: theme.palette.grey[600],
@@ -11,9 +16,9 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontWeight: 500
     },
     h4: {
-        fontSize: '1rem',
+        fontSize: '1.1rem',
         color: theme.palette.grey[600],
-        fontWeight: 600
+        fontWeight: 500
     },
     h3: {
         fontSize: '1.25rem',

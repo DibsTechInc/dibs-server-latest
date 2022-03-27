@@ -12,7 +12,7 @@ import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import FrontDeskSubPage from '../SubPages/frontdesk-clients';
+import FrontDeskSubPage from '../SubPages/subpage-frontdesk-clients';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {

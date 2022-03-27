@@ -7,20 +7,22 @@ import ClientSearch from '../ClientSearch';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
-const searchGuidance = `Search by email, name, or phone number to edit client information and manage your client's memberships, packages, and classes.`;
+const searchGuidance = `Search by email, name, or phone number to edit client information\n and manage your client's memberships, packages, and classes.`;
 const FrontDeskClients = () => (
     <Grid container xs={12} direction="column">
         <Grid item>
-            <Typography gutterBottom variant="h3">
+            <Typography gutterBottom variant="h4">
                 Search Clients
             </Typography>
         </Grid>
-        <Grid item>
-            <Typography gutterBottom variant="h6">
+        <Grid item sx={{ marginTop: '8px' }}>
+            <Typography gutterBottom variant="h7">
                 {searchGuidance}
             </Typography>
         </Grid>
-        <ClientSearch />
+        <Grid item sx={{ marginTop: '25px' }}>
+            <ClientSearch />
+        </Grid>
     </Grid>
 );
 
