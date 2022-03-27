@@ -12,7 +12,8 @@ import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import FrontDeskSubPage from '../SubPages/subpage-frontdesk-clients';
+import FrontDeskClientsSubPage from '../SubPages/subpage-frontdesk-clients';
+import FrontDeskClassesSubPage from '../SubPages/subpage-frontdesk-classes';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -123,10 +124,10 @@ export default function ColorTabs() {
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <FrontDeskSubPage />
+                <FrontDeskClientsSubPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                #2
+                <FrontDeskClassesSubPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
                 #3
