@@ -9,7 +9,6 @@ import Checkbox from '@mui/material/Checkbox';
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { openSnackbar } from 'store/slices/snackbar';
-import { gridSpacing } from 'store/constant';
 
 // third-party
 import { useFormik } from 'formik';
