@@ -2,6 +2,9 @@ import { useDispatch } from 'store';
 
 // material-ui
 import { Button, Grid, Stack, TextField } from '@mui/material';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -49,7 +52,7 @@ const NewClientAccountForm = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={gridSpacing} xs={6}>
+            <Grid container spacing={3} xs={6}>
                 <Grid item xs={6}>
                     <TextField
                         fullWidth
@@ -72,7 +75,7 @@ const NewClientAccountForm = () => {
                         onChange={formik.handleChange}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{ marginTop: '5px' }}>
                     <TextField
                         fullWidth
                         id="email"
@@ -85,7 +88,7 @@ const NewClientAccountForm = () => {
                         helperText={formik.touched.email && formik.errors.email}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} sx={{ marginTop: '5px' }}>
                     <TextField
                         fullWidth
                         id="phone"
@@ -97,6 +100,11 @@ const NewClientAccountForm = () => {
                         error={formik.touched.phone && Boolean(formik.errors.phone)}
                         helperText={formik.touched.phone && formik.errors.phone}
                     />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormGroup>
+                        <FormControlLabel control={<Checkbox defaultChecked />} label="Send a Welcome Email" />
+                    </FormGroup>
                 </Grid>
                 <Grid item xs={12}>
                     <Stack direction="row" justifyContent="flex-start">
