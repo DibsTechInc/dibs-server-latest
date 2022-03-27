@@ -28,7 +28,8 @@ const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
 
 const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme }) => ({
     width: 434,
-    marginLeft: 16,
+    height: 40,
+    marginLeft: 0,
     paddingLeft: 16,
     paddingRight: 16,
     '& input': {
@@ -66,7 +67,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
             id="input-search-header"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            placeholder="Search"
+            placeholder="Type a client's name, email, or phone number"
             startAdornment={
                 <InputAdornment position="start">
                     <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
@@ -166,13 +167,6 @@ const ClientSearch = () => {
                             <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
                         </InputAdornment>
                     }
-                    // endAdornment={
-                    //     <InputAdornment position="end">
-                    //         <HeaderAvatarStyle variant="rounded">
-                    //             <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                    //         </HeaderAvatarStyle>
-                    //     </InputAdornment>
-                    // }
                     aria-describedby="search-helper-text"
                     inputProps={{ 'aria-label': 'weight' }}
                 />

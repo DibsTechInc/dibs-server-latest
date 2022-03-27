@@ -1,5 +1,5 @@
 // material-ui
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -8,6 +8,7 @@ import ClientSearch from '../ClientSearch';
 // ==============================|| SAMPLE PAGE ||============================== //
 
 const searchGuidance = `Search by email, name, or phone number to edit client information\n and manage your client's memberships, packages, and classes.`;
+const newAccountGuidance = `Create a new account for a client if it doesn't already exist`;
 const FrontDeskClients = () => (
     <Grid container xs={12} direction="column">
         <Grid item>
@@ -22,6 +23,19 @@ const FrontDeskClients = () => (
         </Grid>
         <Grid item sx={{ marginTop: '45px' }}>
             <ClientSearch />
+        </Grid>
+        <Grid item sx={{ marginTop: '60px' }}>
+            <Divider variant="fullWidth" />
+        </Grid>
+        <Grid item sx={{ marginTop: '60px' }}>
+            <Typography gutterBottom variant="h4">
+                Create a new client account
+            </Typography>
+        </Grid>
+        <Grid item sx={{ marginTop: '8px' }}>
+            <Typography gutterBottom variant="h7">
+                {newAccountGuidance}
+            </Typography>
         </Grid>
     </Grid>
 );
