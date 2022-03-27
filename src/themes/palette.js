@@ -98,6 +98,7 @@ const Palette = (navType, presetColor) => {
                 50: colors.grey50,
                 100: colors.grey100,
                 500: navType === 'dark' ? colors.darkTextSecondary : colors.grey500,
+                550: navType === 'dark' ? colors.darkTextSecondary : colors.grey600,
                 600: navType === 'dark' ? colors.darkTextTitle : colors.grey700,
                 700: navType === 'dark' ? colors.darkTextPrimary : colors.grey700,
                 900: navType === 'dark' ? colors.darkTextPrimary : colors.grey900
