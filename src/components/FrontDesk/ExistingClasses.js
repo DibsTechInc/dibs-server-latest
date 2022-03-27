@@ -29,13 +29,12 @@ import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 // table data
-function createData(name, calories, fat, carbs, protein) {
+function createData(classTitle, defaultprice, levelRestrictions, classlength) {
     return {
-        name,
-        calories,
-        fat,
-        carbs,
-        protein
+        classTitle,
+        defaultprice,
+        levelRestrictions,
+        classlength
     };
 }
 
@@ -82,34 +81,28 @@ function stableSort(array, comparator) {
 // table header
 const headCells = [
     {
-        id: 'name',
+        id: 'classTitle',
         numeric: false,
         disablePadding: true,
-        label: 'Dessert (100g serving)'
+        label: 'Class Title'
     },
     {
-        id: 'calories',
+        id: 'defaultPrice',
         numeric: true,
         disablePadding: false,
-        label: 'Calories'
+        label: 'Default Price'
     },
     {
-        id: 'fat',
+        id: 'classLength',
         numeric: true,
         disablePadding: false,
-        label: 'Fat (g)'
+        label: 'Class Length'
     },
     {
-        id: 'carbs',
-        numeric: true,
+        id: 'levelRestrictions',
+        numeric: false,
         disablePadding: false,
-        label: 'Carbs (g)'
-    },
-    {
-        id: 'protein',
-        numeric: true,
-        disablePadding: false,
-        label: 'Protein (g)'
+        label: 'Level Restriction'
     }
 ];
 
@@ -210,7 +203,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable() {
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('classTitle');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense] = React.useState(false);
@@ -263,7 +256,7 @@ export default function EnhancedTable() {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <Paper sx={{ width: '100%', mb: 2 }}>
+        <Paper sx={{ width: '80%', mb: 2 }}>
             {/* table */}
             <TableContainer>
                 <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
@@ -303,13 +296,12 @@ export default function EnhancedTable() {
                                             />
                                         </TableCell>
                                         <TableCell component="th" id={labelId} scope="row" padding="none">
-                                            {row.name}
+                                            {row.classTitle}
                                         </TableCell>
-                                        <TableCell align="right">{row.calories}</TableCell>
-                                        <TableCell align="right">{row.fat}</TableCell>
-                                        <TableCell align="right">{row.carbs}</TableCell>
+                                        <TableCell align="right">${row.defaultprice}</TableCell>
+                                        <TableCell align="right">{row.classlength} mins</TableCell>
                                         <TableCell sx={{ pr: 3 }} align="right">
-                                            {row.protein}
+                                            {row.levelRestrictions}
                                         </TableCell>
                                     </TableRow>
                                 );
