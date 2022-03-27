@@ -5,6 +5,7 @@ import { Button, Grid, Stack, TextField } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import NumberFormat from 'react-number-format';
 
 // project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -88,7 +89,7 @@ const NewClientAccountForm = () => {
                     />
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: '5px' }}>
-                    <TextField
+                    {/* <TextField
                         fullWidth
                         id="phone"
                         size="small"
@@ -98,7 +99,21 @@ const NewClientAccountForm = () => {
                         onChange={formik.handleChange}
                         error={formik.touched.phone && Boolean(formik.errors.phone)}
                         helperText={formik.touched.phone && formik.errors.phone}
-                    />
+                    /> */}
+                    <Grid item sx={{ marginTop: '3px' }}>
+                        <NumberFormat
+                            id="phone2"
+                            size="small"
+                            label="Phone #"
+                            format="+1 (###) ###-####"
+                            mask="_"
+                            fullWidth
+                            customInput={TextField}
+                            onChange={formik.handleChange}
+                            error={formik.touched.phone && Boolean(formik.errors.phone)}
+                            helperText={formik.touched.phone && formik.errors.phone}
+                        />
+                    </Grid>
                 </Grid>
                 <Grid item xs={12}>
                     <FormGroup>
