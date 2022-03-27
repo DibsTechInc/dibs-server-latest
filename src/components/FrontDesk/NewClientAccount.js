@@ -50,7 +50,7 @@ const NewClientAccountForm = () => {
     return (
         <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={gridSpacing} xs={6}>
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                     <TextField
                         fullWidth
                         id="first-name"
@@ -72,7 +72,7 @@ const NewClientAccountForm = () => {
                         onChange={formik.handleChange}
                     />
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={12}>
                     <TextField
                         fullWidth
                         id="email"
@@ -85,7 +85,7 @@ const NewClientAccountForm = () => {
                         helperText={formik.touched.email && formik.errors.email}
                     />
                 </Grid>
-                <Grid item xs={5}>
+                <Grid item xs={6}>
                     <TextField
                         fullWidth
                         id="phone"
@@ -99,7 +99,7 @@ const NewClientAccountForm = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Stack direction="row" justifyContent="flex-end">
+                    <Stack direction="row" justifyContent="flex-start">
                         <AnimateButton>
                             <Button variant="contained" type="submit">
                                 Verify & Submit

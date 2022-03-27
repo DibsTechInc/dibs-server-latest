@@ -5,9 +5,11 @@ $paper: #ffffff;
 $primaryLight: #f6f6f6;
 $primaryMain: #1e3e58;
 $primaryDark: #7e92a3;
+$primary400: #98adbe;
 $primary200: #d3e2d5;
 $primary275: #1f3c53;  
 $primary800: #1565c0;
+$primaryButton: #55c797;
 
 // secondary
 $secondaryLight: #f5f0f1;
@@ -100,7 +102,9 @@ $darkTextSecondary: #8492c4;
     // primary
     primaryLight: $primaryLight;
     primary200: $primary200;
+    primary400: $primary400;
     primaryMain: $primaryMain;
+    primaryButton: $primaryButton;
     primaryDark: $primaryDark;
     primary800: $primary800;
 

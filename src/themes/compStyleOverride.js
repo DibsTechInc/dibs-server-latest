@@ -3,13 +3,19 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
     const bgColor = mode === 'dark' ? theme.palette.dark[800] : theme.palette.grey[50];
     const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main + 15 : theme.palette.secondary.light;
     const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
+    const buttonColor = theme.palette.primary.dark;
+    const buttonHoverColor = theme.palette.primary[400];
 
     return {
         MuiButton: {
             styleOverrides: {
                 root: {
                     fontWeight: 500,
-                    borderRadius: '4px'
+                    borderRadius: '4px',
+                    backgroundColor: buttonColor,
+                    '&:hover': {
+                        backgroundColor: buttonHoverColor
+                    }
                 }
             }
         },

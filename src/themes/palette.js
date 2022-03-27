@@ -49,7 +49,9 @@ const Palette = (navType, presetColor) => {
                 main: navType === 'dark' ? colors.darkPrimaryMain : colors.primaryMain,
                 dark: navType === 'dark' ? colors.darkPrimaryDark : colors.primaryDark,
                 200: navType === 'dark' ? colors.darkPrimary200 : colors.primary200,
-                800: navType === 'dark' ? colors.darkPrimary800 : colors.primary800
+                400: colors.primary400,
+                800: navType === 'dark' ? colors.darkPrimary800 : colors.primary800,
+                button: colors.primaryButton
             },
             secondary: {
                 light: navType === 'dark' ? colors.darkSecondaryLight : colors.secondaryLight,
