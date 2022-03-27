@@ -18,9 +18,29 @@ import { gridSpacing } from 'store/constant';
 const UITabs = () => (
     <MainCard title="Tabs" secondary={<SecondaryAction link="https://next.material-ui.com/components/tabs/" />}>
         <Grid container spacing={gridSpacing}>
-            <Grid item xs={12} md={12}>
+            <Grid item xs={12} md={6}>
+                <SubCard title="Basic">
+                    <SimpleTabs />
+                </SubCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
                 <SubCard title="Color Tab">
                     <ColorTabs />
+                </SubCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <SubCard title="Icon Tabs">
+                    <IconTabs />
+                </SubCard>
+            </Grid>
+            <Grid item xs={12} md={6}>
+                <SubCard title="Disabled Tabs">
+                    <DisabledTabs />
+                </SubCard>
+            </Grid>
+            <Grid item xs={12}>
+                <SubCard title="Vertical Tabs">
+                    <VerticalTabs />
                 </SubCard>
             </Grid>
         </Grid>

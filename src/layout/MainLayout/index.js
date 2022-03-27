@@ -119,7 +119,7 @@ const MainLayout = () => {
                 )}
                 {!container && (
                     <>
-                        <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+                        {/* <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign /> */}
                         <Outlet />
                     </>
                 )}

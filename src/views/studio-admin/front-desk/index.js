@@ -1,11 +1,6 @@
 // material-ui
-import { Typography, Grid, Paper, Box } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import EarningCard from '../../../components/EarningCard';
-import GlanceStats from '../../../components/GlanceStats';
-import SalesRevenueChart from '../../../components/SalesRevenueChart';
-import ActiveClientChart from '../../../components/ActiveClientChart';
-import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
+import { Grid, Paper, Box } from '@mui/material';
+import FrontDeskTabs from '../../../components/MainPages/front-desk';
 
 // project imports
 
@@ -25,8 +20,8 @@ const FrontDesk = () => {
                 <Box
                     xs={12}
                     sx={{
-                        marginTop: '50px',
-                        marginLeft: '35px',
+                        marginTop: '20px',
+                        marginLeft: '15px',
                         marginRight: '20px',
                         display: 'flex',
                         flexDirection: 'row',
@@ -34,7 +29,7 @@ const FrontDesk = () => {
                     }}
                 >
                     <Grid item xs={12}>
-                        Stuff goes here
+                        <FrontDeskTabs />
                     </Grid>
                 </Box>
             </Grid>
