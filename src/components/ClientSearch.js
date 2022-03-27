@@ -121,7 +121,7 @@ const ClientSearch = () => {
                 <PopupState variant="popper" popupId="demo-popup-popper">
                     {(popupState) => (
                         <>
-                            <Box sx={{ ml: 2 }}>
+                            <Box sx={{ ml: 1 }}>
                                 <HeaderAvatarStyle variant="rounded" {...bindToggle(popupState)}>
                                     <IconSearch stroke={1.5} size="1.2rem" />
                                 </HeaderAvatarStyle>
@@ -160,19 +160,19 @@ const ClientSearch = () => {
                     id="input-search-header"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
-                    placeholder="Search"
+                    placeholder="Type a client's name, email, or phone number"
                     startAdornment={
                         <InputAdornment position="start">
                             <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
                         </InputAdornment>
                     }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <HeaderAvatarStyle variant="rounded">
-                                <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                            </HeaderAvatarStyle>
-                        </InputAdornment>
-                    }
+                    // endAdornment={
+                    //     <InputAdornment position="end">
+                    //         <HeaderAvatarStyle variant="rounded">
+                    //             <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+                    //         </HeaderAvatarStyle>
+                    //     </InputAdornment>
+                    // }
                     aria-describedby="search-helper-text"
                     inputProps={{ 'aria-label': 'weight' }}
                 />

@@ -20,7 +20,7 @@ const FrontDeskClients = () => (
                 {searchGuidance}
             </Typography>
         </Grid>
-        <Grid item sx={{ marginTop: '25px' }}>
+        <Grid item sx={{ marginTop: '45px' }}>
             <ClientSearch />
         </Grid>
     </Grid>
