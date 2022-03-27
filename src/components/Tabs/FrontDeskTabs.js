@@ -64,16 +64,16 @@ export default function ColorTabs() {
                 onChange={handleChange}
                 textColor="secondary"
                 indicatorColor="secondary"
-                scrollButtons
                 allowScrollButtonsMobile
                 sx={{
                     mb: 3,
                     '& a': {
                         minHeight: 'auto',
-                        minWidth: 10,
+                        minWidth: 180,
                         py: 1.5,
-                        px: 3,
-                        mr: 3,
+                        px: 4,
+                        pl: 2,
+                        // mr: 3,
                         color: theme.palette.grey[600],
                         display: 'flex',
                         flexDirection: 'row',
