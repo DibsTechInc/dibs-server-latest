@@ -3,7 +3,7 @@ import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
 import ClientSearch from '../FrontDesk/ClientSearch';
-import NewClientAccount from '../FrontDesk/NewClientAccount';
+import ExistingClasses from '../FrontDesk/ExistingClasses';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -38,7 +38,7 @@ const FrontDeskClients = () => (
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: '45px', marginBottom: '200px' }}>
-            <NewClientAccount />
+            <ExistingClasses />
         </Grid>
     </Grid>
 );
