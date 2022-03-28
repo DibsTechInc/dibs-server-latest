@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Chip, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs, Typography } from '@mui/material';
 
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';

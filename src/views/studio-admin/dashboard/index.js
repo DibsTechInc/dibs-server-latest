@@ -8,12 +8,10 @@ import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
 
 // project imports
-import { useTheme } from '@emotion/react';
 
 // ==============================|| Dashboard Page ||============================== //
 
 const Dashboard = () => {
-    const theme = useTheme();
     const dataValues = [
         {
             id: 1,

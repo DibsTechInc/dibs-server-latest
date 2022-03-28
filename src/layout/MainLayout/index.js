@@ -3,9 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Box, Container, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
-import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
+import { Box, Container, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
 import HideAppBar from './Header/HideAppBarOnScroll';
 
 // project imports

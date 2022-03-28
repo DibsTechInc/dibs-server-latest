@@ -4,7 +4,6 @@ import * as React from 'react';
 // material-ui
 import {
     Box,
-    Checkbox,
     IconButton,
     Paper,
     Table,
@@ -22,8 +21,6 @@ import {
 import { visuallyHidden } from '@mui/utils';
 
 // project imports
-import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -150,7 +147,7 @@ const headCells = [
 
 // ==============================|| TABLE - HEADER ||============================== //
 
-function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {
+function EnhancedTableHead({ order, orderBy, numSelected, rowCount, onRequestSort }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -199,7 +196,6 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired
