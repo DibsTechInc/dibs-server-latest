@@ -8,12 +8,16 @@ import { Box, Tab, Tabs, Typography } from '@mui/material';
 
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
+// import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import FrontDeskClientsSubPage from '../SubPages/subpage-frontdesk-clients';
 import FrontDeskClassesSubPage from '../SubPages/subpage-frontdesk-classes';
+import FrontDeskPromoCodesSubPage from '../SubPages/subpage-frontdesk-promocodes';
+import FrontDeskMemberPackagePage from '../SubPages/subpage-frontdesk-memberships-packages';
+import FrontDeskRetailPage from '../SubPages/subpage-frontdesk-retail';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -118,10 +122,17 @@ export default function ColorTabs() {
                 <Tab
                     component={Link}
                     to="#"
+                    icon={<ShoppingBasketOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Retail Items"
+                    {...a11yProps(4)}
+                />
+                {/* <Tab
+                    component={Link}
+                    to="#"
                     icon={<OndemandVideoOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Video On Demand (beta)"
                     {...a11yProps(4)}
-                />
+                /> */}
             </Tabs>
             <TabPanel value={value} index={0}>
                 <FrontDeskClientsSubPage />
@@ -130,13 +141,13 @@ export default function ColorTabs() {
                 <FrontDeskClassesSubPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                #3
+                <FrontDeskPromoCodesSubPage />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                #4
+                <FrontDeskMemberPackagePage />
             </TabPanel>
             <TabPanel value={value} index={4}>
-                #5
+                <FrontDeskRetailPage />
             </TabPanel>
         </>
     );
