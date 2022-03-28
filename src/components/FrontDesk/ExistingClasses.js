@@ -36,6 +36,7 @@ function createData(
     defaultDescription,
     maxCapacity,
     typeOfClass,
+    onlineStatus,
     waitlist,
     privacyStatus,
     showOnSchedule
@@ -49,18 +50,19 @@ function createData(
         waitlist,
         classlength,
         privacyStatus,
-        showOnSchedule
+        showOnSchedule,
+        onlineStatus
     };
 }
 
 const rows = [
-    createData('FlexFormer', 38, 45, 'Get your fit on. Description.', 1, 'Series'),
-    createData('Conbody2', 42, 60, 'Get your fit on. Description.', 20, 'Group Class'),
-    createData('Cool Class', 45, 45, 'Description', 25, 'Private'),
-    createData('Fitness', 38, 75, 'Description', 25, 'Group Class'),
-    createData('Super fit', 38, 45, 'Description', 25, 'Private'),
-    createData('Combine', 38, 45, 'Description', 30, 'Group Class'),
-    createData('XClass2', 38, 45, 'Description', 25, 'Private'),
+    createData('FlexFormer', 38, 45, 'Get your fit on. Description.', 1, 'Series', 'Online Only'),
+    createData('Conbody2', 42, 60, 'Get your fit on. Description.', 20, 'Group Class', 'In Person Only'),
+    createData('Cool Class', 45, 45, 'Description', 25, 'Private', 'Both'),
+    createData('Fitness', 38, 75, 'Description', 25, 'Group Class', 'In Person Only'),
+    createData('Super fit', 38, 45, 'Description', 25, 'Private', 'In Person Only'),
+    createData('Combine', 38, 45, 'Description', 30, 'Group Class', 'In Person Only'),
+    createData('XClass2', 38, 45, 'Description', 25, 'Private', 'Online Only'),
     createData('XClass3', 38, 45, 'Description', 20, 'Private'),
     createData('XClass4', 38, 60, 'Description', 10, 'Group Class'),
     createData('ZClass5', 38, 45, 'Description', 10, 'Group Class'),
@@ -138,17 +140,10 @@ const headCells = [
         leftAlignment: true
     },
     {
-        id: 'levelRestrictions',
-        numeric: false,
-        disablePadding: false,
-        label: 'Level Restrictions',
-        leftAlignment: true
-    },
-    {
-        id: 'showOnSchedule',
+        id: 'onlineStatus',
         numeric: true,
         disablePadding: false,
-        label: 'Publicly Available',
+        label: 'In Person/Online',
         leftAlignment: true
     }
 ];
@@ -360,6 +355,9 @@ export default function EnhancedTable() {
                                         </TableCell>
                                         <TableCell sx={{ pl: 3.5 }} align="left">
                                             {row.typeOfClass}
+                                        </TableCell>
+                                        <TableCell sx={{ pl: 3.5 }} align="left">
+                                            {row.onlineStatus}
                                         </TableCell>
                                     </TableRow>
                                 );
