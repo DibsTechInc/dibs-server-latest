@@ -36,6 +36,30 @@ const MainRoutes = {
         {
             path: '/reporting',
             element: <ReportingPage />
+        },
+        {
+            path: '/opportunities',
+            element: <ReportingPage />
+        },
+        {
+            path: '/class-schedule',
+            element: <ReportingPage />
+        },
+        {
+            path: '/instructors',
+            element: <ReportingPage />
+        },
+        {
+            path: '/payouts',
+            element: <ReportingPage />
+        },
+        {
+            path: '/settings',
+            element: <ReportingPage />
+        },
+        {
+            path: '/account',
+            element: <ReportingPage />
         }
     ]
 };
