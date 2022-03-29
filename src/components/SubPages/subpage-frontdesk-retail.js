@@ -29,7 +29,7 @@ const FrontDeskClients = () => (
         </Grid>
         <Grid item sx={{ marginTop: '60px' }}>
             <Typography gutterBottom variant="h4">
-                View Your Existing Memberships
+                View Your Existing Retail Items
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: '8px' }}>

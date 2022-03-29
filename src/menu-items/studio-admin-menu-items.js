@@ -40,10 +40,10 @@ const studioAdminMenu = {
             // icon: icons.IconHelp
         },
         {
-            id: 'action-items',
-            title: <FormattedMessage id="action-items" />,
+            id: 'opportunities',
+            title: <FormattedMessage id="opportunities" />,
             type: 'item',
-            url: '/action-items'
+            url: '/opportunities'
             // icon: icons.IconHelp
         },
         {
