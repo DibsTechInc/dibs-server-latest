@@ -78,9 +78,9 @@ const Dashboard = () => {
                         <Typography gutterBottom variant="h6">
                             Revenue generated from purchases (retail, package, classes).
                         </Typography>
-                        <Grid container spacing={1}>
+                        <Grid container spacing={1.7}>
                             {dataValues.map((value, i) => (
-                                <Grid key={i} item xs={4} md={2.3} sx={{ marginTop: '40px', alignItems: 'left' }}>
+                                <Grid key={i} item xs={4} md={2.3} lg={3} sx={{ marginTop: '40px', alignItems: 'left' }}>
                                     <EarningCard
                                         title={value.title}
                                         revenue={value.revenue}
