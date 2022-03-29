@@ -1,6 +1,6 @@
 // material-ui
 import { Grid, Paper, Box } from '@mui/material';
-import FrontDeskTabs from '../../../components/EntryPages/front-desk';
+import ReportingTabs from '../../../components/EntryPages/front-desk';
 
 // project imports
 
@@ -29,7 +29,7 @@ const Reporting = () => {
                     }}
                 >
                     <Grid item xs={12}>
-                        <FrontDeskTabs />
+                        <ReportingTabs />
                     </Grid>
                 </Box>
             </Grid>

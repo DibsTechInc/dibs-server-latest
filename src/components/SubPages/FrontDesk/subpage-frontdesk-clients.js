@@ -2,8 +2,8 @@
 import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
-import ClientSearch from '../FrontDesk/ClientSearch';
-import NewClientAccount from '../FrontDesk/NewClientAccount';
+import ClientSearch from '../../SubComponents/FrontDesk/ClientSearch';
+import NewClientAccount from '../../SubComponents/FrontDesk/NewClientAccount';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 

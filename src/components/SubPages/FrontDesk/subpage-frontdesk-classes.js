@@ -2,8 +2,8 @@
 import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
-import ClientSearch from '../FrontDesk/ClientSearch';
-import ExistingClasses from '../FrontDesk/ExistingClasses';
+import ClientSearch from '../../SubComponents/FrontDesk/ClientSearch';
+import ExistingClasses from '../../SubComponents/FrontDesk/ExistingClasses';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -13,7 +13,7 @@ const FrontDeskClients = () => (
     <Grid container xs={12} direction="column">
         <Grid item xs={5}>
             <Typography gutterBottom variant="h4">
-                Create A New Membership or Package
+                Create A New Class Type
             </Typography>
         </Grid>
         <Grid container xs={10} sx={{ marginTop: '8px' }}>
@@ -29,23 +29,7 @@ const FrontDeskClients = () => (
         </Grid>
         <Grid item sx={{ marginTop: '60px' }}>
             <Typography gutterBottom variant="h4">
-                View Your Existing Memberships
-            </Typography>
-        </Grid>
-        <Grid item sx={{ marginTop: '8px' }}>
-            <Typography gutterBottom variant="h7">
-                {newAccountGuidance}
-            </Typography>
-        </Grid>
-        <Grid item sx={{ marginTop: '45px', marginBottom: '200px' }}>
-            <ExistingClasses />
-        </Grid>
-        <Grid item sx={{ marginTop: '60px' }}>
-            <Divider variant="fullWidth" />
-        </Grid>
-        <Grid item sx={{ marginTop: '60px' }}>
-            <Typography gutterBottom variant="h4">
-                View Your Existing Packages
+                View Your Existing Classes
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: '8px' }}>

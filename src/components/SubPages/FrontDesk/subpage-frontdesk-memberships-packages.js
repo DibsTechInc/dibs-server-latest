@@ -2,8 +2,8 @@
 import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
-import ClientSearch from '../FrontDesk/ClientSearch';
-import ExistingClasses from '../FrontDesk/ExistingClasses';
+import ClientSearch from '../../SubComponents/FrontDesk/ClientSearch';
+import ExistingClasses from '../../SubComponents/FrontDesk/ExistingClasses';
 
 // ==============================|| SAMPLE PAGE ||============================== //
 
@@ -13,7 +13,7 @@ const FrontDeskClients = () => (
     <Grid container xs={12} direction="column">
         <Grid item xs={5}>
             <Typography gutterBottom variant="h4">
-                Create new retail items
+                Create A New Membership or Package
             </Typography>
         </Grid>
         <Grid container xs={10} sx={{ marginTop: '8px' }}>
@@ -29,7 +29,7 @@ const FrontDeskClients = () => (
         </Grid>
         <Grid item sx={{ marginTop: '60px' }}>
             <Typography gutterBottom variant="h4">
-                View Your Existing Retail Items
+                View Your Existing Memberships
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: '8px' }}>
