@@ -1,13 +1,13 @@
 // material-ui
 import { Grid, Paper, Box } from '@mui/material';
-import ReportingTabs from '../../../components/EntryPages/front-desk';
+import ReportingTabs from '../../../components/EntryPages/reporting';
 
 // project imports
 
 // ==============================|| FrontDesk Page ||============================== //
 
 const Reporting = () => {
-    console.log('front desk page');
+    console.log('reporting page');
     return (
         <Paper
             sx={{

@@ -13,11 +13,12 @@ import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import FrontDeskClientsSubPage from '../SubPages/FrontDesk/subpage-frontdesk-clients';
-import FrontDeskClassesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-classes';
-import FrontDeskPromoCodesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-promocodes';
-import FrontDeskMemberPackagePage from '../SubPages/FrontDesk/subpage-frontdesk-memberships-packages';
-import FrontDeskRetailPage from '../SubPages/FrontDesk/subpage-frontdesk-retail';
+
+// Reporting subpages mapped to tabs
+import ReportingSalesRevenueSubPage from '../SubPages/Reporting/subpage-reporting-sales-revenue';
+import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
+import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
+import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -95,59 +96,42 @@ export default function ColorTabs() {
                     component={Link}
                     to="#"
                     icon={<PersonOutlineIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Clients"
+                    label="Sales Reports"
                     {...a11yProps(0)}
                 />
                 <Tab
                     component={Link}
                     to="#"
                     icon={<LibraryBooksOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Classes"
+                    label="Attendance Reports"
                     {...a11yProps(1)}
                 />
                 <Tab
                     component={Link}
                     to="#"
                     icon={<DiscountOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Promo Codes"
+                    label="Client Reports"
                     {...a11yProps(2)}
                 />
                 <Tab
                     component={Link}
                     to="#"
                     icon={<CollectionsBookmarkOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Memberships & Packages"
+                    label="Custom Reports"
                     {...a11yProps(3)}
                 />
-                <Tab
-                    component={Link}
-                    to="#"
-                    icon={<ShoppingBasketOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Retail Items"
-                    {...a11yProps(4)}
-                />
-                {/* <Tab
-                    component={Link}
-                    to="#"
-                    icon={<OndemandVideoOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Video On Demand (beta)"
-                    {...a11yProps(4)}
-                /> */}
             </Tabs>
             <TabPanel value={value} index={0}>
-                <FrontDeskClientsSubPage />
+                <ReportingSalesRevenueSubPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <FrontDeskClassesSubPage />
+                <ReportingAttendanceRevenueSubPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <FrontDeskPromoCodesSubPage />
+                <ReportingClientsSubpage />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <FrontDeskMemberPackagePage />
-            </TabPanel>
-            <TabPanel value={value} index={4}>
-                <FrontDeskRetailPage />
+                <ReportingCustomReportsSubpage />
             </TabPanel>
         </>
     );

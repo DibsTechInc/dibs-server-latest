@@ -50,37 +50,31 @@ const studioAdminMenu = {
             id: 'class-schedule',
             title: <FormattedMessage id="class-schedule" />,
             type: 'item',
-            url: '#'
-        },
-        {
-            id: 'classes',
-            title: <FormattedMessage id="classes" />,
-            type: 'item',
-            url: '#'
+            url: '/class-schedule'
         },
         {
             id: 'instructors',
             title: <FormattedMessage id="instructors" />,
             type: 'item',
-            url: '#'
+            url: '/instructors'
         },
         {
             id: 'payouts',
             title: <FormattedMessage id="payouts" />,
             type: 'item',
-            url: '#'
+            url: '/payouts'
         },
         {
             id: 'settings',
             title: <FormattedMessage id="settings" />,
             type: 'item',
-            url: '#'
+            url: '/settings'
         },
         {
             id: 'account',
             title: <FormattedMessage id="account" />,
             type: 'item',
-            url: '#'
+            url: '/account'
         }
     ]
 };

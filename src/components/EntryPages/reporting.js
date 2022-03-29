@@ -2,7 +2,7 @@
 import { Grid } from '@mui/material';
 
 // project imports
-import ReportingTabs from '../Tabs/FrontDeskTabs';
+import ReportingTabs from '../Tabs/ReportingTabs';
 import { gridSpacing } from 'store/constant';
 
 // ================================|| UI TABS ||================================ //
