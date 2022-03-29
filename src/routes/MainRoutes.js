@@ -10,6 +10,9 @@ import AuthGuard from 'utils/route-guard/AuthGuard';
 const DashboardPage = Loadable(lazy(() => import('views/studio-admin/dashboard')));
 const FrontDeskPage = Loadable(lazy(() => import('views/studio-admin/front-desk')));
 const ReportingPage = Loadable(lazy(() => import('views/studio-admin/reporting')));
+const InstructorsPage = Loadable(lazy(() => import('views/studio-admin/instructors')));
+const PayoutsPage = Loadable(lazy(() => import('views/studio-admin/payouts')));
+const SettingsPage = Loadable(lazy(() => import('views/studio-admin/settings')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -47,15 +50,15 @@ const MainRoutes = {
         },
         {
             path: '/instructors',
-            element: <ReportingPage />
+            element: <InstructorsPage />
         },
         {
             path: '/payouts',
-            element: <ReportingPage />
+            element: <PayoutsPage />
         },
         {
             path: '/settings',
-            element: <ReportingPage />
+            element: <SettingsPage />
         },
         {
             path: '/account',
