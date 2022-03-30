@@ -21,6 +21,9 @@
         "ecmaVersion": 12
     },
     "plugins": ["prettier", "react", "react-hooks"],
+    "eslint.workingDirectories": [
+        {"mode": "auto"}
+    ],
     "rules": {
         "react/jsx-filename-extension": 0,
         "no-param-reassign": 0,
