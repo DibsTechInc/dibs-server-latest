@@ -29,6 +29,7 @@
         "@mui/utils": "^5.4.1",
         "@mui/x-data-grid": "^5.5.0",
         "@reduxjs/toolkit": "^1.7.2",
+        "@sequelize/core": "^7.0.0-alpha.10",
         "@tabler/icons": "^1.53.0",
         "amazon-cognito-identity-js": "^5.2.6",
         "apexcharts": "^3.33.1",
