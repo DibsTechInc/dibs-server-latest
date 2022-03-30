@@ -313,16 +313,16 @@ export default function EnhancedTable() {
                             .map((row, index) => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
-                                const isItemSelected = isSelected(row.name);
+                                const isItemSelected = isSelected(row.classTitle);
                                 const labelId = `enhanced-table-checkbox-${index}`;
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row.name)}
+                                        onClick={(event) => handleClick(event, row.classTitle)}
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
-                                        key={row.name}
+                                        key={row.classTitle}
                                         selected={isItemSelected}
                                     >
                                         {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
