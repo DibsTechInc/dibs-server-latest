@@ -4,21 +4,21 @@ import { Link } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tab, Tabs } from '@mui/material';
 
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 // import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
-import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
-import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+// import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
+// import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
+// import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 
 // Reporting subpages mapped to tabs
 import ReportingSalesRevenueSubPage from '../SubPages/Reporting/subpage-reporting-sales-revenue';
 import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
-import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
-import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
+// import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
+// import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {

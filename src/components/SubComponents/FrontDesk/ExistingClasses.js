@@ -147,7 +147,8 @@ const headCells = [
 
 // ==============================|| TABLE - HEADER ||============================== //
 
-function EnhancedTableHead({ order, orderBy, numSelected, rowCount, onRequestSort }) {
+// function EnhancedTableHead({ order, orderBy, numSelected, rowCount, onRequestSort }) {
+function EnhancedTableHead({ order, orderBy, onRequestSort }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -194,11 +195,11 @@ function EnhancedTableHead({ order, orderBy, numSelected, rowCount, onRequestSor
 }
 
 EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
+    // numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
+    orderBy: PropTypes.string.isRequired
+    // rowCount: PropTypes.number.isRequired
 };
 
 // ==============================|| TABLE - HEADER TOOLBAR ||============================== //
