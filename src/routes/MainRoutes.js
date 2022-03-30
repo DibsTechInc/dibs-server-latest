@@ -13,6 +13,7 @@ const ReportingPage = Loadable(lazy(() => import('views/studio-admin/reporting')
 const InstructorsPage = Loadable(lazy(() => import('views/studio-admin/instructors')));
 const PayoutsPage = Loadable(lazy(() => import('views/studio-admin/payouts')));
 const SettingsPage = Loadable(lazy(() => import('views/studio-admin/settings')));
+const AccountPage = Loadable(lazy(() => import('views/studio-admin/account')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -62,7 +63,7 @@ const MainRoutes = {
         },
         {
             path: '/account',
-            element: <ReportingPage />
+            element: <AccountPage />
         }
     ]
 };

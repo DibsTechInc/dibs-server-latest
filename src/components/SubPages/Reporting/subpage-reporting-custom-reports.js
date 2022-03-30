@@ -10,13 +10,13 @@ import ExistingClasses from '../../SubComponents/FrontDesk/ExistingClasses';
 const newClassGuidance = `Attendance report data.`;
 const newAccountGuidance = `Attendance Report Stuff`;
 const ReportingCustomReports = () => (
-    <Grid container xs={12} direction="column">
+    <Grid container direction="column">
         <Grid item xs={5}>
             <Typography gutterBottom variant="h4">
                 View Custom Reports - TO DO
             </Typography>
         </Grid>
-        <Grid container xs={10} sx={{ marginTop: '8px' }}>
+        <Grid container sx={{ marginTop: '8px' }}>
             <Typography gutterBottom variant="h7">
                 {newClassGuidance}
             </Typography>

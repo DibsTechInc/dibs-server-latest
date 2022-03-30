@@ -10,9 +10,9 @@ import NewClientAccount from '../../SubComponents/FrontDesk/NewClientAccount';
 const searchGuidance = `Search by email, name, or phone number to edit client information\n and manage your client's memberships, packages, and classes.`;
 const newAccountGuidance = `Create a new account for a client that isn't already in your system`;
 const FrontDeskClients = () => (
-    <Grid container xs={12} direction="column">
+    <Grid container direction="column">
         <Grid item>
-            <Typography gutterBottom variant="h4">
+            <Typography gutterBottom component="span" variant="h4">
                 Search Clients
             </Typography>
         </Grid>
