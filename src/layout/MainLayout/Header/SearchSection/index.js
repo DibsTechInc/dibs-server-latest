@@ -27,6 +27,7 @@ const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
 }));
 
 const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme }) => ({
+    height: 40,
     width: 434,
     marginLeft: 16,
     paddingLeft: 16,
@@ -166,13 +167,13 @@ const SearchSection = () => {
                             <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
                         </InputAdornment>
                     }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <HeaderAvatarStyle variant="rounded">
-                                <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                            </HeaderAvatarStyle>
-                        </InputAdornment>
-                    }
+                    // endAdornment={
+                    //     <InputAdornment position="end">
+                    //         <HeaderAvatarStyle variant="rounded">
+                    //             <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
+                    //         </HeaderAvatarStyle>
+                    //     </InputAdornment>
+                    // }
                     aria-describedby="search-helper-text"
                     inputProps={{ 'aria-label': 'weight' }}
                 />

@@ -4,7 +4,6 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
-import Opportunities from 'views/studio-admin/opportunities';
 
 // sample page routing
 // const SamplePage = Loadable(lazy(() => import('views/sample-page')));
@@ -16,6 +15,7 @@ const PayoutsPage = Loadable(lazy(() => import('views/studio-admin/payouts')));
 const SettingsPage = Loadable(lazy(() => import('views/studio-admin/settings')));
 const AccountPage = Loadable(lazy(() => import('views/studio-admin/account')));
 const OpportunitiesPage = Loadable(lazy(() => import('views/studio-admin/opportunities')));
+const ClassSchedulePage = Loadable(lazy(() => import('views/studio-admin/class-schedule')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -49,7 +49,7 @@ const MainRoutes = {
         },
         {
             path: '/class-schedule',
-            element: <ReportingPage />
+            element: <ClassSchedulePage />
         },
         {
             path: '/instructors',
