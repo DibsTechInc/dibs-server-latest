@@ -58,6 +58,7 @@
         "lodash": "^4.17.21",
         "material-ui-popup-state": "^2.0.0",
         "moment-timezone": "^0.5.34",
+        "path": "^0.12.7",
         "pg": "^8.7.3",
         "pg-hstore": "^2.3.4",
         "prop-types": "^15.8.1",
