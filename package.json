@@ -132,6 +132,7 @@
     "devDependencies": {
         "@babel/core": "^7.17.2",
         "@babel/eslint-parser": "^7.15.8",
+        "connect-livereload": "^0.6.1",
         "eslint": "^7.27.0",
         "eslint-config-airbnb-typescript": "^12.3.1",
         "eslint-config-prettier": "^8.3.0",
@@ -143,6 +144,8 @@
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-react": "^7.28.0",
         "eslint-plugin-react-hooks": "^4.3.0",
+        "livereload": "^0.9.3",
+        "nodemon": "^2.0.15",
         "prettier": "2.6.0",
         "react-error-overlay": "6.0.9",
         "sass": "^1.49.7"

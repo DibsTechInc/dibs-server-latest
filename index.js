@@ -4,6 +4,9 @@ require('dotenv').config();
 
 const app = express();
 
+console.log(`env file is: ${process.env.DATABASE_HOST}`);
+console.log(`production environment is: ${process.env.NODE_ENV}`);
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
