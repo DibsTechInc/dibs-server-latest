@@ -11,6 +11,7 @@
     },
     "dependencies": {
         "@auth0/auth0-spa-js": "^1.19.4",
+        "@dibs-tech/models": "^3.1.0",
         "@emotion/cache": "^11.7.1",
         "@emotion/react": "^11.7.1",
         "@emotion/styled": "^11.6.0",
