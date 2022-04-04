@@ -11,28 +11,28 @@ const initialState = {
     revenuetotals: [
         {
             label: 'TODAY',
-            value: '$28',
+            value: '$18',
             up: 1,
             comparedwith: 'yesterday',
             percentage: 32
         },
         {
             label: 'THIS WEEK',
-            value: '$872',
+            value: '$292',
             up: 1,
             comparedwith: 'last week',
             percentage: 32
         },
         {
             label: 'THIS MONTH',
-            value: '$999',
+            value: '$5,261',
             up: 1,
             comparedwith: 'last month',
             percentage: 32
         },
         {
             label: 'THIS YEAR',
-            value: '$12,789',
+            value: '$11,872',
             up: 1,
             comparedwith: 'last year',
             percentage: 32
@@ -49,7 +49,7 @@ const slice = createSlice({
             state.error = action.payload;
         },
 
-        // ADD REVENU DATA
+        // ADD REVENUE DATA
         addRevenueDataToDashboard(state, action) {
             state.revenuetotals = action.payload.revenuetotals;
         }
