@@ -7,16 +7,18 @@ const {
     Sequelize: { Op }
 } = models;
 
-const app = express();
+const router = express();
 
 console.log(`env file is: ${process.env.DATABASE_HOST}`);
 console.log(`production environment is: ${process.env.NODE_ENV}`);
 
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-app.use(cors());
+router.use(express.urlencoded({ extended: false }));
+router.use(express.json());
+router.use(cors());
 
-app.get('/', (req, res) => {
+router.use('/api', require('./api/routes'));
+
+router.get('/', (req, res) => {
     async function getEvents() {
         try {
             const events = await models.event.findAll({
@@ -41,4 +43,4 @@ app.get('/', (req, res) => {
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, () => console.log(`Server running on port ${port}, http://localhost:${port}`));
+router.listen(port, () => console.log(`Server running on port ${port}, http://localhost:${port}`));
