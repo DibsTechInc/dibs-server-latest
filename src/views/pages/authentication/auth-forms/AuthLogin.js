@@ -108,10 +108,11 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                 borderColor:
                                     theme.palette.mode === 'dark'
                                         ? `${theme.palette.dark.light + 20} !important`
-                                        : `${theme.palette.grey[100]} !important`,
-                                color: `${theme.palette.grey[900]} !important`,
+                                        : `${theme.palette.secondary[400]} !important`,
+                                color: `${theme.palette.grey[600]} !important`,
                                 fontWeight: 500,
-                                borderRadius: `${borderRadius}px`
+                                borderRadius: `${borderRadius}px`,
+                                backgroundColor: `${theme.palette.secondary[200]} !important`
                             }}
                             disableRipple
                             disabled
@@ -131,8 +132,8 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: 'youremail@yourstudio.com',
+                    password: '123456789',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -260,6 +261,10 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    sx={{
+                                        borderColor: `${theme.palette.primary[800]} !important`,
+                                        backgroundColor: `${theme.palette.secondary[400]} !important`
+                                    }}
                                 >
                                     Sign in
                                 </Button>

@@ -8,7 +8,7 @@ import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
-import Logo from 'ui-component/Logo';
+import Logo from 'ui-component/dibslogo.png';
 import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
 
@@ -23,17 +23,19 @@ const Login = () => {
 
     return (
         <AuthWrapper1>
-            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
+            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
                 <Grid item xs={12}>
+                    <Grid container justifyContent="left" alignItems="left">
+                        <Grid item sx={{ mb: 3, marginTop: 1, marginLeft: 1 }}>
+                            <Link to="#">
+                                <img src={Logo} alt="Logo" height="25" />
+                            </Link>
+                        </Grid>
+                    </Grid>
                     <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
-                                    <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#">
-                                            <Logo />
-                                        </Link>
-                                    </Grid>
                                     <Grid item xs={12}>
                                         <Grid
                                             container
@@ -41,18 +43,18 @@ const Login = () => {
                                             alignItems="center"
                                             justifyContent="center"
                                         >
-                                            <Grid item>
+                                            <Grid item sx={{ marginTop: '38px' }}>
                                                 <Stack alignItems="center" justifyContent="center" spacing={1}>
                                                     <Typography
                                                         color={theme.palette.secondary.main}
                                                         gutterBottom
-                                                        variant={matchDownSM ? 'h3' : 'h2'}
+                                                        variant={matchDownSM ? 'h1' : 'h1'}
                                                     >
-                                                        Hi, Welcome Back
+                                                        Welcome Back!
                                                     </Typography>
                                                     <Typography
                                                         variant="caption"
-                                                        fontSize="16px"
+                                                        fontSize="14px"
                                                         textAlign={matchDownSM ? 'center' : 'inherit'}
                                                     >
                                                         Enter your credentials to continue

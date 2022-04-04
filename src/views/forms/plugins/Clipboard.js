@@ -24,7 +24,7 @@ import LinkIcon from '@mui/icons-material/Link';
 const ClipboardPage = () => {
     const dispatch = useDispatch();
 
-    const [text1, setText1] = useState('https://berrydashboard.io/');
+    const [text1, setText1] = useState('https://getondibs.com/');
     const [text2, setText2] = useState(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
     );

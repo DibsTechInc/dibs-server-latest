@@ -33,7 +33,7 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     h1: {
         fontSize: '2.125rem',
         color: theme.palette.grey[600],
-        fontWeight: 700
+        fontWeight: 300
     },
     subtitle1: {
         fontSize: '0.875rem',

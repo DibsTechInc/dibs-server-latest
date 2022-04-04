@@ -258,7 +258,7 @@ const KeyFeaturePage = () => {
                             </AnimateButton>
                         </Grid>
                         <Grid item>
-                            <Button component={Link} href="https://blog.berrydashboard.io" target="_blank" variant="text">
+                            <Button component={Link} href="https://www.getondibs.com" target="_blank" variant="text">
                                 Know More
                             </Button>
                         </Grid>
