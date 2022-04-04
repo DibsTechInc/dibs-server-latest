@@ -6,8 +6,9 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
 const EarningCard = (props) => {
-    const { title, revenue, stateUp, percentage } = props;
+    const { title, revenue, stateUp, percentage, comparison } = props;
     const theme = useTheme();
+    const comparisonstring = `Compared with this time ${comparison}`;
 
     return (
         <Card variant="outlined" sx={{ borderColor: theme.palette.grey[300], maxWidth: 180 }}>
@@ -46,7 +47,7 @@ const EarningCard = (props) => {
                         <Grid container>
                             <Grid item height={40} sx={{ marginTop: 2 }}>
                                 <Typography variant="tileSubheader" sx={{ textAlign: 'center' }} align="center" paragraph>
-                                    Compared with this time last week
+                                    {comparisonstring}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -60,7 +61,8 @@ EarningCard.propTypes = {
     title: PropTypes.string,
     revenue: PropTypes.string,
     stateUp: PropTypes.number,
-    percentage: PropTypes.number
+    percentage: PropTypes.number,
+    comparison: PropTypes.string
 };
 
 export default EarningCard;

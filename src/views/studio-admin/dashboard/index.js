@@ -8,46 +8,13 @@ import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
 
 // project imports
+import { useSelector } from 'store';
 
 // ==============================|| Dashboard Page ||============================== //
 
 const Dashboard = () => {
-    const dataValues = [
-        {
-            id: 1,
-            title: 'TODAY',
-            revenue: '$26',
-            up: 0,
-            comparedwith: 'yesterday',
-            percentage: 2
-        },
-        {
-            id: 2,
-            title: 'WEEK-TO-DATE',
-            revenue: '$250',
-            up: 1,
-            comparedwith: 'last week',
-            percentage: 32
-        },
-        {
-            id: 3,
-            title: 'MONTH-TO-DATE',
-            revenue: '$12,829',
-            up: 0,
-            comparedwith: 'lastmonth',
-            percentage: 12
-        },
-        {
-            id: 4,
-            title: 'YEAR-TO-DATE',
-            revenue: '$57,622',
-            up: 1,
-            comparedwith: 'lastmonth',
-            percentage: 87
-        }
-    ];
-    console.log('data-values');
-    console.log(JSON.stringify(dataValues));
+    const valuesfordashboard = useSelector((state) => state.dashboard);
+    const { revenuetotals } = valuesfordashboard;
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;
     const friendReferralText = `See how many friends have been referred and see how much each referral is worth on a monthly annual basis.`;
     const topfans = `Track your top clients' activity`;
@@ -79,13 +46,14 @@ const Dashboard = () => {
                             Revenue generated from purchases (retail, package, classes).
                         </Typography>
                         <Grid container spacing={1.7}>
-                            {dataValues.map((value, i) => (
+                            {revenuetotals.map((value, i) => (
                                 <Grid key={i} item xs={4} md={2.3} lg={3} sx={{ marginTop: '40px', alignItems: 'left' }}>
                                     <EarningCard
-                                        title={value.title}
-                                        revenue={value.revenue}
+                                        title={value.label}
+                                        revenue={value.value}
                                         stateUp={value.up}
                                         percentage={value.percentage}
+                                        comparison={value.comparedwith}
                                     />
                                 </Grid>
                             ))}
