@@ -37,7 +37,18 @@ const initialState = {
             comparedwith: 'last year',
             percentage: 0
         }
-    ]
+    ],
+    xaxis: {
+        monthly: {
+            xaxiscategories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        weekly: {
+            xaxiscategories: ['1', '2', '3', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        annually: {
+            xaxiscategories: ['2022', '2021', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        }
+    }
 };
 
 const dashboard = createSlice({
@@ -52,12 +63,18 @@ const dashboard = createSlice({
         // ADD REVENUE DATA
         addRevenueDataToDashboard(state, action) {
             state.revenuetotals = action.payload.revenuetotals;
+        },
+
+        // ADD AXIS DATA
+        addXAxisDataToDashboard(state, action) {
+            console.log(`addXAxisDataToDashboard action.payload is: ${JSON.stringify(action.payload)}`);
+            state.xaxiscategories = action.payload.xaxiscategories;
         }
     }
 });
 
 // Reducer
 export default dashboard.reducer;
-export const { addRevenueDataToDashboard, hasError } = dashboard.actions;
+export const { addRevenueDataToDashboard, hasError, addXAxisDataToDashboard } = dashboard.actions;
 
 // ----------------------------------------------------------------------

@@ -14,9 +14,10 @@ import useConfig from 'hooks/useConfig';
 import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
+import { useSelector, dispatch } from 'store';
 
 // chart data
-import chartData from './chart-data/total-growth-bar-chart';
+import chartData from './chart-data/total-growth-dibs-sales-chart';
 
 const status = [
     {
@@ -39,6 +40,10 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const [value, setValue] = React.useState('monthly');
     const theme = useTheme();
     const { navType } = useConfig();
+    const { xaxis } = useSelector((state) => state.dashboard);
+    console.log(`xaxiscategories in redux store: ${JSON.stringify(xaxis)}`);
+    const [categoriestoshow, setCategoriestoshow] = React.useState([]);
+    console.log(`value is: ${value}\ncategoriestoshow = ${JSON.stringify(categoriestoshow)}`);
 
     const { primary } = theme.palette.text;
     const darkLight = theme.palette.dark.light;
@@ -51,14 +56,18 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryLight = theme.palette.chart.light;
 
     React.useEffect(() => {
-        const categoriestoshow = chartData.options.xaxisreplace[value];
+        // console.log(`newCategories = ${JSON.stringify(newCategories)}`);
+        // const categoriestoshow = chartData.options.xaxisreplace[value];
+        console.log(`xaxiscategories part 2 is: ${JSON.stringify(xaxis)} `);
+        setCategoriestoshow(xaxis[value].xaxiscategories);
+        console.log(`categories to show after setting value: ${JSON.stringify(categoriestoshow)}`);
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
             series: chartData.seriesreplace[value],
             xaxis: {
                 type: 'category',
-                categories: categoriestoshow[0].categories,
+                categories: categoriestoshow,
                 labels: {
                     style: {
                         colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
@@ -89,7 +98,21 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         if (!isLoading) {
             ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
         }
-    }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500, value]);
+    }, [
+        navType,
+        primary200,
+        primaryDark,
+        secondaryMain,
+        secondaryLight,
+        primary,
+        darkLight,
+        grey200,
+        isLoading,
+        grey500,
+        value,
+        categoriestoshow,
+        xaxis
+    ]);
 
     return (
         <>

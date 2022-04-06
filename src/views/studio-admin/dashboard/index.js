@@ -9,8 +9,10 @@ import SalesRevenueChart from '../../../components/SalesRevenueChart';
 import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
 import getDashboardData from '../../../actions/studios/getDashboardData';
+import getXAxisCategories from '../../../actions/studios/getXAxisCategories';
 // import { getDashboardRevenue } from '../../../store/slices/dashboard';
-import { addRevenueDataToDashboard } from '../../../store/slices/dashboard';
+import { addRevenueDataToDashboard, addXAxisDataToDashboard } from '../../../store/slices/dashboard';
+
 // project imports
 import { useDispatch, useSelector } from 'store';
 
@@ -23,9 +25,16 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     React.useEffect(() => {
         getDashboardData(config.dibsStudioId).then((result) => {
-            console.log(`\n\n\n\nresult is: ${JSON.stringify(result)}`);
             dispatch(addRevenueDataToDashboard(result.data));
         });
+        getXAxisCategories()
+            .then((result) => {
+                console.log(`result is: ${JSON.stringify(result)}`);
+                dispatch(addXAxisDataToDashboard(result));
+            })
+            .catch((err) => {
+                console.log(`error getting x-axis categories: ${err}`);
+            });
     }, [config.dibsStudioId, dispatch]);
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;
     const friendReferralText = `See how many friends have been referred and see how much each referral is worth on a monthly annual basis.`;
