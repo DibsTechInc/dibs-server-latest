@@ -89,8 +89,6 @@ async function getDashboardData(req, res) {
         const todaySpend = revenueToday - creditsSpentToday;
         let comparisonday = 0;
         compareValue('day', new Date().setHours(0, 0, 0, 0)).then((value) => {
-            console.log(`\n\nyesterday spend: ${value}`);
-            console.log(`this day: ${todaySpend}`);
             comparisonday = 100 * ((todaySpend - value) / value).toFixed(2);
         });
         // this week
@@ -128,8 +126,6 @@ async function getDashboardData(req, res) {
         const weekspend = revenueWeek - creditsSpentWeek;
         let comparisonweek = 0;
         compareValue('week', fromDateWeek).then((value) => {
-            console.log(`\n\nlast week spend: ${value}`);
-            console.log(`this week: ${weekspend}`);
             comparisonweek = 100 * ((weekspend - value) / value).toFixed(2);
         });
         // this month
@@ -150,7 +146,6 @@ async function getDashboardData(req, res) {
                 void: false
             }
         });
-        console.log(`revenue month is: ${revenueMonth}`);
         const creditsSpentMonth = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
                 dibs_studio_id: req.body.dibsStudioId,
@@ -168,15 +163,12 @@ async function getDashboardData(req, res) {
         const monthspend = revenueMonth - creditsSpentMonth;
         let comparisonmonth = 0;
         compareValue('month', fromDateMonth).then((value) => {
-            console.log(`\n\nlast month spend: ${value}`);
-            console.log(`this month: ${monthspend}`);
             comparisonmonth = 100 * ((monthspend - value) / value).toFixed(2);
         });
         // this year
         const year = moment();
         moment().tz('America/New_York').format();
         const fromDateYear = year.startOf('year');
-        console.log(`fromDateYear is: ${fromDateYear}`);
         const revenueYear = await models.dibs_transaction.sum('amount', {
             where: {
                 dibs_studio_id: req.body.dibsStudioId,
@@ -191,7 +183,6 @@ async function getDashboardData(req, res) {
                 void: false
             }
         });
-        console.log(`revenue year is: ${revenueYear}`);
         const creditsSpentYear = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
                 dibs_studio_id: req.body.dibsStudioId,
