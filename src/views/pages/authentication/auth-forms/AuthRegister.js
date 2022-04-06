@@ -49,7 +49,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = React.useState(0);
     const [level, setLevel] = React.useState();
-    const { firebaseRegister, firebaseGoogleSignIn } = useAuth();
+    const { firebaseRegister, firebaseGoogleSignIn, updateProfile } = useAuth();
 
     const googleHandler = async () => {
         try {
@@ -138,7 +138,9 @@ const FirebaseRegister = ({ ...others }) => {
                 initialValues={{
                     email: '',
                     password: '',
-                    submit: null
+                    submit: null,
+                    fname: '',
+                    lname: ''
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
@@ -146,7 +148,10 @@ const FirebaseRegister = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        await firebaseRegister(values.email, values.password).then(
+                        console.log(`values in form: ${JSON.stringify(values)}`);
+                        const firstnameString = values.fname;
+                        const firstnametosend = firstnameString[0].toUpperCase() + firstnameString.slice(1);
+                        await firebaseRegister(values.email, values.password, firstnametosend).then(
                             () => {
                                 // WARNING: do not set any formik state here as formik might be already destroyed here. You may get following error by doing so.
                                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
@@ -176,23 +181,27 @@ const FirebaseRegister = ({ ...others }) => {
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    id="firstname-register-for-dibs"
                                     fullWidth
                                     label="First Name"
+                                    value={values.fname}
                                     margin="normal"
                                     name="fname"
                                     type="text"
-                                    defaultValue=""
+                                    onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    id="lastname-register-for-dibs"
                                     fullWidth
                                     label="Last Name"
+                                    value={values.lname}
                                     margin="normal"
                                     name="lname"
                                     type="text"
-                                    defaultValue=""
+                                    onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>

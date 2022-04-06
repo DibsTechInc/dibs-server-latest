@@ -35,6 +35,7 @@ export const FirebaseProvider = ({ children }) => {
     useEffect(
         () =>
             firebase.auth().onAuthStateChanged((user) => {
+                console.log(`\n\nfirebase.auth user is: ${JSON.stringify(user)}`);
                 if (user) {
                     dispatch({
                         type: LOGIN,
@@ -65,7 +66,15 @@ export const FirebaseProvider = ({ children }) => {
         return firebase.auth().signInWithPopup(provider);
     };
 
-    const firebaseRegister = async (email, password) => firebase.auth().createUserWithEmailAndPassword(email, password);
+    const firebaseRegister = async (email, password, firstname) =>
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then((result) =>
+                result.user.updateProfile({
+                    displayName: firstname
+                })
+            );
 
     const logout = () => firebase.auth().signOut();
 
