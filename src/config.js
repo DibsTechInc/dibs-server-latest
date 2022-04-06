@@ -1,16 +1,28 @@
+if (process.env.NODE_ENV !== 'production') {
+    // eslint-disable-next-line global-require
+    require('dotenv').config();
+}
+
 export const JWT_API = {
     secret: 'SECRET-KEY',
     timeout: '1 days'
 };
 
 export const FIREBASE_API = {
-    apiKey: 'AIzaSyBernKzdSojh_vWXBHt0aRhf5SC9VLChbM',
-    authDomain: 'berry-material-react.firebaseapp.com',
-    projectId: 'berry-material-react',
-    storageBucket: 'berry-material-react.appspot.com',
-    messagingSenderId: '901111229354',
-    appId: '1:901111229354:web:a5ae5aa95486297d69d9d3',
-    measurementId: 'G-MGJHSL8XW3'
+    // apiKey: 'AIzaSyBernKzdSojh_vWXBHt0aRhf5SC9VLChbM',
+    // authDomain: 'berry-material-react.firebaseapp.com',
+    // projectId: 'berry-material-react',
+    // storageBucket: 'berry-material-react.appspot.com',
+    // messagingSenderId: '901111229354',
+    // appId: '1:901111229354:web:a5ae5aa95486297d69d9d3',
+    // measurementId: 'G-MGJHSL8XW3'
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBAS_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBAS_PROJECTID,
+    storageBucket: process.env.REACT_APP_FIREBAS_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBAS_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_ID,
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
 export const AUTH0_API = {
