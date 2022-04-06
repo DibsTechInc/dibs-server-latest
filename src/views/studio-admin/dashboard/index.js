@@ -1,4 +1,4 @@
-import * as React from 'react';
+// import * as React from 'react';
 
 // material-ui
 import { Typography, Grid, Paper, Box } from '@mui/material';
@@ -8,16 +8,15 @@ import GlanceStats from '../../../components/GlanceStats';
 import SalesRevenueChart from '../../../components/SalesRevenueChart';
 import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
-import { getDashboardRevenue } from '../../../store/slices/dashboard';
+// import { getDashboardRevenue } from '../../../store/slices/dashboard';
 
 // project imports
-import { useSelector, useDispatch } from 'store';
+import { useSelector } from 'store';
 
 // ==============================|| Dashboard Page ||============================== //
 
 const Dashboard = () => {
     const valuesfordashboard = useSelector((state) => state.dashboard);
-    console.log(`valuesfordashboard = ${JSON.stringify(valuesfordashboard)}`);
     const { revenuetotals } = valuesfordashboard;
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;
     const friendReferralText = `See how many friends have been referred and see how much each referral is worth on a monthly annual basis.`;

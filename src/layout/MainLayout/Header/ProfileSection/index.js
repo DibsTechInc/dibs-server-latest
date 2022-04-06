@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -31,7 +31,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
+// import UpgradePlanCard from './UpgradePlanCard';
 import useAuth from 'hooks/useAuth';
 import User1 from 'assets/images/users/user-round.svg';
 
@@ -45,7 +45,7 @@ import useConfig from 'hooks/useConfig';
 const ProfileSection = () => {
     const theme = useTheme();
     const { borderRadius } = useConfig();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // const [sdm, setSdm] = useState(true);
     // const [value, setValue] = useState('');
@@ -71,14 +71,14 @@ const ProfileSection = () => {
         }
         setOpen(false);
     };
-    const handleListItemClick = (event, index, route = '') => {
-        setSelectedIndex(index);
-        handleClose(event);
+    // const handleListItemClick = (event, index, route = '') => {
+    //     setSelectedIndex(index);
+    //     handleClose(event);
 
-        if (route && route !== '') {
-            navigate(route);
-        }
-    };
+    //     if (route && route !== '') {
+    //         navigate(route);
+    //     }
+    // };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };

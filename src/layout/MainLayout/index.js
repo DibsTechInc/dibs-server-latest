@@ -73,9 +73,8 @@ const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
     const user = firebase.auth().currentUser;
-    console.log(`user from firebase is -> ${JSON.stringify(user)}`);
+    // console.log(`user from firebase is -> ${JSON.stringify(user)}`);
     const { config } = useSelector((state) => state.dibsstudio);
-    console.log(`config values are: ${JSON.stringify(config)}`);
 
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
@@ -84,7 +83,6 @@ const MainLayout = () => {
     React.useEffect(() => {
         dispatch(openDrawer(!matchDownMd));
         if (config.id === 0) {
-            console.log('need to repopulate the redux store');
             StudioEmployeeAccount(user.email).then((result) => {
                 dispatch(addStudioData(result.data));
             });

@@ -32,7 +32,6 @@ const dibsstudio = createSlice({
         },
         // ADD STUDIO DATA
         addStudioData(state, action) {
-            console.log(`action = ${JSON.stringify(action)}`);
             state.config = action.payload;
         }
     }

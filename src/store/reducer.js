@@ -24,6 +24,7 @@ const reducer = combineReducers({
     // dibsstduio: persistReducer({ key: 'id', storage }, dibsstudioReducer),
     dibsstudio: dibsstudioReducer,
     dashboard: dashboardReducer,
+    menu: menuReducer,
     snackbar: snackbarReducer,
     cart: persistReducer(
         {
@@ -40,8 +41,7 @@ const reducer = combineReducers({
     chat: chatReducer,
     calendar: calendarReducer,
     mail: mailReducer,
-    user: userReducer,
-    menu: menuReducer
+    user: userReducer
 });
 
 export default reducer;
