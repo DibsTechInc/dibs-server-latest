@@ -9,7 +9,6 @@ async function getDashboardData(req, res) {
     async function compareValue(category, fromDate) {
         let compareFromDate;
         let compareToDate;
-        console.log(`running the comparison now`);
         if (category === 'year') {
             compareFromDate = moment(fromDate).subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss');
             compareToDate = moment().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss');
@@ -23,9 +22,7 @@ async function getDashboardData(req, res) {
             compareFromDate = moment(fromDate).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss');
             compareToDate = moment().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss');
         }
-        console.log(`category: ${category}\nfromDate: ${fromDate}\ncompareFromDate: ${compareFromDate}`);
-        console.log(`compareToDate: ${compareToDate}`);
-        return models.dibs_transaction.sum('amount', {
+        const amount = await models.dibs_transaction.sum('amount', {
             where: {
                 dibs_studio_id: req.body.dibsStudioId,
                 status: 1,
@@ -40,6 +37,23 @@ async function getDashboardData(req, res) {
                 void: false
             }
         });
+        const studioCreditsSpent = await models.dibs_transaction.sum('studio_credits_spent', {
+            where: {
+                dibs_studio_id: req.body.dibsStudioId,
+                status: 1,
+                stripe_charge_id: {
+                    [Op.ne]: null
+                },
+                stripe_refund_id: null,
+                createdAt: {
+                    [Op.gte]: compareFromDate,
+                    [Op.lte]: compareToDate
+                },
+                void: false
+            }
+        });
+        const totalValue = amount - studioCreditsSpent;
+        return totalValue;
     }
     try {
         console.log(`dibsid is: ${req.body.dibsStudioId}`);
@@ -186,17 +200,10 @@ async function getDashboardData(req, res) {
                 void: false
             }
         });
-        console.log(`creditsSpentYear is: ${creditsSpentYear}`);
         const yearspend = revenueYear - creditsSpentYear;
         let comparisonyoy = 0;
         await compareValue('year', fromDateYear).then((value) => {
-            console.log(`\n\nlast year spend: ${value}`);
-            console.log(`this year: ${yearspend}`);
-            value.toFixed(2);
-            console.log(`yearspend minus value = ${yearspend - value}`);
-            console.log(`total number is = ${(yearspend - value) / value}`);
             comparisonyoy = 100 * ((yearspend - value) / value).toFixed(2);
-            console.log(`comparisonyoy = ${comparisonyoy}`);
         });
         // comparisons
         const todayspendformatted = new Intl.NumberFormat('en-US', {
