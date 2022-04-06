@@ -49,7 +49,7 @@ const FirebaseRegister = ({ ...others }) => {
 
     const [strength, setStrength] = React.useState(0);
     const [level, setLevel] = React.useState();
-    const { firebaseRegister, firebaseGoogleSignIn, updateProfile } = useAuth();
+    const { firebaseRegister, firebaseGoogleSignIn } = useAuth();
 
     const googleHandler = async () => {
         try {

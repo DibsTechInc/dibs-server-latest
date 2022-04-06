@@ -6,22 +6,22 @@ import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
+    // Card,
+    // CardContent,
     Chip,
     ClickAwayListener,
-    Divider,
-    Grid,
-    InputAdornment,
+    // Divider,
+    // Grid,
+    // InputAdornment,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
+    // OutlinedInput,
     Paper,
     Popper,
     Stack,
-    Switch,
+    // Switch,
     Typography
 } from '@mui/material';
 
@@ -36,7 +36,8 @@ import useAuth from 'hooks/useAuth';
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+// import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
 
 // ==============================|| PROFILE MENU ||============================== //
@@ -46,9 +47,9 @@ const ProfileSection = () => {
     const { borderRadius } = useConfig();
     const navigate = useNavigate();
 
-    const [sdm, setSdm] = useState(true);
-    const [value, setValue] = useState('');
-    const [notification, setNotification] = useState(false);
+    // const [sdm, setSdm] = useState(true);
+    // const [value, setValue] = useState('');
+    // const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const { logout, user } = useAuth();
     const [open, setOpen] = useState(false);
@@ -163,9 +164,9 @@ const ProfileSection = () => {
                                         <Box sx={{ p: 2, pb: 0 }}>
                                             <Stack>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
-                                                    <Typography variant="h4">Good Morning,</Typography>
+                                                    <Typography variant="h4">Hello</Typography>
                                                     <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                        {user?.name}
+                                                        {user?.name}!
                                                     </Typography>
                                                 </Stack>
                                                 <Typography variant="subtitle2">Project Admin</Typography>
