@@ -67,7 +67,7 @@ async function getDashboardData(req, res) {
                 },
                 stripe_refund_id: null,
                 createdAt: {
-                    [Op.gte]: new Date(new Date().setHours(0, 0, 0, 0))
+                    [Op.gte]: new Date().setHours(0, 0, 0, 0)
                 },
                 void: false
             }
@@ -81,12 +81,18 @@ async function getDashboardData(req, res) {
                 },
                 stripe_refund_id: null,
                 createdAt: {
-                    [Op.gte]: new Date(new Date().setHours(0, 0, 0, 0))
+                    [Op.gte]: new Date().setHours(0, 0, 0, 0)
                 },
                 void: false
             }
         });
         const todaySpend = revenueToday - creditsSpentToday;
+        let comparisonday = 0;
+        compareValue('day', new Date().setHours(0, 0, 0, 0)).then((value) => {
+            console.log(`\n\nyesterday spend: ${value}`);
+            console.log(`this day: ${todaySpend}`);
+            comparisonday = 100 * ((todaySpend - value) / value).toFixed(2);
+        });
         // this week
         const today = moment();
         moment().tz('America/New_York').format();
@@ -237,7 +243,7 @@ async function getDashboardData(req, res) {
                 value: `${todayspendformatted}`,
                 up: 1,
                 comparedwith: 'yesterday',
-                percentage: 0
+                percentage: comparisonday
             },
             {
                 label: 'THIS WEEK',
