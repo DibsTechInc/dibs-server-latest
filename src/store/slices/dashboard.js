@@ -11,28 +11,28 @@ const initialState = {
     revenuetotals: [
         {
             label: 'TODAY',
-            value: '$0',
+            value: '$-',
             up: 1,
             comparedwith: 'yesterday',
             percentage: 0
         },
         {
             label: 'THIS WEEK',
-            value: '$0',
+            value: '$-',
             up: 1,
             comparedwith: 'last week',
             percentage: 0
         },
         {
             label: 'THIS MONTH',
-            value: '$0',
+            value: '$-',
             up: 1,
             comparedwith: 'last month',
             percentage: 0
         },
         {
             label: 'THIS YEAR',
-            value: '$0',
+            value: '$-',
             up: 1,
             comparedwith: 'last year',
             percentage: 0

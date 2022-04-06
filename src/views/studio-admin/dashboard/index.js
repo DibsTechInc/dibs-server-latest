@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'store';
 
 const Dashboard = () => {
     const { config } = useSelector((state) => state.dibsstudio);
+    const valuesfordashboard = useSelector((state) => state.dashboard);
+    const { revenuetotals } = valuesfordashboard;
     const dispatch = useDispatch();
     React.useEffect(() => {
         getDashboardData(config.dibsStudioId).then((result) => {
@@ -25,8 +27,6 @@ const Dashboard = () => {
             dispatch(addRevenueDataToDashboard(result.data));
         });
     }, [config.dibsStudioId, dispatch]);
-    const valuesfordashboard = useSelector((state) => state.dashboard);
-    const { revenuetotals } = valuesfordashboard;
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;
     const friendReferralText = `See how many friends have been referred and see how much each referral is worth on a monthly annual basis.`;
     const topfans = `Track your top clients' activity`;

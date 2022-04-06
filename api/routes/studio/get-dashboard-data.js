@@ -6,6 +6,41 @@ const {
 } = models;
 
 async function getDashboardData(req, res) {
+    async function compareValue(category, fromDate) {
+        let compareFromDate;
+        let compareToDate;
+        console.log(`running the comparison now`);
+        if (category === 'year') {
+            compareFromDate = moment(fromDate).subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss');
+            compareToDate = moment().subtract(1, 'year').format('YYYY-MM-DD HH:mm:ss');
+        } else if (category === 'month') {
+            compareFromDate = moment(fromDate).subtract(1, 'month').format('YYYY-MM-DD HH:mm:ss');
+            compareToDate = moment().subtract(1, 'month').format('YYYY-MM-DD HH:mm:ss');
+        } else if (category === 'week') {
+            compareFromDate = moment(fromDate).subtract(1, 'week').format('YYYY-MM-DD HH:mm:ss');
+            compareToDate = moment().subtract(1, 'week').format('YYYY-MM-DD HH:mm:ss');
+        } else {
+            compareFromDate = moment(fromDate).subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+            compareToDate = moment().subtract(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+        }
+        console.log(`category: ${category}\nfromDate: ${fromDate}\ncompareFromDate: ${compareFromDate}`);
+        console.log(`compareToDate: ${compareToDate}`);
+        return models.dibs_transaction.sum('amount', {
+            where: {
+                dibs_studio_id: req.body.dibsStudioId,
+                status: 1,
+                stripe_charge_id: {
+                    [Op.ne]: null
+                },
+                stripe_refund_id: null,
+                createdAt: {
+                    [Op.gte]: compareFromDate,
+                    [Op.lte]: compareToDate
+                },
+                void: false
+            }
+        });
+    }
     try {
         console.log(`dibsid is: ${req.body.dibsStudioId}`);
         // today
@@ -71,6 +106,12 @@ async function getDashboardData(req, res) {
             }
         });
         const weekspend = revenueWeek - creditsSpentWeek;
+        let comparisonweek = 0;
+        compareValue('week', fromDateWeek).then((value) => {
+            console.log(`\n\nlast week spend: ${value}`);
+            console.log(`this week: ${weekspend}`);
+            comparisonweek = 100 * ((weekspend - value) / value).toFixed(2);
+        });
         // this month
         const month = moment();
         moment().tz('America/New_York').format();
@@ -105,6 +146,12 @@ async function getDashboardData(req, res) {
             }
         });
         const monthspend = revenueMonth - creditsSpentMonth;
+        let comparisonmonth = 0;
+        compareValue('month', fromDateMonth).then((value) => {
+            console.log(`\n\nlast month spend: ${value}`);
+            console.log(`this month: ${monthspend}`);
+            comparisonmonth = 100 * ((monthspend - value) / value).toFixed(2);
+        });
         // this year
         const year = moment();
         moment().tz('America/New_York').format();
@@ -141,7 +188,17 @@ async function getDashboardData(req, res) {
         });
         console.log(`creditsSpentYear is: ${creditsSpentYear}`);
         const yearspend = revenueYear - creditsSpentYear;
-        // this year
+        let comparisonyoy = 0;
+        await compareValue('year', fromDateYear).then((value) => {
+            console.log(`\n\nlast year spend: ${value}`);
+            console.log(`this year: ${yearspend}`);
+            value.toFixed(2);
+            console.log(`yearspend minus value = ${yearspend - value}`);
+            console.log(`total number is = ${(yearspend - value) / value}`);
+            comparisonyoy = 100 * ((yearspend - value) / value).toFixed(2);
+            console.log(`comparisonyoy = ${comparisonyoy}`);
+        });
+        // comparisons
         const todayspendformatted = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
@@ -178,23 +235,23 @@ async function getDashboardData(req, res) {
             {
                 label: 'THIS WEEK',
                 value: `${weekspendFormatted}`,
-                up: 1,
+                up: comparisonweek >= 0 ? 1 : 0,
                 comparedwith: 'last week',
-                percentage: 0
+                percentage: comparisonweek
             },
             {
                 label: 'THIS MONTH',
                 value: `${monthSpendFormatted}`,
-                up: 1,
+                up: comparisonmonth >= 0 ? 1 : 0,
                 comparedwith: 'last month',
-                percentage: 0
+                percentage: comparisonmonth
             },
             {
                 label: 'THIS YEAR',
                 value: `${yearspendFormatted}`,
-                up: 1,
+                up: comparisonyoy >= 0 ? 1 : 0,
                 comparedwith: 'last year',
-                percentage: 0
+                percentage: comparisonyoy
             }
         ];
         res.json({

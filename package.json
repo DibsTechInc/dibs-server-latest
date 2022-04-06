@@ -59,6 +59,7 @@
         "framer-motion": "^4.1.13",
         "handlebars": "^4.7.7",
         "history": "^5.2.0",
+        "http-proxy-middleware": "^2.0.4",
         "image-to-base64": "^2.2.0",
         "jsonwebtoken": "^8.5.1",
         "jwt-decode": "^3.1.2",
