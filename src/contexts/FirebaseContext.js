@@ -35,7 +35,6 @@ export const FirebaseProvider = ({ children }) => {
     useEffect(
         () =>
             firebase.auth().onAuthStateChanged((user) => {
-                console.log(`\n\nfirebase.auth user is: ${JSON.stringify(user)}`);
                 if (user) {
                     dispatch({
                         type: LOGIN,
@@ -44,7 +43,7 @@ export const FirebaseProvider = ({ children }) => {
                             user: {
                                 id: user.uid,
                                 email: user.email,
-                                name: user.displayName || 'John Doe'
+                                name: user.displayName || ''
                             }
                         }
                     });

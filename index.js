@@ -30,11 +30,11 @@ app.use(
     })
 );
 
-const { createProxyMiddleware } = require('http-proxy-middleware');
+// const { createProxyMiddleware } = require('http-proxy-middleware');
 
 app.use('/api', require('./api/routes'));
 
-app.use('/api', createProxyMiddleware({ target: 'http://localhost:3000', changeOrigin: true }));
+// app.use('/api', createProxyMiddleware({ target: 'http://localhost:8080', changeOrigin: true }));
 
 app.get('/', (req, res) => {
     async function getEvents() {

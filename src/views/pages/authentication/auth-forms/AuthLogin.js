@@ -31,17 +31,21 @@ import useConfig from 'hooks/useConfig';
 import useAuth from 'hooks/useAuth';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import StudioEmployeeAccount from '../../../../actions/index';
 
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { useDispatch } from 'store';
+import { addStudioData } from 'store/slices/dibsstudio';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ loginProp, ...others }) => {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const { borderRadius } = useConfig();
@@ -132,8 +136,10 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'youremail@yourstudio.com',
-                    password: '123456789',
+                    // email: 'youremail@yourstudio.com',
+                    email: 'alicia@ondibs.com',
+                    // password: '123456789',
+                    password: 'password',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -148,6 +154,10 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                 // Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application.
                                 // To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
                                 // github issue: https://github.com/formium/formik/issues/2430
+                                StudioEmployeeAccount(values.email).then((res) => {
+                                    // console.log(`employeevalues = ${JSON.stringify(res)}`);
+                                    dispatch(addStudioData(res.data));
+                                });
                             },
                             (err) => {
                                 if (scriptedRef.current) {

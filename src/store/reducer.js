@@ -16,10 +16,14 @@ import cartReducer from './slices/cart';
 import kanbanReducer from './slices/kanban';
 import menuReducer from './slices/menu';
 import dashboardReducer from './slices/dashboard';
+import dibsstudioReducer from './slices/dibsstudio';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
+    // dibsstduio: persistReducer({ key: 'id', storage }, dibsstudioReducer),
+    dibsstudio: dibsstudioReducer,
+    dashboard: dashboardReducer,
     snackbar: snackbarReducer,
     cart: persistReducer(
         {
@@ -37,8 +41,7 @@ const reducer = combineReducers({
     calendar: calendarReducer,
     mail: mailReducer,
     user: userReducer,
-    menu: menuReducer,
-    dashboard: dashboardReducer
+    menu: menuReducer
 });
 
 export default reducer;

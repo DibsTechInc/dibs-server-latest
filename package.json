@@ -9,6 +9,7 @@
         "eject": "react-scripts eject",
         "server": "node index.js --trace-warnings"
     },
+    "proxy": "http://localhost:8080",
     "dependencies": {
         "@auth0/auth0-spa-js": "^1.19.4",
         "@dibs-tech/mail-client": "^2.1.5",

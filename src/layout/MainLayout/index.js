@@ -4,6 +4,8 @@ import { Outlet } from 'react-router-dom';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { Box, Container, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import HideAppBar from './Header/HideAppBarOnScroll';
 
 // project imports
@@ -18,6 +20,8 @@ import { useDispatch, useSelector } from 'store';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import StudioEmployeeAccount from 'actions';
+import { addStudioData } from 'store/slices/dibsstudio';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -68,6 +72,10 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({
 const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
+    const user = firebase.auth().currentUser;
+    console.log(`user from firebase is -> ${JSON.stringify(user)}`);
+    const { config } = useSelector((state) => state.dibsstudio);
+    console.log(`config values are: ${JSON.stringify(config)}`);
 
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
@@ -75,6 +83,12 @@ const MainLayout = () => {
 
     React.useEffect(() => {
         dispatch(openDrawer(!matchDownMd));
+        if (config.id === 0) {
+            console.log('need to repopulate the redux store');
+            StudioEmployeeAccount(user.email).then((result) => {
+                dispatch(addStudioData(result.data));
+            });
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
 

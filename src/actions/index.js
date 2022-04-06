@@ -4,12 +4,18 @@ import axios from 'axios';
 
 export const StudioEmployeeAccount = async (email) => {
     // axios.get('http://localhost:8080/api/login-studio-admin', { email });
-
-    const studioEmployeeInfo = await axios.post('http://localhost:8080/api/login-studio-admin', {
-        email
-    });
-    console.log(`studioEmployeeInfo is: ${JSON.stringify(studioEmployeeInfo)}`);
-    return { msg: 'success' };
+    try {
+        const studioEmployeeInfo = await axios.post('/api/login-studio-admin', {
+            email
+        });
+        const valuestosend = {
+            data: studioEmployeeInfo.data.employee
+        };
+        return { msg: 'success', data: valuestosend.data };
+    } catch (err) {
+        console.log(`error signing in studioEmployee with email addy: ${email}\nerr is: ${err}`);
+    }
+    return 0;
 };
 
 export default StudioEmployeeAccount;
