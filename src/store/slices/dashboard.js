@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 // project imports
 // import axios from 'utils/axios';
-import { dispatch } from '../index';
+// import { dispatch } from '../index';
 
 // ----------------------------------------------------------------------
 
@@ -11,36 +11,36 @@ const initialState = {
     revenuetotals: [
         {
             label: 'TODAY',
-            value: '$18',
+            value: '$0',
             up: 1,
             comparedwith: 'yesterday',
-            percentage: 32
+            percentage: 0
         },
         {
             label: 'THIS WEEK',
-            value: '$292',
+            value: '$0',
             up: 1,
             comparedwith: 'last week',
-            percentage: 32
+            percentage: 0
         },
         {
             label: 'THIS MONTH',
-            value: '$5,261',
+            value: '$0',
             up: 1,
             comparedwith: 'last month',
-            percentage: 32
+            percentage: 0
         },
         {
             label: 'THIS YEAR',
-            value: '$11,872',
+            value: '$0',
             up: 1,
             comparedwith: 'last year',
-            percentage: 32
+            percentage: 0
         }
     ]
 };
 
-const slice = createSlice({
+const dashboard = createSlice({
     name: 'dashboard',
     initialState,
     reducers: {
@@ -57,23 +57,7 @@ const slice = createSlice({
 });
 
 // Reducer
-export default slice.reducer;
+export default dashboard.reducer;
+export const { addRevenueDataToDashboard, hasError } = dashboard.actions;
 
 // ----------------------------------------------------------------------
-
-export function getDashboardRevenue() {
-    return async () => {
-        const valuesToSeed = {
-            todayrevenue: 25,
-            weekrevenue: 187,
-            monthrevenue: 782,
-            yearrevenue: 12828
-        };
-        try {
-            // const response = await axios.get('/api/kanban/columns');
-            dispatch(slice.actions.addRevenueDataToDashboard(valuesToSeed));
-        } catch (error) {
-            dispatch(slice.actions.hasError(error));
-        }
-    };
-}

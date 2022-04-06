@@ -1,4 +1,4 @@
-// import * as React from 'react';
+import * as React from 'react';
 
 // material-ui
 import { Typography, Grid, Paper, Box } from '@mui/material';
@@ -8,14 +8,23 @@ import GlanceStats from '../../../components/GlanceStats';
 import SalesRevenueChart from '../../../components/SalesRevenueChart';
 import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
+import getDashboardData from '../../../actions/studios/getDashboardData';
 // import { getDashboardRevenue } from '../../../store/slices/dashboard';
-
+import { addRevenueDataToDashboard } from '../../../store/slices/dashboard';
 // project imports
-import { useSelector } from 'store';
+import { useDispatch, useSelector } from 'store';
 
 // ==============================|| Dashboard Page ||============================== //
 
 const Dashboard = () => {
+    const { config } = useSelector((state) => state.dibsstudio);
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        getDashboardData(config.dibsStudioId).then((result) => {
+            console.log(`\n\n\n\nresult is: ${JSON.stringify(result)}`);
+            dispatch(addRevenueDataToDashboard(result.data));
+        });
+    }, [config.dibsStudioId, dispatch]);
     const valuesfordashboard = useSelector((state) => state.dashboard);
     const { revenuetotals } = valuesfordashboard;
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;

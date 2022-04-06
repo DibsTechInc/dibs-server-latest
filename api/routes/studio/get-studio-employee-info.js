@@ -5,7 +5,7 @@ async function getStudioEmployee(req, res) {
         const userEmployee = await models.studio_employee.findOne({
             attributes: [
                 'id',
-                'dibs_studio_id',
+                ['dibs_studio_id', 'dibsStudioId'],
                 'firstName',
                 'lastName',
                 'email',

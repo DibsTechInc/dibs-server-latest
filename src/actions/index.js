@@ -3,7 +3,6 @@ import axios from 'axios';
 // ==============================|| DIBS EMPLOYEE STUDIO ACCOUNT INFO ||============================== //
 
 export const StudioEmployeeAccount = async (email) => {
-    // axios.get('http://localhost:8080/api/login-studio-admin', { email });
     try {
         const studioEmployeeInfo = await axios.post('/api/login-studio-admin', {
             email

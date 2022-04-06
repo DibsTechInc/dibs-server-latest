@@ -88,7 +88,7 @@ const MainLayout = () => {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
+    }, [matchDownMd, dispatch, user.email]);
 
     const header = useMemo(
         () => (

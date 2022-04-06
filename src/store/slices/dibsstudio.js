@@ -11,7 +11,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     config: {
         id: 0,
-        dibs_studio_id: 0,
+        dibsStudioId: 0,
         accountType: 'studio-admin',
         userEmail: '',
         role: 'admin',
