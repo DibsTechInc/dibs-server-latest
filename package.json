@@ -53,7 +53,7 @@
         "express": "^4.17.3",
         "express-flash": "0.0.2",
         "express-session": "^1.17.2",
-        "firebase": "^9.6.6",
+        "firebase": "^9.6.10",
         "formik": "^2.2.9",
         "framer-motion": "^4.1.13",
         "handlebars": "^4.7.7",
