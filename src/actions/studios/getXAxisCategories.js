@@ -11,6 +11,7 @@ export const getXAxisCategories = async () => {
             console.log(`month is: ${month}`);
             xaxismonthly[i] = month;
         }
+        xaxismonthly.reverse();
         console.log(`xaxismonthly is: ${JSON.stringify(xaxismonthly)}`);
         const xaxistoreturn = {
             monthly: {
