@@ -68,7 +68,7 @@ const dashboard = createSlice({
         // ADD AXIS DATA
         addXAxisDataToDashboard(state, action) {
             console.log(`addXAxisDataToDashboard action.payload is: ${JSON.stringify(action.payload)}`);
-            state.xaxiscategories = action.payload.xaxiscategories;
+            state.xaxis = action.payload;
         }
     }
 });

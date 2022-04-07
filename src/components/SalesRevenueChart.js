@@ -42,9 +42,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const { navType } = useConfig();
     const { xaxis } = useSelector((state) => state.dashboard);
     console.log(`xaxiscategories in redux store: ${JSON.stringify(xaxis)}`);
-    const [categoriestoshow, setCategoriestoshow] = React.useState([]);
-    console.log(`value is: ${value}\ncategoriestoshow = ${JSON.stringify(categoriestoshow)}`);
-
+    // const [categoriestoshow, setCategoriestoshow] = React.useState(xaxis);
     const { primary } = theme.palette.text;
     const darkLight = theme.palette.dark.light;
     const grey200 = theme.palette.grey[200];
@@ -59,15 +57,14 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         // console.log(`newCategories = ${JSON.stringify(newCategories)}`);
         // const categoriestoshow = chartData.options.xaxisreplace[value];
         console.log(`xaxiscategories part 2 is: ${JSON.stringify(xaxis)} `);
-        setCategoriestoshow(xaxis[value].xaxiscategories);
-        console.log(`categories to show after setting value: ${JSON.stringify(categoriestoshow)}`);
+        // console.log(`categories to show after setting value: ${JSON.stringify(categoriestoshow)}`);
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
             series: chartData.seriesreplace[value],
             xaxis: {
                 type: 'category',
-                categories: categoriestoshow,
+                categories: xaxis[value].xaxiscategories,
                 labels: {
                     style: {
                         colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
@@ -98,21 +95,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         if (!isLoading) {
             ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
         }
-    }, [
-        navType,
-        primary200,
-        primaryDark,
-        secondaryMain,
-        secondaryLight,
-        primary,
-        darkLight,
-        grey200,
-        isLoading,
-        grey500,
-        value,
-        categoriestoshow,
-        xaxis
-    ]);
+    }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500, value, xaxis]);
 
     return (
         <>
