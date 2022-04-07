@@ -27,7 +27,7 @@ const Dashboard = () => {
         getDashboardData(config.dibsStudioId).then((result) => {
             dispatch(addRevenueDataToDashboard(result.data));
         });
-        getXAxisCategories()
+        getXAxisCategories(config.dibsStudioId)
             .then((result) => {
                 console.log(`result is: ${JSON.stringify(result)}`);
                 dispatch(addXAxisDataToDashboard(result));
