@@ -10,8 +10,9 @@ import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
 import getDashboardData from '../../../actions/studios/getDashboardData';
 import getXAxisCategories from '../../../actions/studios/getXAxisCategories';
+import getSalesRevenueGrowthData from 'actions/studios/getSalesRevenueGrowthData';
 // import { getDashboardRevenue } from '../../../store/slices/dashboard';
-import { addRevenueDataToDashboard, addXAxisDataToDashboard } from '../../../store/slices/dashboard';
+import { addRevenueDataToDashboard, addXAxisDataToDashboard, addSalesRevenueGrowthData } from '../../../store/slices/dashboard';
 
 // project imports
 import { useDispatch, useSelector } from 'store';
@@ -34,6 +35,14 @@ const Dashboard = () => {
             })
             .catch((err) => {
                 console.log(`error getting x-axis categories: ${err}`);
+            });
+        getSalesRevenueGrowthData(config.dibsStudioId)
+            .then((result) => {
+                console.log(`result is: ${JSON.stringify(result)}`);
+                dispatch(addSalesRevenueGrowthData(result));
+            })
+            .catch((err) => {
+                console.log(`error getting sales revenue growth data: ${err}`);
             });
     }, [config.dibsStudioId, dispatch]);
     const textGraph = `The total spend per active client over a given period of time (monthly, 90 days, annual, lifetime)`;

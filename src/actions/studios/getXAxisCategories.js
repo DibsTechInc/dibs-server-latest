@@ -35,15 +35,16 @@ export const getXAxisCategories = async (dibsStudioId) => {
             xaxisyearly[i] = year;
         }
         xaxisyearly.reverse();
-        const earliestRevenueYear = await axios.post('/api/get-earliest-revenue-year', {
-            dibsStudioId
-        });
-        console.log(`earliestRevenueYear is: ${JSON.stringify(earliestRevenueYear.data.minDate)}`);
+        const earliestRevenueYear = await axios
+            .post('/api/get-earliest-revenue-year', {
+                dibsStudioId
+            })
+            .catch((error) => {
+                console.log(`error getting earliest revenue year for studioid: ${dibsStudioId}\nerr is: ${error}`);
+            });
         const earliestyear = moment(earliestRevenueYear.data.minDate, 'YYYY-MM-DDTHH:mm:ssZ').format('YYYY');
         const yeartouse = earliestyear - 1;
-        console.log(`yeartouse is: ${yeartouse}`);
         const xaxisyearlyfiltered = xaxisyearly.filter((value) => value > yeartouse);
-        console.log(`xaxisyearlyfiltered is: ${JSON.stringify(xaxisyearlyfiltered)}`);
         const xaxistoreturn = {
             monthly: {
                 // xaxiscategories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

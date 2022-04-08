@@ -14,7 +14,7 @@ import useConfig from 'hooks/useConfig';
 import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
-import { useSelector, dispatch } from 'store';
+import { useSelector } from 'store';
 
 // chart data
 import chartData from './chart-data/total-growth-dibs-sales-chart';
@@ -40,8 +40,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const [value, setValue] = React.useState('monthly');
     const theme = useTheme();
     const { navType } = useConfig();
-    const { xaxis } = useSelector((state) => state.dashboard);
-    console.log(`xaxiscategories in redux store: ${JSON.stringify(xaxis)}`);
+    const { xaxis, seriesreplace } = useSelector((state) => state.dashboard);
     // const [categoriestoshow, setCategoriestoshow] = React.useState(xaxis);
     const { primary } = theme.palette.text;
     const darkLight = theme.palette.dark.light;
@@ -54,14 +53,11 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryLight = theme.palette.chart.light;
 
     React.useEffect(() => {
-        // console.log(`newCategories = ${JSON.stringify(newCategories)}`);
-        // const categoriestoshow = chartData.options.xaxisreplace[value];
-        console.log(`xaxiscategories part 2 is: ${JSON.stringify(xaxis)} `);
-        // console.log(`categories to show after setting value: ${JSON.stringify(categoriestoshow)}`);
         const newChartData = {
             ...chartData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],
-            series: chartData.seriesreplace[value],
+            // series: chartData.seriesreplace[value],
+            series: seriesreplace[value],
             xaxis: {
                 type: 'category',
                 categories: xaxis[value].xaxiscategories,
@@ -111,9 +107,9 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                         <Grid item>
                                             <Typography variant="subtitle2">Total Revenue</Typography>
                                         </Grid>
-                                        <Grid item>
+                                        {/* <Grid item>
                                             <Typography variant="h3">$2,324.00</Typography>
-                                        </Grid>
+                                        </Grid> */}
                                     </Grid>
                                 </Grid>
                                 <Grid item>

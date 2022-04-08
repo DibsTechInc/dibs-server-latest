@@ -35,7 +35,8 @@ async function getDashboardData(req, res) {
                     [Op.lte]: compareToDate
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const studioCreditsSpent = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
@@ -50,7 +51,8 @@ async function getDashboardData(req, res) {
                     [Op.lte]: compareToDate
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const totalValue = amount - studioCreditsSpent;
         return totalValue;
@@ -70,7 +72,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: new Date().setHours(0, 0, 0, 0)
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const creditsSpentToday = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
@@ -84,7 +87,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: new Date().setHours(0, 0, 0, 0)
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const todaySpend = revenueToday - creditsSpentToday;
         let comparisonday = 0;
@@ -107,7 +111,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateWeek
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const creditsSpentWeek = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
@@ -121,7 +126,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateWeek
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const weekspend = revenueWeek - creditsSpentWeek;
         let comparisonweek = 0;
@@ -144,7 +150,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateMonth
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const creditsSpentMonth = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
@@ -158,7 +165,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateMonth
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const monthspend = revenueMonth - creditsSpentMonth;
         let comparisonmonth = 0;
@@ -181,7 +189,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateYear
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const creditsSpentYear = await models.dibs_transaction.sum('studio_credits_spent', {
             where: {
@@ -195,7 +204,8 @@ async function getDashboardData(req, res) {
                     [Op.gte]: fromDateYear
                 },
                 void: false
-            }
+            },
+            paranoid: false
         });
         const yearspend = revenueYear - creditsSpentYear;
         let comparisonyoy = 0;
