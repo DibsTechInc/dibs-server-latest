@@ -10,12 +10,12 @@ async function getDashboardSalesGrowthData(req, res) {
     let membershipidarray;
     let singleidarray;
     let packageidarray;
-    let totaldata;
-    let membershipdata;
-    let packagedata;
-    let singledata;
+    const totaldata = [];
+    const membershipdata = [];
+    const packagedata = [];
+    const singledata = [];
     const retailrevenuedata = [];
-    let otherdata;
+    const otherdata = [];
     const cleanup = async (list) => list.map((l) => l.dataValues.id);
     const getmembershipids = async () =>
         models.studio_packages.findAll({
@@ -99,17 +99,114 @@ async function getDashboardSalesGrowthData(req, res) {
             },
             paranoid: false
         });
-        console.log(`\n\n\ndatefrom and to: ${datefrom} and ${dateto}`);
-        console.log(`\n\nrevData returned after await - ${JSON.stringify(revData)}\n\n`);
         const valuetopush = revData[0].amount - revData[0].studio_credits_spent;
-        console.log(`valuetopush is: ${valuetopush}`);
         retailrevenuedata.splice(i, 0, valuetopush);
     };
-    async function getNewRetailData(datefrom, dateto, i) {
+    const totalrevData = async (datefrom, dateto, i) => {
+        const revData = await models.dibs_transaction.findAll({
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('amount')), 'amount'],
+                [sequelize.fn('sum', sequelize.col('studio_credits_spent')), 'studio_credits_spent']
+            ],
+            where: {
+                dibs_studio_id: req.body.dibsStudioId,
+                status: 1,
+                stripe_charge_id: {
+                    [Op.not]: null
+                },
+                stripe_refund_id: null,
+                createdAt: {
+                    [Op.between]: [datefrom, dateto]
+                },
+                void: false
+            },
+            paranoid: false
+        });
+        const valuetopush = revData[0].amount - revData[0].studio_credits_spent;
+        totaldata.splice(i, 0, valuetopush);
+    };
+    const classrevData = async (datefrom, dateto, i, type) => {
+        let packageArray;
+        if (type === 'membership') {
+            packageArray = membershipidarray;
+        } else if (type === 'singles') {
+            packageArray = singleidarray;
+        } else {
+            packageArray = packageidarray;
+        }
+        const revData = await models.dibs_transaction.findAll({
+            attributes: [
+                [sequelize.fn('sum', sequelize.col('amount')), 'amount'],
+                [sequelize.fn('sum', sequelize.col('studio_credits_spent')), 'studio_credits_spent']
+            ],
+            where: {
+                dibs_studio_id: req.body.dibsStudioId,
+                status: 1,
+                stripe_charge_id: {
+                    [Op.not]: null
+                },
+                studio_package_id: {
+                    [Op.in]: packageArray
+                },
+                stripe_refund_id: null,
+                createdAt: {
+                    [Op.between]: [datefrom, dateto]
+                },
+                void: false
+            },
+            paranoid: false
+        });
+        const valuetopush = revData[0].amount - revData[0].studio_credits_spent;
+        if (type === 'membership') {
+            membershipdata.splice(i, 0, valuetopush);
+        } else if (type === 'singles') {
+            singledata.splice(i, 0, valuetopush);
+        } else {
+            packagedata.splice(i, 0, valuetopush);
+        }
+    };
+    async function getRetailRevData(datefrom, dateto, i) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(retaildata(datefrom, dateto, i));
                 reject(new Error('getNewRetailData timed out'));
+            }, 2000);
+        });
+    }
+    async function getRevenueTotals(datefrom, dateto, i) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(totalrevData(datefrom, dateto, i));
+                reject(new Error('total revenue data timed out'));
+            }, 2000);
+        });
+    }
+    async function getAllRevData(datefrom, dateto, i, type) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(classrevData(datefrom, dateto, i, type));
+                reject(new Error('revenue data by classtype timed out'));
+            }, 2000);
+        });
+    }
+    async function getAllPackageRevData(datefrom, dateto, i, type) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(classrevData(datefrom, dateto, i, type));
+                reject(new Error('revenue data by classtype timed out'));
+            }, 2000);
+        });
+    }
+    async function calculateRemainderAllData(index) {
+        const valuetoAddToOther =
+            totaldata[index] - (membershipdata[index] + packagedata[index] + singledata[index] + retailrevenuedata[index]);
+        otherdata.splice(index, 0, valuetoAddToOther);
+    }
+    async function getOtherData(i) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(calculateRemainderAllData(i));
+                reject(new Error('other category - revenue data timed out'));
             }, 2000);
         });
     }
@@ -119,31 +216,53 @@ async function getDashboardSalesGrowthData(req, res) {
         let fromdate = startOfThisPeriod;
         let todate = moment().endOf(timeperiod);
         const promises = [];
+        const promisesPackages = [];
+        const promisesSingles = [];
+        const promisesTotals = [];
         for (let i = 0; i < 12; i += 1) {
             console.log(`i = ${i}`);
             fromdate = moment().startOf(timeperiod).subtract(i, 'month');
             todate = moment().endOf(timeperiod).subtract(i, 'month');
-            console.log(`fromdate = ${fromdate}`);
-            console.log(`todate = ${todate}`);
-            promises.push(getNewRetailData(fromdate, todate, i));
+            promises.push(getRetailRevData(fromdate, todate, i));
+            promises.push(getAllRevData(fromdate, todate, i, 'membership'));
+            promisesPackages.push(getAllPackageRevData(fromdate, todate, i, 'packages'));
+            promisesSingles.push(getAllPackageRevData(fromdate, todate, i, 'singles'));
+            promisesTotals.push(getRevenueTotals(fromdate, todate, i));
         }
+        await Promise.all(promises);
+        await Promise.all(promisesPackages);
+        await Promise.all(promisesSingles);
+        await Promise.all(promisesTotals);
+    };
+    const calculateRemainders = async () => {
+        const promises = [];
+        totaldata.map((value, index) => {
+            promises.push(getOtherData(index));
+            return value;
+        });
         await Promise.all(promises);
     };
 
     const getrevenuebypackage = async () => {
         await setpackageids();
         await calculateDatesAndGetRevenue('month');
-        // gettotal
-        // getmembershipfirst
-        // getsinglessecond
-        // getpackageslast
-        // getretail
-        // getother
+        await calculateRemainders();
     };
+
     await getrevenuebypackage();
-    console.log(`retailrevenuedata: ${JSON.stringify(retailrevenuedata)}`);
+    console.log(`\n\n\n\nretailrevenuedata: ${JSON.stringify(retailrevenuedata)}`);
     retailrevenuedata.reverse();
+    membershipdata.reverse();
+    packagedata.reverse();
+    singledata.reverse();
+    totaldata.reverse();
+    otherdata.reverse();
     console.log(`retailrevenuedata after reverse: ${JSON.stringify(retailrevenuedata)}`);
+    console.log(`membershiprevenuedata is: ${JSON.stringify(membershipdata)}`);
+    console.log(`packagedata is: ${JSON.stringify(packagedata)}`);
+    console.log(`singles data is: ${JSON.stringify(singledata)}`);
+    console.log(`totalsdata is: ${JSON.stringify(totaldata)}`);
+    console.log(`otherdata is: ${JSON.stringify(otherdata)}\n\n\n\n`);
 }
 
 module.exports = getDashboardSalesGrowthData;
