@@ -71,6 +71,15 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                 labels: {
                     style: {
                         colors: [primary]
+                    },
+                    formatter: (value) => {
+                        const newvalue = new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                        }).format(value);
+                        return `${newvalue}`;
                     }
                 }
             },
@@ -91,7 +100,21 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         if (!isLoading) {
             ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
         }
-    }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500, value, xaxis]);
+    }, [
+        navType,
+        primary200,
+        primaryDark,
+        secondaryMain,
+        secondaryLight,
+        primary,
+        darkLight,
+        grey200,
+        isLoading,
+        grey500,
+        value,
+        xaxis,
+        seriesreplace
+    ]);
 
     return (
         <>

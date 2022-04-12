@@ -7,6 +7,7 @@ const {
 } = models;
 
 async function getDashboardSalesGrowthData(req, res) {
+    const period = req.body.period;
     let membershipidarray;
     let singleidarray;
     let packageidarray;
@@ -99,7 +100,7 @@ async function getDashboardSalesGrowthData(req, res) {
             },
             paranoid: false
         });
-        const valuetopush = revData[0].amount - revData[0].studio_credits_spent;
+        const valuetopush = Math.round(revData[0].amount - revData[0].studio_credits_spent);
         if (type === 'retail') {
             retailrevenuedata.splice(i, 0, valuetopush);
         } else {
@@ -126,7 +127,7 @@ async function getDashboardSalesGrowthData(req, res) {
             },
             paranoid: false
         });
-        const valuetopush = revData[0].amount - revData[0].studio_credits_spent;
+        const valuetopush = Math.round(revData[0].amount - revData[0].studio_credits_spent);
         totaldata.splice(i, 0, valuetopush);
     };
     const classrevData = async (datefrom, dateto, i, type) => {
@@ -188,7 +189,7 @@ async function getDashboardSalesGrowthData(req, res) {
             singleAddition = singlerevData[0].amount - singlerevData[0].studio_credits_spent;
             console.log(`\n\nsingleAddition for ${datefrom} - ${dateto} is ${singleAddition}`);
         }
-        const valuetopush = revData[0].amount - revData[0].studio_credits_spent + singleAddition;
+        const valuetopush = Math.round(revData[0].amount - revData[0].studio_credits_spent + singleAddition);
         if (type === 'membership') {
             membershipdata.splice(i, 0, valuetopush);
         } else if (type === 'singles') {
@@ -259,17 +260,41 @@ async function getDashboardSalesGrowthData(req, res) {
 
     const getrevenuebypackage = async () => {
         await setpackageids();
-        await calculateDatesAndGetRevenue('month');
+        await calculateDatesAndGetRevenue('month')
+            .then(() => {
+                retailrevenuedata.reverse();
+                membershipdata.reverse();
+                packagedata.reverse();
+                singledata.reverse();
+                totaldata.reverse();
+                giftcarddata.reverse();
+                console.log(`\n\nfinished reversing the data`);
+            })
+            .then(() => {
+                console.log(`\n\nsending a response now`);
+                res.json({
+                    success: true,
+                    revenuedata: {
+                        retail: retailrevenuedata,
+                        memberships: membershipdata,
+                        packages: packagedata,
+                        singles: singledata,
+                        giftcards: giftcarddata,
+                        totals: totaldata
+                    }
+                });
+            })
+            .catch((err) =>
+                res.status(500).json({
+                    success: false,
+                    message: err.message
+                })
+            );
     };
 
     await getrevenuebypackage();
-    console.log(`\n\n\n\nretailrevenuedata: ${JSON.stringify(retailrevenuedata)}`);
-    retailrevenuedata.reverse();
-    membershipdata.reverse();
-    packagedata.reverse();
-    singledata.reverse();
-    totaldata.reverse();
-    giftcarddata.reverse();
+    console.log(`\n\n\n\n ran getrevenuebypackage - retailrevenuedata: ${JSON.stringify(retailrevenuedata)}`);
+
     console.log(`singleids are: ${JSON.stringify(singleidarray)}`);
     console.log(`packageidarray are: ${JSON.stringify(packageidarray)}`);
     console.log(`membershipidarray are: ${JSON.stringify(membershipidarray)}`);
@@ -279,18 +304,18 @@ async function getDashboardSalesGrowthData(req, res) {
     console.log(`singles data is: ${JSON.stringify(singledata)}`);
     console.log(`totalsdata is: ${JSON.stringify(totaldata)}`);
     console.log(`giftcarddata is: ${JSON.stringify(giftcarddata)}\n\n\n\n`);
-    const valuestoreturn = {
-        packages: packagedata,
-        memberships: membershipdata,
-        singles: singledata,
-        giftcards: giftcarddata,
-        retail: retailrevenuedata,
-        totals: totaldata
-    };
-    res.json({
-        success: true,
-        data: valuestoreturn
-    });
+    // const valuestoreturn = {
+    //     packages: packagedata,
+    //     memberships: membershipdata,
+    //     singles: singledata,
+    //     giftcards: giftcarddata,
+    //     retail: retailrevenuedata,
+    //     totals: totaldata
+    // };
+    // res.json({
+    //     success: true,
+    //     valuestoreturn
+    // });
 }
 
 module.exports = getDashboardSalesGrowthData;

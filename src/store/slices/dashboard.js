@@ -53,55 +53,67 @@ const initialState = {
         weekly: [
             {
                 name: 'Memberships',
-                data: [35, 125, 35, 35, 35, 80, 35, 20, 35, 45, 15, 75]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Packages',
-                data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
-                name: 'Single',
-                data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
+                name: 'Singles',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Retail',
-                data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                name: 'Gift Cards',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }
         ],
         monthly: [
             {
                 name: 'Memberships',
-                data: [900, 1000, 2000, 3000, 350, 800, 350, 200, 350, 450, 150, 750]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Packages',
-                data: [35, 15, 15, 35, 65, 40, 80, 25, 15, 85, 25, 75]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
-                name: 'Single',
-                data: [35, 145, 35, 35, 20, 105, 100, 10, 65, 45, 30, 10]
+                name: 'Singles',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Retail',
-                data: [0, 0, 75, 0, 0, 115, 0, 0, 0, 0, 150, 0]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                name: 'Gift Cards',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }
         ],
         annually: [
             {
                 name: 'Memberships',
-                data: [3500, 12500, 3500, 35, 35, 80]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Packages',
-                data: [35, 15, 15, 35, 65, 40, 80]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
-                name: 'Single',
-                data: [35, 145, 35, 35, 20, 105, 100]
+                name: 'Singles',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             },
             {
                 name: 'Retail',
-                data: [0, 0, 75, 0, 0, 115, 0]
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },
+            {
+                name: 'Gift Cards',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }
         ]
     }
@@ -128,7 +140,9 @@ const dashboard = createSlice({
 
         // ADD SALES REVENUE GROWTH DATA
         addSalesRevenueGrowthData(state, action) {
+            console.log(`action.payload for Sales Revenue Growth Data is: ${JSON.stringify(action.payload)}`);
             state.seriesreplace = action.payload;
+            console.log(`just set the values to payload again`);
         }
     }
 });
