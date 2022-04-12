@@ -117,7 +117,7 @@ const initialState = {
             }
         ]
     },
-    yearstoshow: 8
+    yearstoshow: 5
 };
 
 const dashboard = createSlice({
@@ -141,15 +141,12 @@ const dashboard = createSlice({
 
         // SET YEARS TO SHOW
         setNumYearsToShow(state, action) {
-            console.log(`setting num years to show to ${action.payload}`);
             state.yearstoshow = action.payload;
         },
 
         // ADD SALES REVENUE GROWTH DATA
         addSalesRevenueGrowthData(state, action) {
-            console.log(`action.payload for Sales Revenue Growth Data is: ${JSON.stringify(action.payload)}`);
             state.seriesreplace = action.payload;
-            console.log(`just set the values to payload again`);
         }
     }
 });

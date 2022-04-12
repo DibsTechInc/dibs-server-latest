@@ -8,6 +8,7 @@ const {
 
 async function getDashboardSalesGrowthData(req, res) {
     const period = req.body.timeperiod;
+    const periodstoshow = req.body.periodstoshow;
     console.log(`period = ${period}`);
     let membershipidarray;
     let singleidarray;
@@ -188,7 +189,6 @@ async function getDashboardSalesGrowthData(req, res) {
                 paranoid: false
             });
             singleAddition = singlerevData[0].amount - singlerevData[0].studio_credits_spent;
-            console.log(`\n\nsingleAddition for ${datefrom} - ${dateto} is ${singleAddition}`);
         }
         const valuetopush = Math.round(revData[0].amount - revData[0].studio_credits_spent + singleAddition);
         if (type === 'membership') {
@@ -241,7 +241,7 @@ async function getDashboardSalesGrowthData(req, res) {
         const promisesSingles = [];
         const promisesTotals = [];
         const promisesGifts = [];
-        for (let i = 0; i < 12; i += 1) {
+        for (let i = 0; i < periodstoshow; i += 1) {
             console.log(`i = ${i}`);
             fromdate = moment().startOf(timeperiod).subtract(i, period);
             todate = moment().endOf(timeperiod).subtract(i, period);
@@ -305,18 +305,6 @@ async function getDashboardSalesGrowthData(req, res) {
     console.log(`singles data is: ${JSON.stringify(singledata)}`);
     console.log(`totalsdata is: ${JSON.stringify(totaldata)}`);
     console.log(`giftcarddata is: ${JSON.stringify(giftcarddata)}\n\n\n\n`);
-    // const valuestoreturn = {
-    //     packages: packagedata,
-    //     memberships: membershipdata,
-    //     singles: singledata,
-    //     giftcards: giftcarddata,
-    //     retail: retailrevenuedata,
-    //     totals: totaldata
-    // };
-    // res.json({
-    //     success: true,
-    //     valuestoreturn
-    // });
 }
 
 module.exports = getDashboardSalesGrowthData;

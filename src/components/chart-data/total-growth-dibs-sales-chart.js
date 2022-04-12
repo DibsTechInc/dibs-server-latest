@@ -1,9 +1,7 @@
-import { useDispatch, useSelector } from 'store';
-
 // ==============================|| DASHBOARD - DIBS SALES GROWTH BAR CHART ||============================== //
 
 const chartData = {
-    height: 480,
+    maxHeight: 450,
     type: 'bar',
     options: {
         chart: {

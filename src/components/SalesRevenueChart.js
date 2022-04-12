@@ -114,7 +114,8 @@ const TotalGrowthBarChart = ({ isLoading }) => {
         grey500,
         value,
         xaxis,
-        seriesreplace
+        seriesreplace,
+        primary800
     ]);
 
     return (

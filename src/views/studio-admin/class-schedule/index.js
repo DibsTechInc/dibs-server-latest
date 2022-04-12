@@ -7,7 +7,7 @@ import ClassScheduleEntryPage from '../../../components/EntryPages/class-schedul
 // ==============================|| FrontDesk Page ||============================== //
 
 const ClassSchedule = () => {
-    console.log('opportunities page');
+    console.log('class schedule page');
     return (
         <Paper
             sx={{
