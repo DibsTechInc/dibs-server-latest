@@ -6,7 +6,6 @@ import {
     Chip,
     Divider,
     Grid,
-    LinearProgress,
     List,
     ListItemButton,
     ListItemIcon,
@@ -30,6 +29,7 @@ import { IconEdit } from '@tabler/icons';
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
+import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 
 // personal details table
 /** names Don&apos;t look right */
@@ -50,7 +50,7 @@ const rows = [
 ];
 const ClientAccountPage = () => (
     <Grid container spacing={2}>
-        <Grid item lg={4} xs={12}>
+        <Grid item lg={3.75} xs={12}>
             <SubCard
                 title={
                     <Grid container spacing={2} alignItems="center">
@@ -62,11 +62,11 @@ const ClientAccountPage = () => (
                                 Alicia Ulin
                             </Typography>
                             <Typography align="left" variant="subtitle2">
-                                UI/UX Designer
+                                (272 visits)
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Chip size="small" label="Pro" color="primary" />
+                            <Chip size="small" label="Top 5%" color="primary" />
                         </Grid>
                     </Grid>
                 }
@@ -91,47 +91,56 @@ const ClientAccountPage = () => (
                         <ListItemText primary={<Typography variant="subtitle1">Phone</Typography>} />
                         <ListItemSecondaryAction>
                             <Typography variant="subtitle2" align="right">
-                                (+99) 9999 999 999
+                                (310) 403-7905
                             </Typography>
                         </ListItemSecondaryAction>
                     </ListItemButton>
                     <Divider />
                     <ListItemButton>
                         <ListItemIcon>
-                            <PinDropTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                            <CakeTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                         </ListItemIcon>
-                        <ListItemText primary={<Typography variant="subtitle1">Location</Typography>} />
+                        <ListItemText primary={<Typography variant="subtitle1">Birthday</Typography>} />
                         <ListItemSecondaryAction>
                             <Typography variant="subtitle2" align="right">
-                                Melbourne
+                                12/11/1975
                             </Typography>
                         </ListItemSecondaryAction>
                     </ListItemButton>
                 </List>
-                <CardContent>
+                <CardContent sx={{ px: '4px !important' }}>
                     <Grid container spacing={0}>
                         <Grid item xs={4}>
-                            <Typography align="center" variant="h3">
-                                37
+                            <Typography align="left" sx={{ ml: 1 }} variant="h3">
+                                $212
                             </Typography>
-                            <Typography align="center" variant="subtitle2">
-                                Mails
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Typography align="center" variant="h3">
-                                2749
-                            </Typography>
-                            <Typography align="center" variant="subtitle2">
-                                Followers
+                            <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
+                                Total Spend
                             </Typography>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography align="center" variant="h3">
-                                678
+                                7.8
                             </Typography>
                             <Typography align="center" variant="subtitle2">
-                                Following
+                                Visits/Month
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography align="right" sx={{ mr: 1 }} variant="h3">
+                                9.2
+                            </Typography>
+                            <Typography align="right" sx={{ mr: 1 }} variant="subtitle2">
+                                Loyalty Score
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sx={{ mt: 5 }}>
+                            <Divider sx={{ mb: 1 }} />
+                            <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
+                                First visit on 12/11/2020
+                            </Typography>
+                            <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
+                                Last visit on 2/23/2022
                             </Typography>
                         </Grid>
                     </Grid>
@@ -142,7 +151,7 @@ const ClientAccountPage = () => (
             <Grid container direction="column" spacing={gridSpacing}>
                 <Grid item xs={12}>
                     <SubCard
-                        title="About me"
+                        title="Payment Information"
                         secondary={
                             <Button>
                                 <IconEdit stroke={1.5} size="1.3rem" />
