@@ -116,7 +116,8 @@ const initialState = {
                 data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             }
         ]
-    }
+    },
+    yearstoshow: 8
 };
 
 const dashboard = createSlice({
@@ -138,6 +139,12 @@ const dashboard = createSlice({
             state.xaxis = action.payload;
         },
 
+        // SET YEARS TO SHOW
+        setNumYearsToShow(state, action) {
+            console.log(`setting num years to show to ${action.payload}`);
+            state.yearstoshow = action.payload;
+        },
+
         // ADD SALES REVENUE GROWTH DATA
         addSalesRevenueGrowthData(state, action) {
             console.log(`action.payload for Sales Revenue Growth Data is: ${JSON.stringify(action.payload)}`);
@@ -149,6 +156,7 @@ const dashboard = createSlice({
 
 // Reducer
 export default dashboard.reducer;
-export const { addRevenueDataToDashboard, hasError, addSalesRevenueGrowthData, addXAxisDataToDashboard } = dashboard.actions;
+export const { addRevenueDataToDashboard, hasError, addSalesRevenueGrowthData, addXAxisDataToDashboard, setNumYearsToShow } =
+    dashboard.actions;
 
 // ----------------------------------------------------------------------

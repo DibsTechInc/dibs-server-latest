@@ -30,7 +30,7 @@ export const getXAxisCategories = async (dibsStudioId) => {
         }
         xaxisweekly.reverse();
         // get annual categories
-        for (let i = 0; i < 8; i += 1) {
+        for (let i = 0; i < 10; i += 1) {
             const year = moment().subtract(i, 'year').format('YYYY');
             xaxisyearly[i] = year;
         }

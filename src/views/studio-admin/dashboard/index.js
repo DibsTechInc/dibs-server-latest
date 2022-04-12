@@ -12,7 +12,12 @@ import getDashboardData from '../../../actions/studios/getDashboardData';
 import getXAxisCategories from '../../../actions/studios/getXAxisCategories';
 import getSalesRevenueGrowthData from 'actions/studios/getSalesRevenueGrowthData';
 // import { getDashboardRevenue } from '../../../store/slices/dashboard';
-import { addRevenueDataToDashboard, addXAxisDataToDashboard, addSalesRevenueGrowthData } from '../../../store/slices/dashboard';
+import {
+    addRevenueDataToDashboard,
+    addXAxisDataToDashboard,
+    addSalesRevenueGrowthData,
+    setNumYearsToShow
+} from '../../../store/slices/dashboard';
 
 // project imports
 import { useDispatch, useSelector } from 'store';
@@ -30,8 +35,10 @@ const Dashboard = () => {
         });
         getXAxisCategories(config.dibsStudioId)
             .then((result) => {
-                console.log(`result is: ${JSON.stringify(result)}`);
+                console.log(`\n\n\nresult for xaxis categories is: ${JSON.stringify(result)}`);
                 dispatch(addXAxisDataToDashboard(result));
+                console.log(`aiming for length of array to be: ${result.annually.xaxiscategories.length}`);
+                dispatch(setNumYearsToShow(result.annually.xaxiscategories.length));
             })
             .catch((err) => {
                 console.log(`error getting x-axis categories: ${err}`);
