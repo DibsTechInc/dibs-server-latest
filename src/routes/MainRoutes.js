@@ -16,6 +16,7 @@ const SettingsPage = Loadable(lazy(() => import('views/studio-admin/settings')))
 const AccountPage = Loadable(lazy(() => import('views/studio-admin/account')));
 const OpportunitiesPage = Loadable(lazy(() => import('views/studio-admin/opportunities')));
 const ClassSchedulePage = Loadable(lazy(() => import('views/studio-admin/class-schedule/calendar')));
+const ClientAccountPage = Loadable(lazy(() => import('views/studio-admin/front-desk/clientAccount')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -38,6 +39,10 @@ const MainRoutes = {
         {
             path: '/front-desk',
             element: <FrontDeskPage />
+        },
+        {
+            path: '/front-desk/clients',
+            element: <ClientAccountPage />
         },
         {
             path: '/reporting',
