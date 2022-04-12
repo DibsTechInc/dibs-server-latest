@@ -48,6 +48,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const grey500 = theme.palette.grey[500];
 
     const primary200 = theme.palette.chart[200];
+    const primary800 = theme.palette.chart[800];
     const primaryDark = theme.palette.chart.dark;
     const secondaryMain = theme.palette.chart.main;
     const secondaryLight = theme.palette.chart.light;
@@ -55,7 +56,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     React.useEffect(() => {
         const newChartData = {
             ...chartData.options,
-            colors: [primary200, primaryDark, secondaryMain, secondaryLight],
+            colors: [primary800, primary200, primaryDark, secondaryMain, secondaryLight],
             // series: chartData.seriesreplace[value],
             series: seriesreplace[value],
             xaxis: {

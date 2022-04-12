@@ -70,7 +70,7 @@ const Dashboard = () => {
                 >
                     <Grid item xs={9} sx={{ marginRight: '120px' }}>
                         <Typography gutterBottom variant="h3">
-                            SALES REVENUE
+                            KEY METRICS
                         </Typography>
                         <Typography gutterBottom variant="h6">
                             Revenue generated from purchases (retail, package, classes).

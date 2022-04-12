@@ -1,4 +1,5 @@
 const models = require('@dibs-tech/models');
+const { roundToNearestMinutes } = require('date-fns');
 const moment = require('moment-timezone');
 
 const {
@@ -171,7 +172,7 @@ async function getDashboardData(req, res) {
         const monthspend = revenueMonth - creditsSpentMonth;
         let comparisonmonth = 0;
         compareValue('month', fromDateMonth).then((value) => {
-            comparisonmonth = 100 * ((monthspend - value) / value).toFixed(2);
+            comparisonmonth = Math.round(100 * ((monthspend - value) / value).toFixed(2));
         });
         // this year
         const year = moment();

@@ -7,7 +7,8 @@ const {
 } = models;
 
 async function getDashboardSalesGrowthData(req, res) {
-    const period = req.body.period;
+    const period = req.body.timeperiod;
+    console.log(`period = ${period}`);
     let membershipidarray;
     let singleidarray;
     let packageidarray;
@@ -242,8 +243,8 @@ async function getDashboardSalesGrowthData(req, res) {
         const promisesGifts = [];
         for (let i = 0; i < 12; i += 1) {
             console.log(`i = ${i}`);
-            fromdate = moment().startOf(timeperiod).subtract(i, 'month');
-            todate = moment().endOf(timeperiod).subtract(i, 'month');
+            fromdate = moment().startOf(timeperiod).subtract(i, period);
+            todate = moment().endOf(timeperiod).subtract(i, period);
             promises.push(getRetailRevData(fromdate, todate, i, 'retail'));
             promises.push(getAllRevData(fromdate, todate, i, 'membership'));
             promisesPackages.push(getAllPackageRevData(fromdate, todate, i, 'packages'));
@@ -260,7 +261,7 @@ async function getDashboardSalesGrowthData(req, res) {
 
     const getrevenuebypackage = async () => {
         await setpackageids();
-        await calculateDatesAndGetRevenue('month')
+        await calculateDatesAndGetRevenue(period)
             .then(() => {
                 retailrevenuedata.reverse();
                 membershipdata.reverse();
