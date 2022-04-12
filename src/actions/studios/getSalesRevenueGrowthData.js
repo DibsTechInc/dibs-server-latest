@@ -13,7 +13,11 @@ export const getSalesRevenueGrowthData = async (dibsStudioId) => {
             dibsStudioId,
             timeperiod: 'month'
         });
-        console.log(`\n\n\n#####\n\nsalesgrowthdata returned from api call is = ${JSON.stringify(salesgrowthdata)}`);
+        console.log(
+            `\n\n\n###################\n\nsalesgrowthdata returned from api call is = ${JSON.stringify(
+                salesgrowthdata
+            )}\n\n###################\n\n`
+        );
         const seriestosend = {
             monthly: [
                 {

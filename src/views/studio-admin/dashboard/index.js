@@ -38,7 +38,7 @@ const Dashboard = () => {
             });
         getSalesRevenueGrowthData(config.dibsStudioId)
             .then((result) => {
-                console.log(`result is: ${JSON.stringify(result)}`);
+                console.log(`result is - from getSalesRevenueGrowthData: ${JSON.stringify(result)}`);
                 dispatch(addSalesRevenueGrowthData(result));
             })
             .catch((err) => {

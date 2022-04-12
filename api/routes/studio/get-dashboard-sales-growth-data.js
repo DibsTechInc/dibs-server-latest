@@ -279,11 +279,18 @@ async function getDashboardSalesGrowthData(req, res) {
     console.log(`singles data is: ${JSON.stringify(singledata)}`);
     console.log(`totalsdata is: ${JSON.stringify(totaldata)}`);
     console.log(`giftcarddata is: ${JSON.stringify(giftcarddata)}\n\n\n\n`);
-
-    console.log(`tenth data is: ${giftcarddata[9]}`);
-    console.log(
-        `calculation is: ${totaldata[9]} minus ${membershipdata[9]} + ${packagedata[9]} + ${singledata[9]} + ${retailrevenuedata[9]}`
-    );
+    const valuestoreturn = {
+        packages: packagedata,
+        memberships: membershipdata,
+        singles: singledata,
+        giftcards: giftcarddata,
+        retail: retailrevenuedata,
+        totals: totaldata
+    };
+    res.json({
+        success: true,
+        data: valuestoreturn
+    });
 }
 
 module.exports = getDashboardSalesGrowthData;
