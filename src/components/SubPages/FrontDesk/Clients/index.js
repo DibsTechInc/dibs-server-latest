@@ -27,7 +27,6 @@ import SubCard from 'ui-component/cards/SubCard';
 // assets
 import { IconEdit } from '@tabler/icons';
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
-import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 
