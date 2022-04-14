@@ -1,7 +1,7 @@
 // ==============================|| DASHBOARD - DIBS SALES GROWTH BAR CHART ||============================== //
 
 const chartData = {
-    maxHeight: 450,
+    // maxHeight: 450,
     type: 'bar',
     options: {
         chart: {

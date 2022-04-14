@@ -33,7 +33,7 @@ import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 
 // actions
-import getUserCreditCardInfo from 'actions/studios/users/getUserCreditCardInfo';
+import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
 
 // personal details table
 /** names Don&apos;t look right */
@@ -55,7 +55,7 @@ const rows = [
 const ClientAccountPage = () => {
     console.log('ClientAccountPage running now');
     React.useEffect(() => {
-        getUserCreditCardInfo('alicia.ulin2@gmail.com', 'Alicia Ulin');
+        findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
     }, []);
     return (
         <Grid container spacing={2}>

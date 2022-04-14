@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // ==============================|| CREATE NEW STRIPE CUSTOMER ||============================== //
 
-export const createNewStripeCustomer = async (email, name) => {
+export const findOrCreateStripeCustomer = async (email, name) => {
     try {
-        const newStripeCustomer = await axios.post('/api/create-new-stripe-customer', {
+        const newStripeCustomer = await axios.post('/api/find-or-create-stripe-customer', {
             email,
             name
         });
@@ -16,4 +16,4 @@ export const createNewStripeCustomer = async (email, name) => {
     return 0;
 };
 
-export default createNewStripeCustomer;
+export default findOrCreateStripeCustomer;

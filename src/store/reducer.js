@@ -17,20 +17,24 @@ import kanbanReducer from './slices/kanban';
 import menuReducer from './slices/menu';
 import dashboardReducer from './slices/dashboard';
 import dibsstudioReducer from './slices/dibsstudio';
+import clientprofileReducer from './slices/clientprofile';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
     // dibsstduio: persistReducer({ key: 'id', storage }, dibsstudioReducer),
-    dibsstudio: dibsstudioReducer,
+    // dibsstudio: dibsstudioReducer,
+    dibsstudio: persistReducer({ key: 'dibsstudio', storage, keyPrefix: 'dibsstudio-' }, dibsstudioReducer),
     dashboard: dashboardReducer,
+    // dasboard: persistReducer({ key: 'dibsdashboard', storage, keyPrefix: 'dibsdashboard-' }, dashboardReducer),
+    clientprofile: clientprofileReducer,
     menu: menuReducer,
     snackbar: snackbarReducer,
     cart: persistReducer(
         {
             key: 'cart',
             storage,
-            keyPrefix: 'berry-'
+            keyPrefix: 'dibs-'
         },
         cartReducer
     ),
