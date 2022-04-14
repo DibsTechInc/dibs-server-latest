@@ -8,6 +8,8 @@ import GlanceStats from '../../../components/GlanceStats';
 import SalesRevenueChart from '../../../components/SalesRevenueChart';
 import ActiveClientChart from '../../../components/ActiveClientChart';
 import RevenuePerCustomer from '../../../components/RevenuePerCustomer';
+
+// actions
 import getDashboardData from '../../../actions/studios/getDashboardData';
 import getXAxisCategories from '../../../actions/studios/getXAxisCategories';
 import getSalesRevenueGrowthData from 'actions/studios/getSalesRevenueGrowthData';

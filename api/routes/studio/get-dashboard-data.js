@@ -1,5 +1,4 @@
 const models = require('@dibs-tech/models');
-const { roundToNearestMinutes } = require('date-fns');
 const moment = require('moment-timezone');
 
 const {
