@@ -13,6 +13,7 @@ const clientsearch = createSlice({
     initialState,
     reducers: {
         setSearchTerm: (state, action) => {
+            console.log(`setSearchTerm: ${action.payload}`);
             state.term = action.payload;
         },
         clearSearchTerms: (state) => {

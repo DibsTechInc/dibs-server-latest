@@ -15,6 +15,11 @@ import Transitions from 'ui-component/extended/Transitions';
 import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
 
+// components
+import AutoCompleteClientSearch from '../../search/AutocompleteSearch';
+import { useSelector, dispatch } from 'store';
+import { setSearchTerm } from 'store/slices/clientsearch';
+
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
     zIndex: 1100,
@@ -61,6 +66,7 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
 
 const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
+    // Start Here - react-query - may be the way to do this - check it out
 
     return (
         <OutlineInputStyle
@@ -95,6 +101,7 @@ const MobileSearch = ({ value, setValue, popupState }) => {
                         >
                             <IconX stroke={1.5} size="1.3rem" />
                         </Avatar>
+                        <AutoCompleteClientSearch />
                     </Box>
                 </InputAdornment>
             }
@@ -110,11 +117,25 @@ MobileSearch.propTypes = {
     popupState: PopupState
 };
 
-// ==============================|| SEARCH INPUT ||============================== //
+// ==============================|| SEARCH INPUT NOT MOBILE ||============================== //
 
 const ClientSearch = () => {
     const theme = useTheme();
+    const [results, setResults] = useState([]);
+    const { term } = useSelector((state) => state.clientsearch);
     const [value, setValue] = useState('');
+
+    const handleChange = ({ target: { value } }) => {
+        console.log(`handlechange = ${value}`);
+        setValue(value);
+        dispatch(setSearchTerm(value));
+    };
+
+    console.log(`term: ${term}`);
+    // does the value match cached results
+    // if not, make a call to the database to search for user
+    // add cached search to the redux store
+    // actually - i think add cached search to redis interface
 
     return (
         <>
@@ -160,7 +181,7 @@ const ClientSearch = () => {
                 <OutlineInputStyle
                     id="input-search-header"
                     value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    onChange={handleChange}
                     placeholder="Type a client's name, email, or phone number"
                     startAdornment={
                         <InputAdornment position="start">
