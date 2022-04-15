@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, Card, Grid, InputAdornment, OutlinedInput, Popper } from '@mui/material';
+import { Avatar, Box, Card, Grid, InputAdornment, OutlinedInput, TextField, Popper } from '@mui/material';
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
@@ -16,7 +16,7 @@ import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
 
 // components
-import AutoCompleteClientSearch from '../../search/AutocompleteSearch';
+import AutocompleteSearch from '../../search/AutoCompleteClientSearch';
 import { useSelector, dispatch } from 'store';
 import { setSearchTerm } from 'store/slices/clientsearch';
 
@@ -31,7 +31,7 @@ const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
     }
 }));
 
-const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme }) => ({
+const OutlineTextFieldStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
     width: 434,
     height: 40,
     marginLeft: 0,
@@ -69,45 +69,9 @@ const MobileSearch = ({ value, setValue, popupState }) => {
     // Start Here - react-query - may be the way to do this - check it out
 
     return (
-        <OutlineInputStyle
-            id="input-search-header"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder="Type a client's name, email, or phone number"
-            startAdornment={
-                <InputAdornment position="start">
-                    <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
-                </InputAdornment>
-            }
-            endAdornment={
-                <InputAdornment position="end">
-                    <HeaderAvatarStyle variant="rounded">
-                        <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                    </HeaderAvatarStyle>
-                    <Box sx={{ ml: 2 }}>
-                        <Avatar
-                            variant="rounded"
-                            sx={{
-                                ...theme.typography.commonAvatar,
-                                ...theme.typography.mediumAvatar,
-                                background: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.orange.light,
-                                color: theme.palette.orange.dark,
-                                '&:hover': {
-                                    background: theme.palette.orange.dark,
-                                    color: theme.palette.orange.light
-                                }
-                            }}
-                            {...bindToggle(popupState)}
-                        >
-                            <IconX stroke={1.5} size="1.3rem" />
-                        </Avatar>
-                        <AutoCompleteClientSearch />
-                    </Box>
-                </InputAdornment>
-            }
-            aria-describedby="search-helper-text"
-            inputProps={{ 'aria-label': 'weight' }}
-        />
+        <div className="AutoComplete">
+            <AutocompleteSearch />
+        </div>
     );
 };
 
@@ -178,19 +142,7 @@ const ClientSearch = () => {
                 </PopupState>
             </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                <OutlineInputStyle
-                    id="input-search-header"
-                    value={value}
-                    onChange={handleChange}
-                    placeholder="Type a client's name, email, or phone number"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
-                        </InputAdornment>
-                    }
-                    aria-describedby="search-helper-text"
-                    inputProps={{ 'aria-label': 'weight' }}
-                />
+                <AutocompleteSearch />
             </Box>
         </>
     );
