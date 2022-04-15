@@ -52,8 +52,8 @@ const NewClientAccountForm = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3}>
-                <Grid item xs={6}>
+            <Grid container spacing={3} xs={9}>
+                <Grid item xs={5}>
                     <TextField
                         fullWidth
                         id="first-name"
@@ -64,7 +64,7 @@ const NewClientAccountForm = () => {
                         onChange={formik.handleChange}
                     />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={5}>
                     <TextField
                         fullWidth
                         id="last-name"
@@ -75,7 +75,7 @@ const NewClientAccountForm = () => {
                         onChange={formik.handleChange}
                     />
                 </Grid>
-                <Grid item xs={12} sx={{ marginTop: '5px' }}>
+                <Grid item xs={9} sx={{ marginTop: '5px' }}>
                     <TextField
                         fullWidth
                         id="email"
@@ -88,7 +88,7 @@ const NewClientAccountForm = () => {
                         helperText={formik.touched.email && formik.errors.email}
                     />
                 </Grid>
-                <Grid item xs={6} sx={{ marginTop: '5px' }}>
+                <Grid item xs={5} sx={{ marginTop: '5px' }}>
                     {/* <TextField
                         fullWidth
                         id="phone"

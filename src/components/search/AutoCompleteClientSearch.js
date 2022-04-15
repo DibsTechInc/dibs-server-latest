@@ -9,7 +9,7 @@ const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) =
     height: 40,
     size: 'small',
     marginLeft: 0,
-    paddingLeft: 16,
+    paddingLeft: 6,
     paddingRight: 16,
     '& input': {
         background: 'transparent !important',
