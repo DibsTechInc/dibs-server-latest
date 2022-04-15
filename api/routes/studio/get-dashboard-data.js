@@ -93,7 +93,7 @@ async function getDashboardData(req, res) {
         const todaySpend = revenueToday - creditsSpentToday;
         let comparisonday = 0;
         compareValue('day', new Date().setHours(0, 0, 0, 0)).then((value) => {
-            comparisonday = 100 * ((todaySpend - value) / value).toFixed(2);
+            comparisonday = Math.round(100 * ((todaySpend - value) / value).toFixed(2));
         });
         // this week
         const today = moment();
@@ -132,7 +132,7 @@ async function getDashboardData(req, res) {
         const weekspend = revenueWeek - creditsSpentWeek;
         let comparisonweek = 0;
         compareValue('week', fromDateWeek).then((value) => {
-            comparisonweek = 100 * ((weekspend - value) / value).toFixed(2);
+            comparisonweek = Math.round(100 * ((weekspend - value) / value).toFixed(2));
         });
         // this month
         const month = moment();
@@ -210,7 +210,7 @@ async function getDashboardData(req, res) {
         const yearspend = revenueYear - creditsSpentYear;
         let comparisonyoy = 0;
         await compareValue('year', fromDateYear).then((value) => {
-            comparisonyoy = 100 * ((yearspend - value) / value).toFixed(2);
+            comparisonyoy = Math.round(100 * ((yearspend - value) / value).toFixed(2));
         });
         // comparisons
         const todayspendformatted = new Intl.NumberFormat('en-US', {
