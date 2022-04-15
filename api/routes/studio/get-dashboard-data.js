@@ -96,9 +96,9 @@ async function getDashboardData(req, res) {
             comparisonday = Math.round(100 * ((todaySpend - value) / value).toFixed(2));
         });
         // this week
-        const today = moment();
-        moment().tz('America/New_York').format();
-        const fromDateWeek = today.startOf('week');
+        const today = moment().tz('America/New_York').format('YYYY-MM-DD HH:mm:ss');
+        const fromDateWeek = moment(today, 'YYYY-MM-DD HH:mm:ss').startOf('week').add(1, 'day');
+        console.log(`\n\n\n v789from date week start of week is: ${fromDateWeek.format('MM/DD/YYYY HH:mm:ss')}`);
         const revenueWeek = await models.dibs_transaction.sum('amount', {
             where: {
                 dibs_studio_id: req.body.dibsStudioId,

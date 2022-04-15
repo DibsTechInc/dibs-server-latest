@@ -20,11 +20,14 @@ export const getXAxisCategories = async (dibsStudioId) => {
         xaxismonthly.reverse();
         // get weekly categories
         for (let i = 0; i < 12; i += 1) {
-            let week = moment().subtract(i, 'weeks').format('M/D/YY');
+            const fromDateWeek = moment().tz('America/New_York').startOf('week').add(1, 'day').format('M/D/YY');
+            // const fromDateWeek = moment(today).startOf('week').add(1, 'day');
+            let week = moment(fromDateWeek, 'M/D/YY').subtract(i, 'weeks').format('M/D/YY');
             const yearofdate = moment(week, 'M/D/YY').format('YYYY');
             const thisyear = moment().format('YYYY');
             if (yearofdate === thisyear) {
-                week = moment().subtract(i, 'weeks').format('M/D');
+                // week = moment().subtract(i, 'weeks').format('M/D');
+                week = moment(week, 'M/D/YY').format('M/D');
             }
             xaxisweekly[i] = week;
         }

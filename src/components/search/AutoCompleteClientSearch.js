@@ -156,12 +156,12 @@ const top100Films = [
 ];
 
 export default function AutocompleteSearch() {
-    const nooptionstext = 'No clients found. Try creating a new account in the section below.';
+    const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
     return (
         <Autocomplete
             // id="combo-box-demo"
             autoComplete
-            autoSelect
+            // autoSelect
             noOptionsText={nooptionstext}
             clearOnEscape
             options={top100Films}
