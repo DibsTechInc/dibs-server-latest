@@ -52,82 +52,88 @@ const NewClientAccountForm = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={3} xs={9}>
-                <Grid item xs={5}>
-                    <TextField
-                        fullWidth
-                        id="first-name"
-                        size="small"
-                        name="firstname"
-                        label="First Name"
-                        value={formik.values.firstname}
-                        onChange={formik.handleChange}
-                    />
-                </Grid>
-                <Grid item xs={5}>
-                    <TextField
-                        fullWidth
-                        id="last-name"
-                        size="small"
-                        name="lastname"
-                        label="Last Name"
-                        value={formik.values.lastname}
-                        onChange={formik.handleChange}
-                    />
-                </Grid>
-                <Grid item xs={9} sx={{ marginTop: '5px' }}>
-                    <TextField
-                        fullWidth
-                        id="email"
-                        size="small"
-                        name="email"
-                        label="Email"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        error={formik.touched.email && Boolean(formik.errors.email)}
-                        helperText={formik.touched.email && formik.errors.email}
-                    />
-                </Grid>
-                <Grid item xs={5} sx={{ marginTop: '5px' }}>
-                    {/* <TextField
-                        fullWidth
-                        id="phone"
-                        size="small"
-                        name="phone"
-                        label="Phone #"
-                        value={formik.values.phone}
-                        onChange={formik.handleChange}
-                        error={formik.touched.phone && Boolean(formik.errors.phone)}
-                        helperText={formik.touched.phone && formik.errors.phone}
-                    /> */}
-                    <Grid item sx={{ marginTop: '3px' }}>
-                        <NumberFormat
-                            id="phone2"
-                            size="small"
-                            label="Phone #"
-                            format="+1 (###) ###-####"
-                            mask="_"
+            <Grid item xs={7} lg={7}>
+                <Grid container spacing={3}>
+                    <Grid item xs={4}>
+                        <TextField
                             fullWidth
-                            customInput={TextField}
+                            id="first-name"
+                            size="small"
+                            name="firstname"
+                            label="First Name"
+                            value={formik.values.firstname}
                             onChange={formik.handleChange}
-                            error={formik.touched.phone && Boolean(formik.errors.phone)}
-                            helperText={formik.touched.phone && formik.errors.phone}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <TextField
+                            fullWidth
+                            id="last-name"
+                            size="small"
+                            name="lastname"
+                            label="Last Name"
+                            value={formik.values.lastname}
+                            onChange={formik.handleChange}
                         />
                     </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <FormGroup>
-                        <FormControlLabel control={<Checkbox defaultChecked />} label="Send a Welcome Email" />
-                    </FormGroup>
+                <Grid container spacing={3}>
+                    <Grid item xs={6} sx={{ marginTop: '15px' }}>
+                        <TextField
+                            fullWidth
+                            id="email"
+                            size="small"
+                            name="email"
+                            label="Email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Stack direction="row" justifyContent="flex-start">
-                        <AnimateButton>
-                            <Button variant="contained" type="submit">
-                                Verify & Submit
-                            </Button>
-                        </AnimateButton>
-                    </Stack>
+                <Grid container spacing={3}>
+                    <Grid item xs={4} sx={{ marginTop: '15px' }}>
+                        {/* <TextField
+                            fullWidth
+                            id="phone"
+                            size="small"
+                            name="phone"
+                            label="Phone #"
+                            value={formik.values.phone}
+                            onChange={formik.handleChange}
+                            error={formik.touched.phone && Boolean(formik.errors.phone)}
+                            helperText={formik.touched.phone && formik.errors.phone}
+                        /> */}
+                        <Grid item sx={{ marginTop: '3px' }}>
+                            <NumberFormat
+                                id="phone2"
+                                size="small"
+                                label="Phone #"
+                                format="+1 (###) ###-####"
+                                mask="_"
+                                fullWidth
+                                customInput={TextField}
+                                onChange={formik.handleChange}
+                                error={formik.touched.phone && Boolean(formik.errors.phone)}
+                                helperText={formik.touched.phone && formik.errors.phone}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormGroup>
+                            <FormControlLabel control={<Checkbox defaultChecked />} label="Send a Welcome Email" />
+                        </FormGroup>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Stack direction="row" justifyContent="flex-start">
+                            <AnimateButton>
+                                <Button variant="contained" type="submit">
+                                    Verify & Submit
+                                </Button>
+                            </AnimateButton>
+                        </Stack>
+                    </Grid>
                 </Grid>
             </Grid>
         </form>
