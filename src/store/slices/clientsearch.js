@@ -24,6 +24,9 @@ const clientsearch = createSlice({
             // state.results = [action.term.length > 0 ? action.term : action.results;
             state.results.matches[term] = results;
         },
+        addToRecentsSearch: (state, action) => {
+            state.results.recents.push(action.payload);
+        },
         clearSearchResults: (state) => {
             state.results = {};
         }
@@ -31,4 +34,4 @@ const clientsearch = createSlice({
 });
 
 export default clientsearch.reducer;
-export const { setSearchTerm, clearSearchTerms, addOrUpdateSearchResults, clearSearchResults } = clientsearch.actions;
+export const { setSearchTerm, clearSearchTerms, addOrUpdateSearchResults, clearSearchResults, addToRecentsSearch } = clientsearch.actions;
