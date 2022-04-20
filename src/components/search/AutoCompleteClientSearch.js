@@ -160,7 +160,9 @@ export default function AutocompleteSearch(props) {
     const renderSuggestion = (suggestion) => (
         <div>
             {suggestion.label}
-            <div>{suggestion.email}</div>
+            <div>
+                <span style={{ fontWeight: 'lighter', fontStyle: 'italic' }}>{suggestion.email}</span>
+            </div>
         </div>
     );
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
