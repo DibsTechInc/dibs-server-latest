@@ -157,6 +157,12 @@ export default function AutocompleteSearch(props) {
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
     });
+    const renderSuggestion = (suggestion) => (
+        <div>
+            {suggestion.label}
+            <div>{suggestion.email}</div>
+        </div>
+    );
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
     console.log(`\n\n\nsearchResults are: ${JSON.stringify(searchResults)}`);
     return (
@@ -192,7 +198,9 @@ export default function AutocompleteSearch(props) {
             renderOption={(props, option) => {
                 console.log('option');
                 console.log(option);
-                return <li {...props}>{`${option.label}`}</li>;
+                console.log(`props is: ${JSON.stringify(props)}`);
+                const htmlForList = renderSuggestion(option);
+                return <li {...props}>{htmlForList}</li>;
             }}
             clearOnEscape
             // options={searchResults}
