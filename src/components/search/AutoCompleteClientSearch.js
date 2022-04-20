@@ -1,8 +1,10 @@
 // import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Autocomplete from '@mui/material/Autocomplete';
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { shouldForwardProp } from '@mui/system';
+import Fuse from 'fuse.js';
 
 const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
     width: 434,
@@ -130,18 +132,80 @@ const recentMatches = [
     { label: 'Julie Cannold', email: 'jtcannold@gmail.com', phone: '', id: 111853 },
     { label: 'Vannessa Jackson', email: 'fy5bms6g6g@privaterelay.appleid.com', phone: '', id: 409599 }
 ];
+// const options = {
+//     includeScore: true,
+//     keys: ['label.email.phone.id']
+// };
 
-export default function AutocompleteSearch() {
+const fuse = new Fuse(recentMatches, {
+    keys: ['label', 'email', 'phone', 'id'],
+    includeScore: true
+});
+
+export default function AutocompleteSearch(props) {
+    const [valueToSearch, setValueToSearch] = useState('a');
+    const [termSearched, setTermSearched] = useState('a');
+    const [searchResults, setSearchResults] = useState([]);
+    // const resultingArray = [];
+    useEffect(() => {
+        const fuseSearchResults = fuse.search(valueToSearch);
+        // console.log(`searchResults are: ${JSON.stringify(searchResults)}`);
+        console.log(`valueToSearch = ${valueToSearch}`);
+        console.log(`fuseSearchResults = ${JSON.stringify(fuseSearchResults)}`);
+        setSearchResults(fuseSearchResults.map((user) => user.item));
+    }, [valueToSearch]);
+    const filterOptions = createFilterOptions({
+        stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
+    });
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
+    console.log(`\n\n\nsearchResults are: ${JSON.stringify(searchResults)}`);
     return (
         <Autocomplete
             // id="combo-box-demo"
             autoComplete
-            // autoSelect
-            noOptionsText={nooptionstext}
-            clearOnEscape
             options={recentMatches}
-            getOptionLabel={(option) => option.label}
+            filterOptions={filterOptions}
+            // autoSelect
+            name="clientSearch"
+            // value={valueToSearch}
+            noOptionsText={nooptionstext}
+            // onInputChange={(event, newInputValue) => {
+            //     console.log('this is onInputChange');
+            //     console.log(`newInputValue = ${newInputValue}`);
+            //     setValueToSearch(newInputValue);
+            //     setTermSearched(newInputValue);
+            // }}
+            onInputChange={(event) => event.target}
+            // onInputChange={(event) => event.target}
+            getOptionLabel={({ label, email }) => {
+                // this is how our option will be displayed when selected
+                // remove the `id` here
+                const optiontoDisplay = `${label} ${email}`;
+                console.log(`optontoDisplay = ${optiontoDisplay}`);
+                return optiontoDisplay;
+            }}
+            // onChange={(event, newValue) => {
+            //     console.log('this is onChange');
+            //     setTermSearched(newValue);
+            // }}
+            filterSelectedOptions
+            renderOption={(props, option) => {
+                console.log('option');
+                console.log(option);
+                return <li {...props}>{`${option.label}`}</li>;
+            }}
+            clearOnEscape
+            // options={searchResults}
+            // getOptionSelected={(option, value) => option.id === value.id}
+            // getOptionLabel={(option) => option.label}
+            // isOptionEqualToValue={(option, value) => {
+            //     console.log(`option = ${JSON.stringify(option)} and value is ${JSON.stringify(value)}`);
+            //     if (option.id === value.id) {
+            //         console.log(`option IS equal to value`);
+            //         return true;
+            //     }
+            //     return false;
+            // }}
             sx={{ py: 0 }}
             renderInput={(params) => <OutlineInputStyle {...params} />}
         />
