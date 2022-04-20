@@ -3,7 +3,8 @@ import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { shouldForwardProp } from '@mui/system';
-import { useSelector } from 'store';
+import { useSelector, useDispatch } from 'store';
+import { addToRecentsSearch } from '../../store/slices/clientsearch';
 
 const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
     width: 434,
@@ -133,6 +134,7 @@ const recentMatches = [
 ];
 
 export default function AutocompleteSearch() {
+    const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
@@ -145,6 +147,12 @@ export default function AutocompleteSearch() {
             </div>
         </div>
     );
+    const setRecentOptions = (event, value) => {
+        console.log(`event.target = ${event.target}`);
+        console.log(`value is ${JSON.stringify(value)}`);
+        dispatch(addToRecentsSearch(value));
+        console.log('made it past addToRecentsSearch');
+    };
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
     return (
         <Autocomplete
@@ -164,6 +172,7 @@ export default function AutocompleteSearch() {
                 const htmlForList = renderSuggestion(option);
                 return <li {...props}>{htmlForList}</li>;
             }}
+            onChange={setRecentOptions}
             clearOnEscape
             sx={{ py: 0 }}
             renderInput={(params) => <OutlineInputStyle placeholder="Enter name, email, phone # or userid" {...params} />}
