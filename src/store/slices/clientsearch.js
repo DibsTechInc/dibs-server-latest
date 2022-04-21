@@ -30,7 +30,7 @@ const clientsearch = createSlice({
             state.results.recents.push(action.payload[0]);
         },
         clearSearchResults: (state) => {
-            state.results.recents = [];
+            state.results.matches = {};
         }
     }
 });

@@ -140,7 +140,8 @@ export default function AutocompleteSearch() {
     const { recents, matches } = results;
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');
-    console.log(`\n\n\n\n\n@@@@@@@@@@@\nmatches length is: ${matches.length}\n\n\n`);
+    // const [searchResults, setSearchResults] = React.useState(recents);
+    // console.log(`\n\n\n\n\n@@@@@@@@@@@\nmatches length is: ${matches.length}\n\n\n`);
     const searchOptions = [];
     React.useEffect(() => {
         // dispatch(clearSearchResults());
@@ -149,6 +150,7 @@ export default function AutocompleteSearch() {
             console.log(`value from getNewSearchResults: ${JSON.stringify(result)}`);
             if (result !== 0) {
                 dispatch(addOrUpdateSearchResults(result));
+                // setSearchResults(result);
             }
         });
         // maybe each time the searchterm changes, set new search options based on the results
