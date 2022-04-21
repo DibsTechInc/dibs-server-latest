@@ -85,8 +85,8 @@ export default function AutocompleteSearch() {
         setSearchTerm(value.label);
         setSearchedUserid(value.id);
         console.log(`setting recent options about to set client profile`);
-        setCurrentClientProfileStudioAdmin(value);
-        console.log(`setClientProfile to value.id: ${JSON.stringify(value)}`);
+        dispatch(setCurrentClientProfileStudioAdmin(value));
+        console.log(`set currentclient in redux to value: ${JSON.stringify(value)}`);
     };
     const testResetOfSearch = (valuefromfield) => {
         if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {
