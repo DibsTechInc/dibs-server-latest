@@ -31,6 +31,7 @@ import { IconEdit } from '@tabler/icons';
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
+import { useSelector, useDispatch } from 'store';
 
 // actions
 import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
@@ -54,6 +55,8 @@ const rows = [
 ];
 const ClientAccountPage = () => {
     console.log('ClientAccountPage running now');
+    const { profile } = useSelector((state) => state.currentclient);
+    const { name } = profile;
     React.useEffect(() => {
         findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
     }, []);
@@ -68,7 +71,7 @@ const ClientAccountPage = () => {
                             </Grid>
                             <Grid item xs zeroMinWidth>
                                 <Typography align="left" variant="subtitle1">
-                                    Alicia Ulin
+                                    {name}
                                 </Typography>
                                 <Typography align="left" variant="subtitle2">
                                     (272 visits)
