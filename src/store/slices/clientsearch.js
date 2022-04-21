@@ -27,7 +27,7 @@ const clientsearch = createSlice({
         },
         addToRecentsSearch: (state, action) => {
             console.log(`addToRecentsSearch REDUCER: ${JSON.stringify(action.payload)}`);
-            state.results.recents.push(action.payload);
+            state.results.recents.push(action.payload[0]);
         },
         clearSearchResults: (state) => {
             state.results.recents = [];

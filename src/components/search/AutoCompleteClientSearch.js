@@ -158,26 +158,26 @@ export default function AutocompleteSearch() {
     });
     // remove this once you confirm not needed
     // search by phone with 1 in front and without 1 infront
-    const getSearchOptions = () => {
-        console.log(`searchOptions before setting anything = ${JSON.stringify(searchOptions)}`);
-        // console.log(`matches.length is ${matches.length}`);
-        console.log(`recents = ${JSON.stringify(recents)}`);
-        if (recents && recents.length > 0) {
-            console.log(`adding data to recents`);
-            for (let i = 0; i < recents.length; i += 1) {
-                searchOptions.push(recents[i]);
-            }
-        }
-        if (matches && matches.length > 1) {
-            console.log(`adding data to matches`);
-            for (let j = 0; j < matches.length; j += 1) {
-                console.log(`matches = ${JSON.stringify(matches[j])}`);
-                searchOptions.push(matches[j]);
-            }
-        }
-        console.log(`\n\n\n\nsearchOptions on client side is: ${JSON.stringify(searchOptions)}`);
-        return searchOptions;
-    };
+    // const getSearchOptions = () => {
+    //     console.log(`searchOptions before setting anything = ${JSON.stringify(searchOptions)}`);
+    //     // console.log(`matches.length is ${matches.length}`);
+    //     console.log(`recents = ${JSON.stringify(recents)}`);
+    //     if (recents && recents.length > 0) {
+    //         console.log(`adding data to recents`);
+    //         for (let i = 0; i < recents.length; i += 1) {
+    //             searchOptions.push(recents[i]);
+    //         }
+    //     }
+    //     if (matches && matches.length > 1) {
+    //         console.log(`adding data to matches`);
+    //         for (let j = 0; j < matches.length; j += 1) {
+    //             console.log(`matches = ${JSON.stringify(matches[j])}`);
+    //             searchOptions.push(matches[j]);
+    //         }
+    //     }
+    //     console.log(`\n\n\n\nsearchOptions on client side is: ${JSON.stringify(searchOptions)}`);
+    //     return searchOptions;
+    // };
     // format telephone number for display
     const renderSuggestion = (suggestion) => (
         <div key={suggestion.key}>
@@ -191,10 +191,11 @@ export default function AutocompleteSearch() {
         </div>
     );
     const setRecentOptions = (event, value) => {
+        console.log(`\n\n\n\n\n$$$$$$$$$$\nChoice was changed -> see below for options`);
         console.log(`event.target = ${event.target}`);
         console.log(`value is ${JSON.stringify(value)}`);
         dispatch(addToRecentsSearch(value));
-        console.log('made it past addToRecentsSearch');
+        setSearchTerm(value.label);
     };
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
     return (
@@ -225,8 +226,9 @@ export default function AutocompleteSearch() {
                     </li>
                 );
             }}
-            onChange={setRecentOptions}
-            clearOnEscape
+            // onChange={setRecentOptions}
+            onChange={(event, value) => setRecentOptions(event, value)} // prints the selected value
+            // clearOnEscape
             sx={{ py: 0 }}
             renderInput={(params) => <OutlineInputStyle placeholder="Enter name, email, phone # or userid" {...params} />}
         />
