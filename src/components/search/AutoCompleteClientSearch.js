@@ -140,6 +140,7 @@ export default function AutocompleteSearch() {
     const { recents, matches } = results;
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');
+    console.log(`\n\n\n\n\n@@@@@@@@@@@\nmatches length is: ${matches.length}\n\n\n`);
     const searchOptions = [];
     React.useEffect(() => {
         // dispatch(clearSearchResults());
@@ -216,6 +217,12 @@ export default function AutocompleteSearch() {
             getOptionLabel={({ label }) => {
                 const optiontoDisplay = `${label}`;
                 return optiontoDisplay;
+            }}
+            isOptionEqualToValue={(option, value) => {
+                console.log(`option equal to value`);
+                console.log(`option = ${JSON.stringify(option)}`);
+                console.log(`value = ${JSON.stringify(value)}`);
+                return option.label === value.label;
             }}
             filterSelectedOptions
             renderOption={(props, option) => {

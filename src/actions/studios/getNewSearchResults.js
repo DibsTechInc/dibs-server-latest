@@ -9,7 +9,7 @@ export const getNewSearchResults = async (dibsStudioId, searchTerm) => {
             searchTerm
         });
         console.log(`\n\n\n\n\n\n%%%%%%%%%%%%%%%%%\n\nresponse from getNewSearchResults ACTION is: ${JSON.stringify(response)}\n\n\n`);
-        if (response.data.msg === 'success') return response.data.newSortedMatches;
+        if (response.data.msg === 'success' && response.data.matchestoreturn > 0) return response.data.newSortedMatches;
         return 0;
     } catch (err) {
         console.log(`error getting search results for client search. Error is: ${err}`);
