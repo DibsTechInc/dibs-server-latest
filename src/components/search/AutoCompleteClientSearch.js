@@ -54,6 +54,8 @@ export default function AutocompleteSearch() {
                     the current results from this search term is: ${JSON.stringify(result)}\n
                     \n\n
                     countSearchResults at this time is = ${countSearchResults}`);
+                setSearchResults(result);
+                setCountSearchResults(result.length);
                 // i know that this is not right
                 if ((result.length > 0 && result.length <= countSearchResults) || countSearchResults === 100) {
                     setSearchResults(result);
@@ -67,29 +69,6 @@ export default function AutocompleteSearch() {
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
     });
-    // remove this once you confirm not needed
-    // search by phone with 1 in front and without 1 infront
-    // const getSearchOptions = () => {
-    //     console.log(`searchOptions before setting anything = ${JSON.stringify(searchOptions)}`);
-    //     // console.log(`matches.length is ${matches.length}`);
-    //     console.log(`recents = ${JSON.stringify(recents)}`);
-    //     if (recents && recents.length > 0) {
-    //         console.log(`adding data to recents`);
-    //         for (let i = 0; i < recents.length; i += 1) {
-    //             searchOptions.push(recents[i]);
-    //         }
-    //     }
-    //     if (matches && matches.length > 1) {
-    //         console.log(`adding data to matches`);
-    //         for (let j = 0; j < matches.length; j += 1) {
-    //             console.log(`matches = ${JSON.stringify(matches[j])}`);
-    //             searchOptions.push(matches[j]);
-    //         }
-    //     }
-    //     console.log(`\n\n\n\nsearchOptions on client side is: ${JSON.stringify(searchOptions)}`);
-    //     return searchOptions;
-    // };
-    // format telephone number for display
     const renderSuggestion = (suggestion) => (
         <div key={suggestion.key}>
             <span style={{ fontWeight: '450' }}>{suggestion.label}</span>
@@ -136,6 +115,7 @@ export default function AutocompleteSearch() {
             options={searchResults}
             filterOptions={filterOptions}
             name="clientSearch"
+            clearOnEscape
             noOptionsText={nooptionstext}
             onInputChange={(event, value) => {
                 console.log(`\n\n\nON INPUT CHANGE value = ${value}`);
@@ -157,7 +137,6 @@ export default function AutocompleteSearch() {
             }}
             filterSelectedOptions
             renderOption={(props, option) => {
-                console.log(`\n\n\n\n\n\n\n\n%%%%%%%%%%\n\nabout to send renderSuggestion this option: ${JSON.stringify(option)}`);
                 const htmlForList = renderSuggestion(option);
                 return (
                     <li {...props} key={option.id}>
