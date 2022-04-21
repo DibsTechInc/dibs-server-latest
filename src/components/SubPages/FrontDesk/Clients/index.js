@@ -57,6 +57,7 @@ const ClientAccountPage = () => {
     console.log('ClientAccountPage running now');
     const { profile } = useSelector((state) => state.currentclient);
     const { name } = profile;
+    // pull all of the client information including name based on their id
     React.useEffect(() => {
         findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
     }, []);
