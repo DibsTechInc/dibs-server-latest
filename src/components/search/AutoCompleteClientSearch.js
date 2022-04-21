@@ -40,7 +40,7 @@ export default function AutocompleteSearch() {
     const [searchTerm, setSearchTerm] = React.useState('');
     const [countLastSearchTerm, setCountLastSearchTerm] = React.useState(0);
     const [countSearchResults, setCountSearchResults] = React.useState(100);
-    const [searchResults, setSearchResults] = React.useState([]);
+    const [searchResults, setSearchResults] = React.useState(recents);
     const searchOptions = [];
     React.useEffect(() => {
         // dispatch(clearSearchResults());
@@ -102,7 +102,7 @@ export default function AutocompleteSearch() {
             setCountSearchResults(100);
             if (valuefromfield.length > 1) {
                 setCountLastSearchTerm(valuefromfield.length);
-                addOrUpdateSearchResults({});
+                dispatch(addOrUpdateSearchResults([]));
             }
         }
     };
