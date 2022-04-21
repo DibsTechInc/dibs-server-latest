@@ -13,25 +13,18 @@ const clientsearch = createSlice({
     initialState,
     reducers: {
         setSearchTerm: (state, action) => {
-            console.log(`setSearchTerm: ${action.payload}`);
             state.term = action.payload;
         },
         clearSearchTerms: (state) => {
             state.term = '';
         },
         addOrUpdateSearchResults: (state, action) => {
-            console.log(`action.payload sent to add or update search results is: ${JSON.stringify(action)}`);
-            // const { term, results } = action.payload;
-            // state.results = [action.term.length > 0 ? action.term : action.results;
             state.results.matches = action.payload;
         },
         addToRecentsSearch: (state, action) => {
-            console.log(`addToRecentsSearch REDUCER: ${JSON.stringify(action.payload)}`);
             const array = [];
             array.push(action.payload);
             const existingArray = state.results.recents;
-            console.log(`array is: ${JSON.stringify(array)}`);
-            console.log(`state.results.recents is: ${JSON.stringify(state.results.recents)}`);
             const findkey = existingArray.find((element) => element.key === array[0].key);
             if (!findkey) {
                 state.results.recents.unshift(action.payload);

@@ -44,24 +44,16 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
                 dibsStudioId
             }
         };
-        console.log('line 45');
         const [userMatches, attendeeMatches] = await Promise.all([
             models.sequelize.query(query('dibs_user_studios', tsQuery, maxLength, dibsStudioId, searchTerm), options),
             models.sequelize.query(query('attendees', tsQuery, maxLength, dibsStudioId, searchTerm), options)
         ]);
-        console.log('line 50');
-        console.log(`\n\n\n\n######\nuserMatches: ${JSON.stringify(userMatches)}`);
-        console.log(`\n\n\n%%%%\nattendeeMatches:\n ${JSON.stringify(attendeeMatches)}`);
         const combinedMatches = _([...userMatches, ...attendeeMatches])
             .uniqBy('id')
             .valueOf();
-        console.log(`\n\n\n\n\n\n&&&&&\ncombinedMatches: ${JSON.stringify(combinedMatches)}`);
         let sortedMatches = combinedMatches.sort((a, b) => b.rank - a.rank);
-        console.log(`\n\n\n\n\n\n&&&&&\nfirst appearance of sortedMatches: ${JSON.stringify(combinedMatches)}\n\n\n`);
-        console.log('line 55');
         // if no results just search the old way
         if (!sortedMatches.length) {
-            console.log(`\n\n\nno length on sortedMatches - doing something here\n\n\n`);
             const tsQuery2 = searchTerm
                 .split(' ')
                 .map((word, i) => {
@@ -70,8 +62,6 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
                     return i < 1 ? `${str}` : `|| ' & ' || ${str}`;
                 })
                 .join('');
-            console.log('line 65');
-            console.log(`tsQuery2 is: ${tsQuery2}`);
             const options2 = {
                 model: models.dibs_user,
                 type: models.sequelize.QueryTypes.SELECT,
@@ -80,31 +70,35 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
                     dibsStudioId
                 }
             };
-            console.log('line 74');
             const [userMatches2, attendeeMatches2] = await Promise.all([
                 models.sequelize.query(query('dibs_user_studios', tsQuery2, maxLength, dibsStudioId, searchTerm), options2),
                 models.sequelize.query(query('attendees', tsQuery2, maxLength, dibsStudioId, searchTerm), options2)
             ]);
-            console.log('line 78');
             const combinedMatches2 = _([...userMatches2, ...attendeeMatches2])
                 .uniqBy('id')
                 .valueOf();
             sortedMatches = combinedMatches2.sort((a, b) => b.rank - a.rank);
-            console.log(`sortedMatches is: ${JSON.stringify(sortedMatches)}`);
-            console.log('line 94');
-            console.log(`newSortedMatches is: ${JSON.stringify(newSortedMatches)}`);
         }
         newSortedMatches = sortedMatches.map((item) => {
             const newFirstName = item.firstName;
             const newLastName = item.lastName;
-            const labelfirstname = newFirstName[0].toUpperCase() + newFirstName.substring(1);
-            const labellastname = newLastName[0].toUpperCase() + newLastName.substring(1);
-            console.log(`\n\n\n\n\n\n&&&&&\nitem: ${JSON.stringify(item)}`);
+            let labelfirstname;
+            let labellastname;
+            try {
+                labelfirstname = newFirstName[0].toUpperCase() + newFirstName.substring(1);
+                labellastname = newLastName[0].toUpperCase() + newLastName.substring(1);
+            } catch (err) {
+                console.log('error setting the last name of this user', item.id, item.email);
+                labelfirstname = item.firstName;
+                labellastname = item.lastName;
+            }
             let labelphone;
             if (item.mobilephone) {
                 try {
                     const number = phoneUtil.parseAndKeepRawInput(item.mobilephone, 'US');
-                    labelphone = phoneUtil.formatInOriginalFormat(number, 'US');
+                    // labelphone = phoneUtil.formatInOriginalFormat(number, 'US');
+                    // labelphone = phoneUtil.formatOutOfCountryCallingNumber(number, 'US');
+                    labelphone = phoneUtil.format(number, PNF.NATIONAL);
                 } catch (err) {
                     labelphone = 'No Phone';
                     console.log(`had trouble parsing phone number: ${err}`);

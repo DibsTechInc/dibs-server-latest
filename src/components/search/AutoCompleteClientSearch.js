@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { shouldForwardProp } from '@mui/system';
 import { useSelector, useDispatch } from 'store';
-import { addToRecentsSearch, addOrUpdateSearchResults, clearSearchResults } from '../../store/slices/clientsearch';
+import { addToRecentsSearch, addOrUpdateSearchResults } from '../../store/slices/clientsearch';
 import { getNewSearchResults } from '../../actions/studios/getNewSearchResults';
 
 const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
@@ -33,39 +33,22 @@ const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) =
 export default function AutocompleteSearch() {
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
-    const { recents, matches } = results;
-    // const [shouldSearch, setShouldSearch] = React.useState(1);
-    // console.log('after declaration - shouldSearch: ', shouldSearch);
+    const { recents } = results;
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');
     const [countLastSearchTerm, setCountLastSearchTerm] = React.useState(0);
     const [countSearchResults, setCountSearchResults] = React.useState(100);
     const [searchResults, setSearchResults] = React.useState(recents);
-    const searchOptions = [];
+    // const searchOptions = [];
     React.useEffect(() => {
-        // dispatch(clearSearchResults());
-        console.log(`\n\n\n\n\ngetting new search results again`);
         getNewSearchResults(config.dibsStudioId, searchTerm).then((result) => {
-            console.log(`value from getNewSearchResults: ${JSON.stringify(result)}`);
             if (result !== 0) {
                 dispatch(addOrUpdateSearchResults(result));
-                console.log(`\n\n\n\n\n\n\n\n
-                    current search term is: ${searchTerm}\n
-                    the current results from this search term is: ${JSON.stringify(result)}\n
-                    \n\n
-                    countSearchResults at this time is = ${countSearchResults}`);
                 setSearchResults(result);
                 setCountSearchResults(result.length);
-                // i know that this is not right
-                if ((result.length > 0 && result.length <= countSearchResults) || countSearchResults === 100) {
-                    setSearchResults(result);
-                    setCountSearchResults(result.length);
-                }
             }
         });
-        // maybe each time the searchterm changes, set new search options based on the results
     }, [config.dibsStudioId, searchTerm, dispatch, countSearchResults]);
-    // console.log(`recents: ${JSON.stringify(recents)}`);
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
     });
@@ -81,24 +64,11 @@ export default function AutocompleteSearch() {
         </div>
     );
     const setRecentOptions = (event, value) => {
-        console.log(`\n\n\n\n\n$$$$$$$$$$\nChoice was changed -> see below for options`);
-        console.log(`event.target = ${event.target}`);
-        console.log(`value is ${JSON.stringify(value)}`);
         dispatch(addToRecentsSearch(value));
         setSearchTerm(value.label);
     };
     const testResetOfSearch = (valuefromfield) => {
-        console.log(`\n\n\n\n\n$$$$$$$$$$\ntestResetOfSearch v2 -->\n
-        valuefromfield is: ${valuefromfield}\n
-        searchTerm is: ${searchTerm}\n
-        count of searchTerm is: ${searchTerm.length}
-        countLastSearchTerm is: ${countLastSearchTerm}\n
-        countSearchResults is: ${countSearchResults}\n`);
-        // test if you're going backwards with the search term
-        console.log(`is this true? ${valuefromfield.length} < ${countLastSearchTerm}`);
         if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {
-            console.log(`valuetotest count is less than the count of last search term`);
-            console.log(`going backwards with the searching`);
             setCountSearchResults(100);
             if (valuefromfield.length > 1) {
                 setCountLastSearchTerm(valuefromfield.length);
@@ -118,8 +88,6 @@ export default function AutocompleteSearch() {
             clearOnEscape
             noOptionsText={nooptionstext}
             onInputChange={(event, value) => {
-                console.log(`\n\n\nON INPUT CHANGE value = ${value}`);
-                // console.log(`event.target = ${event.target}`);
                 setSearchTerm(value);
                 testResetOfSearch(value);
                 return value;
@@ -128,13 +96,7 @@ export default function AutocompleteSearch() {
                 const optiontoDisplay = `${label}`;
                 return optiontoDisplay;
             }}
-            isOptionEqualToValue={(option, value) => {
-                console.log(`option equal to value`);
-                console.log(`option = ${JSON.stringify(option)}`);
-                console.log(`value = ${JSON.stringify(value)}`);
-                return option.key === value.key;
-                // return option.label === value.label;
-            }}
+            isOptionEqualToValue={(option, value) => option.key === value.key}
             filterSelectedOptions
             renderOption={(props, option) => {
                 const htmlForList = renderSuggestion(option);
@@ -144,11 +106,8 @@ export default function AutocompleteSearch() {
                     </li>
                 );
             }}
-            // onChange={setRecentOptions}
-            onChange={(event, value) => setRecentOptions(event, value)} // prints the selected value
-            // clearOnEscape
+            onChange={(event, value) => setRecentOptions(event, value)}
             sx={{ py: 0 }}
-            freesolo
             renderInput={(params) => <OutlineInputStyle placeholder="Enter name, email, phone # or userid" {...params} />}
         />
     );

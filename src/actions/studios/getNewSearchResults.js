@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const getNewSearchResults = async (dibsStudioId, searchTerm) => {
     try {
-        console.log(`dibsStudioId is: ${dibsStudioId} and searchTerm is: ${searchTerm}`);
+        console.log(`dibsStudioId is: ${dibsStudioId}`);
         const response = await axios.post('/api/get-client-search-results', {
             dibsStudioId,
             searchTerm
