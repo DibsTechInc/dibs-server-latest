@@ -90,12 +90,10 @@ const ClientSearch = () => {
     const [value, setValue] = useState('');
 
     const handleChange = ({ target: { value } }) => {
-        console.log(`handlechange = ${value}`);
+        console.log(`handlechange is happening = ${value}`);
         setValue(value);
         dispatch(setSearchTerm(value));
     };
-
-    console.log(`term: ${term}`);
     // does the value match cached results
     // if not, make a call to the database to search for user
     // add cached search to the redux store

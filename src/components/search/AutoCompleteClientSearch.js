@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
@@ -31,6 +32,7 @@ const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) =
 }));
 
 export default function AutocompleteSearch() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
     const { recents } = results;
@@ -59,13 +61,16 @@ export default function AutocompleteSearch() {
                 <span style={{ fontWeight: '300', fontStyle: 'italic' }}>{suggestion.email}</span>
             </div>
             <div>
-                <span style={{ fontWeight: '300' }}>{suggestion.phone}</span>
+                <span style={{ fontWeight: '300' }}>{suggestion.phonelabel}</span>
             </div>
         </div>
     );
     const setRecentOptions = (event, value) => {
         dispatch(addToRecentsSearch(value));
         setSearchTerm(value.label);
+        const urltolink = `/front-desk/clients/${value.id}`;
+        console.log(`urltolink: ${urltolink}`);
+        navigate(urltolink);
     };
     const testResetOfSearch = (valuefromfield) => {
         if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {

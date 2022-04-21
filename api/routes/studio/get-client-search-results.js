@@ -113,7 +113,8 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
                 firstName: item.firstName,
                 lastName: item.lastName,
                 email: item.email,
-                phone: labelphone,
+                phonelabel: labelphone,
+                phone: item.mobilephone,
                 rank: item.rank
             };
         });

@@ -41,7 +41,7 @@ const MainRoutes = {
             element: <FrontDeskPage />
         },
         {
-            path: '/front-desk/clients',
+            path: '/front-desk/clients/:userid',
             element: <ClientAccountPage />
         },
         {

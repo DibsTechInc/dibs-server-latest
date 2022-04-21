@@ -1,3 +1,5 @@
+import { useParams } from 'react-router-dom';
+
 // material-ui
 import { Grid, Paper, Box } from '@mui/material';
 import ClientAccountContent from '../../../components/SubPages/FrontDesk/subpage-clients-account';
@@ -8,6 +10,9 @@ import ClientAccountContent from '../../../components/SubPages/FrontDesk/subpage
 
 const ClientAccountPage = () => {
     console.log('Client Account Page');
+    const { userid } = useParams();
+    console.log(`userid for this client is: ${userid}`);
+
     return (
         <Paper
             sx={{
