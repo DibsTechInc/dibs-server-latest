@@ -25,7 +25,7 @@ function query(lookupTable, tsQuery, length, dibsStudioId, searchTerm) {
  * @param {number} dibsStudioId studio searching
  * @returns {array} sorted list of matches
  */
-module.exports = async function getClientSearchResults(req, res, { maxLength = 15 } = {}) {
+module.exports = async function getClientSearchResults(req, res, { maxLength = 60 } = {}) {
     // try exact match first
     // const searchString = decodeURIComponent(req.query.searchString);
     let newSortedMatches;
@@ -92,16 +92,22 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 1
             console.log('line 94');
             console.log(`newSortedMatches is: ${JSON.stringify(newSortedMatches)}`);
         }
-        newSortedMatches = sortedMatches.map((item) => ({
-            key: item.id,
-            label: `${item.firstName} ${item.lastName}`,
-            id: item.id,
-            firstName: item.firstName,
-            lastName: item.lastName,
-            email: item.email,
-            phone: item.mobilephone,
-            rank: item.rank
-        }));
+        newSortedMatches = sortedMatches.map((item) => {
+            const newFirstName = item.firstName;
+            const newLastName = item.lastName;
+            const labelfirstname = newFirstName[0].toUpperCase() + newFirstName.substring(1);
+            const labellastname = newLastName[0].toUpperCase() + newLastName.substring(1); 
+            return {
+                key: item.id,
+                label: `${labelfirstname} ${labellastname}`,
+                id: item.id,
+                firstName: item.firstName,
+                lastName: item.lastName,
+                email: item.email,
+                phone: item.mobilephone,
+                rank: item.rank
+            };
+        });
         console.log(`newSortedmatches after the change is: ${JSON.stringify(newSortedMatches)}`);
         if (!newSortedMatches) {
             console.log('there are no other matches');

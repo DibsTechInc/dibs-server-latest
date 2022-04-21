@@ -27,7 +27,15 @@ const clientsearch = createSlice({
         },
         addToRecentsSearch: (state, action) => {
             console.log(`addToRecentsSearch REDUCER: ${JSON.stringify(action.payload)}`);
-            state.results.recents.push(action.payload[0]);
+            const array = [];
+            array.push(action.payload);
+            const existingArray = state.results.recents;
+            console.log(`array is: ${JSON.stringify(array)}`);
+            console.log(`state.results.recents is: ${JSON.stringify(state.results.recents)}`);
+            const findkey = existingArray.find((element) => element.key === array[0].key);
+            if (!findkey) {
+                state.results.recents.unshift(action.payload);
+            }
         },
         clearSearchResults: (state) => {
             state.results.matches = {};
