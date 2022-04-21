@@ -1,5 +1,7 @@
 const models = require('@dibs-tech/models');
 const _ = require('lodash');
+const PNF = require('google-libphonenumber').PhoneNumberFormat;
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 /**
  * @param {string} lookupTable table we are searching for the query string in
@@ -96,7 +98,20 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
             const newFirstName = item.firstName;
             const newLastName = item.lastName;
             const labelfirstname = newFirstName[0].toUpperCase() + newFirstName.substring(1);
-            const labellastname = newLastName[0].toUpperCase() + newLastName.substring(1); 
+            const labellastname = newLastName[0].toUpperCase() + newLastName.substring(1);
+            console.log(`\n\n\n\n\n\n&&&&&\nitem: ${JSON.stringify(item)}`);
+            let labelphone;
+            if (item.mobilephone) {
+                try {
+                    const number = phoneUtil.parseAndKeepRawInput(item.mobilephone, 'US');
+                    labelphone = phoneUtil.formatInOriginalFormat(number, 'US');
+                } catch (err) {
+                    labelphone = 'No Phone';
+                    console.log(`had trouble parsing phone number: ${err}`);
+                }
+            } else {
+                labelphone = 'No Phone';
+            }
             return {
                 key: item.id,
                 label: `${labelfirstname} ${labellastname}`,
@@ -104,7 +119,7 @@ module.exports = async function getClientSearchResults(req, res, { maxLength = 6
                 firstName: item.firstName,
                 lastName: item.lastName,
                 email: item.email,
-                phone: item.mobilephone,
+                phone: labelphone,
                 rank: item.rank
             };
         });

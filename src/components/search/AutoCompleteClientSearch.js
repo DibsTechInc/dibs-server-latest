@@ -148,6 +148,7 @@ export default function AutocompleteSearch() {
             onChange={(event, value) => setRecentOptions(event, value)} // prints the selected value
             // clearOnEscape
             sx={{ py: 0 }}
+            freesolo
             renderInput={(params) => <OutlineInputStyle placeholder="Enter name, email, phone # or userid" {...params} />}
         />
     );
