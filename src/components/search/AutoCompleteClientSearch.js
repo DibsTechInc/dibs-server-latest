@@ -34,28 +34,35 @@ export default function AutocompleteSearch() {
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
     const { recents, matches } = results;
-    const [shouldSearch, setShouldSearch] = React.useState(1);
-    console.log('after declaration - shouldSearch: ', shouldSearch);
+    // const [shouldSearch, setShouldSearch] = React.useState(1);
+    // console.log('after declaration - shouldSearch: ', shouldSearch);
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [countLastSearchTerm, setCountLastSearchTerm] = React.useState(0);
+    const [countSearchResults, setCountSearchResults] = React.useState(100);
     const [searchResults, setSearchResults] = React.useState([]);
-    // console.log(`\n\n\n\n\n@@@@@@@@@@@\nmatches length is: ${matches.length}\n\n\n`);
     const searchOptions = [];
     React.useEffect(() => {
         // dispatch(clearSearchResults());
         console.log(`\n\n\n\n\ngetting new search results again`);
-        console.log(`shouldSearch is: ${shouldSearch}`);
-        if (shouldSearch === 1) {
-            getNewSearchResults(config.dibsStudioId, searchTerm).then((result) => {
-                console.log(`value from getNewSearchResults: ${JSON.stringify(result)}`);
-                if (result !== 0) {
-                    dispatch(addOrUpdateSearchResults(result));
+        getNewSearchResults(config.dibsStudioId, searchTerm).then((result) => {
+            console.log(`value from getNewSearchResults: ${JSON.stringify(result)}`);
+            if (result !== 0) {
+                dispatch(addOrUpdateSearchResults(result));
+                console.log(`\n\n\n\n\n\n\n\n
+                    current search term is: ${searchTerm}\n
+                    the current results from this search term is: ${JSON.stringify(result)}\n
+                    \n\n
+                    countSearchResults at this time is = ${countSearchResults}`);
+                // i know that this is not right
+                if ((result.length > 0 && result.length <= countSearchResults) || countSearchResults === 100) {
                     setSearchResults(result);
+                    setCountSearchResults(result.length);
                 }
-            });
-        }
+            }
+        });
         // maybe each time the searchterm changes, set new search options based on the results
-    }, [config.dibsStudioId, searchTerm, dispatch, shouldSearch]);
+    }, [config.dibsStudioId, searchTerm, dispatch, countSearchResults]);
     // console.log(`recents: ${JSON.stringify(recents)}`);
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
@@ -100,8 +107,25 @@ export default function AutocompleteSearch() {
         console.log(`value is ${JSON.stringify(value)}`);
         dispatch(addToRecentsSearch(value));
         setSearchTerm(value.label);
-        console.log(`\n\n\n\nrecent options setting shouldSearch back to 1`);
-        setShouldSearch(1);
+    };
+    const testResetOfSearch = (valuefromfield) => {
+        console.log(`\n\n\n\n\n$$$$$$$$$$\ntestResetOfSearch v2 -->\n
+        valuefromfield is: ${valuefromfield}\n
+        searchTerm is: ${searchTerm}\n
+        count of searchTerm is: ${searchTerm.length}
+        countLastSearchTerm is: ${countLastSearchTerm}\n
+        countSearchResults is: ${countSearchResults}\n`);
+        // test if you're going backwards with the search term
+        console.log(`is this true? ${valuefromfield.length} < ${countLastSearchTerm}`);
+        if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {
+            console.log(`valuetotest count is less than the count of last search term`);
+            console.log(`going backwards with the searching`);
+            setCountSearchResults(100);
+            if (valuefromfield.length > 1) {
+                setCountLastSearchTerm(valuefromfield.length);
+                addOrUpdateSearchResults({});
+            }
+        }
     };
     const nooptionstext = 'No clients were found. You can create a new account for them in the section below.';
     return (
@@ -113,11 +137,12 @@ export default function AutocompleteSearch() {
             filterOptions={filterOptions}
             name="clientSearch"
             noOptionsText={nooptionstext}
-            onInputChange={(event) => {
-                // console.log(`event.target.value = ${event.target.value}`);
+            onInputChange={(event, value) => {
+                console.log(`\n\n\nON INPUT CHANGE value = ${value}`);
                 // console.log(`event.target = ${event.target}`);
-                setSearchTerm(event.target.value);
-                return event.target;
+                setSearchTerm(value);
+                testResetOfSearch(value);
+                return value;
             }}
             getOptionLabel={({ label }) => {
                 const optiontoDisplay = `${label}`;
@@ -127,10 +152,6 @@ export default function AutocompleteSearch() {
                 console.log(`option equal to value`);
                 console.log(`option = ${JSON.stringify(option)}`);
                 console.log(`value = ${JSON.stringify(value)}`);
-                if (option.key === value.key) {
-                    setShouldSearch(0);
-                    console.log('just set shouldSearch to false');
-                }
                 return option.key === value.key;
                 // return option.label === value.label;
             }}

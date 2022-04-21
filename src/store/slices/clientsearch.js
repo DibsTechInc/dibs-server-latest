@@ -4,7 +4,7 @@ const initialState = {
     term: '',
     results: {
         recents: [],
-        matches: {}
+        matches: []
     }
 };
 
