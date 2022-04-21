@@ -6,6 +6,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { shouldForwardProp } from '@mui/system';
 import { useSelector, useDispatch } from 'store';
 import { addToRecentsSearch, addOrUpdateSearchResults } from '../../store/slices/clientsearch';
+import { setCurrentClientProfileStudioAdmin } from '../../store/slices/currentclient';
 import { getNewSearchResults } from '../../actions/studios/getNewSearchResults';
 
 const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
@@ -35,22 +36,36 @@ export default function AutocompleteSearch() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
+    const { userid } = useSelector((state) => state.currentclient);
     const { recents } = results;
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');
     const [countLastSearchTerm, setCountLastSearchTerm] = React.useState(0);
     const [countSearchResults, setCountSearchResults] = React.useState(100);
     const [searchResults, setSearchResults] = React.useState(recents);
+    const [searchedUserid, setSearchedUserid] = React.useState(5);
     // const searchOptions = [];
     React.useEffect(() => {
-        getNewSearchResults(config.dibsStudioId, searchTerm).then((result) => {
-            if (result !== 0) {
-                dispatch(addOrUpdateSearchResults(result));
-                setSearchResults(result);
-                setCountSearchResults(result.length);
-            }
-        });
-    }, [config.dibsStudioId, searchTerm, dispatch, countSearchResults]);
+        getNewSearchResults(config.dibsStudioId, searchTerm)
+            .then((result) => {
+                if (result !== 0) {
+                    dispatch(addOrUpdateSearchResults(result));
+                    setSearchResults(result);
+                    setCountSearchResults(result.length);
+                }
+            })
+            .then(() => {
+                if (searchedUserid > 5) {
+                    console.log(`searcheduserid is ${searchedUserid}`);
+                    const urltolink = `/front-desk/clients/${searchedUserid}`;
+                    console.log(`urltolink: ${urltolink}`);
+                    navigate(urltolink);
+                }
+            });
+        return () => {
+            setSearchedUserid(5);
+        };
+    }, [config.dibsStudioId, searchTerm, dispatch, countSearchResults, searchedUserid, navigate]);
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
     });
@@ -68,9 +83,10 @@ export default function AutocompleteSearch() {
     const setRecentOptions = (event, value) => {
         dispatch(addToRecentsSearch(value));
         setSearchTerm(value.label);
-        const urltolink = `/front-desk/clients/${value.id}`;
-        console.log(`urltolink: ${urltolink}`);
-        navigate(urltolink);
+        setSearchedUserid(value.id);
+        console.log(`setting recent options about to set client profile`);
+        setCurrentClientProfileStudioAdmin(value);
+        console.log(`setClientProfile to value.id: ${JSON.stringify(value)}`);
     };
     const testResetOfSearch = (valuefromfield) => {
         if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {
