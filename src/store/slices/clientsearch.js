@@ -20,15 +20,17 @@ const clientsearch = createSlice({
             state.term = '';
         },
         addOrUpdateSearchResults: (state, action) => {
-            const { term, results } = action.payload;
+            console.log(`action.payload sent to add or update search results is: ${JSON.stringify(action)}`);
+            // const { term, results } = action.payload;
             // state.results = [action.term.length > 0 ? action.term : action.results;
-            state.results.matches[term] = results;
+            state.results.matches = action.payload;
         },
         addToRecentsSearch: (state, action) => {
+            console.log(`addToRecentsSearch REDUCER: ${JSON.stringify(action.payload)}`);
             state.results.recents.push(action.payload);
         },
         clearSearchResults: (state) => {
-            state.results = {};
+            state.results.recents = [];
         }
     }
 });

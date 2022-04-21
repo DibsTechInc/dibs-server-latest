@@ -29,7 +29,8 @@ const reducer = combineReducers({
     // dashboard: dashboardReducer,
     dashboard: persistReducer({ key: 'dibsdashboard', storage, keyPrefix: 'dibsdashboard-' }, dashboardReducer),
     clientprofile: clientprofileReducer,
-    clientsearch: clientsearchReducer,
+    // clientsearch: clientsearchReducer,
+    clientsearch: persistReducer({ key: 'clientsearch', storage, keyPrefix: 'clientsearch-' }, clientsearchReducer),
     menu: menuReducer,
     snackbar: snackbarReducer,
     cart: persistReducer(

@@ -1,10 +1,11 @@
-// import * as React from 'react';
+import * as React from 'react';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { shouldForwardProp } from '@mui/system';
 import { useSelector, useDispatch } from 'store';
-import { addToRecentsSearch } from '../../store/slices/clientsearch';
+import { addToRecentsSearch, addOrUpdateSearchResults, clearSearchResults } from '../../store/slices/clientsearch';
+import { getNewSearchResults } from '../../actions/studios/getNewSearchResults';
 
 const OutlineInputStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
     width: 434,
@@ -136,14 +137,56 @@ const recentMatches = [
 export default function AutocompleteSearch() {
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
+    const { recents, matches } = results;
+    const { config } = useSelector((state) => state.dibsstudio);
+    const [searchTerm, setSearchTerm] = React.useState('');
+    const searchOptions = [];
+    React.useEffect(() => {
+        // dispatch(clearSearchResults());
+        console.log(`\n\n\n\n\ngetting new search results again`);
+        getNewSearchResults(config.dibsStudioId, searchTerm).then((result) => {
+            console.log(`value from getNewSearchResults: ${JSON.stringify(result)}`);
+            dispatch(addOrUpdateSearchResults(result));
+        });
+        // maybe each time the searchterm changes, set new search options based on the results
+    }, [config.dibsStudioId, searchTerm, dispatch]);
+    // const { recents } = results || [];
+    // const recents = [
+    //     { label: 'Kim Shui', email: 'kshui12@gmail.com', phone: '', id: 229647 },
+    //     { label: 'Lee Harper', email: 'harper.lee@mac.com', phone: '9177413680', id: 409589 }
+    // ];
+    console.log(`recents: ${JSON.stringify(recents)}`);
     const filterOptions = createFilterOptions({
         stringify: ({ label, email, id, phone }) => `${label} ${email} ${id} ${phone}`
     });
+    const getSearchOptions = () => {
+        console.log(`searchOptions before setting anything = ${JSON.stringify(searchOptions)}`);
+        // console.log(`matches.length is ${matches.length}`);
+        console.log(`recents = ${JSON.stringify(recents)}`);
+        if (recents && recents.length > 0) {
+            console.log(`adding data to recents`);
+            for (let i = 0; i < recents.length; i += 1) {
+                searchOptions.push(recents[i]);
+            }
+        }
+        if (matches && matches.length > 1) {
+            console.log(`adding data to matches`);
+            for (let j = 0; j < matches.length; j += 1) {
+                console.log(`matches = ${JSON.stringify(matches[j])}`);
+                searchOptions.push(matches[j]);
+            }
+        }
+        console.log(`\n\n\n\nsearchOptions on client side is: ${JSON.stringify(searchOptions)}`);
+        return searchOptions;
+    };
     const renderSuggestion = (suggestion) => (
-        <div>
+        <div key={suggestion.key}>
             <span style={{ fontWeight: '450' }}>{suggestion.label}</span>
             <div>
                 <span style={{ fontWeight: '300', fontStyle: 'italic' }}>{suggestion.email}</span>
+            </div>
+            <div>
+                <span style={{ fontWeight: '300', fontStyle: 'italic' }}>{suggestion.id}</span>
             </div>
         </div>
     );
@@ -158,11 +201,17 @@ export default function AutocompleteSearch() {
         <Autocomplete
             // id="combo-box-demo"
             autoComplete
-            options={recentMatches}
+            // options={recents}
+            options={matches}
             filterOptions={filterOptions}
             name="clientSearch"
             noOptionsText={nooptionstext}
-            onInputChange={(event) => event.target}
+            onInputChange={(event) => {
+                // console.log(`event.target.value = ${event.target.value}`);
+                // console.log(`event.target = ${event.target}`);
+                setSearchTerm(event.target.value);
+                return event.target;
+            }}
             getOptionLabel={({ label }) => {
                 const optiontoDisplay = `${label}`;
                 return optiontoDisplay;
@@ -170,7 +219,11 @@ export default function AutocompleteSearch() {
             filterSelectedOptions
             renderOption={(props, option) => {
                 const htmlForList = renderSuggestion(option);
-                return <li {...props}>{htmlForList}</li>;
+                return (
+                    <li {...props} key={option.id}>
+                        {htmlForList}
+                    </li>
+                );
             }}
             onChange={setRecentOptions}
             clearOnEscape
