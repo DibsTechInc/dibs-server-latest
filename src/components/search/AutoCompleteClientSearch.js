@@ -36,7 +36,7 @@ export default function AutocompleteSearch() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { results } = useSelector((state) => state.clientsearch);
-    const { userid } = useSelector((state) => state.currentclient);
+    // const { userid } = useSelector((state) => state.currentclient);
     const { recents } = results;
     const { config } = useSelector((state) => state.dibsstudio);
     const [searchTerm, setSearchTerm] = React.useState('');

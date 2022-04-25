@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 // material-ui
 import {
@@ -35,6 +36,7 @@ import { useSelector, useDispatch } from 'store';
 
 // actions
 import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
+import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 
 // personal details table
 /** names Don&apos;t look right */
@@ -55,12 +57,28 @@ const rows = [
 ];
 const ClientAccountPage = () => {
     console.log('ClientAccountPage running now');
+    const { userid } = useParams();
+    console.log(`userid for this client page is: ${userid}`);
     const { profile } = useSelector((state) => state.currentclient);
     const { name } = profile;
+    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [phone, setPhone] = React.useState('');
+    const [birthday, setBirthday] = React.useState('N/A');
     // pull all of the client information including name based on their id
     React.useEffect(() => {
-        findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
-    }, []);
+        console.log('ClientAccountPage useEffect running now');
+        getCurrentClientInfo(userid).then((user) => {
+            console.log(`user returned from client page is: ${JSON.stringify(user)}`);
+            if (user !== 0) {
+                setUsername(user.nameToDisplay);
+                setEmail(user.email);
+                setPhone(user.labelphone);
+                if (user.birthday) setBirthday(user.birthday);
+            }
+        });
+        // findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
+    }, [userid]);
     return (
         <Grid container spacing={2}>
             <Grid item lg={3.75} xs={12}>
@@ -72,7 +90,7 @@ const ClientAccountPage = () => {
                             </Grid>
                             <Grid item xs zeroMinWidth>
                                 <Typography align="left" variant="subtitle1">
-                                    {name}
+                                    {username}
                                 </Typography>
                                 <Typography align="left" variant="subtitle2">
                                     (272 visits)
@@ -92,7 +110,7 @@ const ClientAccountPage = () => {
                             <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="subtitle2" align="right">
-                                    demo@sample.com
+                                    {email}
                                 </Typography>
                             </ListItemSecondaryAction>
                         </ListItemButton>
@@ -104,7 +122,7 @@ const ClientAccountPage = () => {
                             <ListItemText primary={<Typography variant="subtitle1">Phone</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="subtitle2" align="right">
-                                    (310) 403-7905
+                                    {phone}
                                 </Typography>
                             </ListItemSecondaryAction>
                         </ListItemButton>
@@ -116,12 +134,12 @@ const ClientAccountPage = () => {
                             <ListItemText primary={<Typography variant="subtitle1">Birthday</Typography>} />
                             <ListItemSecondaryAction>
                                 <Typography variant="subtitle2" align="right">
-                                    12/11/1975
+                                    {birthday}
                                 </Typography>
                             </ListItemSecondaryAction>
                         </ListItemButton>
                     </List>
-                    <CardContent sx={{ px: '4px !important' }}>
+                    <CardContent sx={{ px: '4px !important', mt: '8px' }}>
                         <Grid container spacing={0}>
                             <Grid item xs={4}>
                                 <Typography align="left" sx={{ ml: 1 }} variant="h3">
