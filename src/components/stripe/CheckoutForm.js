@@ -4,7 +4,8 @@ import propTypes from 'prop-types';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState, useEffect } from 'react';
 import { CardElement, Elements, useStripe, useElements } from '@stripe/react-stripe-js';
-// import Payment from 'views/application/e-commerce/Checkout/Payment';
+
+import './stripe.css';
 
 const CheckoutForm = (props) => {
     const stripe = useStripe();
@@ -25,13 +26,13 @@ const CheckoutForm = (props) => {
             console.log(`setupIntent is: ${JSON.stringify(setupIntent)}`);
             switch (setupIntent.status) {
                 case 'succeeded':
-                    setMessage('Payment succeeded!');
+                    setMessage(`Card info has been saved.`);
                     break;
                 case 'processing':
                     setMessage('Your payment is processing.');
                     break;
                 case 'requires_payment_method':
-                    setMessage('Your payment was not successful, please try again.');
+                    setMessage('');
                     break;
                 default:
                     setMessage('Something went wrong.');
@@ -48,15 +49,6 @@ const CheckoutForm = (props) => {
             return;
         }
         setIsLoading(true);
-        console.log(`going into confirmSetup`);
-        // const { error } = await stripe.confirmSetup({
-        //     // `Elements` instance that was used to create the Payment Element
-        //     elements,
-        //     confirmParams: {
-        //         return_url: 'https://example.com/account/payments/setup-complete'
-        //     }
-        // });
-        console.log(`clientSecret in checkoutForm is: ${clientSecret}`);
         await stripe
             .confirmCardSetup(clientSecret, {
                 payment_method: {
@@ -67,15 +59,8 @@ const CheckoutForm = (props) => {
             .then((result) => {
                 console.log(`result is: ${JSON.stringify(result)}`);
             });
-        // const { error, paymentMethod } = await stripe.createPaymentMethod({
-        //     type: 'card',
-        //     card: elements.getElement(CardElement)
-        // });
         const error = null;
         if (error) {
-            // This point will only be reached if there is an immediate error when
-            // confirming the payment. Show error to your customer (for example, payment
-            // details incomplete)
             setMessage(error.message);
         } else {
             // Your customer will be redirected to your `return_url`. For some payment
@@ -84,10 +69,29 @@ const CheckoutForm = (props) => {
         }
         setIsLoading(false);
     };
+    const cardStyle = {
+        style: {
+            base: {
+                color: '#32325d',
+                fontSmoothing: 'antialiased',
+                fontSize: '14px',
+                '::placeholder': {
+                    color: '#32325d'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        }
+    };
+    const buttonnote = `Add card to client's account.`;
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement />
-            <button type="submit">Pay</button>
+        <form onSubmit={handleSubmit} className="form">
+            <CardElement id="card-element" options={cardStyle} spacing={1} />
+            <button type="submit" id="payment-request-button">
+                {buttonnote}
+            </button>
             {message && <div>{message}</div>}
         </form>
     );

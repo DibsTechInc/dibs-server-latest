@@ -69,18 +69,31 @@ const ClientAccountPage = () => {
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [birthday, setBirthday] = React.useState('N/A');
-    const [clientSecret, setClientSecret] = React.useState('');
+    const [clientSecret, setClientSecret] = React.useState(null);
+    const [stripeid, setStripeid] = React.useState('');
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         console.log('ClientAccountPage useEffect running now');
-        getCurrentClientInfo(userid).then(
-            (user) => {
-                console.log(`user returned from client page is: ${JSON.stringify(user)}`);
-                if (user !== 0) {
-                    setUsername(user.nameToDisplay);
-                    setEmail(user.email);
-                    setPhone(user.labelphone);
-                    if (user.birthday) setBirthday(user.birthday);
+        getCurrentClientInfo(userid).then((user) => {
+            console.log(`user returned from client page is: ${JSON.stringify(user)}`);
+            if (user !== 0) {
+                setUsername(user.nameToDisplay);
+                setEmail(user.email);
+                setPhone(user.labelphone);
+                if (user.birthday) setBirthday(user.birthday);
+                if (user.stripeid) setStripeid(user.stripeid);
+                console.log(`user.stripeid is: ${user.stripeid}`);
+                if (user.stripeid !== null) {
+                    axios
+                        .post('/api/stripe-get-payment-methods', {
+                            stripeid
+                        })
+                        .then((response) => {
+                            console.log(`do something here related to getting the stripe customer info`);
+                            // setClientSecret(response.data.stripeCustomer);
+                        });
+                } else {
+                    console.log(`\n\nGOING TO SET UP INTENT\n\n`);
                     axios
                         .post('/api/stripe-setup-intent', {
                             userid
@@ -89,11 +102,10 @@ const ClientAccountPage = () => {
                             setClientSecret(response.data.stripeIntent);
                         });
                 }
-            },
-            [userid]
-        );
+            }
+        });
         // findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
-    }, [userid]);
+    }, [userid, stripeid]);
     return (
         <Grid container spacing={2}>
             <Grid item lg={3.75} xs={12}>
@@ -192,6 +204,18 @@ const ClientAccountPage = () => {
                         </Grid>
                     </CardContent>
                 </SubCard>
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                    <SubCard
+                        title="Payment Information"
+                        secondary={
+                            <Button>
+                                <IconEdit stroke={1.5} size="1rem" />
+                            </Button>
+                        }
+                    >
+                        {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
+                    </SubCard>
+                </Grid>
             </Grid>
             <Grid item lg={8} xs={12}>
                 <Grid container direction="column" spacing={gridSpacing}>

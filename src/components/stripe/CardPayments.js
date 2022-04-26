@@ -12,7 +12,6 @@ const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
 });
 
 const PaymentForm = (props) => {
-    // const [stripePromise, setStripePromise] = useState(() => loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN'));
     const { clientSecret } = props;
     console.log(`clientSecret is (CardPayment): ${clientSecret}`);
     const appearance = {

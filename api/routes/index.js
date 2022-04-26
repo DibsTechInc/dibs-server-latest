@@ -8,6 +8,7 @@ const findOrCreateStripeCustomer = require('./studio/find-or-create-stripe-custo
 const getClientSearchResults = require('./studio/get-client-search-results');
 const getClientInfo = require('./studio/get-client-info');
 const stripeSetupIntent = require('./studio/stripe-setup-intent');
+const stripeGetPaymentMethods = require('./studio/stripe-get-payment-methods');
 
 const router = express();
 
@@ -19,5 +20,6 @@ router.post('/find-or-create-stripe-customer', findOrCreateStripeCustomer);
 router.post('/get-client-search-results', getClientSearchResults);
 router.post('/get-client-info', getClientInfo);
 router.post('/stripe-setup-intent', stripeSetupIntent);
+router.post('/stripe-get-payment-methods', stripeGetPaymentMethods);
 
 module.exports = router;
