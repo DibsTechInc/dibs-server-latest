@@ -13,7 +13,7 @@ const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
 
 const PaymentForm = (props) => {
     const { clientSecret } = props;
-    console.log(`clientSecret is (CardPayment): ${clientSecret}`);
+    console.log(`clientSecret is (CardPayment) passed in props: ${clientSecret}`);
     const appearance = {
         theme: 'stripe'
     };

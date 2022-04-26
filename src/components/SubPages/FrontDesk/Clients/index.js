@@ -83,24 +83,28 @@ const ClientAccountPage = () => {
                 setPhone(user.labelphone);
                 if (user.birthday) setBirthday(user.birthday);
                 if (user.stripeid) setStripeid(user.stripeid);
-                if (user.stripe_cardid) setStripeid(user.stripe_cardid);
+                if (user.stripe_cardid) setStripecardid(user.stripe_cardid);
                 console.log(`user.stripeid is: ${user.stripeid}`);
                 if (user.stripe_cardid !== null) {
+                    console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
                     axios
                         .post('/api/stripe-get-payment-methods', {
                             stripeid
                         })
                         .then((response) => {
                             console.log(`do something here related to getting the stripe customer info`);
-                            // setClientSecret(response.data.stripeCustomer);
+                            setClientSecret(response.data.stripeCustomer);
                         });
                 } else {
+                    // set something here to handle case where user already has stripe id
                     console.log(`\n\nGOING TO SET UP INTENT\n\n`);
+                    console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
                     axios
                         .post('/api/stripe-setup-intent', {
                             userid
                         })
                         .then((response) => {
+                            console.log(`setting the client secretagain`);
                             setClientSecret(response.data.stripeIntent);
                         });
                 }
@@ -209,11 +213,11 @@ const ClientAccountPage = () => {
                 <Grid item xs={12} sx={{ mt: 1 }}>
                     <SubCard
                         title="Payment Information"
-                        secondary={
-                            <Button>
-                                <IconEdit stroke={1.5} size="1rem" />
-                            </Button>
-                        }
+                        // secondary={
+                        //     <Button>
+                        //         <IconEdit stroke={1.5} size="1rem" />
+                        //     </Button>
+                        // }
                     >
                         {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
                     </SubCard>
@@ -223,7 +227,7 @@ const ClientAccountPage = () => {
                 <Grid container direction="column" spacing={gridSpacing}>
                     <Grid item xs={12}>
                         <SubCard
-                            title="ANOTHER SECTION"
+                            title="UPCOMING CLASSES"
                             // secondary={
                             //     <Button>
                             //         <IconEdit stroke={1.5} size="1.3rem" />
@@ -261,91 +265,79 @@ const ClientAccountPage = () => {
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <SubCard title="Education">
-                            <Grid container direction="column" spacing={1}>
+                        <SubCard
+                            title="AVAILABLE PASSES"
+                            // secondary={
+                            //     <Button>
+                            //         <IconEdit stroke={1.5} size="1.3rem" />
+                            //     </Button>
+                            // }
+                        >
+                            <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">2014-2017</Typography>
-                                            <Typography variant="subtitle2">Master Degree</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography variant="subtitle1">Master Degree in Computer Application</Typography>
-                                            <Typography variant="subtitle2">University of Oxford, England</Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <Typography variant="subtitle1">Personal Details</Typography>
                                 </Grid>
-                                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                                    <Grid item xs={12}>
-                                        <Divider />
-                                    </Grid>
-                                </Box>
+                                <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">2011-2013</Typography>
-                                            <Typography variant="subtitle2">Bachelor</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography variant="subtitle1">Bachelor Degree in Computer Engineering</Typography>
-                                            <Typography variant="subtitle2">Imperial College London</Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                                    <Grid item xs={12}>
-                                        <Divider />
-                                    </Grid>
-                                </Box>
-                                <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">2009-2011</Typography>
-                                            <Typography variant="subtitle2">School</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography variant="subtitle1">Higher Secondary Education</Typography>
-                                            <Typography variant="subtitle2">School of London, England</Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <TableContainer>
+                                        <Table
+                                            sx={{
+                                                '& td': {
+                                                    borderBottom: 'none'
+                                                }
+                                            }}
+                                            size="small"
+                                        >
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow key={row.name}>
+                                                        <TableCell variant="head">{row.name}</TableCell>
+                                                        <TableCell>{row.calories}</TableCell>
+                                                        <TableCell>{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
                                 </Grid>
                             </Grid>
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <SubCard title="Employment">
+                        <SubCard
+                            title="CREDIT AMOUNT"
+                            // secondary={
+                            //     <Button>
+                            //         <IconEdit stroke={1.5} size="1.3rem" />
+                            //     </Button>
+                            // }
+                        >
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">Current</Typography>
-                                            <Typography variant="subtitle2">Senior</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography variant="subtitle1">Senior UI/UX designer</Typography>
-                                            <Typography variant="subtitle2">
-                                                Perform task related to project manager with the 100+ team under my observation. Team
-                                                management is key role in this company.
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <Typography variant="subtitle1">Personal Details</Typography>
                                 </Grid>
-                                <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                                    <Grid item xs={12}>
-                                        <Divider />
-                                    </Grid>
-                                </Box>
+                                <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <Grid container>
-                                        <Grid item xs={12} sm={4}>
-                                            <Typography variant="subtitle1">2017-2019</Typography>
-                                            <Typography variant="subtitle2">Junior</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={8}>
-                                            <Typography variant="subtitle1">Trainee cum Project Manager</Typography>
-                                            <Typography variant="subtitle2">Microsoft, TX, USA</Typography>
-                                        </Grid>
-                                    </Grid>
+                                    <TableContainer>
+                                        <Table
+                                            sx={{
+                                                '& td': {
+                                                    borderBottom: 'none'
+                                                }
+                                            }}
+                                            size="small"
+                                        >
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow key={row.name}>
+                                                        <TableCell variant="head">{row.name}</TableCell>
+                                                        <TableCell>{row.calories}</TableCell>
+                                                        <TableCell>{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
                                 </Grid>
                             </Grid>
                         </SubCard>
