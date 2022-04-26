@@ -71,6 +71,7 @@ const ClientAccountPage = () => {
     const [birthday, setBirthday] = React.useState('N/A');
     const [clientSecret, setClientSecret] = React.useState(null);
     const [stripeid, setStripeid] = React.useState('');
+    const [stripecardid, setStripecardid] = React.useState('');
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         console.log('ClientAccountPage useEffect running now');
@@ -82,8 +83,9 @@ const ClientAccountPage = () => {
                 setPhone(user.labelphone);
                 if (user.birthday) setBirthday(user.birthday);
                 if (user.stripeid) setStripeid(user.stripeid);
+                if (user.stripe_cardid) setStripeid(user.stripe_cardid);
                 console.log(`user.stripeid is: ${user.stripeid}`);
-                if (user.stripeid !== null) {
+                if (user.stripe_cardid !== null) {
                     axios
                         .post('/api/stripe-get-payment-methods', {
                             stripeid
@@ -221,17 +223,14 @@ const ClientAccountPage = () => {
                 <Grid container direction="column" spacing={gridSpacing}>
                     <Grid item xs={12}>
                         <SubCard
-                            title="Payment Information"
-                            secondary={
-                                <Button>
-                                    <IconEdit stroke={1.5} size="1.3rem" />
-                                </Button>
-                            }
+                            title="ANOTHER SECTION"
+                            // secondary={
+                            //     <Button>
+                            //         <IconEdit stroke={1.5} size="1.3rem" />
+                            //     </Button>
+                            // }
                         >
                             <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
-                                </Grid>
                                 <Grid item xs={12}>
                                     <Typography variant="subtitle1">Personal Details</Typography>
                                 </Grid>
