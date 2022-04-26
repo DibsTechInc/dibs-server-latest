@@ -12,7 +12,7 @@ export const getCurrentClientInfo = async (userid, dibsStudioId) => {
             userid,
             dibsStudioId
         });
-        console.log(`response from getCurrentClientInfo is: ${JSON.stringify(response.data)}`);
+        // console.log(`\n\n\nresponse from GET CURRENT CLIENT INFO WAS CALLED: ${JSON.stringify(response.data)}\n\n\n`);
         const labelfirstname = response.data.userInfo.firstName[0].toUpperCase() + response.data.userInfo.firstName.substring(1);
         const labellastname = response.data.userInfo.lastName[0].toUpperCase() + response.data.userInfo.lastName.substring(1);
         const nameToDisplay = `${labelfirstname} ${labellastname}`;

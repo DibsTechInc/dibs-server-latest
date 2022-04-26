@@ -60,14 +60,11 @@ const rows = [
     createData('Website', ':', 'http://example.com')
 ];
 const ClientAccountPage = () => {
-    console.log('ClientAccountPage running now');
     const { userid } = useParams();
-    console.log(`userid for this client page is: ${userid}`);
-    const { profile } = useSelector((state) => state.currentclient);
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
-    const { name } = profile;
     const [username, setUsername] = React.useState('');
+    const [userBackground, setUserBackground] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [birthday, setBirthday] = React.useState('N/A');
@@ -75,64 +72,124 @@ const ClientAccountPage = () => {
     const [stripeid, setStripeid] = React.useState('');
     const [studioStripeId, setStudioStripeId] = React.useState('');
     const [hasPaymentMethod, setHasPaymentMethod] = React.useState(false);
-    const [cardInfo, setCardInfo] = React.useState([]);
+    const [dibsCardInfo, setDibsCardInfo] = React.useState(null);
+    const [studioCardInfo, setStudioCardInfo] = React.useState(null);
+    const [doneLoadingClientInfo, setDoneLoadingClientInfo] = React.useState(false);
+    const [doneLoadingPaymentMethods, setDoneLoadingPaymentMethods] = React.useState(false);
+    const [doneGettingClientSecret, setDoneGettingClientSecret] = React.useState(false);
+    const [ready, setReady] = React.useState(false);
+    const [cardValueChanged, setCardValueChanged] = React.useState(false);
     // pull all of the client information including name based on their id
     React.useEffect(() => {
-        console.log(`\n\n\n%%%%%%%%%%%%%%%%%`);
-        console.log('ClientAccountPage useEffect running now');
-        getCurrentClientInfo(userid, dibsStudioId).then((user) => {
-            console.log(`GET CURRENT CLIENT INFO CALL RETURNED \n\n${JSON.stringify(user)}`);
-            if (user !== 0) {
-                setUsername(user.nameToDisplay);
-                setEmail(user.email);
-                setPhone(user.labelphone);
-                if (user.birthday) setBirthday(user.birthday);
-                if (user.stripeid) setStripeid(user.stripeid);
-                if (user.studioStripeId) setStudioStripeId(user.studioStripeId);
-                console.log(`user.stripeid is: ${user.stripeid}`);
-                console.log(`user.studioStripeId is: ${user.studioStripeId}`);
-                if (user.stripeid !== null) {
-                    // get client payment methods
-                    console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
-                    axios
-                        .post('/api/stripe-get-payment-methods', {
-                            userid,
-                            stripeid,
-                            studioStripeId,
-                            dibsStudioId
-                        })
-                        .then((response) => {
-                            console.log(`\n\n\n\ndo something here related to getting the stripe customer info`);
-                            console.log(`response from get payment methods is: ${JSON.stringify(response)}`);
-                            if (response.data.msg === 'success') {
-                                console.log(`success is true for getting payment methods`);
-                                if (response.data.paymentMethods.length > 0) {
-                                    console.log(`there is a payment method in stripe`);
-                                    setHasPaymentMethod(true);
-                                    console.log(`payment methods are: ${JSON.stringify(response.data.paymentMethods)}`);
-                                    setCardInfo(response.data.paymentMethods);
-                                }
-                            }
-                        });
-                } else {
-                    // set up a new payment method - no stripe id for this client
-                    // set something here to handle case where user already has stripe id
-                    console.log(`\n\nGOING TO SET UP INTENT\n\n`);
-                    console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
-                    axios
-                        .post('/api/stripe-setup-intent', {
-                            userid
-                        })
-                        .then((response) => {
-                            console.log(`\n\n\n#########\n\nsetting the client now`);
-                            setClientSecret(response.data.stripeIntent);
-                            setStripeid(response.data.stripeId);
-                        });
+        if (cardValueChanged) {
+            setUserBackground('');
+            setDoneLoadingClientInfo(false);
+            setDoneLoadingPaymentMethods(false);
+            setDoneGettingClientSecret(false);
+            setCardValueChanged(false);
+            setReady(false);
+        }
+        console.log(`just after useEffect - try to determine what changed`);
+        const getClientInfo = async () => {
+            console.log(`GET CURRENT CLIENT INFO STEP ONE`);
+            await getCurrentClientInfo(userid, dibsStudioId).then((user) => {
+                if (user !== 0) {
+                    console.log(`user is: ${user}`);
+                    setUsername(user.nameToDisplay);
+                    setUserBackground(user.nameToDisplay);
+                    setEmail(user.email);
+                    setPhone(user.labelphone);
+                    if (user.birthday) setBirthday(user.birthday);
+                    if (user.stripeid) setStripeid(user.stripeid);
+                    if (user.studioStripeId) setStudioStripeId(user.studioStripeId);
+                    setDoneLoadingClientInfo(true);
                 }
+            });
+            console.log('done with step one');
+        };
+        const getClientPaymentMethods = async () => {
+            console.log(`GET CURRENT PAYMENT INFO STEP TWO`);
+            if (stripeid) {
+                await axios
+                    .post('/api/stripe-get-payment-methods', {
+                        userid,
+                        stripeid,
+                        studioStripeId,
+                        dibsStudioId
+                    })
+                    .then((response) => {
+                        console.log(`response from getClientPaymentMethods is: ${response}`);
+                        if (response.data.msg === 'success') {
+                            if (response.data.paymentMethodsStudio.data.length > 0 || response.data.paymentMethodsDibs.data.length > 0) {
+                                console.log(`THERE is at least ONE payment method in stripe`);
+                                setHasPaymentMethod(true);
+                                setStudioStripeId(response.data.paymentMethodsStudio.data[0].customer);
+                                setStudioCardInfo(response.data.paymentMethodsStudio.data);
+                                setDibsCardInfo(response.data.paymentMethodsDibs.data);
+                            }
+                        } else if (response.data.msg === 'no payment methods on dibs') {
+                            console.log(`THERE is NO payment method in stripe`);
+                            setHasPaymentMethod(false);
+                        } else {
+                            console.log(`Error getting payment info from stripe`);
+                            setHasPaymentMethod(false);
+                        }
+                    });
             }
-        });
-        // findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
-    }, [userid, stripeid]);
+            console.log('done with step two');
+            setDoneLoadingPaymentMethods(true);
+        };
+        const getClientSecret = async () => {
+            console.log(`GET CURRENT CLIENT SECRET`);
+            await axios
+                .post('/api/stripe-setup-intent', {
+                    userid,
+                    stripeid
+                })
+                .then((response) => {
+                    console.log(`\n\n\n##############\n\nCLIENT SECRET is being set now`);
+                    console.log(`clientSecret is: ${response.data.clientSecret}`);
+                    setClientSecret(response.data.stripeIntent);
+                    setStripeid(response.data.stripeId);
+                    setDoneGettingClientSecret(true);
+                });
+            console.log('done with step three');
+        };
+        const setupclientinfo = async () => {
+            console.log(`\n\n\n\n\n\n\n\n\n\n\nusername is: ${userBackground}`);
+            console.log(`\n\n\n\n\n\n\n\n\n\n\nstripeid is: ${stripeid}`);
+            console.log(`doneLoadingClientInfo: ${doneLoadingClientInfo}`);
+            console.log(`doneLoadingPaymentMethods: ${doneLoadingPaymentMethods}`);
+            console.log(`hasPaymentMethod: ${hasPaymentMethod}`);
+            if (userBackground === '') {
+                await getClientInfo();
+            }
+            if (doneLoadingClientInfo && !doneLoadingPaymentMethods) {
+                await getClientPaymentMethods();
+            }
+            if (!hasPaymentMethod && doneLoadingClientInfo && doneLoadingPaymentMethods && !doneGettingClientSecret) {
+                await getClientSecret();
+            }
+        };
+        setupclientinfo();
+        if (hasPaymentMethod || clientSecret) {
+            setReady(true);
+        }
+    }, [
+        clientSecret,
+        dibsCardInfo,
+        dibsStudioId,
+        doneGettingClientSecret,
+        doneLoadingClientInfo,
+        doneLoadingPaymentMethods,
+        hasPaymentMethod,
+        stripeid,
+        studioStripeId,
+        userid,
+        userBackground,
+        cardValueChanged,
+        username
+    ]);
     return (
         <Grid container spacing={2}>
             <Grid item lg={3.75} xs={12}>
@@ -193,48 +250,20 @@ const ClientAccountPage = () => {
                             </ListItemSecondaryAction>
                         </ListItemButton>
                     </List>
-                    {/* <CardContent sx={{ px: '4px !important', mt: '8px' }}>
-                        <Grid container spacing={0}>
-                            <Grid item xs={4}>
-                                <Typography align="left" sx={{ ml: 1 }} variant="h3">
-                                    $212
-                                </Typography>
-                                <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
-                                    Total Spend
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography align="center" variant="h3">
-                                    7.8
-                                </Typography>
-                                <Typography align="center" variant="subtitle2">
-                                    Visits/Month
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={4}>
-                                <Typography align="right" sx={{ mr: 1 }} variant="h3">
-                                    9.2
-                                </Typography>
-                                <Typography align="right" sx={{ mr: 1 }} variant="subtitle2">
-                                    Loyalty Score
-                                </Typography>
-                            </Grid>
-                            <Grid item xs={12} sx={{ mt: 5 }}>
-                                <Divider sx={{ mb: 1 }} />
-                                <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
-                                    First visit on 12/11/2020
-                                </Typography>
-                                <Typography align="left" sx={{ ml: 1 }} variant="subtitle2">
-                                    Last visit on 2/23/2022
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </CardContent> */}
                 </SubCard>
                 <Grid item xs={12} sx={{ mt: 1 }}>
                     <SubCard title="Payment Information">
-                        {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
-                        {cardInfo.length > 0 && <CollectPaymentInfo cardInfo={cardInfo} />}
+                        {/* {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
+                        {doneLoading && <CollectPaymentInfo dibsCardInfo={dibsCardInfo} studioCardInfo={studioCardInfo} />} */}
+                        {ready && (
+                            <CollectPaymentInfo
+                                dibsCardInfo={dibsCardInfo}
+                                hasPaymentMethod={hasPaymentMethod}
+                                clientSecret={clientSecret}
+                                studioCardInfo={studioCardInfo}
+                                setCardValueChanged={setCardValueChanged}
+                            />
+                        )}
                     </SubCard>
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 1 }}>

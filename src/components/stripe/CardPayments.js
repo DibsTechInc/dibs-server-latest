@@ -13,9 +13,10 @@ const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
 });
 
 const PaymentForm = (props) => {
-    const { clientSecret, cardInfo } = props;
+    const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged } = props;
     console.log(`clientSecret is (CardPayment) passed in props: ${clientSecret}`);
-    console.log(`cardInfo is (CardPayment) passed in props: ${JSON.stringify(cardInfo)}`);
+    console.log(`studioCardInfo is (in CardPayment) passed in props: ${JSON.stringify(studioCardInfo)}`);
+    console.log(`\n\n\nstripe payment element - hasPaymentMethod: ${hasPaymentMethod}`);
     const appearance = {
         theme: 'stripe'
     };
@@ -23,10 +24,10 @@ const PaymentForm = (props) => {
         clientSecret,
         appearance
     };
-    if (cardInfo[0].id) {
+    if (studioCardInfo) {
         console.log(`client has a payment method on file`);
-        const cc = `XXXX-XXXX-XXXX-${cardInfo[0].card.last4}`;
-        const exp = `${cardInfo[0].card.exp_month}/${cardInfo[0].card.exp_year}`;
+        const cc = `XXXX-XXXX-XXXX-${studioCardInfo[0].card.last4}`;
+        const exp = `${studioCardInfo[0].card.exp_month}/${studioCardInfo[0].card.exp_year}`;
         return (
             <div className="stripe-payment-info">
                 <div className="stripe-cc-display">
@@ -45,17 +46,23 @@ const PaymentForm = (props) => {
             </div>
         );
     }
-    return (
-        <Elements options={options} stripe={stripePromise}>
-            <CheckoutForm clientSecret={clientSecret} />
-        </Elements>
-    );
+    if (!hasPaymentMethod) {
+        return (
+            <Elements id="stripe-checkout" options={options} stripe={stripePromise}>
+                <CheckoutForm clientSecret={clientSecret} setCardValueChanged={setCardValueChanged} />
+            </Elements>
+        );
+    }
+    return <div>working on it</div>;
 };
 PaymentForm.propTypes = {
     clientSecret: propTypes.string,
     exp_month: propTypes.string,
     exp_year: propTypes.string,
-    cardInfo: propTypes.array
+    studioCardInfo: propTypes.array,
+    dibsCardInfo: propTypes.array,
+    hasPaymentMethod: propTypes.bool,
+    setCardValueChanged: propTypes.func
 };
 
 export default PaymentForm;
