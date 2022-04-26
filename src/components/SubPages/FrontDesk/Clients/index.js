@@ -71,9 +71,12 @@ const ClientAccountPage = () => {
     const [birthday, setBirthday] = React.useState('N/A');
     const [clientSecret, setClientSecret] = React.useState(null);
     const [stripeid, setStripeid] = React.useState('');
-    const [stripecardid, setStripecardid] = React.useState('');
+    const [stripeCardId, setStripeCardId] = React.useState('');
+    const [hasPaymentMethod, setHasPaymentMethod] = React.useState(false);
+    const [cardInfo, setCardInfo] = React.useState([]);
     // pull all of the client information including name based on their id
     React.useEffect(() => {
+        console.log(`\n\n\n%%%%%%%%%%%%%%%%%`);
         console.log('ClientAccountPage useEffect running now');
         getCurrentClientInfo(userid).then((user) => {
             console.log(`user returned from client page is: ${JSON.stringify(user)}`);
@@ -83,19 +86,30 @@ const ClientAccountPage = () => {
                 setPhone(user.labelphone);
                 if (user.birthday) setBirthday(user.birthday);
                 if (user.stripeid) setStripeid(user.stripeid);
-                if (user.stripe_cardid) setStripecardid(user.stripe_cardid);
+                if (user.stripe_cardid) setStripeCardId(user.stripe_cardid);
                 console.log(`user.stripeid is: ${user.stripeid}`);
-                if (user.stripe_cardid !== null) {
+                if (user.stripeid !== null) {
+                    // get client payment methods
                     console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
                     axios
                         .post('/api/stripe-get-payment-methods', {
                             stripeid
                         })
                         .then((response) => {
-                            console.log(`do something here related to getting the stripe customer info`);
-                            setClientSecret(response.data.stripeCustomer);
+                            console.log(`\n\n\n\ndo something here related to getting the stripe customer info`);
+                            console.log(`response from get payment methods is: ${JSON.stringify(response)}`);
+                            if (response.data.msg === 'success') {
+                                console.log(`success is true for getting payment methods`);
+                                if (response.data.paymentMethods.length > 0) {
+                                    console.log(`there is a payment method in stripe`);
+                                    setHasPaymentMethod(true);
+                                    console.log(`payment methods are: ${JSON.stringify(response.data.paymentMethods)}`);
+                                    setCardInfo(response.data.paymentMethods);
+                                }
+                            }
                         });
                 } else {
+                    // set up a new payment method - no stripe id for this client
                     // set something here to handle case where user already has stripe id
                     console.log(`\n\nGOING TO SET UP INTENT\n\n`);
                     console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
@@ -104,8 +118,9 @@ const ClientAccountPage = () => {
                             userid
                         })
                         .then((response) => {
-                            console.log(`setting the client secretagain`);
+                            console.log(`\n\n\n#########\n\nsetting the client now`);
                             setClientSecret(response.data.stripeIntent);
+                            setStripeid(response.data.stripeId);
                         });
                 }
             }
@@ -172,7 +187,7 @@ const ClientAccountPage = () => {
                             </ListItemSecondaryAction>
                         </ListItemButton>
                     </List>
-                    <CardContent sx={{ px: '4px !important', mt: '8px' }}>
+                    {/* <CardContent sx={{ px: '4px !important', mt: '8px' }}>
                         <Grid container spacing={0}>
                             <Grid item xs={4}>
                                 <Typography align="left" sx={{ ml: 1 }} variant="h3">
@@ -208,19 +223,16 @@ const ClientAccountPage = () => {
                                 </Typography>
                             </Grid>
                         </Grid>
-                    </CardContent>
+                    </CardContent> */}
                 </SubCard>
                 <Grid item xs={12} sx={{ mt: 1 }}>
-                    <SubCard
-                        title="Payment Information"
-                        // secondary={
-                        //     <Button>
-                        //         <IconEdit stroke={1.5} size="1rem" />
-                        //     </Button>
-                        // }
-                    >
+                    <SubCard title="Payment Information">
                         {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
+                        {cardInfo.length > 0 && <CollectPaymentInfo cardInfo={cardInfo} />}
                     </SubCard>
+                </Grid>
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                    <SubCard title="Client Notes">CLIENT NOTES WILL GO HERE</SubCard>
                 </Grid>
             </Grid>
             <Grid item lg={8} xs={12}>
@@ -236,6 +248,9 @@ const ClientAccountPage = () => {
                         >
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
+                                    BOOK A CLASS BUTTON (off to the right)
+                                    <br />
+                                    <br />
                                     <Typography variant="subtitle1">Personal Details</Typography>
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
@@ -275,6 +290,9 @@ const ClientAccountPage = () => {
                         >
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
+                                    PURCHASE A NEW PACKAGE OR MEMBERSHIP (off to the right)
+                                    <br />
+                                    <br />
                                     <Typography variant="subtitle1">Personal Details</Typography>
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
@@ -306,6 +324,87 @@ const ClientAccountPage = () => {
                     <Grid item xs={12}>
                         <SubCard
                             title="CREDIT AMOUNT"
+                            // secondary={
+                            //     <Button>
+                            //         <IconEdit stroke={1.5} size="1.3rem" />
+                            //     </Button>
+                            // }
+                        >
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item xs={12}>
+                                    ADD OR REMOVE CREDITS (off to the right)
+                                    <br />
+                                    <br />
+                                    <Typography variant="subtitle1">Personal Details</Typography>
+                                </Grid>
+                                <Divider sx={{ pt: 1 }} />
+                                <Grid item xs={12}>
+                                    <TableContainer>
+                                        <Table
+                                            sx={{
+                                                '& td': {
+                                                    borderBottom: 'none'
+                                                }
+                                            }}
+                                            size="small"
+                                        >
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow key={row.name}>
+                                                        <TableCell variant="head">{row.name}</TableCell>
+                                                        <TableCell>{row.calories}</TableCell>
+                                                        <TableCell>{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Grid>
+                            </Grid>
+                        </SubCard>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SubCard
+                            title="RETAIL"
+                            // secondary={
+                            //     <Button>
+                            //         <IconEdit stroke={1.5} size="1.3rem" />
+                            //     </Button>
+                            // }
+                        >
+                            <Grid container direction="column" spacing={2}>
+                                <Grid item xs={12}>
+                                    <Typography variant="subtitle1">Personal Details</Typography>
+                                </Grid>
+                                <Divider sx={{ pt: 1 }} />
+                                <Grid item xs={12}>
+                                    <TableContainer>
+                                        <Table
+                                            sx={{
+                                                '& td': {
+                                                    borderBottom: 'none'
+                                                }
+                                            }}
+                                            size="small"
+                                        >
+                                            <TableBody>
+                                                {rows.map((row) => (
+                                                    <TableRow key={row.name}>
+                                                        <TableCell variant="head">{row.name}</TableCell>
+                                                        <TableCell>{row.calories}</TableCell>
+                                                        <TableCell>{row.fat}</TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Grid>
+                            </Grid>
+                        </SubCard>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SubCard
+                            title="GIFT CARDS"
                             // secondary={
                             //     <Button>
                             //         <IconEdit stroke={1.5} size="1.3rem" />

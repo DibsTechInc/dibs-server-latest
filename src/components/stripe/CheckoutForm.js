@@ -57,7 +57,7 @@ const CheckoutForm = (props) => {
                 }
             })
             .then((result) => {
-                console.log(`result is: ${JSON.stringify(result)}`);
+                console.log(`result is (from checkoutForm - confirmCardSetup): ${JSON.stringify(result)}`);
             });
         const error = null;
         if (error) {
@@ -85,11 +85,12 @@ const CheckoutForm = (props) => {
             }
         }
     };
-    const buttonnote = `Add card to client's account.`;
+    const buttonnote = `Add card to client's account`;
+    // TODO - set disabled to true if isLoading is true
     return (
         <form onSubmit={handleSubmit} className="form">
             <CardElement id="card-element" options={cardStyle} spacing={1} />
-            <button type="submit" id="payment-request-button">
+            <button type="submit" id="payment-request-button" disabled={isLoading}>
                 {buttonnote}
             </button>
             {message && <div>{message}</div>}
