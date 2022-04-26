@@ -6,6 +6,8 @@ const getEarliestRevenueYear = require('./studio/get-earliest-revenue-year');
 const getDashboardSalesGrowthData = require('./studio/get-dashboard-sales-growth-data');
 const findOrCreateStripeCustomer = require('./studio/find-or-create-stripe-customer');
 const getClientSearchResults = require('./studio/get-client-search-results');
+const getClientInfo = require('./studio/get-client-info');
+const stripeSetupIntent = require('./studio/stripe-setup-intent');
 
 const router = express();
 
@@ -15,5 +17,7 @@ router.post('/get-earliest-revenue-year', getEarliestRevenueYear);
 router.post('/get-dashboard-sales-growth-data', getDashboardSalesGrowthData);
 router.post('/find-or-create-stripe-customer', findOrCreateStripeCustomer);
 router.post('/get-client-search-results', getClientSearchResults);
+router.post('/get-client-info', getClientInfo);
+router.post('/stripe-setup-intent', stripeSetupIntent);
 
 module.exports = router;

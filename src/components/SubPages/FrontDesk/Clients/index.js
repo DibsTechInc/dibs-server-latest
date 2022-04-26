@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import axios from 'axios';
 
 // material-ui
 import {
@@ -33,9 +36,10 @@ import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 import { useSelector, useDispatch } from 'store';
+import CollectPaymentInfo from '../../../stripe/CardPayments';
 
 // actions
-import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
+// import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
 import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 
 // personal details table
@@ -65,18 +69,29 @@ const ClientAccountPage = () => {
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
     const [birthday, setBirthday] = React.useState('N/A');
+    const [clientSecret, setClientSecret] = React.useState('');
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         console.log('ClientAccountPage useEffect running now');
-        getCurrentClientInfo(userid).then((user) => {
-            console.log(`user returned from client page is: ${JSON.stringify(user)}`);
-            if (user !== 0) {
-                setUsername(user.nameToDisplay);
-                setEmail(user.email);
-                setPhone(user.labelphone);
-                if (user.birthday) setBirthday(user.birthday);
-            }
-        });
+        getCurrentClientInfo(userid).then(
+            (user) => {
+                console.log(`user returned from client page is: ${JSON.stringify(user)}`);
+                if (user !== 0) {
+                    setUsername(user.nameToDisplay);
+                    setEmail(user.email);
+                    setPhone(user.labelphone);
+                    if (user.birthday) setBirthday(user.birthday);
+                    axios
+                        .post('/api/stripe-setup-intent', {
+                            userid
+                        })
+                        .then((response) => {
+                            setClientSecret(response.data.stripeIntent);
+                        });
+                }
+            },
+            [userid]
+        );
         // findOrCreateStripeCustomer('alicia.ulin2@gmail.com', 'Alicia Ulin');
     }, [userid]);
     return (
@@ -191,10 +206,7 @@ const ClientAccountPage = () => {
                         >
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography variant="body2">
-                                        Hello,I’m Anshan Handgun Creative Graphic Designer & User Experience Designer based in Website, I
-                                        create digital Products a more Beautiful and usable place. Morbid accusant ipsum. Nam nec tellus at.
-                                    </Typography>
+                                    {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Typography variant="subtitle1">Personal Details</Typography>
