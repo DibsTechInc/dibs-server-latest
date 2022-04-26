@@ -31,11 +31,11 @@ const PaymentForm = (props) => {
             <div className="stripe-payment-info">
                 <div className="stripe-cc-display">
                     <span style={{ fontSize: '12px', fontWeight: '100', color: '#999' }}>Credit Card Number</span>
-                    <div className="stripe-cc-display">{cc}</div>
+                    <div>{cc}</div>
                 </div>
                 <div className="stripe-exp-display">
                     <span style={{ fontSize: '12px', fontWeight: '100', color: '#999' }}>Exp. Date</span>
-                    <div className="stripe-exp-display">{exp}</div>
+                    <div>{exp}</div>
                 </div>
                 <div className="stripe-exp-display">
                     <button type="submit" id="edit-cc-button">

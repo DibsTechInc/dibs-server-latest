@@ -61,12 +61,12 @@ form {
 .stripe-cc-display {
    margin-right: 20px;
    float: left;
-   width: 200px;
+   width: 90%;
 }
 .stripe-exp-display {
     text-align: right;
     float: right;
-    width: 100px;
+    width: 30%;
  }
 
   #payment-request-button {
@@ -82,7 +82,7 @@ form {
     border: 1px;
     margin-top: 8px;
     padding: 7px;
-    margin-left: 30px;
+    margin-left: 20px;
     margin-right: 3px;
     font-size: 11px;
     float: right;

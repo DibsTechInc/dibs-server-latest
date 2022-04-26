@@ -64,6 +64,8 @@ const ClientAccountPage = () => {
     const { userid } = useParams();
     console.log(`userid for this client page is: ${userid}`);
     const { profile } = useSelector((state) => state.currentclient);
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
     const { name } = profile;
     const [username, setUsername] = React.useState('');
     const [email, setEmail] = React.useState('');
@@ -71,29 +73,33 @@ const ClientAccountPage = () => {
     const [birthday, setBirthday] = React.useState('N/A');
     const [clientSecret, setClientSecret] = React.useState(null);
     const [stripeid, setStripeid] = React.useState('');
-    const [stripeCardId, setStripeCardId] = React.useState('');
+    const [studioStripeId, setStudioStripeId] = React.useState('');
     const [hasPaymentMethod, setHasPaymentMethod] = React.useState(false);
     const [cardInfo, setCardInfo] = React.useState([]);
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         console.log(`\n\n\n%%%%%%%%%%%%%%%%%`);
         console.log('ClientAccountPage useEffect running now');
-        getCurrentClientInfo(userid).then((user) => {
-            console.log(`user returned from client page is: ${JSON.stringify(user)}`);
+        getCurrentClientInfo(userid, dibsStudioId).then((user) => {
+            console.log(`GET CURRENT CLIENT INFO CALL RETURNED \n\n${JSON.stringify(user)}`);
             if (user !== 0) {
                 setUsername(user.nameToDisplay);
                 setEmail(user.email);
                 setPhone(user.labelphone);
                 if (user.birthday) setBirthday(user.birthday);
                 if (user.stripeid) setStripeid(user.stripeid);
-                if (user.stripe_cardid) setStripeCardId(user.stripe_cardid);
+                if (user.studioStripeId) setStudioStripeId(user.studioStripeId);
                 console.log(`user.stripeid is: ${user.stripeid}`);
+                console.log(`user.studioStripeId is: ${user.studioStripeId}`);
                 if (user.stripeid !== null) {
                     // get client payment methods
                     console.log(`stripeid (CLIENT ACCOUNT PAGE) is: ${user.stripeid}`);
                     axios
                         .post('/api/stripe-get-payment-methods', {
-                            stripeid
+                            userid,
+                            stripeid,
+                            studioStripeId,
+                            dibsStudioId
                         })
                         .then((response) => {
                             console.log(`\n\n\n\ndo something here related to getting the stripe customer info`);

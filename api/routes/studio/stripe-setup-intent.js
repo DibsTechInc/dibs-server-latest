@@ -51,7 +51,8 @@ async function setupStripeIntent(req, res) {
         console.log(`stripeid is: ${setupIntent.customer}`);
         res.json({
             msg: 'success',
-            stripeIntent: setupIntent.client_secret
+            stripeIntent: setupIntent.client_secret,
+            stripeId: setupIntent.customer
         });
     } catch (err) {
         console.log(`error in createStripeSetupIntent api call: ${err}`);

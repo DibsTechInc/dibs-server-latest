@@ -5,11 +5,12 @@ const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 // ==============================|| GET DASHBOARD DATA ||============================== //
 
-export const getCurrentClientInfo = async (userid) => {
+export const getCurrentClientInfo = async (userid, dibsStudioId) => {
     console.log(`userid is: ${userid}`);
     try {
         const response = await axios.post('/api/get-client-info', {
-            userid
+            userid,
+            dibsStudioId
         });
         console.log(`response from getCurrentClientInfo is: ${JSON.stringify(response.data)}`);
         const labelfirstname = response.data.userInfo.firstName[0].toUpperCase() + response.data.userInfo.firstName.substring(1);
@@ -31,6 +32,7 @@ export const getCurrentClientInfo = async (userid) => {
             labelphone = 'No Phone';
         }
         response.data.userInfo.labelphone = labelphone;
+        response.data.userInfo.studioStripeId = response.data.studioStripeId;
         if (response.data.msg === 'success' && response.data.userInfo) return response.data.userInfo;
         return 0;
     } catch (err) {

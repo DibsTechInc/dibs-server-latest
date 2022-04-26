@@ -32,9 +32,24 @@ async function getClientInfo(req, res) {
                 deletedAt: null
             }
         });
+        let studioStripeId = '';
+        if (clientInfo) {
+            const studioStripeInfo = await models.dibs_user_studio.findOne({
+                attributes: ['stripe_customer_id'],
+                where: {
+                    userid: req.body.userid,
+                    dibs_studio_id: req.body.dibsStudioId
+                }
+            });
+            if (studioStripeInfo) {
+                studioStripeId = studioStripeInfo.stripe_customer_id;
+            }
+        }
+
         res.json({
             msg: 'success',
-            userInfo: clientInfo
+            userInfo: clientInfo,
+            studioStripeId
         });
     } catch (err) {
         console.log(`error in getClientInfo api call: ${err}`);
