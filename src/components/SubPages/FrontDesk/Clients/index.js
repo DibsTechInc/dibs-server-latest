@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // material-ui
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import {
     // Box,
     Button,
@@ -12,6 +13,8 @@ import {
     Chip,
     Divider,
     Grid,
+    IconButton,
+    InputBase,
     List,
     ListItemButton,
     ListItemIcon,
@@ -22,6 +25,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
+    TextField,
     Typography
 } from '@mui/material';
 
@@ -60,6 +64,7 @@ const rows = [
     createData('Website', ':', 'http://example.com')
 ];
 const ClientAccountPage = () => {
+    const textInput = React.useRef(null);
     const { userid } = useParams();
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
@@ -81,6 +86,7 @@ const ClientAccountPage = () => {
     const [cardValueChanged, setCardValueChanged] = React.useState(false);
     const [newClientSecret, setNewClientSecret] = React.useState(null);
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
+    const [editingEmail, setEditingEmail] = React.useState(false);
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         if (cardValueChanged) {
@@ -192,6 +198,17 @@ const ClientAccountPage = () => {
         cardValueChanged,
         username
     ]);
+    const toggleEditingEmail = () => {
+        if (!editingEmail) {
+            setTimeout(() => {
+                textInput.current.focus();
+            }, 100);
+        }
+        if (editingEmail) {
+            setEmail(textInput.current.value);
+        }
+        setEditingEmail(!editingEmail);
+    };
     const getNewSetupIntent = async (event) => {
         console.log(`BUTTON WAS CLICKED`);
         await axios
@@ -231,15 +248,34 @@ const ClientAccountPage = () => {
                     }
                 >
                     <List component="nav" aria-label="main mailbox folders">
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={() => toggleEditingEmail()}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    toggleEditingEmail();
+                                }
+                            }}
+                        >
                             <ListItemIcon>
                                 <MailTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                             </ListItemIcon>
                             <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
                             <ListItemSecondaryAction>
-                                <Typography variant="subtitle2" align="right">
-                                    {email}
-                                </Typography>
+                                {!editingEmail ? (
+                                    <Typography variant="subtitle2" align="right">
+                                        {email}
+                                    </Typography>
+                                ) : (
+                                    <InputBase
+                                        sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
+                                        type="text"
+                                        placeholder="Enter New Email"
+                                        inputProps={{
+                                            style: { textAlign: 'right' }
+                                        }}
+                                        inputRef={textInput}
+                                    />
+                                )}
                             </ListItemSecondaryAction>
                         </ListItemButton>
                         <Divider />
