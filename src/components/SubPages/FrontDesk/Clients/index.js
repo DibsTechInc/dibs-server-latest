@@ -27,7 +27,8 @@ import {
     TableContainer,
     TableRow,
     TextField,
-    Typography
+    Typography,
+    ClickAwayListener
 } from '@mui/material';
 
 // project imports
@@ -89,6 +90,7 @@ const ClientAccountPage = () => {
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     const [editingEmail, setEditingEmail] = React.useState(false);
     // pull all of the client information including name based on their id
+    console.log(`editing email: ${editingEmail}`);
     React.useEffect(() => {
         if (cardValueChanged) {
             setUserBackground('');
@@ -213,6 +215,10 @@ const ClientAccountPage = () => {
         }
         setEditingEmail(!editingEmail);
     };
+    const handleClickAway = () => {
+        console.log(`click away is being called now`);
+        setEditingEmail(false);
+    };
     const getNewSetupIntent = async (event) => {
         console.log(`BUTTON WAS CLICKED`);
         await axios
@@ -252,36 +258,38 @@ const ClientAccountPage = () => {
                     }
                 >
                     <List component="nav" aria-label="main mailbox folders">
-                        <ListItemButton
-                            onClick={() => toggleEditingEmail()}
-                            onKeyPress={(e) => {
-                                if (e.key === 'Enter') {
-                                    toggleEditingEmail();
-                                }
-                            }}
-                        >
-                            <ListItemIcon>
-                                <MailTwoToneIcon sx={{ fontSize: '1.3rem' }} />
-                            </ListItemIcon>
-                            <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
-                            <ListItemSecondaryAction>
-                                {!editingEmail ? (
-                                    <Typography variant="subtitle2" align="right">
-                                        {email}
-                                    </Typography>
-                                ) : (
-                                    <InputBase
-                                        sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
-                                        type="text"
-                                        placeholder="Enter New Email"
-                                        inputProps={{
-                                            style: { textAlign: 'right' }
-                                        }}
-                                        inputRef={textInput}
-                                    />
-                                )}
-                            </ListItemSecondaryAction>
-                        </ListItemButton>
+                        <ClickAwayListener onClickAway={handleClickAway}>
+                            <ListItemButton
+                                onClick={() => toggleEditingEmail()}
+                                onKeyPress={(e) => {
+                                    if (e.key === 'Enter') {
+                                        toggleEditingEmail();
+                                    }
+                                }}
+                            >
+                                <ListItemIcon>
+                                    <MailTwoToneIcon sx={{ fontSize: '1.3rem' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
+                                <ListItemSecondaryAction>
+                                    {!editingEmail ? (
+                                        <Typography variant="subtitle2" align="right">
+                                            {email}
+                                        </Typography>
+                                    ) : (
+                                        <InputBase
+                                            sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
+                                            type="text"
+                                            placeholder="Enter New Email"
+                                            inputProps={{
+                                                style: { textAlign: 'right' }
+                                            }}
+                                            inputRef={textInput}
+                                        />
+                                    )}
+                                </ListItemSecondaryAction>
+                            </ListItemButton>
+                        </ClickAwayListener>
                         <Divider />
                         <ListItemButton>
                             <ListItemIcon>
