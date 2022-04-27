@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
+// import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
 // material-ui
 import {
-    Box,
+    // Box,
     Button,
-    CardContent,
+    // CardContent,
     Chip,
     Divider,
     Grid,
@@ -285,7 +285,7 @@ const ClientAccountPage = () => {
                             <Grid item xs={3} sx={{ mt: 4 }}>
                                 <Button
                                     onClick={(event) => getNewSetupIntent(event)}
-                                    sx={{ height: '20px', fontSize: '12px', fontWeight: 200, color: '#fff', pt: 1 }}
+                                    sx={{ width: '100px', height: '20px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
                                 >
                                     Add new card
                                 </Button>

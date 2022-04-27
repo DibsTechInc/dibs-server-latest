@@ -39,13 +39,13 @@ const studioAdminMenu = {
             url: '/reporting'
             // icon: icons.IconHelp
         },
-        {
-            id: 'opportunities',
-            title: <FormattedMessage id="opportunities" />,
-            type: 'item',
-            url: '/opportunities'
-            // icon: icons.IconHelp
-        },
+        // {
+        //     id: 'opportunities',
+        //     title: <FormattedMessage id="opportunities" />,
+        //     type: 'item',
+        //     url: '/opportunities'
+        //     // icon: icons.IconHelp
+        // },
         {
             id: 'class-schedule',
             title: <FormattedMessage id="class-schedule" />,
