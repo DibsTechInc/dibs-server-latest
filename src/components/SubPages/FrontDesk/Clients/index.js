@@ -206,6 +206,7 @@ const ClientAccountPage = () => {
         }
         if (editingEmail) {
             setEmail(textInput.current.value);
+            textInput.current.blur();
         }
         setEditingEmail(!editingEmail);
     };
