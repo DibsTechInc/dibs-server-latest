@@ -42,6 +42,7 @@ import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 import { useSelector } from 'store';
 import CollectPaymentInfo from '../../../stripe/CardPayments';
+import ErrorMessage from 'ui-component/modals/ErrorMessage';
 
 // actions
 // import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
@@ -69,12 +70,14 @@ const ClientAccountPage = () => {
     const textInput = React.useRef(null);
     const { userid } = useParams();
     const [error, setError] = React.useState(null);
+    const [errorOptions, setErrorOptions] = React.useState({});
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     const [username, setUsername] = React.useState('');
     const [userBackground, setUserBackground] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [phone, setPhone] = React.useState('');
+    const [hasError, setHasError] = React.useState(false);
     const [birthday, setBirthday] = React.useState('N/A');
     const [clientSecret, setClientSecret] = React.useState(null);
     const [stripeid, setStripeid] = React.useState('');
@@ -196,12 +199,17 @@ const ClientAccountPage = () => {
             if (isEmail) {
                 // working here - update email address
                 const updated = await updateClientInfo(userid, editedemail);
-                console.log(`updated client info = ${updated}`);
                 if (updated !== 1) {
-                    setError(updated);
+                    setError(updated.error);
+                    setErrorOptions({
+                        name: updated.nameofuser,
+                        email: updated.email
+                    });
+                    setHasError(true);
                 } else {
                     setEmail(editedemail);
                 }
+                console.log(`errorOptions = ${errorOptions}`);
             }
             textInput.current.blur();
         }
@@ -228,6 +236,7 @@ const ClientAccountPage = () => {
     };
     return (
         <Grid container spacing={2}>
+            <ErrorMessage isOpen={hasError} setHasError={setHasError} errormsg={error} errorOptions={errorOptions} />
             <Grid item lg={3.75} xs={12}>
                 <SubCard
                     title={

@@ -1,7 +1,9 @@
 const models = require('@dibs-tech/models');
+const os = require('os');
 
 async function updateClientInfo(req, res) {
     let errormsg;
+    const multilinebreak = `\n\n\n\r\n\r\n`;
     try {
         const { userid, birthday, email, name, phone } = req.body;
         console.log(`req.body = ${JSON.stringify(req.body)}`);
@@ -37,10 +39,13 @@ async function updateClientInfo(req, res) {
             }
         );
         if (bademail) {
-            errormsg = `Email ${bademail.email} is already in use by another client (${bademail.firstName} ${bademail.lastName}) in the Dibs network. You have 2 options: 1) Create a new account using the same email address to port them into your system OR 2) Choose a different email address.`;
+            errormsg = `email already in use`;
+            const nameofuser = `${bademail.firstName} ${bademail.lastName}`;
+            // errormsg = `This email address is already in use within Dibs network.${multilinebreak}Name: ${bademail.firstName} ${bademail.lastName}\nEmail:${bademail.email} <br><br>${multilinebreak}Navigate to their existing account by searching for their email address. If the account does not yet exist on your system, you can port the account by creating a new account using this email address. That will automatically transfer all of the client's information.`;
             return res.status(200).send({
                 msg: 'Unable to update',
-                error: errormsg
+                error: errormsg,
+                nameofuser
             });
         }
         const badphone = await models.dibs_user.findOne(

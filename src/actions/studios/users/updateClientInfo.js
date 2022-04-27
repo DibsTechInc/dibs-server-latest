@@ -19,6 +19,11 @@ export const updateClientInfo = async (userid, email = null, name = null, phone 
             birthday
         });
         if (response.data.msg === 'success') return 1;
+        if (response.data.error === 'email already in use') {
+            const nameofuser = response.data.nameofuser;
+            console.log(`response.data.error = ${response.data.error}`);
+            return { error: response.data.error, nameofuser, email };
+        }
         console.log(`response is: ${JSON.stringify(response.data)}`);
         return response.data.error;
     } catch (err) {
