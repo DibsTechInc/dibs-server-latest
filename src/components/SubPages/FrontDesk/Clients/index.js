@@ -46,6 +46,7 @@ import CollectPaymentInfo from '../../../stripe/CardPayments';
 // actions
 // import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
 import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
+import updateClientInfo from 'actions/studios/users/updateClientInfo';
 
 // personal details table
 /** names Don&apos;t look right */
@@ -67,6 +68,7 @@ const rows = [
 const ClientAccountPage = () => {
     const textInput = React.useRef(null);
     const { userid } = useParams();
+    const [error, setError] = React.useState(null);
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     const [username, setUsername] = React.useState('');
@@ -182,7 +184,7 @@ const ClientAccountPage = () => {
         cardValueChanged,
         username
     ]);
-    const toggleEditingEmail = () => {
+    const toggleEditingEmail = async () => {
         if (!editingEmail) {
             setTimeout(() => {
                 textInput.current.focus();
@@ -191,7 +193,16 @@ const ClientAccountPage = () => {
         if (editingEmail) {
             const editedemail = textInput.current.value;
             const isEmail = validator.validate(editedemail);
-            if (isEmail) setEmail(editedemail);
+            if (isEmail) {
+                // working here - update email address
+                const updated = await updateClientInfo(userid, editedemail);
+                console.log(`updated client info = ${updated}`);
+                if (updated !== 1) {
+                    setError(updated);
+                } else {
+                    setEmail(editedemail);
+                }
+            }
             textInput.current.blur();
         }
         setEditingEmail(!editingEmail);

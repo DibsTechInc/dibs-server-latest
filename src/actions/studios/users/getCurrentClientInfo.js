@@ -3,7 +3,7 @@ import axios from 'axios';
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
-// ==============================|| GET DASHBOARD DATA ||============================== //
+// ==============================|| GET USER PROFILE DATA ||============================== //
 
 export const getCurrentClientInfo = async (userid, dibsStudioId) => {
     try {
