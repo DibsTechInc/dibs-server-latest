@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 // import { loadStripe } from '@stripe/stripe-js';
 // import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import validator from 'email-validator';
 
 // material-ui
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
@@ -205,7 +206,9 @@ const ClientAccountPage = () => {
             }, 100);
         }
         if (editingEmail) {
-            setEmail(textInput.current.value);
+            const editedemail = textInput.current.value;
+            const isEmail = validator.validate(editedemail);
+            if (isEmail) setEmail(editedemail);
             textInput.current.blur();
         }
         setEditingEmail(!editingEmail);
