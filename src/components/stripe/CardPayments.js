@@ -8,15 +8,16 @@ import { CardElement, Elements, useStripe, useElements } from '@stripe/react-str
 import CheckoutForm from './CheckoutForm';
 // import Payment from 'views/application/e-commerce/Checkout/Payment';
 
-const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
-    apiVersion: '2020-08-27'
-});
+// const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
+//     apiVersion: '2020-08-27'
+// });
 
 const PaymentForm = (props) => {
-    const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged } = props;
+    const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
     console.log(`clientSecret is (CardPayment) passed in props: ${clientSecret}`);
     console.log(`studioCardInfo is (in CardPayment) passed in props: ${JSON.stringify(studioCardInfo)}`);
     console.log(`\n\n\nstripe payment element - hasPaymentMethod: ${hasPaymentMethod}`);
+    const [stripePromise, setStripePromise] = useState(() => loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', { apiVersion: '2020-08-27' }));
     const appearance = {
         theme: 'stripe'
     };
@@ -49,7 +50,7 @@ const PaymentForm = (props) => {
     if (!hasPaymentMethod) {
         return (
             <Elements id="stripe-checkout" options={options} stripe={stripePromise}>
-                <CheckoutForm clientSecret={clientSecret} setCardValueChanged={setCardValueChanged} />
+                <CheckoutForm clientSecret={clientSecret} setCardValueChanged={setCardValueChanged} addSpace={addSpace} />
             </Elements>
         );
     }

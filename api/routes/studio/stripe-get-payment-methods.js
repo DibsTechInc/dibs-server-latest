@@ -127,8 +127,8 @@ async function getStripePaymentMethods(req, res) {
             });
         }
         if (paymentMethodsDibs || paymentMethodsStudio) {
-            console.log(`\n\n\n\npaymentMethodsDibs -> ${JSON.stringify(paymentMethodsDibs)}`);
-            console.log(`\n\n\n\npaymentMethodsStudio -> ${JSON.stringify(paymentMethodsStudio)}`);
+            // console.log(`\n\n\n\npaymentMethodsDibs -> ${JSON.stringify(paymentMethodsDibs)}`);
+            // console.log(`\n\n\n\npaymentMethodsStudio -> ${JSON.stringify(paymentMethodsStudio)}`);
             res.json({
                 msg: 'success',
                 paymentMethodsStudio: paymentMethodsStudio || newPm,

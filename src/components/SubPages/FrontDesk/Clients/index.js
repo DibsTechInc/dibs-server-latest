@@ -79,6 +79,8 @@ const ClientAccountPage = () => {
     const [doneGettingClientSecret, setDoneGettingClientSecret] = React.useState(false);
     const [ready, setReady] = React.useState(false);
     const [cardValueChanged, setCardValueChanged] = React.useState(false);
+    const [newClientSecret, setNewClientSecret] = React.useState(null);
+    const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     // pull all of the client information including name based on their id
     React.useEffect(() => {
         if (cardValueChanged) {
@@ -190,6 +192,21 @@ const ClientAccountPage = () => {
         cardValueChanged,
         username
     ]);
+    const getNewSetupIntent = async (event) => {
+        console.log(`BUTTON WAS CLICKED`);
+        await axios
+            .post('/api/stripe-setup-intent', {
+                stripeid,
+                userid
+            })
+            .then((response) => {
+                console.log(`\n\n\n##############\n\nNEW CLIENT SECRET MORE CARDS is being set now`);
+                console.log(`new clientSecret is: ${response.data.clientSecret}`);
+                setNewClientSecret(response.data.stripeIntent);
+                // setStripeid(response.data.stripeId);
+                setShowAddCardComponent(true);
+            });
+    };
     return (
         <Grid container spacing={2}>
             <Grid item lg={3.75} xs={12}>
@@ -262,6 +279,26 @@ const ClientAccountPage = () => {
                                 clientSecret={clientSecret}
                                 studioCardInfo={studioCardInfo}
                                 setCardValueChanged={setCardValueChanged}
+                            />
+                        )}
+                        {!showAddCardComponent && (
+                            <Grid item xs={3} sx={{ mt: 4 }}>
+                                <Button
+                                    onClick={(event) => getNewSetupIntent(event)}
+                                    sx={{ height: '20px', fontSize: '12px', fontWeight: 200, color: '#fff', pt: 1 }}
+                                >
+                                    Add new card
+                                </Button>
+                            </Grid>
+                        )}
+                        {showAddCardComponent && (
+                            <CollectPaymentInfo
+                                dibsCardInfo={null}
+                                hasPaymentMethod={false}
+                                clientSecret={newClientSecret}
+                                studioCardInfo={null}
+                                setCardValueChanged={setCardValueChanged}
+                                addSpace
                             />
                         )}
                     </SubCard>

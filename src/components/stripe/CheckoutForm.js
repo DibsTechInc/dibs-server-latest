@@ -1,7 +1,7 @@
 // import React from 'react';
 // import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
-import { loadStripe } from '@stripe/stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
 import { useState, useEffect } from 'react';
 import { CardElement, Elements, useStripe, useElements } from '@stripe/react-stripe-js';
 
@@ -10,7 +10,7 @@ import './stripe.css';
 const CheckoutForm = (props) => {
     const stripe = useStripe();
     const elements = useElements();
-    const { clientSecret, setCardValueChanged } = props;
+    const { clientSecret, setCardValueChanged, addSpace } = props;
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [buttonnote, setButtonNote] = useState(`Add card to client's account`);
@@ -42,7 +42,7 @@ const CheckoutForm = (props) => {
                     break;
             }
         });
-    }, [stripe]);
+    }, [clientSecret, stripe]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -100,6 +100,7 @@ const CheckoutForm = (props) => {
     // TODO - set disabled to true if isLoading is true
     return (
         <form onSubmit={handleSubmit} className="form">
+            {addSpace && <div className="addrow" />}
             {!successfulIntent && <CardElement id="card-element" options={cardStyle} spacing={1} />}
             <button type="submit" id="payment-request-button" disabled={isLoading || processing}>
                 <span id="button-text">
