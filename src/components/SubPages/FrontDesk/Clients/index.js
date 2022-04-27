@@ -6,7 +6,6 @@ import axios from 'axios';
 import validator from 'email-validator';
 
 // material-ui
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import {
     // Box,
     Button,
@@ -14,7 +13,7 @@ import {
     Chip,
     Divider,
     Grid,
-    IconButton,
+    // IconButton,
     InputBase,
     List,
     ListItemButton,
@@ -26,7 +25,7 @@ import {
     TableCell,
     TableContainer,
     TableRow,
-    TextField,
+    // TextField,
     Typography,
     ClickAwayListener
 } from '@mui/material';
@@ -37,11 +36,11 @@ import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
 
 // assets
-import { IconEdit } from '@tabler/icons';
+// import { IconEdit } from '@tabler/icons';
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
-import { useSelector, useDispatch } from 'store';
+import { useSelector } from 'store';
 import CollectPaymentInfo from '../../../stripe/CardPayments';
 
 // actions
@@ -89,8 +88,6 @@ const ClientAccountPage = () => {
     const [newClientSecret, setNewClientSecret] = React.useState(null);
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     const [editingEmail, setEditingEmail] = React.useState(false);
-    // pull all of the client information including name based on their id
-    console.log(`editing email: ${editingEmail}`);
     React.useEffect(() => {
         if (cardValueChanged) {
             setUserBackground('');
@@ -100,12 +97,9 @@ const ClientAccountPage = () => {
             setCardValueChanged(false);
             setReady(false);
         }
-        console.log(`just after useEffect - try to determine what changed`);
         const getClientInfo = async () => {
-            console.log(`GET CURRENT CLIENT INFO STEP ONE`);
             await getCurrentClientInfo(userid, dibsStudioId).then((user) => {
                 if (user !== 0) {
-                    console.log(`user is: ${user}`);
                     setUsername(user.nameToDisplay);
                     setUserBackground(user.nameToDisplay);
                     setEmail(user.email);
@@ -116,10 +110,8 @@ const ClientAccountPage = () => {
                     setDoneLoadingClientInfo(true);
                 }
             });
-            console.log('done with step one');
         };
         const getClientPaymentMethods = async () => {
-            console.log(`GET CURRENT PAYMENT INFO STEP TWO`);
             if (stripeid) {
                 await axios
                     .post('/api/stripe-get-payment-methods', {
@@ -129,7 +121,6 @@ const ClientAccountPage = () => {
                         dibsStudioId
                     })
                     .then((response) => {
-                        console.log(`response from getClientPaymentMethods is: ${response}`);
                         if (response.data.msg === 'success') {
                             if (response.data.paymentMethodsStudio.data.length > 0 || response.data.paymentMethodsDibs.data.length > 0) {
                                 console.log(`THERE is at least ONE payment method in stripe`);
@@ -147,31 +138,21 @@ const ClientAccountPage = () => {
                         }
                     });
             }
-            console.log('done with step two');
             setDoneLoadingPaymentMethods(true);
         };
         const getClientSecret = async () => {
-            console.log(`GET CURRENT CLIENT SECRET`);
             await axios
                 .post('/api/stripe-setup-intent', {
                     userid,
                     stripeid
                 })
                 .then((response) => {
-                    console.log(`\n\n\n##############\n\nCLIENT SECRET is being set now`);
-                    console.log(`clientSecret is: ${response.data.clientSecret}`);
                     setClientSecret(response.data.stripeIntent);
                     setStripeid(response.data.stripeId);
                     setDoneGettingClientSecret(true);
                 });
-            console.log('done with step three');
         };
         const setupclientinfo = async () => {
-            console.log(`\n\n\n\n\n\n\n\n\n\n\nusername is: ${userBackground}`);
-            console.log(`\n\n\n\n\n\n\n\n\n\n\nstripeid is: ${stripeid}`);
-            console.log(`doneLoadingClientInfo: ${doneLoadingClientInfo}`);
-            console.log(`doneLoadingPaymentMethods: ${doneLoadingPaymentMethods}`);
-            console.log(`hasPaymentMethod: ${hasPaymentMethod}`);
             if (userBackground === '') {
                 await getClientInfo();
             }
@@ -216,9 +197,9 @@ const ClientAccountPage = () => {
         setEditingEmail(!editingEmail);
     };
     const handleClickAway = () => {
-        console.log(`click away is being called now`);
         setEditingEmail(false);
     };
+    // eslint-disable-next-line no-unused-vars
     const getNewSetupIntent = async (event) => {
         console.log(`BUTTON WAS CLICKED`);
         await axios

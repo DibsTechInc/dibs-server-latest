@@ -3,7 +3,7 @@
 import propTypes from 'prop-types';
 // import { loadStripe } from '@stripe/stripe-js';
 import { useState, useEffect } from 'react';
-import { CardElement, Elements, useStripe, useElements } from '@stripe/react-stripe-js';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 import './stripe.css';
 
@@ -119,7 +119,8 @@ const CheckoutForm = (props) => {
 };
 CheckoutForm.propTypes = {
     clientSecret: propTypes.string,
-    setCardValueChanged: propTypes.func
+    setCardValueChanged: propTypes.func,
+    addSpace: propTypes.bool
 };
 
 export default CheckoutForm;

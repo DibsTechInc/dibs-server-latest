@@ -56,7 +56,6 @@ export default function AutocompleteSearch() {
             })
             .then(() => {
                 if (searchedUserid > 5) {
-                    console.log(`searcheduserid is ${searchedUserid}`);
                     const urltolink = `/front-desk/clients/${searchedUserid}`;
                     console.log(`urltolink: ${urltolink}`);
                     navigate(urltolink);

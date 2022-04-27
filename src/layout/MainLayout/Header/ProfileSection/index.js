@@ -50,6 +50,7 @@ const ProfileSection = () => {
     // const [sdm, setSdm] = useState(true);
     // const [value, setValue] = useState('');
     // const [notification, setNotification] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const { logout, user } = useAuth();
     const [open, setOpen] = useState(false);

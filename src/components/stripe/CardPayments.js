@@ -3,7 +3,7 @@
 import propTypes from 'prop-types';
 import { loadStripe } from '@stripe/stripe-js';
 import { useState } from 'react';
-import { CardElement, Elements, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 import CheckoutForm from './CheckoutForm';
 // import Payment from 'views/application/e-commerce/Checkout/Payment';
@@ -13,10 +13,9 @@ import CheckoutForm from './CheckoutForm';
 // });
 
 const PaymentForm = (props) => {
-    const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
-    console.log(`clientSecret is (CardPayment) passed in props: ${clientSecret}`);
-    console.log(`studioCardInfo is (in CardPayment) passed in props: ${JSON.stringify(studioCardInfo)}`);
-    console.log(`\n\n\nstripe payment element - hasPaymentMethod: ${hasPaymentMethod}`);
+    // const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
+    const { clientSecret, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
+    // eslint-disable-next-line no-unused-vars
     const [stripePromise, setStripePromise] = useState(() => loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', { apiVersion: '2020-08-27' }));
     const appearance = {
         theme: 'stripe'
@@ -26,7 +25,6 @@ const PaymentForm = (props) => {
         appearance
     };
     if (studioCardInfo) {
-        console.log(`client has a payment method on file`);
         const cc = `XXXX-XXXX-XXXX-${studioCardInfo[0].card.last4}`;
         const exp = `${studioCardInfo[0].card.exp_month}/${studioCardInfo[0].card.exp_year}`;
         return (
@@ -61,9 +59,10 @@ PaymentForm.propTypes = {
     exp_month: propTypes.string,
     exp_year: propTypes.string,
     studioCardInfo: propTypes.array,
-    dibsCardInfo: propTypes.array,
+    // dibsCardInfo: propTypes.array,
     hasPaymentMethod: propTypes.bool,
-    setCardValueChanged: propTypes.func
+    setCardValueChanged: propTypes.func,
+    addSpace: propTypes.bool
 };
 
 export default PaymentForm;

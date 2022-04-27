@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, Card, Grid, InputAdornment, OutlinedInput, TextField, Popper } from '@mui/material';
+// import { Avatar, Box, Card, Grid, InputAdornment, OutlinedInput, TextField, Popper } from '@mui/material';
+import { Avatar, Box, Card, Grid, TextField, Popper } from '@mui/material';
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
@@ -12,12 +13,14 @@ import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
 import Transitions from 'ui-component/extended/Transitions';
 
 // assets
-import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
+// import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
+import { IconSearch } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
 
 // components
 import AutocompleteSearch from '../../search/AutoCompleteClientSearch';
-import { useSelector, dispatch } from 'store';
+// import { useSelector, dispatch } from 'store';
+import { dispatch } from 'store';
 import { setSearchTerm } from 'store/slices/clientsearch';
 
 // styles
@@ -31,6 +34,7 @@ const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
     }
 }));
 
+// eslint-disable-next-line no-unused-vars
 const OutlineTextFieldStyle = styled(TextField, { shouldForwardProp })(({ theme }) => ({
     width: 434,
     height: 40,
@@ -64,6 +68,7 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
 
 // ==============================|| SEARCH INPUT - MOBILE||============================== //
 
+// eslint-disable-next-line no-unused-vars
 const MobileSearch = ({ value, setValue, popupState }) => {
     const theme = useTheme();
     // Start Here - react-query - may be the way to do this - check it out
@@ -85,8 +90,8 @@ MobileSearch.propTypes = {
 
 const ClientSearch = () => {
     const theme = useTheme();
-    const [results, setResults] = useState([]);
-    const { term } = useSelector((state) => state.clientsearch);
+    // const [results, setResults] = useState([]);
+    // const { term } = useSelector((state) => state.clientsearch);
     const [value, setValue] = useState('');
 
     const handleChange = ({ target: { value } }) => {

@@ -6,7 +6,6 @@ const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 // ==============================|| GET DASHBOARD DATA ||============================== //
 
 export const getCurrentClientInfo = async (userid, dibsStudioId) => {
-    console.log(`userid is: ${userid}`);
     try {
         const response = await axios.post('/api/get-client-info', {
             userid,
