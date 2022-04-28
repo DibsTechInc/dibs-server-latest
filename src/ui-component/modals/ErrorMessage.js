@@ -43,7 +43,7 @@ export default function ErrorMessage(props) {
         nameofuser = errorOptions.name;
         email = errorOptions.email;
         secondarymsg =
-            'You can navigate to this account by searching for this email address using the search bar. If this client does not yet exist in your system, you can port this to your studio by creating a new account using this email address.';
+            'You can navigate to this account by searching for this email address using the search bar. If this account does not yet exist in your system, you can port this to your studio by creating a new account using this email address.';
     }
 
     return (
