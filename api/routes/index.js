@@ -10,6 +10,7 @@ const getClientInfo = require('./studio/get-client-info');
 const stripeSetupIntent = require('./studio/stripe-setup-intent');
 const stripeGetPaymentMethods = require('./studio/stripe-get-payment-methods');
 const updateClientInfo = require('./studio/update-client-info');
+const getNumberVisits = require('./studio/get-number-visits');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -24,6 +25,7 @@ router.post('/get-client-info', getClientInfo);
 router.post('/stripe-setup-intent', stripeSetupIntent);
 router.post('/stripe-get-payment-methods', stripeGetPaymentMethods);
 router.post('/update-client-info', updateClientInfo);
+router.post('/get-number-visits', getNumberVisits);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;
