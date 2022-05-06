@@ -4,6 +4,7 @@ const os = require('os');
 async function updateClientInfo(req, res) {
     let errormsg;
     try {
+        let count = 1;
         const { userid, birthday, email, name, phone } = req.body;
         console.log(`req.body = ${JSON.stringify(req.body)}`);
         const user = await models.dibs_user.findOne(
@@ -17,6 +18,8 @@ async function updateClientInfo(req, res) {
                 attributes: ['id', 'email', 'name', 'phone', 'birthday']
             }
         );
+        console.log(`console ${count}`);
+        count += 1;
         if (!user) {
             errormsg = 'user not found';
             return res.status(200).send({
@@ -38,6 +41,8 @@ async function updateClientInfo(req, res) {
                     attributes: ['id', 'email', 'firstName', 'lastName']
                 }
             );
+            console.log(`console ${count}`);
+            count += 1;
             if (bademail) {
                 errormsg = `email is already in use`;
                 const nameofuser = `${bademail.firstName} ${bademail.lastName}`;
@@ -64,8 +69,27 @@ async function updateClientInfo(req, res) {
                     attributes: ['id', 'email', 'firstName', 'lastName']
                 }
             );
-            console.log(`\n\n\nbadphone = ${JSON.stringify(badphone)}`);
+            console.log(`console ${count}`);
+            count += 1;
+            const phonetotest = `1${phone}`;
+            const badphoneWithOne = await models.dibs_user.findOne(
+                {
+                    where: {
+                        mobilephone: phonetotest,
+                        id: {
+                            [models.Sequelize.Op.ne]: userid
+                        }
+                    }
+                },
+                {
+                    attributes: ['id', 'email', 'firstName', 'lastName']
+                }
+            );
+            console.log(`\n\n\nbadphone = ${JSON.stringify(badphoneWithOne)}`);
+            console.log(`\n\n\nbadphoneWithOne = ${JSON.stringify(badphoneWithOne)}`);
             if (badphone) {
+                console.log(`console ${count}`);
+                count += 1;
                 errormsg = `Phone number ${badphone.mobilephone} is already in use by another client (${badphone.firstName} ${badphone.lastName}) in the Dibs network and cannot be attached to this account.`;
                 const nameofuser = `${badphone.firstName} ${badphone.lastName}`;
                 const emailofuser = `${badphone.email}`;
@@ -77,6 +101,23 @@ async function updateClientInfo(req, res) {
                     emailofuser
                 });
             }
+            console.log(`console ${count}`);
+            count += 1;
+            if (badphoneWithOne) {
+                console.log(`badphonewithone - inside of this if statement ${badphoneWithOne.firstName}`);
+                errormsg = `Phone number ${badphoneWithOne.mobilephone} is already in use by another client (${badphoneWithOne.firstName} ${badphoneWithOne.lastName}) in the Dibs network and cannot be attached to this account.`;
+                const nameofuser = `${badphoneWithOne.firstName} ${badphoneWithOne.lastName}`;
+                const emailofuser = `${badphoneWithOne.email}`;
+                return res.status(200).send({
+                    msg: 'Unable to update',
+                    error: errormsg,
+                    errorType: 'phone',
+                    nameofuser,
+                    emailofuser
+                });
+            }
+            console.log(`console ${count}`);
+            count += 1;
         }
         if (user) {
             if (email) user.email = email;

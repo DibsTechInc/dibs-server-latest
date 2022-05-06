@@ -45,7 +45,7 @@ export default function ErrorMessage(props) {
         // phone is the message type
         msgToShow = errorOptions.errorMsg;
         secondarymsg =
-            'Remove the phone number from this account (if the client is in your system) or use a different phone number.';
+            'You can remove the phone number from that account (if the client is in your system) or use a different phone number for this account.';
     }
     return (
         <div>

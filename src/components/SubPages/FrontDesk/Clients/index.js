@@ -49,6 +49,9 @@ import ErrorMessage from 'ui-component/modals/ErrorMessage';
 import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 import updateClientInfo from 'actions/studios/users/updateClientInfo';
 
+const PNF = require('google-libphonenumber').PhoneNumberFormat;
+const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+
 // personal details table
 /** names Don&apos;t look right */
 function createData(name, calories, fat, carbs, protein) {
@@ -222,7 +225,9 @@ const ClientAccountPage = () => {
                     });
                     setHasError(true);
                 } else {
-                    setPhone(editedphone);
+                    const number = phoneUtil.parseAndKeepRawInput(editedphone, 'US');
+                    const labelphone = phoneUtil.format(number, PNF.NATIONAL);
+                    setPhone(labelphone);
                 }
                 console.log(`errorOptions = ${JSON.stringify(errorOptions)}`);
             }
