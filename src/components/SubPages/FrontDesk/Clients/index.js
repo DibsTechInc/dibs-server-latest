@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 // import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import validator from 'email-validator';
-import { AsYouType } from 'libphonenumber-js';
 
 // material-ui
 import {
@@ -204,25 +203,28 @@ const ClientAccountPage = () => {
             setTimeout(() => {
                 console.log(`setTimeout -> ${phoneInput.current}`);
                 phoneInput.current.focus();
-            }, 100000);
+            }, 100);
         }
         if (editingPhone) {
             const editedphone = phoneInput.current.value;
             console.log(`editedphone: ${editedphone}`);
             if (editedphone) {
                 // working here - update email address
-                const updated = await updateClientInfo(userid, editedphone);
+                const updated = await updateClientInfo(userid, null, null, editedphone);
+                console.log(`\n\n\n\n\nreturned from updatedClientInfo: ${JSON.stringify(updated)}`);
                 if (updated !== 1) {
                     setError(updated.error);
                     setErrorOptions({
                         name: updated.nameofuser,
-                        email: updated.email
+                        email: updated.emailofuser,
+                        errorMsg: updated.error,
+                        errorType: updated.errorType
                     });
                     setHasError(true);
                 } else {
                     setPhone(editedphone);
                 }
-                console.log(`errorOptions = ${errorOptions}`);
+                console.log(`errorOptions = ${JSON.stringify(errorOptions)}`);
             }
             phoneInput.current.blur();
         }
@@ -261,7 +263,6 @@ const ClientAccountPage = () => {
         setEditingEmail(false);
         // setEditingPhone(false);
     };
-    const handlePhoneInput = (value) => new AsYouType('US').input(value);
     // eslint-disable-next-line no-unused-vars
     const getNewSetupIntent = async (event) => {
         console.log(`BUTTON WAS CLICKED`);

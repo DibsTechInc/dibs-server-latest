@@ -33,19 +33,20 @@ export default function ErrorMessage(props) {
             setOpen(false);
         }
     }, [isOpen]);
-    console.log(`isOpen is: ${isOpen}`);
-    let nameofuser;
-    let email;
     let msgToShow;
     let secondarymsg;
+    const nameofuser = errorOptions.name;
+    const email = errorOptions.email;
     if (errormsg === 'email already in use') {
         msgToShow = `This email address is already in use by another client account.`;
-        nameofuser = errorOptions.name;
-        email = errorOptions.email;
         secondarymsg =
             'You can navigate to this account by searching for this email address using the search bar. If this account does not yet exist in your system, you can port this to your studio by creating a new account using this email address.';
+    } else if (errorOptions.errorType === 'phone') {
+        // phone is the message type
+        msgToShow = errorOptions.errorMsg;
+        secondarymsg =
+            'Remove the phone number from this account (if the client is in your system) or use a different phone number.';
     }
-
     return (
         <div>
             <Modal

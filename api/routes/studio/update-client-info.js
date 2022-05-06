@@ -50,6 +50,7 @@ async function updateClientInfo(req, res) {
             }
         }
         if (phone) {
+            console.log(`\n\n\n\n\n\napi call was made to updateClientInfo with phone = ${phone}`);
             const badphone = await models.dibs_user.findOne(
                 {
                     where: {
@@ -63,18 +64,24 @@ async function updateClientInfo(req, res) {
                     attributes: ['id', 'email', 'firstName', 'lastName']
                 }
             );
+            console.log(`\n\n\nbadphone = ${JSON.stringify(badphone)}`);
             if (badphone) {
-                errormsg = `Phone number ${badphone.phone} is already in use by another client (${badphone.firstName} ${badphone.lastName}) in the Dibs network and cannot be attached to this account.`;
+                errormsg = `Phone number ${badphone.mobilephone} is already in use by another client (${badphone.firstName} ${badphone.lastName}) in the Dibs network and cannot be attached to this account.`;
+                const nameofuser = `${badphone.firstName} ${badphone.lastName}`;
+                const emailofuser = `${badphone.email}`;
                 return res.status(200).send({
                     msg: 'Unable to update',
-                    error: errormsg
+                    error: errormsg,
+                    errorType: 'phone',
+                    nameofuser,
+                    emailofuser
                 });
             }
         }
         if (user) {
             if (email) user.email = email;
             if (name) user.name = name;
-            if (phone) user.phone = phone;
+            if (phone) user.mobilephone = phone;
             if (birthday) user.birthday = birthday;
             await user.save();
             return res.status(200).send({
