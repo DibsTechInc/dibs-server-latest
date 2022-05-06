@@ -21,7 +21,6 @@ const style = {
 };
 
 export default function ErrorMessage(props) {
-    console.log(`props are: ${JSON.stringify(props)}`);
     const [open, setOpen] = React.useState(false);
     // const handleOpen = () => setOpen(true);
     const { isOpen, errormsg, errorOptions, setHasError } = props;

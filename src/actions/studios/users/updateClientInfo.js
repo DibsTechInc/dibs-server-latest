@@ -1,8 +1,5 @@
 import axios from 'axios';
 
-const PNF = require('google-libphonenumber').PhoneNumberFormat;
-const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-
 // ==============================|| UPDATE USER PROFILE DATA ||============================== //
 
 export const updateClientInfo = async (userid, email = null, name = null, phone = null, birthday = null) => {

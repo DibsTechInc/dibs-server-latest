@@ -72,6 +72,7 @@ const rows = [
 const ClientAccountPage = () => {
     const textInput = React.useRef('email');
     const phoneInput = React.useRef('phone');
+    const birthdayInput = React.useRef('birthday');
     const { userid } = useParams();
     const [error, setError] = React.useState(null);
     const [errorOptions, setErrorOptions] = React.useState({});
@@ -133,17 +134,14 @@ const ClientAccountPage = () => {
                     .then((response) => {
                         if (response.data.msg === 'success') {
                             if (response.data.paymentMethodsStudio.data.length > 0 || response.data.paymentMethodsDibs.data.length > 0) {
-                                console.log(`THERE is at least ONE payment method in stripe`);
                                 setHasPaymentMethod(true);
                                 setStudioStripeId(response.data.paymentMethodsStudio.data[0].customer);
                                 setStudioCardInfo(response.data.paymentMethodsStudio.data);
                                 setDibsCardInfo(response.data.paymentMethodsDibs.data);
                             }
                         } else if (response.data.msg === 'no payment methods on dibs') {
-                            console.log(`THERE is NO payment method in stripe`);
                             setHasPaymentMethod(false);
                         } else {
-                            console.log(`Error getting payment info from stripe`);
                             setHasPaymentMethod(false);
                         }
                     });
@@ -198,23 +196,15 @@ const ClientAccountPage = () => {
         username
     ]);
     const toggleEditingPhone = async () => {
-        console.log(`changing editingPhoneNow`);
         if (!editingPhone) {
-            // working here
-            console.log(`\n\n\n---\neditingPhone -> phoneInput current is: ${JSON.stringify(phoneInput)}`);
-            console.log(`setTimeout -> ${phoneInput.current}`);
             setTimeout(() => {
-                console.log(`setTimeout -> ${phoneInput.current}`);
                 phoneInput.current.focus();
             }, 100);
         }
         if (editingPhone) {
             const editedphone = phoneInput.current.value;
-            console.log(`editedphone: ${editedphone}`);
             if (editedphone) {
-                // working here - update email address
                 const updated = await updateClientInfo(userid, null, null, editedphone);
-                console.log(`\n\n\n\n\nreturned from updatedClientInfo: ${JSON.stringify(updated)}`);
                 if (updated !== 1) {
                     setError(updated.error);
                     setErrorOptions({
@@ -229,7 +219,6 @@ const ClientAccountPage = () => {
                     const labelphone = phoneUtil.format(number, PNF.NATIONAL);
                     setPhone(labelphone);
                 }
-                console.log(`errorOptions = ${JSON.stringify(errorOptions)}`);
             }
             phoneInput.current.blur();
         }
@@ -237,7 +226,6 @@ const ClientAccountPage = () => {
     };
     const toggleEditingEmail = async () => {
         if (!editingEmail) {
-            console.log(`\n\n\n+++\neditingEmail -> textInput current is: ${JSON.stringify(textInput)}`);
             setTimeout(() => {
                 textInput.current.focus();
             }, 100);
@@ -258,7 +246,6 @@ const ClientAccountPage = () => {
                 } else {
                     setEmail(editedemail);
                 }
-                console.log(`errorOptions = ${errorOptions}`);
             }
             textInput.current.blur();
         }
@@ -270,17 +257,13 @@ const ClientAccountPage = () => {
     };
     // eslint-disable-next-line no-unused-vars
     const getNewSetupIntent = async (event) => {
-        console.log(`BUTTON WAS CLICKED`);
         await axios
             .post('/api/stripe-setup-intent', {
                 stripeid,
                 userid
             })
             .then((response) => {
-                console.log(`\n\n\n##############\n\nNEW CLIENT SECRET MORE CARDS is being set now`);
-                console.log(`new clientSecret is: ${response.data.clientSecret}`);
                 setNewClientSecret(response.data.stripeIntent);
-                // setStripeid(response.data.stripeId);
                 setShowAddCardComponent(true);
             });
     };
