@@ -68,6 +68,7 @@
         "image-to-base64": "^2.2.0",
         "jsonwebtoken": "^8.5.1",
         "jwt-decode": "^3.1.2",
+        "libphonenumber-js": "^1.9.52",
         "lodash": "^4.17.21",
         "material-ui-popup-state": "^2.0.0",
         "moment-timezone": "^0.5.34",
