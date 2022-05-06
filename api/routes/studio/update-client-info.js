@@ -3,7 +3,6 @@ const os = require('os');
 
 async function updateClientInfo(req, res) {
     let errormsg;
-    const multilinebreak = `\n\n\n\r\n\r\n`;
     try {
         const { userid, birthday, email, name, phone } = req.body;
         console.log(`req.body = ${JSON.stringify(req.body)}`);
@@ -25,48 +24,52 @@ async function updateClientInfo(req, res) {
                 error: errormsg
             });
         }
-        const bademail = await models.dibs_user.findOne(
-            {
-                where: {
-                    email,
-                    id: {
-                        [models.Sequelize.Op.ne]: userid
+        if (email) {
+            const bademail = await models.dibs_user.findOne(
+                {
+                    where: {
+                        email,
+                        id: {
+                            [models.Sequelize.Op.ne]: userid
+                        }
                     }
+                },
+                {
+                    attributes: ['id', 'email', 'firstName', 'lastName']
                 }
-            },
-            {
-                attributes: ['id', 'email', 'firstName', 'lastName']
+            );
+            if (bademail) {
+                errormsg = `email is already in use`;
+                const nameofuser = `${bademail.firstName} ${bademail.lastName}`;
+                // errormsg = `This email address is already in use within Dibs network.${multilinebreak}Name: ${bademail.firstName} ${bademail.lastName}\nEmail:${bademail.email} <br><br>${multilinebreak}Navigate to their existing account by searching for their email address. If the account does not yet exist on your system, you can port the account by creating a new account using this email address. That will automatically transfer all of the client's information.`;
+                return res.status(200).send({
+                    msg: 'Unable to update',
+                    error: errormsg,
+                    nameofuser
+                });
             }
-        );
-        if (bademail) {
-            errormsg = `email already in use`;
-            const nameofuser = `${bademail.firstName} ${bademail.lastName}`;
-            // errormsg = `This email address is already in use within Dibs network.${multilinebreak}Name: ${bademail.firstName} ${bademail.lastName}\nEmail:${bademail.email} <br><br>${multilinebreak}Navigate to their existing account by searching for their email address. If the account does not yet exist on your system, you can port the account by creating a new account using this email address. That will automatically transfer all of the client's information.`;
-            return res.status(200).send({
-                msg: 'Unable to update',
-                error: errormsg,
-                nameofuser
-            });
         }
-        const badphone = await models.dibs_user.findOne(
-            {
-                where: {
-                    mobilephone: phone,
-                    id: {
-                        [models.Sequelize.Op.ne]: userid
+        if (phone) {
+            const badphone = await models.dibs_user.findOne(
+                {
+                    where: {
+                        mobilephone: phone,
+                        id: {
+                            [models.Sequelize.Op.ne]: userid
+                        }
                     }
+                },
+                {
+                    attributes: ['id', 'email', 'firstName', 'lastName']
                 }
-            },
-            {
-                attributes: ['id', 'email', 'firstName', 'lastName']
+            );
+            if (badphone) {
+                errormsg = `Phone number ${badphone.phone} is already in use by another client (${badphone.firstName} ${badphone.lastName}) in the Dibs network and cannot be attached to this account.`;
+                return res.status(200).send({
+                    msg: 'Unable to update',
+                    error: errormsg
+                });
             }
-        );
-        if (badphone) {
-            errormsg = `Phone number ${badphone.phone} is already in use by another client (${badphone.firstName} ${badphone.lastName}) in the Dibs network and cannot be attached to this account.`;
-            return res.status(200).send({
-                msg: 'Unable to update',
-                error: errormsg
-            });
         }
         if (user) {
             if (email) user.email = email;

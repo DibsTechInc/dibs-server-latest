@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 // import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import validator from 'email-validator';
+import { AsYouType } from 'libphonenumber-js';
 
 // material-ui
 import {
@@ -67,7 +68,8 @@ const rows = [
     createData('Website', ':', 'http://example.com')
 ];
 const ClientAccountPage = () => {
-    const textInput = React.useRef(null);
+    const textInput = React.useRef('email');
+    const phoneInput = React.useRef('phone');
     const { userid } = useParams();
     const [error, setError] = React.useState(null);
     const [errorOptions, setErrorOptions] = React.useState({});
@@ -76,7 +78,7 @@ const ClientAccountPage = () => {
     const [username, setUsername] = React.useState('');
     const [userBackground, setUserBackground] = React.useState('');
     const [email, setEmail] = React.useState('');
-    const [phone, setPhone] = React.useState('');
+    const [phone, setPhone] = React.useState('No Phone');
     const [hasError, setHasError] = React.useState(false);
     const [birthday, setBirthday] = React.useState('N/A');
     const [clientSecret, setClientSecret] = React.useState(null);
@@ -93,6 +95,7 @@ const ClientAccountPage = () => {
     const [newClientSecret, setNewClientSecret] = React.useState(null);
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     const [editingEmail, setEditingEmail] = React.useState(false);
+    const [editingPhone, setEditingPhone] = React.useState(false);
     React.useEffect(() => {
         if (cardValueChanged) {
             setUserBackground('');
@@ -172,6 +175,11 @@ const ClientAccountPage = () => {
         if (hasPaymentMethod || clientSecret) {
             setReady(true);
         }
+        return () => {
+            setReady(false);
+            setEditingPhone(false);
+            setEditingEmail(false);
+        };
     }, [
         clientSecret,
         dibsCardInfo,
@@ -187,8 +195,42 @@ const ClientAccountPage = () => {
         cardValueChanged,
         username
     ]);
+    const toggleEditingPhone = async () => {
+        console.log(`changing editingPhoneNow`);
+        if (!editingPhone) {
+            // working here
+            console.log(`\n\n\n---\neditingPhone -> phoneInput current is: ${JSON.stringify(phoneInput)}`);
+            console.log(`setTimeout -> ${phoneInput.current}`);
+            setTimeout(() => {
+                console.log(`setTimeout -> ${phoneInput.current}`);
+                phoneInput.current.focus();
+            }, 100000);
+        }
+        if (editingPhone) {
+            const editedphone = phoneInput.current.value;
+            console.log(`editedphone: ${editedphone}`);
+            if (editedphone) {
+                // working here - update email address
+                const updated = await updateClientInfo(userid, editedphone);
+                if (updated !== 1) {
+                    setError(updated.error);
+                    setErrorOptions({
+                        name: updated.nameofuser,
+                        email: updated.email
+                    });
+                    setHasError(true);
+                } else {
+                    setPhone(editedphone);
+                }
+                console.log(`errorOptions = ${errorOptions}`);
+            }
+            phoneInput.current.blur();
+        }
+        setEditingPhone(!editingPhone);
+    };
     const toggleEditingEmail = async () => {
         if (!editingEmail) {
+            console.log(`\n\n\n+++\neditingEmail -> textInput current is: ${JSON.stringify(textInput)}`);
             setTimeout(() => {
                 textInput.current.focus();
             }, 100);
@@ -217,7 +259,9 @@ const ClientAccountPage = () => {
     };
     const handleClickAway = () => {
         setEditingEmail(false);
+        // setEditingPhone(false);
     };
+    const handlePhoneInput = (value) => new AsYouType('US').input(value);
     // eslint-disable-next-line no-unused-vars
     const getNewSetupIntent = async (event) => {
         console.log(`BUTTON WAS CLICKED`);
@@ -279,12 +323,14 @@ const ClientAccountPage = () => {
                                         </Typography>
                                     ) : (
                                         <InputBase
+                                            id="emailInput"
                                             sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
-                                            type="text"
+                                            type="email"
                                             placeholder="Enter New Email"
                                             inputProps={{
                                                 style: { textAlign: 'right' }
                                             }}
+                                            // inputRef={textInput}
                                             inputRef={textInput}
                                         />
                                     )}
@@ -292,15 +338,37 @@ const ClientAccountPage = () => {
                             </ListItemButton>
                         </ClickAwayListener>
                         <Divider />
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={() => toggleEditingPhone()}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    toggleEditingPhone();
+                                }
+                            }}
+                        >
                             <ListItemIcon>
                                 <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                             </ListItemIcon>
                             <ListItemText primary={<Typography variant="subtitle1">Phone</Typography>} />
                             <ListItemSecondaryAction>
-                                <Typography variant="subtitle2" align="right">
-                                    {phone}
-                                </Typography>
+                                {!editingPhone ? (
+                                    <Typography variant="subtitle2" align="right">
+                                        {phone}
+                                    </Typography>
+                                ) : (
+                                    <InputBase
+                                        sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
+                                        type="text"
+                                        id="phoneField"
+                                        placeholder="Enter New Phone #"
+                                        // value={handlePhoneInput(phone)}
+                                        inputProps={{
+                                            style: { textAlign: 'right' }
+                                        }}
+                                        // inputRef={textInput}
+                                        inputRef={phoneInput}
+                                    />
+                                )}
                             </ListItemSecondaryAction>
                         </ListItemButton>
                         <Divider />
