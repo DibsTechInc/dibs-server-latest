@@ -48,6 +48,7 @@ import ErrorMessage from 'ui-component/modals/ErrorMessage';
 // import findOrCreateStripeCustomer from 'actions/studios/users/findOrCreateStripeCustomer';
 import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 import updateClientInfo from 'actions/studios/users/updateClientInfo';
+import getNumberVisits from 'actions/studios/users/getNumberVisits';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -59,7 +60,6 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 // ==============================|| SAMPLE PAGE ||============================== //
-const picurl = 'https://d2awqhtf1sn10j.cloudfront.net/Alicia-undefined-615094.png';
 const rows = [
     createData('Full Name', ':', 'Alicia Ulin'),
     createData('Fathers Name', ':', 'Mr. Deepen Handgun'),
@@ -75,6 +75,7 @@ const ClientAccountPage = () => {
     const birthdayInput = React.useRef('birthday');
     const { userid } = useParams();
     const [error, setError] = React.useState(null);
+    const [numVisits, setNumVisits] = React.useState(0);
     const [errorOptions, setErrorOptions] = React.useState({});
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
@@ -91,6 +92,7 @@ const ClientAccountPage = () => {
     const [dibsCardInfo, setDibsCardInfo] = React.useState(null);
     const [studioCardInfo, setStudioCardInfo] = React.useState(null);
     const [doneLoadingClientInfo, setDoneLoadingClientInfo] = React.useState(false);
+    const [picurl, setPicurl] = React.useState('//d1f9yoxjfza91b.cloudfront.net/dibs-user-placeholder.png');
     const [doneLoadingPaymentMethods, setDoneLoadingPaymentMethods] = React.useState(false);
     const [doneGettingClientSecret, setDoneGettingClientSecret] = React.useState(false);
     const [ready, setReady] = React.useState(false);
@@ -116,11 +118,15 @@ const ClientAccountPage = () => {
                     setUserBackground(user.nameToDisplay);
                     setEmail(user.email);
                     setPhone(user.labelphone);
+                    setPicurl(user.pictureUrl);
                     if (user.birthday) setBirthday(user.birthday);
                     if (user.stripeid) setStripeid(user.stripeid);
                     if (user.studioStripeId) setStudioStripeId(user.studioStripeId);
                     setDoneLoadingClientInfo(true);
                 }
+            });
+            await getNumberVisits(userid, dibsStudioId).then((num) => {
+                setNumVisits(num);
             });
         };
         const getClientPaymentMethods = async () => {
@@ -235,7 +241,6 @@ const ClientAccountPage = () => {
             const editedbirthday = birthdayInput.current.value;
             if (editedbirthday) {
                 const birthdayupdate = await updateClientInfo(userid, null, null, null, editedbirthday);
-                console.log(`birthdayupdate: ${JSON.stringify(birthdayupdate)}`);
                 if (birthdayupdate !== 1) {
                     setError(birthdayupdate.error);
                     setErrorOptions({
@@ -311,12 +316,12 @@ const ClientAccountPage = () => {
                                     {username}
                                 </Typography>
                                 <Typography align="left" variant="subtitle2">
-                                    (272 visits)
+                                    ({numVisits} visits)
                                 </Typography>
                             </Grid>
-                            <Grid item>
+                            {/* <Grid item>
                                 <Chip size="small" label="Top 5%" color="primary" />
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     }
                 >

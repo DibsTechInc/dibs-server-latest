@@ -26,7 +26,6 @@ const CheckoutForm = (props) => {
         }
         console.log(`inside of useEffect of the checkout form`);
         stripe.retrieveSetupIntent(clientSecret).then(({ setupIntent }) => {
-            console.log(`setupIntent is: ${JSON.stringify(setupIntent)}`);
             switch (setupIntent.status) {
                 case 'succeeded':
                     setMessage(`Card info has been saved.`);
