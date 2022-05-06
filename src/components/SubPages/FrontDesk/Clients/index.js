@@ -99,6 +99,7 @@ const ClientAccountPage = () => {
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     const [editingEmail, setEditingEmail] = React.useState(false);
     const [editingPhone, setEditingPhone] = React.useState(false);
+    const [editingBirthday, setEditingBirthday] = React.useState(false);
     React.useEffect(() => {
         if (cardValueChanged) {
             setUserBackground('');
@@ -223,6 +224,34 @@ const ClientAccountPage = () => {
             phoneInput.current.blur();
         }
         setEditingPhone(!editingPhone);
+    };
+    const toggleEditingBirthday = async () => {
+        if (!editingBirthday) {
+            setTimeout(() => {
+                birthdayInput.current.focus();
+            }, 100);
+        }
+        if (editingBirthday) {
+            const editedbirthday = birthdayInput.current.value;
+            if (editedbirthday) {
+                const birthdayupdate = await updateClientInfo(userid, null, null, null, editedbirthday);
+                console.log(`birthdayupdate: ${JSON.stringify(birthdayupdate)}`);
+                if (birthdayupdate !== 1) {
+                    setError(birthdayupdate.error);
+                    setErrorOptions({
+                        name: birthdayupdate.nameofuser,
+                        email: birthdayupdate.emailofuser,
+                        errorMsg: birthdayupdate.error,
+                        errorType: birthdayupdate.errorType
+                    });
+                    setHasError(true);
+                } else {
+                    setBirthday(editedbirthday);
+                }
+            }
+            birthdayInput.current.blur();
+        }
+        setEditingBirthday(!editingBirthday);
     };
     const toggleEditingEmail = async () => {
         if (!editingEmail) {
@@ -361,15 +390,37 @@ const ClientAccountPage = () => {
                             </ListItemSecondaryAction>
                         </ListItemButton>
                         <Divider />
-                        <ListItemButton>
+                        <ListItemButton
+                            onClick={() => toggleEditingBirthday()}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    toggleEditingBirthday();
+                                }
+                            }}
+                        >
                             <ListItemIcon>
                                 <CakeTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                             </ListItemIcon>
                             <ListItemText primary={<Typography variant="subtitle1">Birthday</Typography>} />
                             <ListItemSecondaryAction>
-                                <Typography variant="subtitle2" align="right">
-                                    {birthday}
-                                </Typography>
+                                {!editingBirthday ? (
+                                    <Typography variant="subtitle2" align="right">
+                                        {birthday}
+                                    </Typography>
+                                ) : (
+                                    <InputBase
+                                        sx={{ color: '#9e9e9e', fontSize: '.75rem' }}
+                                        type="text"
+                                        id="birthday"
+                                        placeholder="MM/DD"
+                                        // value={handlePhoneInput(phone)}
+                                        inputProps={{
+                                            style: { textAlign: 'right' }
+                                        }}
+                                        // inputRef={textInput}
+                                        inputRef={birthdayInput}
+                                    />
+                                )}
                             </ListItemSecondaryAction>
                         </ListItemButton>
                     </List>

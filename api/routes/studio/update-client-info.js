@@ -1,5 +1,4 @@
 const models = require('@dibs-tech/models');
-const os = require('os');
 
 async function updateClientInfo(req, res) {
     let errormsg;
