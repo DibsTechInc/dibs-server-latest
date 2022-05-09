@@ -69,6 +69,7 @@ const rows = [
     createData('Email', ':', 'support@example.com'),
     createData('Website', ':', 'http://example.com')
 ];
+console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
     const textInput = React.useRef('email');
     const phoneInput = React.useRef('phone');
@@ -474,20 +475,18 @@ const ClientAccountPage = () => {
                     <Grid item xs={12}>
                         <SubCard
                             title="UPCOMING CLASSES"
-                            // secondary={
-                            //     <Button>
-                            //         <IconEdit stroke={1.5} size="1.3rem" />
-                            //     </Button>
-                            // }
+                            secondary={
+                                <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
+                                    <Button
+                                        onClick={(event) => getNewSetupIntent(event)}
+                                        sx={{ width: '120px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
+                                    >
+                                        Add Client To Class
+                                    </Button>
+                                </Grid>
+                            }
                         >
                             <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    BOOK A CLASS BUTTON (off to the right)
-                                    <br />
-                                    <br />
-                                    <Typography variant="subtitle1">Personal Details</Typography>
-                                </Grid>
-                                <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
                                     <TableContainer>
                                         <Table
