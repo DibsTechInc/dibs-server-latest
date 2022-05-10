@@ -19,7 +19,7 @@ export default function UnstyledDropButton() {
     return (
         <Stack spacing={0} justifyContent="center">
             <CustomButton>
-                <XIcon size={9} strokeWidth={1.25} stroke="#e7b2a5" />
+                <XIcon size={9} strokeWidth={2} stroke="#e7b2a5" />
             </CustomButton>
             <CustomButton>DROP</CustomButton>
         </Stack>
