@@ -45,6 +45,21 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontWeight: 400,
         color: theme.palette.text.secondary
     },
+    sectionSubHeaders: {
+        fontSize: '0.775rem',
+        fontWeight: 500,
+        color: theme.palette.secondary[800]
+    },
+    sectionData: {
+        fontSize: '0.7rem',
+        fontWeight: 500,
+        color: theme.palette.text.primary
+    },
+    sectionDataSecondary: {
+        fontSize: '0.7rem',
+        fontWeight: 400,
+        color: theme.palette.text.secondary
+    },
     tableValue: {
         fontWeight: 900,
         color: theme.palette.tableValues.main

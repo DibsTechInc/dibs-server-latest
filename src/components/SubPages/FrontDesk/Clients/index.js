@@ -27,7 +27,8 @@ import {
     TableRow,
     // TextField,
     Typography,
-    ClickAwayListener
+    ClickAwayListener,
+    Box
 } from '@mui/material';
 
 // project imports
@@ -492,15 +493,21 @@ const ClientAccountPage = () => {
                                 <Grid item xs={12}>
                                     {rows.map((row) => (
                                         <div key={row.id}>
-                                            {row.date}
+                                            <Typography variant="sectionSubHeaders" sx={{ ml: 1 }}>
+                                                {row.date}
+                                            </Typography>
                                             <TableContainer>
                                                 <Table>
                                                     <TableBody>
                                                         <TableRow>
-                                                            <TableCell>
+                                                            <TableCell style={{ width: 100 }}>
                                                                 <div>
-                                                                    {row.time}
-                                                                    <div>NYC</div>
+                                                                    <Box>
+                                                                        <Typography variant="sectionData">{row.time}</Typography>
+                                                                    </Box>
+                                                                    <div>
+                                                                        <Typography variant="sectionDataSecondary">NYC</Typography>
+                                                                    </div>
                                                                 </div>
                                                             </TableCell>
                                                             <TableCell>
