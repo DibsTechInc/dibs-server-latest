@@ -5,7 +5,6 @@ async function updateClientInfo(req, res) {
     try {
         let count = 1;
         const { userid, birthday, email, name, phone } = req.body;
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
         const user = await models.dibs_user.findOne(
             {
                 where: {

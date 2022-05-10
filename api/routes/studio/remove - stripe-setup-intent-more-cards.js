@@ -9,10 +9,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 });
 
 async function setupStripeIntentMoreCards(req, res) {
-    console.log(`\n\n\n\n\nMORE CARDS ARE BEING ADDED`);
     try {
         const { stripeid } = req.body;
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
         const setupIntent = await stripe.setupIntents.create({
             payment_method_types: ['card'],
             customer: stripeid,

@@ -32,6 +32,7 @@ export const getCurrentClientInfo = async (userid, dibsStudioId) => {
         }
         response.data.userInfo.labelphone = labelphone;
         response.data.userInfo.studioStripeId = response.data.studioStripeId;
+        response.data.userInfo.firstname = labelfirstname;
         if (response.data.msg === 'success' && response.data.userInfo) return response.data.userInfo;
         return 0;
     } catch (err) {

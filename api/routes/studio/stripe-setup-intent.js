@@ -19,8 +19,6 @@ async function setupStripeIntent(req, res) {
         if (customerinfo) {
             if (customerinfo.stripeid) stripeid = customerinfo.stripeid;
             else {
-                console.log(`\n\n`);
-                console.log('creating a new customer in stripe');
                 const stripecustomer = await stripe.customers.create({
                     email: customerinfo.email,
                     name: `${customerinfo.firstName} ${customerinfo.lastName}`
@@ -28,7 +26,6 @@ async function setupStripeIntent(req, res) {
                 stripeid = stripecustomer.id;
             }
         }
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
         const customerid = stripeid;
         const setupIntent = await stripe.setupIntents.create({
             payment_method_types: ['card'],

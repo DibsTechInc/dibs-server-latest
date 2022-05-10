@@ -2,7 +2,6 @@ const models = require('@dibs-tech/models');
 
 async function getClientInfo(req, res) {
     try {
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
         const clientInfo = await models.dibs_user.findOne({
             attributes: [
                 'firstName',

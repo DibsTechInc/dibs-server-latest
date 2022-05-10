@@ -9,7 +9,7 @@ import validator from 'email-validator';
 import {
     Button,
     // CardContent,
-    Chip,
+    // Chip,
     Divider,
     Grid,
     // IconButton,
@@ -19,24 +19,23 @@ import {
     ListItemIcon,
     ListItemSecondaryAction,
     ListItemText,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
+    // Table,
+    // TableBody,
+    // TableCell,
+    // TableContainer,
+    // TableRow,
     // TextField,
     Typography,
-    ClickAwayListener,
-    Box
+    ClickAwayListener
+    // Box
 } from '@mui/material';
-
-import UnstyledDropButton from 'assets/graphics/icons/DropButton';
 
 // project imports
 import Avatar from 'ui-component/extended/Avatar';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
 import UpcomingClasses from '../../../SubComponents/FrontDesk/UpcomingClasses';
+import AvailablePasses from '../../../SubComponents/FrontDesk/AvailablePasses';
 
 // assets
 // import { IconEdit } from '@tabler/icons';
@@ -58,22 +57,8 @@ import getNumberVisits from 'actions/studios/users/getNumberVisits';
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
-// personal details table
-/** names Don&apos;t look right */
-function createData(id, date, name, time, instructor, packageApplied, carbs, protein) {
-    const id2 = `${id}2`;
-    return { id, id2, date, name, time, instructor, packageApplied, carbs, protein };
-}
-
 // ==============================|| SAMPLE PAGE ||============================== //
-const rows = [
-    createData(15, 'Friday, May 2nd, 2022', 'MANIC MONDAY (121 LUDLOW L.E.S)', '8:00AM', 'Coss Marte', 'Unlimited Membership'),
-    createData(16, 'Thursday, May 18th, 2022', 'TOUGH LOVE TUESDAY (121 LUDLOW LES)', '9:00AM', 'Jeanette Heck', '10 Pack'),
-    createData(18, 'Friday, May 19th, 2022', 'FULL BODY FRIDAY (121 LUDLOW L.E.S)', '10:00AM', 'Erik Ulin', 'Single Class'),
-    createData(19, 'Monday, May 22nd, 2022', 'class title 4', '10:20AM', 'Jane Raily', '5 Pack'),
-    createData(20, 'Tuesday, May 23rd, 2022', 'class title 5', '11:00AM', 'Alvin Martin', '8 Pack')
-];
-console.log(`rows: ${JSON.stringify(rows)}`);
+
 const ClientAccountPage = () => {
     const textInput = React.useRef('email');
     const phoneInput = React.useRef('phone');
@@ -106,6 +91,7 @@ const ClientAccountPage = () => {
     const [showAddCardComponent, setShowAddCardComponent] = React.useState(false);
     const [editingEmail, setEditingEmail] = React.useState(false);
     const [editingPhone, setEditingPhone] = React.useState(false);
+    const [firstname, setFirstName] = React.useState('');
     const [editingBirthday, setEditingBirthday] = React.useState(false);
     React.useEffect(() => {
         if (cardValueChanged) {
@@ -120,6 +106,7 @@ const ClientAccountPage = () => {
             await getCurrentClientInfo(userid, dibsStudioId).then((user) => {
                 if (user !== 0) {
                     setUsername(user.nameToDisplay);
+                    setFirstName(user.firstname);
                     setUserBackground(user.nameToDisplay);
                     setEmail(user.email);
                     setPhone(user.labelphone);
@@ -491,49 +478,24 @@ const ClientAccountPage = () => {
                                 </Grid>
                             }
                         >
-                            <UpcomingClasses userid={userid} dibsStudioId={dibsStudioId} />
+                            <UpcomingClasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
                         <SubCard
                             title="AVAILABLE PASSES"
-                            // secondary={
-                            //     <Button>
-                            //         <IconEdit stroke={1.5} size="1.3rem" />
-                            //     </Button>
-                            // }
+                            secondary={
+                                <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
+                                    <Button
+                                        onClick={(event) => getNewSetupIntent(event)}
+                                        sx={{ width: '200px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
+                                    >
+                                        Buy A Package/Membership
+                                    </Button>
+                                </Grid>
+                            }
                         >
-                            <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    PURCHASE A NEW PACKAGE OR MEMBERSHIP (off to the right)
-                                    <br />
-                                    <br />
-                                    <Typography variant="subtitle1">Personal Details</Typography>
-                                </Grid>
-                                <Divider sx={{ pt: 1 }} />
-                                <Grid item xs={12}>
-                                    {/* <TableContainer>
-                                        <Table
-                                            sx={{
-                                                '& td': {
-                                                    borderBottom: 'none'
-                                                }
-                                            }}
-                                            size="small"
-                                        >
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.id}>
-                                                        <TableCell variant="head">{row.name}</TableCell>
-                                                        <TableCell>{row.calories}</TableCell>
-                                                        <TableCell>{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
-                                </Grid>
-                            </Grid>
+                            <AvailablePasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>

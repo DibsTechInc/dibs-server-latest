@@ -16,12 +16,9 @@ async function getUpcomingClasses(req, res) {
                 }
             }
         });
-        // const visit = moment.tz('America/New_York')(upcomingClasses[0].visitDate, 'YYYY-MM-DD HH:mm:ss+HH');
         if (upcomingClasses) {
-            console.log(`if is true -> upcomingClasses = ${JSON.stringify(upcomingClasses)}\n\n\n`);
             const addClassToArray = async (eventid) =>
                 new Promise((resolve, reject) => {
-                    console.log(`inside of promise for classes`);
                     // get name of the class + name of instructor
                     const getclassdata = async () => {
                         const classinfo = await models.event.findOne({
@@ -66,9 +63,9 @@ async function getUpcomingClasses(req, res) {
                             ]
                         });
                         const visit = moment.utc(classinfo.start_date, 'YYYY-MM-DD HH:mm:ss');
-                        console.log(`\n\n\nupcomingClasses visitDate is: ${visit}`);
                         await classestoreturn.push({
                             transactionid: transactionInfo[0].id,
+                            visitDate: visit,
                             datetodisplay: visit.format('dddd, MMMM Do, YYYY'),
                             timetodisplay: visit.format('h:mm A'),
                             eventid,
@@ -89,6 +86,7 @@ async function getUpcomingClasses(req, res) {
             });
             Promise.all(promises)
                 .then(() => {
+                    classestoreturn.sort((a, b) => (a.visitDate > b.visitDate ? 1 : -1));
                     res.json({
                         msg: 'success',
                         upcomingClasses: classestoreturn

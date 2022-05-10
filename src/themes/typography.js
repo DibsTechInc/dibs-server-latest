@@ -2,7 +2,7 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     fontFamily,
     h7: {
         fontWeight: 300,
-        color: theme.palette.grey[600],
+        color: theme.palette.grey[500],
         fontSize: '0.85rem'
     },
     h6: {
@@ -11,8 +11,8 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontSize: '0.75rem'
     },
     h5: {
-        fontSize: '0.875rem',
-        color: theme.palette.grey[600],
+        fontSize: '1rem',
+        color: theme.palette.grey[650],
         fontWeight: 500
     },
     h4: {
@@ -61,8 +61,8 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         color: theme.palette.text.clientProfile
     },
     sectionClassTitle: {
-        fontSize: '0.75rem',
-        fontWeight: 400,
+        fontSize: '0.85rem',
+        fontWeight: 500,
         color: theme.palette.secondary.main
     },
     tableValue: {

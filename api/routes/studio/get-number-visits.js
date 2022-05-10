@@ -2,7 +2,6 @@ const models = require('@dibs-tech/models');
 
 async function getNumberVisits(req, res) {
     try {
-        console.log(`req.body = ${JSON.stringify(req.body)}`);
         const { userid, dibsStudioId } = req.body;
         let visits = 0;
         const numVisits = await models.attendees.count({

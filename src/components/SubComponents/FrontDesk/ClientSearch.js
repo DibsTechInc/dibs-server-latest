@@ -20,8 +20,8 @@ import { shouldForwardProp } from '@mui/system';
 // components
 import AutocompleteSearch from '../../search/AutoCompleteClientSearch';
 // import { useSelector, dispatch } from 'store';
-import { dispatch } from 'store';
-import { setSearchTerm } from 'store/slices/clientsearch';
+// import { dispatch } from 'store';
+// import { setSearchTerm } from 'store/slices/clientsearch';
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -69,17 +69,14 @@ const HeaderAvatarStyle = styled(Avatar, { shouldForwardProp })(({ theme }) => (
 // ==============================|| SEARCH INPUT - MOBILE||============================== //
 
 // eslint-disable-next-line no-unused-vars
-const MobileSearch = ({ value, setValue, popupState }) => {
-    const theme = useTheme();
+const MobileSearch = ({ value, setValue, popupState }) => (
+    //  = useTheme();
     // Start Here - react-query - may be the way to do this - check it out
 
-    return (
-        <div className="AutoComplete">
-            <AutocompleteSearch />
-        </div>
-    );
-};
-
+    <div className="AutoComplete">
+        <AutocompleteSearch />
+    </div>
+);
 MobileSearch.propTypes = {
     value: PropTypes.string,
     setValue: PropTypes.func,
@@ -94,11 +91,11 @@ const ClientSearch = () => {
     // const { term } = useSelector((state) => state.clientsearch);
     const [value, setValue] = useState('');
 
-    const handleChange = ({ target: { value } }) => {
-        console.log(`handlechange is happening = ${value}`);
-        setValue(value);
-        dispatch(setSearchTerm(value));
-    };
+    // const handleChange = ({ target: { value } }) => {
+    //     console.log(`handlechange is happening = ${value}`);
+    //     setValue(value);
+    //     dispatch(setSearchTerm(value));
+    // };
     // does the value match cached results
     // if not, make a call to the database to search for user
     // add cached search to the redux store
