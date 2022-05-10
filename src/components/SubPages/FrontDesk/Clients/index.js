@@ -55,19 +55,20 @@ const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 // personal details table
 /** names Don&apos;t look right */
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
+function createData(id, date, name, calories, fat, carbs, protein) {
+    const id2 = `${id}2`;
+    return { id, id2, date, name, calories, fat, carbs, protein };
 }
 
 // ==============================|| SAMPLE PAGE ||============================== //
 const rows = [
-    createData('Full Name', ':', 'Alicia Ulin'),
-    createData('Fathers Name', ':', 'Mr. Deepen Handgun'),
-    createData('Address', ':', 'Street 110-B Kalians Bag, Dewan, M.P. INDIA'),
-    createData('Zip Code', ':', '12345'),
-    createData('Phone', ':', '+0 123456789 , +0 123456789'),
-    createData('Email', ':', 'support@example.com'),
-    createData('Website', ':', 'http://example.com')
+    createData(15, 'Friday, May 2nd, 2022', ':', 'Alicia Ulin'),
+    createData(16, 'Fathers Name', ':', 'Mr. Deepen Handgun'),
+    createData(18, 'Address', ':', 'Street 110-B Kalians Bag, Dewan, M.P. INDIA'),
+    createData(19, 'Zip Code', ':', '12345'),
+    createData(20, 'Phone', ':', '+0 123456789 , +0 123456789'),
+    createData(21, 'Email', ':', 'support@example.com'),
+    createData(22, 'Website', ':', 'http://example.com')
 ];
 console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
@@ -499,8 +500,8 @@ const ClientAccountPage = () => {
                                         >
                                             <TableBody>
                                                 {rows.map((row) => (
-                                                    <TableRow key={row.name}>
-                                                        <TableCell variant="head">{row.name}</TableCell>
+                                                    <TableRow key={row.id}>
+                                                        <TableCell variant="head">{row.date}</TableCell>
                                                         <TableCell>{row.calories}</TableCell>
                                                         <TableCell>{row.fat}</TableCell>
                                                     </TableRow>
@@ -530,7 +531,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <TableContainer>
+                                    {/* <TableContainer>
                                         <Table
                                             sx={{
                                                 '& td': {
@@ -541,7 +542,7 @@ const ClientAccountPage = () => {
                                         >
                                             <TableBody>
                                                 {rows.map((row) => (
-                                                    <TableRow key={row.name}>
+                                                    <TableRow key={row.id}>
                                                         <TableCell variant="head">{row.name}</TableCell>
                                                         <TableCell>{row.calories}</TableCell>
                                                         <TableCell>{row.fat}</TableCell>
@@ -549,7 +550,7 @@ const ClientAccountPage = () => {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer>
+                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>
@@ -572,7 +573,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <TableContainer>
+                                    {/* <TableContainer>
                                         <Table
                                             sx={{
                                                 '& td': {
@@ -591,7 +592,7 @@ const ClientAccountPage = () => {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer>
+                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>
@@ -611,7 +612,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <TableContainer>
+                                    {/* <TableContainer>
                                         <Table
                                             sx={{
                                                 '& td': {
@@ -630,7 +631,7 @@ const ClientAccountPage = () => {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer>
+                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>
@@ -650,7 +651,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                                 <Divider sx={{ pt: 1 }} />
                                 <Grid item xs={12}>
-                                    <TableContainer>
+                                    {/* <TableContainer>
                                         <Table
                                             sx={{
                                                 '& td': {
@@ -669,7 +670,7 @@ const ClientAccountPage = () => {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer>
+                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>
