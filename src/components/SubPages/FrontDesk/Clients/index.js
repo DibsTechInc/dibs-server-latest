@@ -57,18 +57,18 @@ const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance()
 
 // personal details table
 /** names Don&apos;t look right */
-function createData(id, date, name, calories, fat, carbs, protein) {
+function createData(id, date, name, time, instructor, packageApplied, carbs, protein) {
     const id2 = `${id}2`;
-    return { id, id2, date, name, calories, fat, carbs, protein };
+    return { id, id2, date, name, time, instructor, packageApplied, carbs, protein };
 }
 
 // ==============================|| SAMPLE PAGE ||============================== //
 const rows = [
-    createData(15, 'Friday, May 2nd, 2022', ':', 'Alicia Ulin'),
-    createData(16, 'Thursday, May 18th, 2022', ':', 'Mr. Deepen Handgun'),
-    createData(18, 'Friday, May 19th, 2022', ':', 'Street 110-B Kalians Bag, Dewan, M.P. INDIA'),
-    createData(19, 'Monday, May 22nd, 2022', ':', '12345'),
-    createData(20, 'Tuesday, May 23rd, 2022', ':', '+0 123456789 , +0 123456789')
+    createData(15, 'Friday, May 2nd, 2022', 'Class1', '8:00AM', 'Instructor2', 'Unlimited Membership'),
+    createData(16, 'Thursday, May 18th, 2022', 'class2', '9:00AM', 'Instructor3', '10 Pack'),
+    createData(18, 'Friday, May 19th, 2022', 'class3', '10:00AM', 'Instructor4', 'Single Class'),
+    createData(19, 'Monday, May 22nd, 2022', 'class4', '10:20AM', 'Instructor45', '5 Pack'),
+    createData(20, 'Tuesday, May 23rd, 2022', 'class5', '11:00AM', 'Instructor6', '8 Pack')
 ];
 console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
@@ -490,7 +490,21 @@ const ClientAccountPage = () => {
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
                                     {rows.map((row) => (
-                                        <div key={row.id}>{row.date}</div>
+                                        <div key={row.id}>
+                                            {row.date}
+                                            <TableContainer>
+                                                <Table>
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell>{row.time}</TableCell>
+                                                            <TableCell>{row.name}</TableCell>
+                                                            <TableCell>{row.instructor}</TableCell>
+                                                            <TableCell>{row.packageApplied}</TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </Table>
+                                            </TableContainer>
+                                        </div>
                                     ))}
                                     {/* <TableContainer>
                                         <Table
