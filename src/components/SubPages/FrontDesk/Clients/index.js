@@ -496,7 +496,15 @@ const ClientAccountPage = () => {
                                             <Typography variant="sectionSubHeaders" sx={{ ml: 1 }}>
                                                 {row.date}
                                             </Typography>
-                                            <TableContainer>
+                                            <Grid container>
+                                                <Grid item xs={12} sx={{ ml: 1.1, lineHeight: 1 }}>
+                                                    <Typography variant="sectionData">{row.time}</Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sx={{ ml: 1.1, lineHeight: 1 }}>
+                                                    <Typography variant="sectionDataSecondary">NYC</Typography>
+                                                </Grid>
+                                            </Grid>
+                                            {/* <TableContainer>
                                                 <Table>
                                                     <TableBody>
                                                         <TableRow>
@@ -522,7 +530,7 @@ const ClientAccountPage = () => {
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>
-                                            </TableContainer>
+                                            </TableContainer> */}
                                         </div>
                                     ))}
                                     {/* <TableContainer>
