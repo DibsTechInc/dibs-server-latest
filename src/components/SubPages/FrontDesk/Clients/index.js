@@ -64,11 +64,11 @@ function createData(id, date, name, time, instructor, packageApplied, carbs, pro
 
 // ==============================|| SAMPLE PAGE ||============================== //
 const rows = [
-    createData(15, 'Friday, May 2nd, 2022', 'Class1', '8:00AM', 'Instructor2', 'Unlimited Membership'),
-    createData(16, 'Thursday, May 18th, 2022', 'class2', '9:00AM', 'Instructor3', '10 Pack'),
-    createData(18, 'Friday, May 19th, 2022', 'class3', '10:00AM', 'Instructor4', 'Single Class'),
-    createData(19, 'Monday, May 22nd, 2022', 'class4', '10:20AM', 'Instructor45', '5 Pack'),
-    createData(20, 'Tuesday, May 23rd, 2022', 'class5', '11:00AM', 'Instructor6', '8 Pack')
+    createData(15, 'Friday, May 2nd, 2022', 'Class Title 1', '8:00AM', 'Instructor2', 'Unlimited Membership'),
+    createData(16, 'Thursday, May 18th, 2022', 'Class Title 2', '9:00AM', 'Instructor3', '10 Pack'),
+    createData(18, 'Friday, May 19th, 2022', 'Class title 3', '10:00AM', 'Instructor4', 'Single Class'),
+    createData(19, 'Monday, May 22nd, 2022', 'class title 4', '10:20AM', 'Instructor45', '5 Pack'),
+    createData(20, 'Tuesday, May 23rd, 2022', 'class title 5', '11:00AM', 'Instructor6', '8 Pack')
 ];
 console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
@@ -311,7 +311,7 @@ const ClientAccountPage = () => {
                     title={
                         <Grid container spacing={2} alignItems="center">
                             <Grid item>
-                                <Avatar alt="User 1" src={picurl} size="sm" />
+                                <Avatar alt={username} src={picurl} size="sm" />
                             </Grid>
                             <Grid item xs zeroMinWidth>
                                 <Typography align="left" variant="subtitle1">
@@ -497,10 +497,21 @@ const ClientAccountPage = () => {
                                                 <Table>
                                                     <TableBody>
                                                         <TableRow>
-                                                            <TableCell>{row.time}</TableCell>
-                                                            <TableCell>{row.name}</TableCell>
-                                                            <TableCell>{row.instructor}</TableCell>
+                                                            <TableCell>
+                                                                <div>
+                                                                    {row.time}
+                                                                    <div>NYC</div>
+                                                                </div>
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <div>
+                                                                    {row.name}
+                                                                    <div>{row.instructor}</div>
+                                                                </div>
+                                                            </TableCell>
+                                                            <TableCell>Spots booked</TableCell>
                                                             <TableCell>{row.packageApplied}</TableCell>
+                                                            <TableCell>Drop button goes here</TableCell>
                                                         </TableRow>
                                                     </TableBody>
                                                 </Table>

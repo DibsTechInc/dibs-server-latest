@@ -92,7 +92,8 @@ const ProfileSection = () => {
 
         prevOpen.current = open;
     }, [open]);
-
+    // this is where icon image is loaded for profile section
+    // change the image to default user icon to start
     return (
         <>
             <Chip
