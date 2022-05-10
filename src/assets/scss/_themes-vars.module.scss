@@ -28,6 +28,9 @@ $success200: #69f0ae;
 $successMain: #00e676;
 $successDark: #00c853;
 
+// studio package Colors
+$packageLight: #f5f0f1;
+
 //chart colors
 // different colors
 // $chartLight: #e5c59a;
@@ -132,6 +135,9 @@ $darkTextSecondary: #8492c4;
     success200: $success200;
     successMain: $successMain;
     successDark: $successDark;
+
+    // package
+    packageLight: $packageLight;
 
     // table values
     tableValuesMain: $tableValuesMain;

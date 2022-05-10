@@ -90,6 +90,9 @@ const Palette = (navType, presetColor) => {
                 main: colors.successMain,
                 dark: colors.successDark
             },
+            packages: {
+                light: colors.packagesLight
+            },
             tableValues: {
                 main: colors.tableValuesMain
             },
