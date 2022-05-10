@@ -1,10 +1,9 @@
 const models = require('@dibs-tech/models');
 const { Op } = require('sequelize');
+const moment = require('moment-timezone');
 
 async function getUpcomingClasses(req, res) {
     try {
-        console.log(`\n\n\n\n\n\nreq.body = ${JSON.stringify(req.body)}`);
-        console.log(`\n\n\ndate of now is: ${new Date()}`);
         const classestoreturn = [];
         const upcomingClasses = await models.attendees.findAll({
             attributes: ['eventid', 'serviceName', 'attendeeID', 'visitDate'],
@@ -13,11 +12,11 @@ async function getUpcomingClasses(req, res) {
                 dibs_studio_id: req.body.dibsStudioId,
                 dropped: false,
                 visitDate: {
-                    [Op.gte]: new Date()
+                    [Op.gte]: moment().startOf('day')
                 }
             }
         });
-        console.log(`\n\n\n\n\n%%%%%%%%%%%\n\nupcomingClasses is: ${JSON.stringify(upcomingClasses)}\n\n\n`);
+        // const visit = moment.tz('America/New_York')(upcomingClasses[0].visitDate, 'YYYY-MM-DD HH:mm:ss+HH');
         if (upcomingClasses) {
             console.log(`if is true -> upcomingClasses = ${JSON.stringify(upcomingClasses)}\n\n\n`);
             const addClassToArray = async (eventid) =>
@@ -26,7 +25,7 @@ async function getUpcomingClasses(req, res) {
                     // get name of the class + name of instructor
                     const getclassdata = async () => {
                         const classinfo = await models.event.findOne({
-                            attributes: ['name', 'trainerid', 'locationid'],
+                            attributes: ['name', 'trainerid', 'locationid', 'start_date'],
                             where: {
                                 eventid
                             },
@@ -66,8 +65,12 @@ async function getUpcomingClasses(req, res) {
                                 }
                             ]
                         });
+                        const visit = moment.utc(classinfo.start_date, 'YYYY-MM-DD HH:mm:ss');
+                        console.log(`\n\n\nupcomingClasses visitDate is: ${visit}`);
                         await classestoreturn.push({
                             transactionid: transactionInfo[0].id,
+                            datetodisplay: visit.format('dddd, MMMM Do, YYYY'),
+                            timetodisplay: visit.format('h:mm A'),
                             eventid,
                             classtitle: classinfo.name,
                             instructor: `${classinfo.instructor.firstname} ${classinfo.instructor.lastname}`,
