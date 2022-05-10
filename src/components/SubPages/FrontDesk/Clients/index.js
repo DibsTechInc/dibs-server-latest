@@ -31,10 +31,13 @@ import {
     Box
 } from '@mui/material';
 
+import UnstyledDropButton from 'assets/graphics/icons/DropButton';
+
 // project imports
 import Avatar from 'ui-component/extended/Avatar';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
+import XIcon from 'assets/graphics/icons/XIcon';
 
 // assets
 // import { IconEdit } from '@tabler/icons';
@@ -499,7 +502,7 @@ const ClientAccountPage = () => {
                                                         {row.date}
                                                     </Typography>
                                                 </Grid>
-                                                <Grid container>
+                                                <Grid container wrap="nowrap">
                                                     <Grid item xs={1.6} sx={{ ml: 1, mb: 5 }}>
                                                         <Grid container>
                                                             <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
@@ -521,13 +524,53 @@ const ClientAccountPage = () => {
                                                         </Grid>
                                                     </Grid>
                                                     <Grid item xs={2}>
-                                                        spots booked
+                                                        <Grid container justifyContent="center">
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionDataSecondary" sx={{ fontWeight: 600 }}>
+                                                                    Spots Booked
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Grid
+                                                                    item
+                                                                    xs={6}
+                                                                    sx={{
+                                                                        ml: 0.2,
+                                                                        lineHeight: 1,
+                                                                        borderBottomColor: '#c96248',
+                                                                        borderBottom: '1px solid'
+                                                                    }}
+                                                                >
+                                                                    <Typography variant="sectionDataSecondary">1</Typography>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                     <Grid item xs={3}>
-                                                        package applied
+                                                        <Grid container justifyContent="center">
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionDataSecondary" sx={{ fontWeight: 600 }}>
+                                                                    Package Applied
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Grid
+                                                                    item
+                                                                    xs={12}
+                                                                    sx={{
+                                                                        ml: 0.2,
+                                                                        lineHeight: 1
+                                                                    }}
+                                                                >
+                                                                    <Typography variant="sectionDataSecondary">
+                                                                        {row.packageApplied}
+                                                                    </Typography>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </Grid>
                                                     </Grid>
                                                     <Grid item xs={1}>
-                                                        drop button
+                                                        <UnstyledDropButton />
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
