@@ -1,31 +1,11 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import {
-    Box,
-    Button,
-    // CardContent,
-    Chip,
-    Divider,
-    Grid,
-    // IconButton,
-    InputBase,
-    List,
-    ListItemButton,
-    ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    // TextField,
-    Typography,
-    ClickAwayListener
-} from '@mui/material';
+import { Box, Divider, Grid, Typography } from '@mui/material';
 
 import UnstyledDropButton from 'assets/graphics/icons/DropButton';
+import getUpcomingClassesDB from 'actions/studios/users/getUpcomingClassesDB';
 
 // personal details table
 /** names Don&apos;t look right */
@@ -45,10 +25,29 @@ const rows = [
 
 // ==============================|| UPCOMING CLASSES ||============================== //
 
-export default function UpcomingClasses(props) {
+const UpcomingClasses = (props) => {
     const { userid, dibsStudioId } = props;
-    console.log(`userid: ${userid}`);
-    console.log(`dibsStudioId: ${dibsStudioId}`);
+    const [upcomingClasses, setUpcomingClasses] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasClasses, setHasClasses] = useState(false);
+    const [alreadyRan, setAlreadyRan] = useState(false);
+    useEffect(() => {
+        console.log('UpcomingClasses mounted');
+        console.log(`userid: ${userid}`);
+        console.log(`dibsStudioId: ${dibsStudioId}`);
+        const getUpcomingClasses = async () => {
+            console.log(`ran getUpcomingClasses`);
+            // setIsLoading(true);
+            await getUpcomingClassesDB(userid, dibsStudioId).then((classes) => {
+                console.log(`classes from function call is: ${JSON.stringify(classes)}`);
+                setUpcomingClasses(classes);
+                setAlreadyRan(true);
+            });
+            // setIsLoading(false);
+        };
+        console.log(`upcomingClasses: ${JSON.stringify(upcomingClasses)}`);
+        if (upcomingClasses.length === 0 && !alreadyRan) getUpcomingClasses();
+    }, [userid, dibsStudioId, upcomingClasses, alreadyRan]);
     return (
         <Grid container direction="column" spacing={2}>
             <Grid item xs={12}>
@@ -187,8 +186,10 @@ export default function UpcomingClasses(props) {
             </Grid>
         </Grid>
     );
-}
+};
 UpcomingClasses.propTypes = {
-    userid: PropTypes.number,
+    userid: PropTypes.string,
     dibsStudioId: PropTypes.number
 };
+
+export default UpcomingClasses;

@@ -491,7 +491,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                             }
                         >
-                            <UpcomingClasses userid={10} dibsStudioId={153} />
+                            <UpcomingClasses userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
