@@ -65,11 +65,11 @@ function createData(id, date, name, time, instructor, packageApplied, carbs, pro
 
 // ==============================|| SAMPLE PAGE ||============================== //
 const rows = [
-    createData(15, 'Friday, May 2nd, 2022', 'Class Title 1', '8:00AM', 'Instructor2', 'Unlimited Membership'),
-    createData(16, 'Thursday, May 18th, 2022', 'Class Title 2', '9:00AM', 'Instructor3', '10 Pack'),
-    createData(18, 'Friday, May 19th, 2022', 'Class title 3', '10:00AM', 'Instructor4', 'Single Class'),
-    createData(19, 'Monday, May 22nd, 2022', 'class title 4', '10:20AM', 'Instructor45', '5 Pack'),
-    createData(20, 'Tuesday, May 23rd, 2022', 'class title 5', '11:00AM', 'Instructor6', '8 Pack')
+    createData(15, 'Friday, May 2nd, 2022', 'MANIC MONDAY (121 LUDLOW L.E.S)', '8:00AM', 'Coss Marte', 'Unlimited Membership'),
+    createData(16, 'Thursday, May 18th, 2022', 'TOUGH LOVE TUESDAY (121 LUDLOW LES)', '9:00AM', 'Jeanette Heck', '10 Pack'),
+    createData(18, 'Friday, May 19th, 2022', 'FULL BODY FRIDAY (121 LUDLOW L.E.S)', '10:00AM', 'Erik Ulin', 'Single Class'),
+    createData(19, 'Monday, May 22nd, 2022', 'class title 4', '10:20AM', 'Jane Raily', '5 Pack'),
+    createData(20, 'Tuesday, May 23rd, 2022', 'class title 5', '11:00AM', 'Alvin Martin', '8 Pack')
 ];
 console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
@@ -493,66 +493,47 @@ const ClientAccountPage = () => {
                                 <Grid item xs={12}>
                                     {rows.map((row) => (
                                         <div key={row.id}>
-                                            <Typography variant="sectionSubHeaders" sx={{ ml: 1 }}>
-                                                {row.date}
-                                            </Typography>
                                             <Grid container>
-                                                <Grid item xs={12} sx={{ ml: 1.1, lineHeight: 1 }}>
-                                                    <Typography variant="sectionData">{row.time}</Typography>
+                                                <Grid item xs={12} sx={{ mb: 3, mt: 2 }}>
+                                                    <Typography variant="sectionSubHeaders" sx={{ ml: 1 }}>
+                                                        {row.date}
+                                                    </Typography>
                                                 </Grid>
-                                                <Grid item xs={12} sx={{ ml: 1.1, lineHeight: 1 }}>
-                                                    <Typography variant="sectionDataSecondary">NYC</Typography>
+                                                <Grid container>
+                                                    <Grid item xs={1.6} sx={{ ml: 1, mb: 5 }}>
+                                                        <Grid container>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionData">{row.time}</Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionDataSecondary">NYC</Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={4}>
+                                                        <Grid container>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionClassTitle">{row.name}</Typography>
+                                                            </Grid>
+                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1 }}>
+                                                                <Typography variant="sectionDataSecondary">{row.instructor}</Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs={2}>
+                                                        spots booked
+                                                    </Grid>
+                                                    <Grid item xs={3}>
+                                                        package applied
+                                                    </Grid>
+                                                    <Grid item xs={1}>
+                                                        drop button
+                                                    </Grid>
                                                 </Grid>
                                             </Grid>
-                                            {/* <TableContainer>
-                                                <Table>
-                                                    <TableBody>
-                                                        <TableRow>
-                                                            <TableCell style={{ width: 100 }}>
-                                                                <div>
-                                                                    <Box>
-                                                                        <Typography variant="sectionData">{row.time}</Typography>
-                                                                    </Box>
-                                                                    <div>
-                                                                        <Typography variant="sectionDataSecondary">NYC</Typography>
-                                                                    </div>
-                                                                </div>
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <div>
-                                                                    {row.name}
-                                                                    <div>{row.instructor}</div>
-                                                                </div>
-                                                            </TableCell>
-                                                            <TableCell>Spots booked</TableCell>
-                                                            <TableCell>{row.packageApplied}</TableCell>
-                                                            <TableCell>Drop button goes here</TableCell>
-                                                        </TableRow>
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer> */}
+                                            <Divider sx={{ borderColor: '#f0f0f0', mb: 2 }} />
                                         </div>
                                     ))}
-                                    {/* <TableContainer>
-                                        <Table
-                                            sx={{
-                                                '& td': {
-                                                    borderBottom: 'none'
-                                                }
-                                            }}
-                                            size="small"
-                                        >
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.id}>
-                                                        <TableCell variant="head">{row.date}</TableCell>
-                                                        <TableCell>{row.calories}</TableCell>
-                                                        <TableCell>{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>

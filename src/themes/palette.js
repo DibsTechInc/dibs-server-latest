@@ -103,6 +103,7 @@ const Palette = (navType, presetColor) => {
                 500: navType === 'dark' ? colors.darkTextSecondary : colors.grey500,
                 550: navType === 'dark' ? colors.darkTextSecondary : colors.grey600,
                 600: navType === 'dark' ? colors.darkTextTitle : colors.grey700,
+                650: navType === 'dark' ? colors.darkTextTitle : colors.grey650,
                 700: navType === 'dark' ? colors.darkTextPrimary : colors.grey700,
                 900: navType === 'dark' ? colors.darkTextPrimary : colors.grey900
             },
@@ -116,6 +117,7 @@ const Palette = (navType, presetColor) => {
             text: {
                 primary: navType === 'dark' ? colors.darkTextPrimary : colors.grey700,
                 secondary: navType === 'dark' ? colors.darkTextSecondary : colors.grey500,
+                clientProfile: navType === 'dark' ? colors.darkTextPrimary : colors.grey650,
                 dark: navType === 'dark' ? colors.darkTextPrimary : colors.grey900,
                 hint: colors.grey100
             },

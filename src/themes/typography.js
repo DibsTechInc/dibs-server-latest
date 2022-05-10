@@ -57,8 +57,13 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     },
     sectionDataSecondary: {
         fontSize: '0.7rem',
+        fontWeight: 350,
+        color: theme.palette.text.clientProfile
+    },
+    sectionClassTitle: {
+        fontSize: '0.7rem',
         fontWeight: 400,
-        color: theme.palette.text.secondary
+        color: theme.palette.secondary.main
     },
     tableValue: {
         fontWeight: 900,
