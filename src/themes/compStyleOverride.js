@@ -99,7 +99,7 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
             styleOverrides: {
                 root: {
                     color: theme.palette.text.primary,
-                    minWidth: '36px'
+                    minWidth: '30px'
                 }
             }
         },

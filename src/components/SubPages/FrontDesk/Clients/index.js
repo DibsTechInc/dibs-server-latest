@@ -336,16 +336,15 @@ const ClientAccountPage = () => {
                                         toggleEditingEmail();
                                     }
                                 }}
+                                sx={{ pl: 0.7 }}
                             >
-                                <ListItemIcon>
+                                <ListItemIcon sx={{ paddingRight: 0 }}>
                                     <MailTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                                 </ListItemIcon>
                                 <ListItemText primary={<Typography variant="subtitle1">Email</Typography>} />
-                                <ListItemSecondaryAction>
+                                <ListItemSecondaryAction sx={{ right: '8px' }}>
                                     {!editingEmail ? (
-                                        <Typography variant="subtitle2" align="right">
-                                            {email}
-                                        </Typography>
+                                        <Typography variant="subtitle2">{email}</Typography>
                                     ) : (
                                         <InputBase
                                             id="emailInput"
@@ -370,12 +369,13 @@ const ClientAccountPage = () => {
                                     toggleEditingPhone();
                                 }
                             }}
+                            sx={{ pl: 0.75 }}
                         >
                             <ListItemIcon>
                                 <PhonelinkRingTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                             </ListItemIcon>
                             <ListItemText primary={<Typography variant="subtitle1">Phone</Typography>} />
-                            <ListItemSecondaryAction>
+                            <ListItemSecondaryAction sx={{ right: '8px' }}>
                                 {!editingPhone ? (
                                     <Typography variant="subtitle2" align="right">
                                         {phone}
@@ -404,12 +404,13 @@ const ClientAccountPage = () => {
                                     toggleEditingBirthday();
                                 }
                             }}
+                            sx={{ pl: 0.7 }}
                         >
                             <ListItemIcon>
                                 <CakeTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                             </ListItemIcon>
                             <ListItemText primary={<Typography variant="subtitle1">Birthday</Typography>} />
-                            <ListItemSecondaryAction>
+                            <ListItemSecondaryAction sx={{ right: '8px' }}>
                                 {!editingBirthday ? (
                                     <Typography variant="subtitle2" align="right">
                                         {birthday}
