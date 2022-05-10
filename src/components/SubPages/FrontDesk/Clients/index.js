@@ -36,7 +36,7 @@ import UnstyledDropButton from 'assets/graphics/icons/DropButton';
 import Avatar from 'ui-component/extended/Avatar';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
-import XIcon from 'assets/graphics/icons/XIcon';
+import UpcomingClasses from '../../../SubComponents/FrontDesk/UpcomingClasses';
 
 // assets
 // import { IconEdit } from '@tabler/icons';
@@ -53,7 +53,7 @@ import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 import updateClientInfo from 'actions/studios/users/updateClientInfo';
 import getNumberVisits from 'actions/studios/users/getNumberVisits';
 
-import ShowUpcomingClasses from 'components/SubComponents/FrontDesk/UpcomingClasses';
+// import ShowUpcomingClasses from 'components/SubComponents/FrontDesk/UpcomingClasses';
 
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
@@ -491,153 +491,7 @@ const ClientAccountPage = () => {
                                 </Grid>
                             }
                         >
-                            <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    {rows.map((row) => (
-                                        <div key={row.id}>
-                                            <Grid container>
-                                                <Grid item xs={12} sx={{ mb: 3, mt: 2 }}>
-                                                    <Typography variant="sectionSubHeaders" sx={{ ml: 1 }}>
-                                                        {row.date}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid container wrap="nowrap">
-                                                    <Grid item xs={1.4} sx={{ ml: 1, mb: 4.5 }}>
-                                                        <Grid container>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{ ml: 0.2, lineHeight: 1.25, alignItems: 'center', display: 'flex' }}
-                                                            >
-                                                                <Typography variant="sectionData">{row.time}</Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12} sx={{ ml: 0.2, lineHeight: 1.25 }}>
-                                                                <Typography variant="sectionDataSecondary">Woodbury</Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid item xs={4.6} sx={{ mb: 4.5 }}>
-                                                        <Grid container>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    ml: 0.2,
-                                                                    lineHeight: 1.25,
-                                                                    justifyContent: 'center',
-                                                                    display: 'flex'
-                                                                }}
-                                                            >
-                                                                <Typography variant="sectionClassTitle">{row.name}</Typography>
-                                                            </Grid>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    ml: 0.2,
-                                                                    lineHeight: 1.25,
-                                                                    justifyContent: 'center',
-                                                                    display: 'flex'
-                                                                }}
-                                                            >
-                                                                <Typography variant="sectionDataSecondary">{row.instructor}</Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid item xs={1.7}>
-                                                        <Grid container justifyContent="center">
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    ml: 0.2,
-                                                                    lineHeight: 1.25,
-                                                                    justifyContent: 'center',
-                                                                    display: 'flex'
-                                                                }}
-                                                            >
-                                                                <Typography variant="sectionDataSecondary" sx={{ fontWeight: 600 }}>
-                                                                    Spots Booked
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    ml: 0.2,
-                                                                    lineHeight: 1.25,
-                                                                    justifyContent: 'center',
-                                                                    display: 'flex'
-                                                                }}
-                                                            >
-                                                                <Grid
-                                                                    item
-                                                                    xs={6}
-                                                                    sx={{
-                                                                        ml: 0.2,
-                                                                        lineHeight: 1.25,
-                                                                        justifyContent: 'center',
-                                                                        display: 'flex'
-                                                                    }}
-                                                                >
-                                                                    <Box
-                                                                        xs={12}
-                                                                        sx={{
-                                                                            borderBottom: 0.7,
-                                                                            borderColor: '#c96248',
-                                                                            minWidth: 40,
-                                                                            justifyContent: 'center',
-                                                                            display: 'flex'
-                                                                        }}
-                                                                    >
-                                                                        <Typography
-                                                                            variant="sectionDataSecondary"
-                                                                            sx={{ alignContent: 'center' }}
-                                                                        >
-                                                                            1
-                                                                        </Typography>
-                                                                    </Box>
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid
-                                                        item
-                                                        xs={3.3}
-                                                        sx={{ mb: 4.5, justifyContent: 'center', display: 'flex', flexDirection: 'column' }}
-                                                    >
-                                                        <Grid container>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    lineHeight: 1.25,
-                                                                    fontSize: '0.55rem',
-                                                                    fontWeight: 200,
-                                                                    justifyContent: 'center',
-                                                                    display: 'flex',
-                                                                    mx: 2.9
-                                                                }}
-                                                            >
-                                                                <Typography
-                                                                    variant="sectionDataSecondary"
-                                                                    sx={{ fontSize: '0.65rem', fontWeight: 400, textAlign: 'center' }}
-                                                                >
-                                                                    Applied {row.packageApplied}
-                                                                </Typography>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                    <Grid item xs={1}>
-                                                        <UnstyledDropButton />
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                            <Divider sx={{ borderColor: '#f0f0f0', mb: 2 }} />
-                                        </div>
-                                    ))}
-                                </Grid>
-                            </Grid>
+                            <UpcomingClasses userid={10} dibsStudioId={153} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
