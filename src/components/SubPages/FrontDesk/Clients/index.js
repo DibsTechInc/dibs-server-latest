@@ -50,6 +50,8 @@ import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
 import updateClientInfo from 'actions/studios/users/updateClientInfo';
 import getNumberVisits from 'actions/studios/users/getNumberVisits';
 
+import ShowUpcomingClasses from 'components/SubComponents/FrontDesk/UpcomingClasses';
+
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
@@ -63,12 +65,10 @@ function createData(id, date, name, calories, fat, carbs, protein) {
 // ==============================|| SAMPLE PAGE ||============================== //
 const rows = [
     createData(15, 'Friday, May 2nd, 2022', ':', 'Alicia Ulin'),
-    createData(16, 'Fathers Name', ':', 'Mr. Deepen Handgun'),
-    createData(18, 'Address', ':', 'Street 110-B Kalians Bag, Dewan, M.P. INDIA'),
-    createData(19, 'Zip Code', ':', '12345'),
-    createData(20, 'Phone', ':', '+0 123456789 , +0 123456789'),
-    createData(21, 'Email', ':', 'support@example.com'),
-    createData(22, 'Website', ':', 'http://example.com')
+    createData(16, 'Thursday, May 18th, 2022', ':', 'Mr. Deepen Handgun'),
+    createData(18, 'Friday, May 19th, 2022', ':', 'Street 110-B Kalians Bag, Dewan, M.P. INDIA'),
+    createData(19, 'Monday, May 22nd, 2022', ':', '12345'),
+    createData(20, 'Tuesday, May 23rd, 2022', ':', '+0 123456789 , +0 123456789')
 ];
 console.log(`rows: ${JSON.stringify(rows)}`);
 const ClientAccountPage = () => {
@@ -489,7 +489,10 @@ const ClientAccountPage = () => {
                         >
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
-                                    <TableContainer>
+                                    {rows.map((row) => (
+                                        <div key={row.id}>{row.date}</div>
+                                    ))}
+                                    {/* <TableContainer>
                                         <Table
                                             sx={{
                                                 '& td': {
@@ -508,7 +511,7 @@ const ClientAccountPage = () => {
                                                 ))}
                                             </TableBody>
                                         </Table>
-                                    </TableContainer>
+                                    </TableContainer> */}
                                 </Grid>
                             </Grid>
                         </SubCard>
