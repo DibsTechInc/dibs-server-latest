@@ -36,6 +36,7 @@ import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
 import UpcomingClasses from '../../../SubComponents/FrontDesk/UpcomingClasses';
 import AvailablePasses from '../../../SubComponents/FrontDesk/AvailablePasses';
+import CurrentCreditAmount from '../../../SubComponents/FrontDesk/CurrentCreditAmount';
 
 // assets
 // import { IconEdit } from '@tabler/icons';
@@ -499,45 +500,8 @@ const ClientAccountPage = () => {
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <SubCard
-                            title="CREDIT AMOUNT"
-                            // secondary={
-                            //     <Button>
-                            //         <IconEdit stroke={1.5} size="1.3rem" />
-                            //     </Button>
-                            // }
-                        >
-                            <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    ADD OR REMOVE CREDITS (off to the right)
-                                    <br />
-                                    <br />
-                                    <Typography variant="subtitle1">Personal Details</Typography>
-                                </Grid>
-                                <Divider sx={{ pt: 1 }} />
-                                <Grid item xs={12}>
-                                    {/* <TableContainer>
-                                        <Table
-                                            sx={{
-                                                '& td': {
-                                                    borderBottom: 'none'
-                                                }
-                                            }}
-                                            size="small"
-                                        >
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
-                                                        <TableCell variant="head">{row.name}</TableCell>
-                                                        <TableCell>{row.calories}</TableCell>
-                                                        <TableCell>{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
-                                </Grid>
-                            </Grid>
+                        <SubCard title="CURRENT CREDIT AMOUNT">
+                            <CurrentCreditAmount firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
