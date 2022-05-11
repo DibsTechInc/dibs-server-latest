@@ -40,13 +40,18 @@ const Typography = (theme, borderRadius, fontFamily) => ({
         fontWeight: 200,
         color: theme.palette.text.dark
     },
+    passesData: {
+        fontSize: '0.75rem',
+        fontWeight: 200,
+        color: theme.palette.text.dark
+    },
     subtitle2: {
         fontSize: '0.75rem',
         fontWeight: 400,
         color: theme.palette.text.secondary
     },
     sectionSubHeaders: {
-        fontSize: '1rem',
+        fontSize: '0.8rem',
         fontWeight: 400,
         color: theme.palette.secondary[800]
     },

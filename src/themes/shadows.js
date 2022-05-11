@@ -11,7 +11,7 @@ const createCustomShadow = (theme, color) => {
         z24: `0 0 6px 0 ${transparent} 0 21px 44px 0 ${transparent}`,
 
         primary: `0px 12px 14px 0px ${alpha(theme.palette.primary.main, 0.3)}`,
-        secondary: `0px 12px 14px 0px ${alpha(theme.palette.secondary.main, 0.3)}`,
+        secondary: `0px 5px 6px 0px ${alpha(theme.palette.secondary.main, 0.3)}`,
         orange: `0px 12px 14px 0px ${alpha(theme.palette.orange.main, 0.3)}`,
         success: `0px 12px 14px 0px ${alpha(theme.palette.success.main, 0.3)}`,
         warning: `0px 12px 14px 0px ${alpha(theme.palette.warning.main, 0.3)}`,

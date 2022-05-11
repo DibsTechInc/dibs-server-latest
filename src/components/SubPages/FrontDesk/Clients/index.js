@@ -483,7 +483,7 @@ const ClientAccountPage = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <SubCard
-                            title="AVAILABLE PASSES"
+                            title="ACTIVE PASSES"
                             secondary={
                                 <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
                                     <Button

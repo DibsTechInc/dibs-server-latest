@@ -30,6 +30,8 @@ $successDark: #00c853;
 
 // studio package Colors
 $packageLight: #f5f0f1;
+$packageMedium: #c5b7b7;
+$packageButton: #d4a397;
 
 //chart colors
 // different colors
@@ -138,6 +140,8 @@ $darkTextSecondary: #8492c4;
 
     // package
     packageLight: $packageLight;
+    packageMedium: $packageMedium;
+    packageButton: $packageButton;
 
     // table values
     tableValuesMain: $tableValuesMain;
