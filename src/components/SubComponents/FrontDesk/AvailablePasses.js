@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Card, CardHeader, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
+import { Box, Card, CardHeader, CardActions, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import getAvailablePasses from 'actions/studios/users/getAvailablePasses';
@@ -78,7 +78,9 @@ const AvailablePasses = (props) => {
                                         boxShadow: 'none',
                                         '&:hover': {
                                             boxShadow: theme.customShadows.secondary
-                                        }
+                                        },
+                                        display: 'flex',
+                                        flexDirection: 'column'
                                     }}
                                 >
                                     <CardHeader
@@ -87,7 +89,8 @@ const AvailablePasses = (props) => {
                                             padding: '10px',
                                             ml: 1,
                                             mt: 0.5,
-                                            mb: 0.25
+                                            mb: 0.25,
+                                            alignItems: 'top'
                                         }}
                                     />
                                     <Divider sx={{ borderColor: '#f0f0f0' }} />
@@ -125,53 +128,55 @@ const AvailablePasses = (props) => {
                                                     </Typography>
                                                 </Grid>
                                             )}
-                                            <Grid item xs={12} sx={{ mt: 2, display: 'flex' }}>
-                                                <Grid
-                                                    item
-                                                    xs={4}
-                                                    sx={{
-                                                        mr: 3,
-                                                        ml: 0
-                                                    }}
-                                                >
-                                                    <Button
-                                                        onClick={(event) => console.log(event)}
-                                                        sx={{
-                                                            height: '25px',
-                                                            fontSize: '12px',
-                                                            fontWeight: 200,
-                                                            color: '#fff',
-                                                            px: 2,
-                                                            bgcolor: theme.palette.packages.button,
-                                                            '&:hover': {
-                                                                backgroundColor: '#c39589'
-                                                            }
-                                                        }}
-                                                    >
-                                                        Book
-                                                    </Button>
-                                                </Grid>
-                                                <Grid item xs={5} sx={{ ml: 1 }}>
-                                                    <Button
-                                                        onClick={(event) => console.log(event)}
-                                                        sx={{
-                                                            px: 2,
-                                                            height: '25px',
-                                                            fontSize: '12px',
-                                                            fontWeight: 200,
-                                                            color: '#fff',
-                                                            bgcolor: theme.palette.packages.medium,
-                                                            '&:hover': {
-                                                                backgroundColor: '#b9a9a9'
-                                                            }
-                                                        }}
-                                                    >
-                                                        Edit
-                                                    </Button>
-                                                </Grid>
-                                            </Grid>
                                         </Grid>
                                     </CardContent>
+                                    <CardActions sx={{ marginTop: 'auto' }}>
+                                        <Grid item xs={12} sx={{ mt: 2, display: 'flex' }}>
+                                            <Grid
+                                                item
+                                                xs={4}
+                                                sx={{
+                                                    mr: 3,
+                                                    ml: 0
+                                                }}
+                                            >
+                                                <Button
+                                                    onClick={(event) => console.log(event)}
+                                                    sx={{
+                                                        height: '25px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 200,
+                                                        color: '#fff',
+                                                        px: 2,
+                                                        bgcolor: theme.palette.packages.button,
+                                                        '&:hover': {
+                                                            backgroundColor: '#c39589'
+                                                        }
+                                                    }}
+                                                >
+                                                    Book
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={5} sx={{ ml: 1 }}>
+                                                <Button
+                                                    onClick={(event) => console.log(event)}
+                                                    sx={{
+                                                        px: 2,
+                                                        height: '25px',
+                                                        fontSize: '12px',
+                                                        fontWeight: 200,
+                                                        color: '#fff',
+                                                        bgcolor: theme.palette.packages.medium,
+                                                        '&:hover': {
+                                                            backgroundColor: '#b9a9a9'
+                                                        }
+                                                    }}
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </CardActions>
                                 </Card>
                             </Grid>
                         ))}
