@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import { Box, Card, CardHeader, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import getUpcomingClassesDB from 'actions/studios/users/getUpcomingClassesDB';
+import getAvailablePasses from 'actions/studios/users/getAvailablePasses';
 
 // ==============================|| AVAILABLE PASSES ||============================== //
 
 const sampledata = [
     {
-        transactionid: '1',
+        passid: '1',
         passName: 'Unlimited Membership',
         renewalDate: 'Auto-renews on 6/2/22',
         classesUsed: 5,
@@ -19,7 +19,7 @@ const sampledata = [
         classStatement: '5 classes used'
     },
     {
-        transactionid: '2',
+        passid: '2',
         passName: '10 Pack',
         renewalDate: 'Exp: 7/2/22',
         classesUsed: 5,
@@ -27,7 +27,7 @@ const sampledata = [
         classStatement: '5 classes remain'
     },
     {
-        transactionid: '3',
+        passid: '3',
         passName: 'Free Class',
         renewalDate: 'Exp 12/21/22',
         classesUsed: 0,
@@ -38,24 +38,25 @@ const sampledata = [
 const AvailablePasses = (props) => {
     const theme = useTheme();
     const { userid, dibsStudioId, firstname } = props;
-    const [upcomingClasses, setUpcomingClasses] = useState([]);
+    const [availablePasses, setAvailablePasses] = useState([]);
     const [alreadyRan, setAlreadyRan] = useState(false);
     const [hasPasses, setHasPasses] = useState(false);
     const msgtoshow = `${firstname} does not have any available passes.`;
     useEffect(() => {
-        const getUpcomingClasses = async () => {
+        const getAvailablePassesForClient = async () => {
             // setIsLoading(true);
-            await getUpcomingClassesDB(userid, dibsStudioId).then((classes) => {
-                if (classes.length > 0) {
-                    setUpcomingClasses(classes);
+            await getAvailablePasses(userid, dibsStudioId).then((passes) => {
+                if (passes.length > 0) {
+                    console.log(`passes are: ${JSON.stringify(passes)}`);
+                    setAvailablePasses(passes);
                     setHasPasses(true);
                 }
                 setAlreadyRan(true);
             });
             // setIsLoading(false);
         };
-        if (upcomingClasses.length === 0 && !alreadyRan) getUpcomingClasses();
-    }, [userid, dibsStudioId, upcomingClasses, alreadyRan]);
+        if (availablePasses.length === 0 && !alreadyRan) getAvailablePassesForClient();
+    }, [userid, dibsStudioId, availablePasses, alreadyRan]);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
@@ -65,8 +66,8 @@ const AvailablePasses = (props) => {
                     </Grid>
                 ) : (
                     <Grid item xs={12} sx={{ display: 'flex' }}>
-                        {sampledata.map((row) => (
-                            <Grid item xs={3} key={row.transactionid} sx={{ mr: 3, mt: 2, mb: 2 }}>
+                        {availablePasses.map((row) => (
+                            <Grid item xs={3} key={row.passid} sx={{ mr: 3, mt: 2.5, mb: 2.5, display: 'flex' }}>
                                 <Card
                                     variant="outlined"
                                     sx={{
@@ -83,7 +84,10 @@ const AvailablePasses = (props) => {
                                     <CardHeader
                                         title={<Typography variant="packageHeaders">{row.passName}</Typography>}
                                         sx={{
-                                            padding: '10px'
+                                            padding: '10px',
+                                            ml: 1,
+                                            mt: 0.5,
+                                            mb: 0.25
                                         }}
                                     />
                                     <Divider sx={{ borderColor: '#f0f0f0' }} />
@@ -100,12 +104,36 @@ const AvailablePasses = (props) => {
                                                 </Typography>
                                             </Grid>
                                             <Grid item xs={12} sx={{ mt: 2.7 }}>
-                                                <Typography variant="passesData" color="inherit">
-                                                    {row.renewalDate}
-                                                </Typography>
+                                                {row.doesRenew ? (
+                                                    <Typography
+                                                        variant="passesData"
+                                                        color="#55c797"
+                                                        sx={{ fontWeight: 500, fontSize: '0.8rem' }}
+                                                    >
+                                                        {row.renewalDate}
+                                                    </Typography>
+                                                ) : (
+                                                    <Typography variant="passesData" color="inherit">
+                                                        {row.renewalDate}
+                                                    </Typography>
+                                                )}
                                             </Grid>
-                                            <Grid item xs={12} sx={{ mt: 2.7, display: 'flex' }}>
-                                                <Grid item xs={4} sx={{ mr: 3, ml: 0 }}>
+                                            {row.specialnotes.length > 1 && (
+                                                <Grid item xs={12} sx={{ mt: 1 }}>
+                                                    <Typography variant="passesData" color="inherit" sx={{ fontStyle: 'italic' }}>
+                                                        {row.specialnotes}
+                                                    </Typography>
+                                                </Grid>
+                                            )}
+                                            <Grid item xs={12} sx={{ mt: 2, display: 'flex' }}>
+                                                <Grid
+                                                    item
+                                                    xs={4}
+                                                    sx={{
+                                                        mr: 3,
+                                                        ml: 0
+                                                    }}
+                                                >
                                                     <Button
                                                         onClick={(event) => console.log(event)}
                                                         sx={{
