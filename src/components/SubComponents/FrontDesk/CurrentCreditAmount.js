@@ -78,7 +78,7 @@ const CurrentCreditAmount = (props) => {
                             }
                         }}
                     >
-                        Edit
+                        Add or remove credit
                     </Button>
                 </Grid>
             </Grid>
