@@ -48,14 +48,14 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
         MuiCardContent: {
             styleOverrides: {
                 root: {
-                    padding: '24px'
+                    padding: '10px'
                 }
             }
         },
         MuiCardActions: {
             styleOverrides: {
                 root: {
-                    padding: '24px'
+                    padding: '10px'
                 }
             }
         },

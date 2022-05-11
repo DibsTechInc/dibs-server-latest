@@ -67,7 +67,7 @@ const AvailablePasses = (props) => {
                 ) : (
                     <Grid item xs={12} sx={{ display: 'flex' }}>
                         {availablePasses.map((row) => (
-                            <Grid item xs={3} key={row.passid} sx={{ mr: 3, mt: 2.5, mb: 2.5, display: 'flex' }}>
+                            <Grid item xs={3} md={2.5} key={row.passid} sx={{ mr: 3, mt: 2.5, mb: 2.5, display: 'flex' }}>
                                 <Card
                                     variant="outlined"
                                     sx={{
@@ -94,7 +94,7 @@ const AvailablePasses = (props) => {
                                         }}
                                     />
                                     <Divider sx={{ borderColor: '#f0f0f0' }} />
-                                    <CardContent variant="packages" sx={{ p: 2 }}>
+                                    <CardContent variant="packages" sx={{ pt: 2.5, pl: 2.25, pr: 1 }}>
                                         <Grid container spacing={1}>
                                             <Grid item xs={12} sx={{ p: 0, mb: 0, lineHeight: 1 }}>
                                                 <Typography variant="passesData" color="inherit">
@@ -130,8 +130,8 @@ const AvailablePasses = (props) => {
                                             )}
                                         </Grid>
                                     </CardContent>
-                                    <CardActions sx={{ marginTop: 'auto' }}>
-                                        <Grid item xs={12} sx={{ mt: 2, display: 'flex' }}>
+                                    <CardActions sx={{ marginTop: 'auto', pl: 2.5, pb: 3 }}>
+                                        <Grid item xs={12} sx={{ mt: 1, display: 'flex' }}>
                                             <Grid
                                                 item
                                                 xs={4}
