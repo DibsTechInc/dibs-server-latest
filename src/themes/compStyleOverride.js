@@ -208,6 +208,20 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                 }
             }
         },
+        MuiRadio: {
+            styleOverrides: {
+                root: {
+                    size: 'medium',
+                    color: checkboxcolor,
+                    '&.Mui-checked': {
+                        color: checkboxChecked
+                    },
+                    '& .MuiSvgIcon-root': {
+                        fontSize: 14
+                    }
+                }
+            }
+        },
         MuiCheckbox: {
             styleOverrides: {
                 root: {

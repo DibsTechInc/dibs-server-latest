@@ -1,10 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Button, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Button, CardActions, Radio, FormControlLabel, CardContent, Divider, Grid, Tab, Tabs, Typography } from '@mui/material';
 
 // project imports
 import FirstPage from './index';
@@ -12,7 +11,6 @@ import useConfig from 'hooks/useConfig';
 import SubCard from 'ui-component/cards/SubCard';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { gridSpacing } from 'store/constant';
-import { useSelector } from 'store';
 
 // assets
 import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
@@ -57,6 +55,15 @@ const tabsOption = [
     },
     {
         label: 'Upcoming Classes'
+    },
+    {
+        label: 'Past Classes'
+    },
+    {
+        label: 'Dropped Classes'
+    },
+    {
+        label: 'Flash Credits'
     }
 ];
 
@@ -76,7 +83,7 @@ const ClientPurchaseHistory = () => {
             <Grid item xs={12}>
                 <SubCard title="Alicia's Purchase History" content={false}>
                     <Grid container spacing={gridSpacing}>
-                        <Grid item xs={12} lg={4}>
+                        <Grid item xs={3}>
                             <CardContent>
                                 <Tabs
                                     value={value}
@@ -124,13 +131,12 @@ const ClientPurchaseHistory = () => {
                                             key={index}
                                             icon={tab.icon}
                                             label={
-                                                <Grid container direction="column">
-                                                    <Typography variant="subtitle1" color="inherit">
-                                                        {tab.label}
-                                                    </Typography>
-                                                    <Typography component="div" variant="caption" sx={{ textTransform: 'capitalize' }}>
-                                                        {tab.caption}
-                                                    </Typography>
+                                                <Grid item xs={12}>
+                                                    <Grid container spacing={2}>
+                                                        <Grid item>
+                                                            <FormControlLabel control={<Radio defaultChecked />} label={tab.label} />
+                                                        </Grid>
+                                                    </Grid>
                                                 </Grid>
                                             }
                                             {...a11yProps(index)}

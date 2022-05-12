@@ -14,9 +14,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ClientAccountPage from '../SubPages/FrontDesk/Clients/index';
 import ClientPurchaseHistory from '../SubPages/FrontDesk/Clients/purchaseHistory';
 import FrontDeskPromoCodesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-promocodes';
-import { dispatch, useSelector } from 'store';
-
-import { setClientProfileMenu } from 'store/slices/menu';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
