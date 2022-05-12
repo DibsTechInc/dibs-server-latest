@@ -500,7 +500,9 @@ const ClientAccountPage = () => {
                                 </Grid>
                             }
                         >
-                            <AvailablePasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
+                            <Grid container direction="column" justifyContent="flex-start">
+                                <AvailablePasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
+                            </Grid>
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
@@ -511,32 +513,7 @@ const ClientAccountPage = () => {
                     <Grid item xs={12}>
                         <SubCard title="Retail">
                             <Grid container direction="column" spacing={2}>
-                                <Grid item xs={12}>
-                                    <Typography variant="subtitle1">Personal Details</Typography>
-                                </Grid>
-                                <Divider sx={{ pt: 1 }} />
-                                <Grid item xs={12}>
-                                    {/* <TableContainer>
-                                        <Table
-                                            sx={{
-                                                '& td': {
-                                                    borderBottom: 'none'
-                                                }
-                                            }}
-                                            size="small"
-                                        >
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
-                                                        <TableCell variant="head">{row.name}</TableCell>
-                                                        <TableCell>{row.calories}</TableCell>
-                                                        <TableCell>{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
-                                </Grid>
+                                Testing retail
                             </Grid>
                         </SubCard>
                     </Grid>

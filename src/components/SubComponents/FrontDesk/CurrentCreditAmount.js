@@ -41,13 +41,13 @@ const CurrentCreditAmount = (props) => {
                             style={{
                                 textDecorationLine: 'underline',
                                 textDecorationColor: '#c96248',
-                                textDecorationThickness: '2px',
+                                textDecorationThickness: '1.5px',
                                 textUnderlineOffset: '2px'
                             }}
                         >
                             ${credit}
                         </span>{' '}
-                        in credit
+                        in credit.
                     </Grid>
                 ) : (
                     <Grid item xs={12} sx={{ fontSize: '.875rem' }}>
