@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-
+// using as a guide for purchase history in client profile - look here
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Button, CardActions, CardContent, Divider, Grid, Tab, Tabs, Typography } from '@mui/material';

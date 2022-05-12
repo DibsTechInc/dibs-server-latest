@@ -10,7 +10,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     profile: {
         userid: 0,
-        name: 'test'
+        name: 'test',
+        firstname: ''
         // stripeid: '',
         // phone: ''
     }
@@ -26,10 +27,13 @@ const currentclient = createSlice({
         },
         // ADD CURRENT CLIENT PROFILE IN STUDIO ADMIN
         setCurrentClientProfileStudioAdmin: (state, action) => {
-            const { id, label } = action.payload;
+            const { id, label, firstname } = action.payload;
             console.log(state.profile.name);
             state.profile.name = label;
             state.profile.userid = id;
+            if (firstname) {
+                state.profile.firstname = firstname;
+            }
             // state.userid = id;
             // state.email = action.payload.email;
             // state.phone = action.payload.labelphone;

@@ -40,12 +40,15 @@ import CurrentCreditAmount from '../../../SubComponents/FrontDesk/CurrentCreditA
 import GiftCard from '../../../SubComponents/FrontDesk/GiftCard';
 import ClientNotes from '../../../SubComponents/FrontDesk/ClientNotes';
 
+// dispatchers to the store
+import { setCurrentClientProfileStudioAdmin } from 'store/slices/currentclient';
+
 // assets
 // import { IconEdit } from '@tabler/icons';
 import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
-import { useSelector } from 'store';
+import { useSelector, useDispatch } from 'store';
 import CollectPaymentInfo from '../../../stripe/CardPayments';
 import ErrorMessage from 'ui-component/modals/ErrorMessage';
 
@@ -60,9 +63,10 @@ import getNumberVisits from 'actions/studios/users/getNumberVisits';
 const PNF = require('google-libphonenumber').PhoneNumberFormat;
 const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
-// ==============================|| SAMPLE PAGE ||============================== //
+// ==============================|| CLIENT PROFILE PAGE - ENTRY ||============================== //
 
 const ClientAccountPage = () => {
+    const dispatch = useDispatch();
     const textInput = React.useRef('email');
     const phoneInput = React.useRef('phone');
     const birthdayInput = React.useRef('birthday');
@@ -118,6 +122,7 @@ const ClientAccountPage = () => {
                     if (user.stripeid) setStripeid(user.stripeid);
                     if (user.studioStripeId) setStudioStripeId(user.studioStripeId);
                     setDoneLoadingClientInfo(true);
+                    dispatch(setCurrentClientProfileStudioAdmin({ id: userid, label: user.nameToDisplay, firstname: user.firstname }));
                 }
             });
             await getNumberVisits(userid, dibsStudioId).then((num) => {
@@ -195,7 +200,8 @@ const ClientAccountPage = () => {
         userid,
         userBackground,
         cardValueChanged,
-        username
+        username,
+        dispatch
     ]);
     const toggleEditingPhone = async () => {
         if (!editingPhone) {

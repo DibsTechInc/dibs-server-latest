@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -12,8 +12,11 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClientAccountPage from '../SubPages/FrontDesk/Clients/index';
-import FrontDeskClassesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-classes';
+import ClientPurchaseHistory from '../SubPages/FrontDesk/Clients/purchaseHistory';
 import FrontDeskPromoCodesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-promocodes';
+import { dispatch, useSelector } from 'store';
+
+import { setClientProfileMenu } from 'store/slices/menu';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -49,7 +52,8 @@ function a11yPropsclient(index) {
 
 export default function ColorTabs() {
     const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+    const location = useLocation();
+    const [value, setValue] = React.useState(location.pathname.includes('transactions') ? 1 : 0);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -120,9 +124,12 @@ export default function ColorTabs() {
                 <ClientAccountPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <FrontDeskClassesSubPage />
+                <ClientPurchaseHistory />
             </TabPanel>
             <TabPanel value={value} index={2}>
+                <FrontDeskPromoCodesSubPage />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
                 <FrontDeskPromoCodesSubPage />
             </TabPanel>
         </>
