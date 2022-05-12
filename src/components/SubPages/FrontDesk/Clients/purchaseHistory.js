@@ -83,7 +83,7 @@ const ClientPurchaseHistory = () => {
             <Grid item xs={12}>
                 <SubCard title="Alicia's Purchase History" content={false}>
                     <Grid container spacing={gridSpacing}>
-                        <Grid item xs={3}>
+                        <Grid item xs={12} md={3}>
                             <CardContent>
                                 <Tabs
                                     value={value}
