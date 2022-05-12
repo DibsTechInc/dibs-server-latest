@@ -5,67 +5,52 @@ import PropTypes from 'prop-types';
 import { Box, Card, CardHeader, CardActions, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import getAvailablePasses from 'actions/studios/users/getAvailablePasses';
+import getCredit from 'actions/studios/users/getCredit';
 
-// ==============================|| AVAILABLE PASSES ||============================== //
+// ==============================|| CURRENT CREDIT AMOUNT ||============================== //
 
-const sampledata = [
-    {
-        passid: '1',
-        passName: 'Unlimited Membership',
-        renewalDate: 'Auto-renews on 6/2/22',
-        classesUsed: 5,
-        totalClasses: 'Unlimited Classes',
-        classStatement: '5 classes used'
-    },
-    {
-        passid: '2',
-        passName: '10 Pack',
-        renewalDate: 'Exp: 7/2/22',
-        classesUsed: 5,
-        totalClasses: '10 Classes',
-        classStatement: '5 classes remain'
-    },
-    {
-        passid: '3',
-        passName: 'Free Class',
-        renewalDate: 'Exp 12/21/22',
-        classesUsed: 0,
-        totalClasses: '1 Class',
-        classStatement: '1 class remains'
-    }
-];
 const CurrentCreditAmount = (props) => {
     const theme = useTheme();
     const { userid, dibsStudioId, firstname } = props;
-    const [availablePasses, setAvailablePasses] = useState([]);
+    const [credit, setCredit] = useState(0);
     const [alreadyRan, setAlreadyRan] = useState(false);
     const [hasCredit, setHasCredit] = useState(false);
     const msgtoshow = `${firstname} does not have any credit.`;
     useEffect(() => {
-        const getAvailablePassesForClient = async () => {
+        const getCreditForClient = async () => {
             // setIsLoading(true);
-            await getAvailablePasses(userid, dibsStudioId).then((passes) => {
-                if (passes.length > 0) {
-                    console.log(`passes are: ${JSON.stringify(passes)}`);
-                    setAvailablePasses(passes);
+            await getCredit(userid, dibsStudioId).then((credit) => {
+                if (credit > 0) {
+                    console.log(`credit is: ${JSON.stringify(credit)}`);
+                    setCredit(credit);
                     setHasCredit(true);
                 }
                 setAlreadyRan(true);
             });
             // setIsLoading(false);
         };
-        if (availablePasses.length === 0 && !alreadyRan) getAvailablePassesForClient();
-    }, [userid, dibsStudioId, availablePasses, alreadyRan]);
+        getCreditForClient();
+    }, [userid, dibsStudioId, credit, alreadyRan]);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
                 {hasCredit ? (
-                    <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                        Alicia has $27 in credit
+                    <Grid item xs={12} sx={{ fontSize: '.875rem' }}>
+                        {firstname} has{' '}
+                        <span
+                            style={{
+                                textDecorationLine: 'underline',
+                                textDecorationColor: '#c96248',
+                                textDecorationThickness: '2px',
+                                textUnderlineOffset: '2px'
+                            }}
+                        >
+                            ${credit}
+                        </span>{' '}
+                        in credit
                     </Grid>
                 ) : (
-                    <Grid item xs={12} sx={{ fontSize: '1rem' }}>
+                    <Grid item xs={12} sx={{ fontSize: '.875rem' }}>
                         <Typography variant="h7">{msgtoshow}</Typography>
                     </Grid>
                 )}
