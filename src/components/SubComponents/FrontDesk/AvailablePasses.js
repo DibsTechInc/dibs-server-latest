@@ -9,32 +9,6 @@ import getAvailablePasses from 'actions/studios/users/getAvailablePasses';
 
 // ==============================|| AVAILABLE PASSES ||============================== //
 
-const sampledata = [
-    {
-        passid: '1',
-        passName: 'Unlimited Membership',
-        renewalDate: 'Auto-renews on 6/2/22',
-        classesUsed: 5,
-        totalClasses: 'Unlimited Classes',
-        classStatement: '5 classes used'
-    },
-    {
-        passid: '2',
-        passName: '10 Pack',
-        renewalDate: 'Exp: 7/2/22',
-        classesUsed: 5,
-        totalClasses: '10 Classes',
-        classStatement: '5 classes remain'
-    },
-    {
-        passid: '3',
-        passName: 'Free Class',
-        renewalDate: 'Exp 12/21/22',
-        classesUsed: 0,
-        totalClasses: '1 Class',
-        classStatement: '1 class remains'
-    }
-];
 const AvailablePasses = (props) => {
     const theme = useTheme();
     const { userid, dibsStudioId, firstname } = props;
@@ -67,7 +41,7 @@ const AvailablePasses = (props) => {
                 ) : (
                     <Grid item xs={12} sx={{ display: 'flex' }}>
                         {availablePasses.map((row) => (
-                            <Grid item xs={3} md={2.5} key={row.passid} sx={{ mr: 3, mt: 2.5, mb: 2.5, display: 'flex' }}>
+                            <Grid item xs={4} md={3.25} key={row.passid} sx={{ mr: 3, mt: 2.5, mb: 2.5, display: 'flex' }}>
                                 <Card
                                     variant="outlined"
                                     sx={{

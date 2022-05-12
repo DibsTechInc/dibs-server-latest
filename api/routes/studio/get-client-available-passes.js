@@ -82,7 +82,6 @@ async function getAvailablePasses(req, res) {
             promises.push(addPassesToArray(pass));
         });
         Promise.all(promises).then(() => {
-            console.log(`passestoreturn are: ${JSON.stringify(passestoreturn)}`);
             // passestoreturn.sort((a, b) => (a.totalUses === null || a.totalUses < b.totalUses ? 1 : -1));
             passestoreturn.sort((a, b) => {
                 if (a.autopay === true && b.autopay === false) {

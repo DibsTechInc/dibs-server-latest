@@ -35,13 +35,13 @@ const sampledata = [
         classStatement: '1 class remains'
     }
 ];
-const CurrentCreditAmount = (props) => {
+const GiftCard = (props) => {
     const theme = useTheme();
     const { userid, dibsStudioId, firstname } = props;
     const [availablePasses, setAvailablePasses] = useState([]);
     const [alreadyRan, setAlreadyRan] = useState(false);
-    const [hasCredit, setHasCredit] = useState(false);
-    const msgtoshow = `${firstname} does not have any credit.`;
+    const [hasPasses, setHasPasses] = useState(false);
+    const msgtoshow = `${firstname} does not have any available passes.`;
     useEffect(() => {
         const getAvailablePassesForClient = async () => {
             // setIsLoading(true);
@@ -49,7 +49,7 @@ const CurrentCreditAmount = (props) => {
                 if (passes.length > 0) {
                     console.log(`passes are: ${JSON.stringify(passes)}`);
                     setAvailablePasses(passes);
-                    setHasCredit(true);
+                    setHasPasses(true);
                 }
                 setAlreadyRan(true);
             });
@@ -60,15 +60,24 @@ const CurrentCreditAmount = (props) => {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
-                {hasCredit ? (
-                    <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                        Alicia has $27 in credit
-                    </Grid>
-                ) : (
-                    <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                        <Typography variant="h7">{msgtoshow}</Typography>
-                    </Grid>
-                )}
+                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
+                    Amount
+                </Grid>
+                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
+                    To
+                </Grid>
+                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
+                    From
+                </Grid>
+                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
+                    Message
+                </Grid>
+                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
+                    Checkbox - send receipt to recipient
+                </Grid>
+                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
+                    Allison will get a receipt either way
+                </Grid>
                 <Grid item xs={12} sx={{ mt: 1 }}>
                     <Button
                         onClick={(event) => console.log(event)}
@@ -84,17 +93,17 @@ const CurrentCreditAmount = (props) => {
                             }
                         }}
                     >
-                        Add or remove credit
+                        Purchase
                     </Button>
                 </Grid>
             </Grid>
         </Box>
     );
 };
-CurrentCreditAmount.propTypes = {
+GiftCard.propTypes = {
     userid: PropTypes.string,
     dibsStudioId: PropTypes.number,
     firstname: PropTypes.string
 };
 
-export default CurrentCreditAmount;
+export default GiftCard;

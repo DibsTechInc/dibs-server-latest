@@ -38,6 +38,11 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     subtitle1: {
         fontSize: '0.875rem',
         fontWeight: 200,
+        color: theme.palette.text.clientProfile
+    },
+    clientNotes: {
+        fontSize: '0.775rem',
+        fontWeight: 200,
         color: theme.palette.text.dark
     },
     passesData: {

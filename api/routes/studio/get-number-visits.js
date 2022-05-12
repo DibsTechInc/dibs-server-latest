@@ -12,7 +12,6 @@ async function getNumberVisits(req, res) {
                 checkedin: true
             }
         });
-        console.log(`\n\n\n\nnumVisits is: ${JSON.stringify(numVisits)}`);
         visits = numVisits;
         res.json({
             msg: 'success',

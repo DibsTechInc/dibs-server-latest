@@ -37,6 +37,8 @@ import SubCard from 'ui-component/cards/SubCard';
 import UpcomingClasses from '../../../SubComponents/FrontDesk/UpcomingClasses';
 import AvailablePasses from '../../../SubComponents/FrontDesk/AvailablePasses';
 import CurrentCreditAmount from '../../../SubComponents/FrontDesk/CurrentCreditAmount';
+import GiftCard from '../../../SubComponents/FrontDesk/GiftCard';
+import ClientNotes from '../../../SubComponents/FrontDesk/ClientNotes';
 
 // assets
 // import { IconEdit } from '@tabler/icons';
@@ -460,45 +462,8 @@ const ClientAccountPage = () => {
                     </SubCard>
                 </Grid>
                 <Grid item xs={12} sx={{ mt: 1 }}>
-                    <SubCard title="Client Notes">CLIENT NOTES WILL GO HERE</SubCard>
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 1 }}>
-                    <SubCard
-                        title="GIFT CARDS"
-                        // secondary={
-                        //     <Button>
-                        //         <IconEdit stroke={1.5} size="1.3rem" />
-                        //     </Button>
-                        // }
-                    >
-                        <Grid container direction="column" spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography variant="subtitle1">Personal Details</Typography>
-                            </Grid>
-                            <Divider sx={{ pt: 1 }} />
-                            <Grid item xs={12}>
-                                {/* <TableContainer>
-                                        <Table
-                                            sx={{
-                                                '& td': {
-                                                    borderBottom: 'none'
-                                                }
-                                            }}
-                                            size="small"
-                                        >
-                                            <TableBody>
-                                                {rows.map((row) => (
-                                                    <TableRow key={row.name}>
-                                                        <TableCell variant="head">{row.name}</TableCell>
-                                                        <TableCell>{row.calories}</TableCell>
-                                                        <TableCell>{row.fat}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer> */}
-                            </Grid>
-                        </Grid>
+                    <SubCard title="Client Notes">
+                        <ClientNotes userid={userid} dibsStudioId={dibsStudioId} firstname={firstname} />
                     </SubCard>
                 </Grid>
             </Grid>
@@ -506,7 +471,7 @@ const ClientAccountPage = () => {
                 <Grid container direction="column" spacing={gridSpacing}>
                     <Grid item xs={12}>
                         <SubCard
-                            title="UPCOMING CLASSES"
+                            title="Upcoming Classes"
                             secondary={
                                 <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
                                     <Button
@@ -521,9 +486,9 @@ const ClientAccountPage = () => {
                             <UpcomingClasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ mb: 0 }}>
                         <SubCard
-                            title="ACTIVE PASSES"
+                            title="Active Passes"
                             secondary={
                                 <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
                                     <Button
@@ -539,19 +504,12 @@ const ClientAccountPage = () => {
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <SubCard title="CURRENT CREDIT AMOUNT">
+                        <SubCard title="Current Credit Amount">
                             <CurrentCreditAmount firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>
-                        <SubCard
-                            title="RETAIL"
-                            // secondary={
-                            //     <Button>
-                            //         <IconEdit stroke={1.5} size="1.3rem" />
-                            //     </Button>
-                            // }
-                        >
+                        <SubCard title="Retail">
                             <Grid container direction="column" spacing={2}>
                                 <Grid item xs={12}>
                                     <Typography variant="subtitle1">Personal Details</Typography>
@@ -580,6 +538,11 @@ const ClientAccountPage = () => {
                                     </TableContainer> */}
                                 </Grid>
                             </Grid>
+                        </SubCard>
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 1 }}>
+                        <SubCard title="Buy a Gift Card">
+                            <GiftCard firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                 </Grid>
