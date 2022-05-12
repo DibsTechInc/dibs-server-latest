@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Button, CardActions, Radio, FormControlLabel, CardContent, Divider, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Radio, RadioGroup, FormControl, FormControlLabel, CardContent, Divider, Grid, Tab, Tabs } from '@mui/material';
 
 // project imports
-import FirstPage from './index';
+import FirstPage from './PurchaseHistory/purchases';
 import useConfig from 'hooks/useConfig';
 import SubCard from 'ui-component/cards/SubCard';
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -84,66 +84,84 @@ const ClientPurchaseHistory = () => {
                 <SubCard title="Alicia's Purchase History" content={false}>
                     <Grid container spacing={gridSpacing}>
                         <Grid item xs={12} md={3}>
-                            <CardContent>
-                                <Tabs
-                                    value={value}
-                                    onChange={handleChange}
-                                    orientation="vertical"
-                                    variant="scrollable"
-                                    sx={{
-                                        '& .MuiTabs-flexContainer': {
-                                            borderBottom: 'none'
-                                        },
-                                        '& button': {
-                                            color: theme.palette.mode === 'dark' ? theme.palette.grey[600] : theme.palette.grey[600],
-                                            minHeight: 'auto',
-                                            minWidth: '100%',
-                                            py: 1.5,
-                                            px: 2,
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            alignItems: 'flex-start',
-                                            textAlign: 'left',
-                                            justifyContent: 'flex-start',
-                                            borderRadius: `${borderRadius}px`
-                                        },
-                                        '& button.Mui-selected': {
-                                            color: theme.palette.primary.main,
-                                            background: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50]
-                                        },
-                                        '& button > svg': {
-                                            marginBottom: '0px !important',
-                                            marginRight: 1.25,
-                                            marginTop: 1.25,
-                                            height: 20,
-                                            width: 20
-                                        },
-                                        '& button > div > span': {
-                                            display: 'block'
-                                        },
-                                        '& > div > span': {
-                                            display: 'none'
-                                        }
-                                    }}
-                                >
-                                    {tabsOption.map((tab, index) => (
-                                        <Tab
-                                            key={index}
-                                            icon={tab.icon}
-                                            label={
-                                                <Grid item xs={12}>
-                                                    <Grid container spacing={2}>
-                                                        <Grid item>
-                                                            <FormControlLabel control={<Radio defaultChecked />} label={tab.label} />
+                            <FormControl>
+                                <RadioGroup>
+                                    <CardContent>
+                                        <Tabs
+                                            value={value}
+                                            onChange={handleChange}
+                                            orientation="vertical"
+                                            variant="scrollable"
+                                            sx={{
+                                                '& .MuiTabs-flexContainer': {
+                                                    borderBottom: 'none'
+                                                },
+                                                '& button': {
+                                                    color:
+                                                        theme.palette.mode === 'dark' ? theme.palette.grey[600] : theme.palette.grey[600],
+                                                    minHeight: 'auto',
+                                                    minWidth: '100%',
+                                                    py: 1.5,
+                                                    px: 2,
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'flex-start',
+                                                    textAlign: 'left',
+                                                    justifyContent: 'flex-start',
+                                                    borderRadius: `${borderRadius}px`
+                                                },
+                                                '& button.Mui-selected': {
+                                                    color: theme.palette.primary.main,
+                                                    background:
+                                                        theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50]
+                                                },
+                                                '& button > svg': {
+                                                    marginBottom: '0px !important',
+                                                    marginRight: 1.25,
+                                                    marginTop: 1.25,
+                                                    height: 20,
+                                                    width: 20
+                                                },
+                                                '& button > div > span': {
+                                                    display: 'block'
+                                                },
+                                                '& > div > span': {
+                                                    display: 'none'
+                                                }
+                                            }}
+                                        >
+                                            {/* <FormControl>
+                                        <RadioGroup
+                                            aria-labelledby="demo-radio-buttons-group-label"
+                                            defaultValue="female"
+                                            name="radio-buttons-group"
+                                        /> */}
+                                            {tabsOption.map((tab, index) => (
+                                                <Tab
+                                                    key={index}
+                                                    icon={tab.icon}
+                                                    label={
+                                                        <Grid item xs={12}>
+                                                            <Grid container spacing={2}>
+                                                                <Grid item>
+                                                                    <FormControlLabel
+                                                                        control={<Radio />}
+                                                                        value={tab.label}
+                                                                        label={tab.label}
+                                                                    />
+                                                                </Grid>
+                                                            </Grid>
                                                         </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                            }
-                                            {...a11yProps(index)}
-                                        />
-                                    ))}
-                                </Tabs>
-                            </CardContent>
+                                                    }
+                                                    {...a11yProps(index)}
+                                                />
+                                            ))}
+                                            {/* </RadioGroup>
+                                    </FormControl> */}
+                                        </Tabs>
+                                    </CardContent>
+                                </RadioGroup>
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12} lg={8}>
                             <CardContent
@@ -168,29 +186,6 @@ const ClientPurchaseHistory = () => {
                             </CardContent>
                         </Grid>
                     </Grid>
-                    <Divider />
-                    <CardActions>
-                        <Grid container justifyContent="space-between" spacing={0}>
-                            <Grid item>
-                                {value > 0 && (
-                                    <AnimateButton>
-                                        <Button variant="outlined" size="large" onClick={(e) => handleChange(e, value - 1)}>
-                                            Back
-                                        </Button>
-                                    </AnimateButton>
-                                )}
-                            </Grid>
-                            <Grid item>
-                                {value < 3 && (
-                                    <AnimateButton>
-                                        <Button variant="contained" size="large" onClick={(e) => handleChange(e, 1 + value)}>
-                                            Continue
-                                        </Button>
-                                    </AnimateButton>
-                                )}
-                            </Grid>
-                        </Grid>
-                    </CardActions>
                 </SubCard>
             </Grid>
         </Grid>
