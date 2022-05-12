@@ -2,99 +2,94 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Card, CardHeader, CardActions, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
+import { Box, InputAdornment, FormControlLabel, TextField, FormGroup, Button, Grid, Switch, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-import getAvailablePasses from 'actions/studios/users/getAvailablePasses';
+// ==============================|| GIFT CARD ||============================== //
 
-// ==============================|| AVAILABLE PASSES ||============================== //
-
-const sampledata = [
-    {
-        passid: '1',
-        passName: 'Unlimited Membership',
-        renewalDate: 'Auto-renews on 6/2/22',
-        classesUsed: 5,
-        totalClasses: 'Unlimited Classes',
-        classStatement: '5 classes used'
-    },
-    {
-        passid: '2',
-        passName: '10 Pack',
-        renewalDate: 'Exp: 7/2/22',
-        classesUsed: 5,
-        totalClasses: '10 Classes',
-        classStatement: '5 classes remain'
-    },
-    {
-        passid: '3',
-        passName: 'Free Class',
-        renewalDate: 'Exp 12/21/22',
-        classesUsed: 0,
-        totalClasses: '1 Class',
-        classStatement: '1 class remains'
-    }
-];
 const GiftCard = (props) => {
     const theme = useTheme();
-    const { userid, dibsStudioId, firstname } = props;
-    const [availablePasses, setAvailablePasses] = useState([]);
-    const [alreadyRan, setAlreadyRan] = useState(false);
-    const [hasPasses, setHasPasses] = useState(false);
-    const msgtoshow = `${firstname} does not have any available passes.`;
+    const { userid, dibsStudioId, email, firstname } = props;
+    const [emailtouse, setEmailToUse] = useState('');
+    const labelSwitchClient = `Send gift card to ${firstname}`;
+    const noworrytext = `(Don't worry, ${firstname} will receive a receipt of this transaction either way.)`;
     useEffect(() => {
-        const getAvailablePassesForClient = async () => {
-            // setIsLoading(true);
-            await getAvailablePasses(userid, dibsStudioId).then((passes) => {
-                if (passes.length > 0) {
-                    console.log(`passes are: ${JSON.stringify(passes)}`);
-                    setAvailablePasses(passes);
-                    setHasPasses(true);
-                }
-                setAlreadyRan(true);
-            });
-            // setIsLoading(false);
-        };
-        if (availablePasses.length === 0 && !alreadyRan) getAvailablePassesForClient();
-    }, [userid, dibsStudioId, availablePasses, alreadyRan]);
+        setEmailToUse(email);
+    }, [userid, dibsStudioId, email]);
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={2}>
-                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
-                    Amount
-                </Grid>
-                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
-                    To
-                </Grid>
-                <Grid item xs={3} sx={{ fontSize: '1rem' }}>
-                    From
-                </Grid>
-                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                    Message
-                </Grid>
-                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                    Checkbox - send receipt to recipient
-                </Grid>
-                <Grid item xs={12} sx={{ fontSize: '1rem' }}>
-                    Allison will get a receipt either way
-                </Grid>
-                <Grid item xs={12} sx={{ mt: 1 }}>
-                    <Button
-                        onClick={(event) => console.log(event)}
-                        sx={{
-                            px: 2,
-                            height: '25px',
-                            fontSize: '12px',
-                            fontWeight: 200,
-                            color: '#fff',
-                            bgcolor: theme.palette.packages.medium,
-                            '&:hover': {
-                                backgroundColor: '#b9a9a9'
-                            }
-                        }}
-                    >
-                        Purchase
-                    </Button>
+            <Grid container spacing={2} direction="column">
+                <Grid item xs={12} sx={{ ml: 1, mr: 1 }}>
+                    <Grid item xs={11}>
+                        <TextField
+                            id="standard-basic"
+                            label="From"
+                            variant="standard"
+                            disabled
+                            value={emailtouse}
+                            sx={{ mr: 2, width: '60%' }}
+                        />
+                    </Grid>
+                    <Grid item xs={11} sx={{ display: 'flex', mt: 4 }}>
+                        <Grid item xs={2}>
+                            <TextField
+                                id="standard-basic"
+                                label="Amount*"
+                                variant="standard"
+                                // color="secondary"
+                                // focused
+                                sx={{ mr: 2, pr: 3, width: '95%' }}
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">$</InputAdornment>
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={5}>
+                            <TextField id="standard-basic" label="To*" variant="standard" sx={{ mr: 2, pr: 3, width: '95%' }} />
+                        </Grid>
+                        <Grid item xs={5}>
+                            <TextField id="standard-basic" label="Email Address*" variant="standard" sx={{ mr: 2, pr: 3, width: '95%' }} />
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 4, mb: 3 }}>
+                        <TextField
+                            id="standard-multiline-static"
+                            label="Add gift card message"
+                            multiline
+                            rows={4}
+                            variant="standard"
+                            sx={{ width: '60%' }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 1.5 }}>
+                        <FormGroup>
+                            <FormControlLabel control={<Switch defaultChecked />} label="Send gift card directly to recipient" />
+                            <FormControlLabel control={<Switch />} label={labelSwitchClient} />
+                        </FormGroup>
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 2, mb: 4 }}>
+                        <Typography variant="h7" sx={{ fontStyle: 'italic' }}>
+                            {noworrytext}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 1 }}>
+                        <Button
+                            onClick={(event) => console.log(event)}
+                            sx={{
+                                px: 2,
+                                height: '25px',
+                                fontSize: '12px',
+                                fontWeight: 200,
+                                color: '#fff',
+                                bgcolor: theme.palette.packages.medium,
+                                '&:hover': {
+                                    backgroundColor: '#b9a9a9'
+                                }
+                            }}
+                        >
+                            Purchase
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         </Box>
@@ -103,6 +98,7 @@ const GiftCard = (props) => {
 GiftCard.propTypes = {
     userid: PropTypes.string,
     dibsStudioId: PropTypes.number,
+    email: PropTypes.string,
     firstname: PropTypes.string
 };
 

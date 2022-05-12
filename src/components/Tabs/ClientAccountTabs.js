@@ -8,6 +8,7 @@ import { Box, Tab, Tabs } from '@mui/material';
 
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClientAccountPage from '../SubPages/FrontDesk/Clients/index';
@@ -103,9 +104,16 @@ export default function ColorTabs() {
                 <Tab
                     component={Link}
                     to="#"
+                    icon={<ShoppingCartOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Buy Retail"
+                    {...a11yPropsclient(2)}
+                />
+                <Tab
+                    component={Link}
+                    to="#"
                     icon={<SettingsIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Account Settings"
-                    {...a11yPropsclient(2)}
+                    {...a11yPropsclient(3)}
                 />
             </Tabs>
             <TabPanel value={value} index={0}>

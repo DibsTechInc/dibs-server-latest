@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Card, CardHeader, CardActions, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import getNotesFromDB from 'actions/studios/users/getNotes';
@@ -11,16 +11,12 @@ import getNotesFromDB from 'actions/studios/users/getNotes';
 
 const ClientNotes = (props) => {
     const theme = useTheme();
-    console.log(`props are: ${JSON.stringify(props)}`);
-    const { userid, dibsStudioId, firstname } = props;
-    console.log(`firstname is: ${firstname}`);
-    const [firstnameState, setFirstnameState] = useState(firstname);
+    const { userid, dibsStudioId } = props;
     const [clientNotes, setClientNotes] = useState('No notes yet');
     const [alreadyRan, setAlreadyRan] = useState(false);
     useEffect(() => {
         const getClientNotes = async () => {
             // setIsLoading(true);
-            console.log(`getting client notes: userid: ${userid}, dibsStudioId: ${dibsStudioId} firstname: ${firstname}`);
             await getNotesFromDB(userid, dibsStudioId).then((notes) => {
                 if (notes.length > 0) {
                     console.log(`notes are: ${JSON.stringify(notes)}`);
@@ -30,11 +26,8 @@ const ClientNotes = (props) => {
             });
             // setIsLoading(false);
         };
-        console.log(`clientNotes is: ${clientNotes}`);
-        console.log(`clientNotes.includes: ${clientNotes.includes('No notes yet')}`);
-        console.log(`alreadyRan: ${alreadyRan}`);
         if (clientNotes.includes('No notes') && !alreadyRan) getClientNotes();
-    }, [userid, dibsStudioId, alreadyRan, clientNotes, firstname, firstnameState]);
+    }, [userid, dibsStudioId, alreadyRan, clientNotes]);
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
@@ -65,8 +58,7 @@ const ClientNotes = (props) => {
 };
 ClientNotes.propTypes = {
     userid: PropTypes.string,
-    dibsStudioId: PropTypes.number,
-    firstname: PropTypes.string
+    dibsStudioId: PropTypes.number
 };
 
 export default ClientNotes;

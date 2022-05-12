@@ -510,16 +510,9 @@ const ClientAccountPage = () => {
                             <CurrentCreditAmount firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
-                    <Grid item xs={12}>
-                        <SubCard title="Retail">
-                            <Grid container direction="column" spacing={2}>
-                                Testing retail
-                            </Grid>
-                        </SubCard>
-                    </Grid>
                     <Grid item xs={12} sx={{ mt: 1 }}>
                         <SubCard title="Buy a Gift Card">
-                            <GiftCard firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
+                            <GiftCard email={email} firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                 </Grid>
