@@ -11,7 +11,7 @@ const GiftCard = (props) => {
     const theme = useTheme();
     const { userid, dibsStudioId, email, firstname } = props;
     const [emailtouse, setEmailToUse] = useState('');
-    const labelSwitchClient = `Send gift card to ${firstname}`;
+    const labelSwitchClient = `Send gift card to ${firstname} (via email)`;
     const noworrytext = `(Don't worry, ${firstname} will receive a receipt of this transaction either way.)`;
     useEffect(() => {
         setEmailToUse(email);

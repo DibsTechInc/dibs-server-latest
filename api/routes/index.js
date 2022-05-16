@@ -15,6 +15,7 @@ const getUpcomingClasses = require('./studio/get-client-upcoming-classes');
 const getAvailablePasses = require('./studio/get-client-available-passes');
 const getClientNotes = require('./studio/get-client-notes');
 const getClientCredit = require('./studio/get-client-credit');
+const getUserTransactions = require('./studio/user/get-transactions');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -34,6 +35,7 @@ router.post('/get-upcoming-classes', getUpcomingClasses);
 router.post('/get-available-passes', getAvailablePasses);
 router.post('/get-client-notes', getClientNotes);
 router.post('/get-client-credit', getClientCredit);
+router.post('/transactions/:type', getUserTransactions);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;
