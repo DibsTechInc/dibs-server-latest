@@ -4,7 +4,8 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
     const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main + 15 : theme.palette.secondary.light;
     const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
     const buttonColor = theme.palette.primary.dark;
-    const buttonHoverColor = theme.palette.primary[400];
+    // const buttonHoverColor = theme.palette.primary[400];
+    const buttonHoverColor = theme.palette.secondary.main;
     const checkboxcolor = theme.palette.secondary.notaslight;
     const checkboxChecked = theme.palette.secondary.main;
 
@@ -17,6 +18,18 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                     backgroundColor: buttonColor,
                     '&:hover': {
                         backgroundColor: buttonHoverColor
+                    }
+                },
+                iconSizeSmall: {
+                    alignItems: 'center',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                    color: '#ffffff',
+                    fontSize: '10px',
+                    marginTop: '5px',
+                    '&.Mui-disabled': {
+                        color: '#fff000'
                     }
                 }
             }
@@ -310,8 +323,9 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
             styleOverrides: {
                 root: {
                     borderColor: mode === 'dark' ? theme.palette.text.primary + 15 : theme.palette.grey[200],
+                    fontSize: '0.775rem',
                     '&.MuiTableCell-head': {
-                        fontSize: '0.875rem',
+                        fontSize: '0.775rem',
                         color: theme.palette.grey[600],
                         fontWeight: 500
                     }

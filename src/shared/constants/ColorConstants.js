@@ -1,0 +1,11 @@
+export const DIBS_BLUE_COLOR = '#448aff';
+export const SOLD_OUT_GREY = '#ddd';
+// export const VAX_LIGHT_ROSE = '#f2d1c9';
+export const VAX_LIGHT_ROSE = '#f0dcd8';
+export const WHITE = '#fff';
+export const BLACK = '#111';
+export const CLASSPASS_SEAGREEN = '#50E3C2';
+export const DARK_GREY = '#B0B0B0';
+export const ROSE_GOLD = '#e7b2a5';
+export const ROSE_MAIN = '#c96248';
+export const GYMPASS_COLOR = '#ff3d35';

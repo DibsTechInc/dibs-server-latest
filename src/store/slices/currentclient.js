@@ -28,7 +28,6 @@ const currentclient = createSlice({
         // ADD CURRENT CLIENT PROFILE IN STUDIO ADMIN
         setCurrentClientProfileStudioAdmin: (state, action) => {
             const { id, label, firstname } = action.payload;
-            console.log(`state of the client profile name: ${state.profile.name}`);
             state.profile.name = label;
             state.profile.userid = id;
             if (firstname) {

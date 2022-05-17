@@ -1,0 +1,58 @@
+.transaction-history__button {
+  display: flex;
+  justify-content: right;
+
+  button {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
+    border: 0;
+
+    span {
+      color: #414141;
+      font-size: 10px  !important;
+      margin-top: 5px;
+      margin-right: 0px;
+      padding-right: 0px;
+
+      &.edit {
+        color: #c96248;
+        font-size: 16px;
+        vertical-align: middle;
+        margin-bottom: 5px;
+      }
+
+      &.refunded {
+        font-size: 14px  !important;
+      }
+    }
+
+    &:disabled {
+      span {
+        color: #ddd;
+      }
+    }
+  }
+}
+.edit-package-button {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    /* Column | row */
+}
+
+.transaction-history__button-modal-content {
+  display: block;
+
+  p {
+    text-align: left;
+  }
+
+  div {
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+  }
+}
