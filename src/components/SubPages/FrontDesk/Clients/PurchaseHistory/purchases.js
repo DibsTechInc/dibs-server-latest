@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 // material-ui
 import { Grid, Typography } from '@mui/material';
 import getClientTransactions from 'actions/studios/users/getClientTransactions';
+import Table from 'shared/components/Table';
 
 import { useSelector } from 'store';
 
@@ -13,27 +14,38 @@ const TransactionHistoryPurchases = () => {
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     const { userid } = useParams();
-    console.log('this is a test');
+    const [transactions, setTransactions] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [didRun, setDidRun] = React.useState(false);
     React.useEffect(() => {
-        console.log('running the useEffect client transactions');
         const getTransactions = async () => {
             const type = 'purchases';
+            setLoading(true);
             await getClientTransactions(dibsStudioId, userid, type).then((transactions) => {
-                console.log(`transactions returned from api call are: ${JSON.stringify(transactions)}`);
+                setTransactions(transactions);
+                setLoading(false);
+                setDidRun(true);
             });
+            return () => {
+                setLoading(false);
+                setTransactions([]);
+                setDidRun(false);
+            };
         };
-        // create the action to call the data
-        // pass the data to the table component
-        // pass the type to the table component
-        // on the table component page, get the headers
-        getTransactions();
-    }, [dibsStudioId, userid]);
+        if (!didRun && !loading) getTransactions();
+    }, [dibsStudioId, userid, loading, didRun]);
+    const getHeaderEntries = () => {
+        const purchaseHeaderEntries = ['Purchase Date', 'Item Type', 'Amount Charged', 'Refund'];
+        return purchaseHeaderEntries;
+    };
     return (
         <Grid container direction="column">
-            <Grid item xs={5}>
-                <Typography gutterBottom variant="h4">
-                    Purchases will go here
-                </Typography>
+            <Grid item xs={12}>
+                {loading ? (
+                    <Typography variant="h5">Loading...</Typography>
+                ) : (
+                    <Table loading={loading} data={transactions} headers={getHeaderEntries()} />
+                )}
             </Grid>
         </Grid>
     );

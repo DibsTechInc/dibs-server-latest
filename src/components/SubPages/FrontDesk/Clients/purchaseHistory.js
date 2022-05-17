@@ -1,23 +1,22 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Radio, RadioGroup, FormControl, FormControlLabel, CardContent, Divider, Grid, Tab, Tabs } from '@mui/material';
+import { Radio, RadioGroup, FormControl, FormControlLabel, CardContent, Grid, Tab, Tabs } from '@mui/material';
 
 // project imports
 import FirstPage from './PurchaseHistory/purchases';
 // import FirstPage from '../subpage-frontdesk-classes';
 import useConfig from 'hooks/useConfig';
 import SubCard from 'ui-component/cards/SubCard';
-import AnimateButton from 'ui-component/extended/AnimateButton';
 import { gridSpacing } from 'store/constant';
+import { useDispatch, useSelector } from 'store';
+import getCurrentClientInfo from 'actions/studios/users/getCurrentClientInfo';
+import { setCurrentClientProfileStudioAdmin } from 'store/slices/currentclient';
 
 // assets
-import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone';
-import DescriptionTwoToneIcon from '@mui/icons-material/DescriptionTwoTone';
-import CreditCardTwoToneIcon from '@mui/icons-material/CreditCardTwoTone';
-import VpnKeyTwoToneIcon from '@mui/icons-material/VpnKeyTwoTone';
 
 // tabs
 function TabPanel({ children, value, index, ...other }) {
@@ -73,17 +72,41 @@ const tabsOption = [
 const ClientPurchaseHistory = () => {
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
+    const dispatch = useDispatch();
+    const [firstname, setFirstName] = React.useState('');
+    const [alreadyChecked, setAlreadyChecked] = React.useState(false);
+    const [checkingNow, setCheckingNow] = React.useState(false);
     const { borderRadius } = useConfig();
+    const { userid } = useParams();
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    console.log(`userid is: ${userid}`);
+
+    React.useEffect(() => {
+        const getClientInfo = async () => {
+            setCheckingNow(true);
+            await getCurrentClientInfo(userid, dibsStudioId).then((user) => {
+                if (user !== 0) {
+                    setFirstName(user.firstname);
+                    dispatch(setCurrentClientProfileStudioAdmin({ id: userid, label: user.nameToDisplay, firstname: user.firstname }));
+                    setAlreadyChecked(true);
+                }
+            });
+        };
+        if (!alreadyChecked && !checkingNow) {
+            getClientInfo();
+        }
+    }, [userid, dispatch, alreadyChecked, checkingNow, dibsStudioId]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    const titlename = `${firstname}'s Purchase History`;
     return (
         <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
-                <SubCard title="Alicia's Purchase History" content={false}>
-                    <Grid container spacing={gridSpacing}>
+                <SubCard title={titlename} content={false}>
+                    <Grid container spacing={2}>
                         <Grid item xs={12} md={3}>
                             <FormControl>
                                 <RadioGroup>

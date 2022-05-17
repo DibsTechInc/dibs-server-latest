@@ -57,7 +57,6 @@ export default function AutocompleteSearch() {
             .then(() => {
                 if (searchedUserid > 5) {
                     const urltolink = `/front-desk/clients/${searchedUserid}`;
-                    console.log(`urltolink: ${urltolink}`);
                     navigate(urltolink);
                 }
             });
@@ -83,9 +82,7 @@ export default function AutocompleteSearch() {
         dispatch(addToRecentsSearch(value));
         setSearchTerm(value.label);
         setSearchedUserid(value.id);
-        console.log(`setting recent options about to set client profile`);
         dispatch(setCurrentClientProfileStudioAdmin(value));
-        console.log(`set currentclient in redux to value: ${JSON.stringify(value)}`);
     };
     const testResetOfSearch = (valuefromfield) => {
         if (valuefromfield.length < countLastSearchTerm || countLastSearchTerm === 0) {
