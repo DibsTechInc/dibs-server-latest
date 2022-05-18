@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 // import Button from '@mui/material/Button';
 import EditButton from 'shared/components/TransactionHistory/Buttons/EditButton';
 import RefundButton from 'shared/components/TransactionHistory/Buttons/RefundButton';
+import * as getCredit from 'helpers/transaction-history/get-detailed-credit-transaction';
 
 export default function DefaultTable(props) {
     const { headers, data, loading } = props;
