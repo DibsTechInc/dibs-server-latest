@@ -48,7 +48,7 @@ const TransactionHistoryPurchases = () => {
         const purchaseHeaderEntries = ['Purchase Date', 'Item Type', 'Amount Charged', 'Refund'];
         return purchaseHeaderEntries;
     };
-    const noPurchasesString = `${firstName} has not purchased anything yet.`;
+    const noPurchasesString = `${firstName} has not made any purchases yet.`;
     return (
         <Grid container direction="column">
             <Grid item xs={12}>

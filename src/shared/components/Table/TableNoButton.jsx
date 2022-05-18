@@ -12,7 +12,7 @@ import Paper from '@mui/material/Paper';
 import * as getCredit from 'helpers/transaction-history/get-detailed-credit-transaction';
 
 export default function DefaultTable(props) {
-    const { headers, data, loading } = props;
+    const { headers, data, loading, noneString } = props;
     let alignment = 'left';
     return (
         <TableContainer component={Paper}>
@@ -32,11 +32,17 @@ export default function DefaultTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {!loading && !data.length ? (
+                        <TableRow>
+                            <TableCell colSpan={3} align="center" sx={{ pt: 8, pb: 8 }}>
+                                {noneString}
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
                     {data.map((row) => {
-                        const { typeprop } = props;
                         const { id, createdAt } = row;
                         const datetoshow = moment(createdAt).format('M/D/YYYY');
-                        if (!row.transaction) return null;
+                        // if (!row.transaction) return null;
                         const itemName = getCredit.getCreditTransactionItemName(row);
                         const formattedAmount = getCredit.getFormattedAmount(row);
                         if (!loading) {
@@ -63,5 +69,5 @@ DefaultTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.bool,
-    typeprop: PropTypes.string
+    noneString: PropTypes.string
 };

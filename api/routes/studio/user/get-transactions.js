@@ -16,9 +16,6 @@ async function getUserTransactions(req, res) {
             dibsStudioId,
             passid: Number(req.query.passid)
         });
-        console.log(
-            `\n\n\n\n\n\n\ngetUserTransactions will return --->>>>>> ${JSON.stringify(data)}\n\n\n\n\n\nAnd package name is: ${packageName}`
-        );
         res.json(apiSuccessWrapper({ data, packageName }, 'Successfully got client transactions'));
     } catch (err) {
         handleError({

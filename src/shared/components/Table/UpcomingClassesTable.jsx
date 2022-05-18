@@ -12,7 +12,7 @@ import getDetailedEventTransaction from 'helpers/transaction-history/get-detaile
 import DropButton from 'shared/components/TransactionHistory/Buttons/DropButton';
 
 export default function DefaultTable(props) {
-    const { headers, data, loading } = props;
+    const { headers, data, loading, noneString } = props;
     let alignment = 'left';
     return (
         <TableContainer component={Paper}>
@@ -32,6 +32,13 @@ export default function DefaultTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {!loading && !data.length ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ pt: 8, pb: 8 }}>
+                                {noneString}
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
                     {data.map((row) => {
                         const { id } = row;
                         const rowData = getDetailedEventTransaction(row);
@@ -79,5 +86,6 @@ DefaultTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.bool,
-    typeprop: PropTypes.string
+    typeprop: PropTypes.string,
+    noneString: PropTypes.string
 };

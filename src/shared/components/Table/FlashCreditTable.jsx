@@ -12,7 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import getDetailedFlashCredit from 'helpers/transaction-history/get-detailed-flash-credit';
 
 export default function DefaultTable(props) {
-    const { headers, data, loading } = props;
+    const { headers, data, loading, noneString } = props;
     let alignment = 'left';
     return (
         <TableContainer component={Paper}>
@@ -32,6 +32,13 @@ export default function DefaultTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {!loading && !data.length ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ pt: 8, pb: 8 }}>
+                                {noneString}
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
                     {data.map((row) => {
                         const { id } = row;
                         const rowData = getDetailedFlashCredit(row);
@@ -65,5 +72,6 @@ export default function DefaultTable(props) {
 DefaultTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.object),
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    noneString: PropTypes.string
 };
