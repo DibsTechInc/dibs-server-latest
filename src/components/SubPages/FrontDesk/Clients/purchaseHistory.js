@@ -7,8 +7,15 @@ import { useTheme } from '@mui/material/styles';
 import { Radio, RadioGroup, FormControl, FormControlLabel, CardContent, Grid, Tab, Tabs } from '@mui/material';
 
 // project imports
-import FirstPage from './PurchaseHistory/purchases';
-// import FirstPage from '../subpage-frontdesk-classes';
+import Purchases from './PurchaseHistory/purchases';
+import AvailablePackages from './PurchaseHistory/availablePackages';
+import UnavailablePackages from './PurchaseHistory/unavailablePackages';
+import StudioCredit from './PurchaseHistory/studioCredit';
+import UpcomingClasses from './PurchaseHistory/upcomingClasses';
+import PastClasses from './PurchaseHistory/pastClasses';
+import DroppedClasses from './PurchaseHistory/droppedClasses';
+import FlashCredits from './PurchaseHistory/flashCredits';
+// import Purchases from '../subpage-frontdesk-classes';
 import useConfig from 'hooks/useConfig';
 import SubCard from 'ui-component/cards/SubCard';
 import { gridSpacing } from 'store/constant';
@@ -134,10 +141,13 @@ const ClientPurchaseHistory = () => {
                                                     justifyContent: 'flex-start',
                                                     borderRadius: `${borderRadius}px`
                                                 },
+                                                '& button: hover': {
+                                                    background: theme.palette.grey[100]
+                                                },
                                                 '& button.Mui-selected': {
                                                     color: theme.palette.primary.main,
                                                     background:
-                                                        theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[50]
+                                                        theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.grey[100]
                                                 },
                                                 '& button > svg': {
                                                     marginBottom: '0px !important',
@@ -154,12 +164,6 @@ const ClientPurchaseHistory = () => {
                                                 }
                                             }}
                                         >
-                                            {/* <FormControl>
-                                        <RadioGroup
-                                            aria-labelledby="demo-radio-buttons-group-label"
-                                            defaultValue="female"
-                                            name="radio-buttons-group"
-                                        /> */}
                                             {tabsOption.map((tab, index) => (
                                                 <Tab
                                                     key={index}
@@ -177,11 +181,10 @@ const ClientPurchaseHistory = () => {
                                                             </Grid>
                                                         </Grid>
                                                     }
+                                                    sx={{ '& selected': { minWidth: '100%' } }}
                                                     {...a11yProps(index)}
                                                 />
                                             ))}
-                                            {/* </RadioGroup>
-                                    </FormControl> */}
                                         </Tabs>
                                     </CardContent>
                                 </RadioGroup>
@@ -196,16 +199,28 @@ const ClientPurchaseHistory = () => {
                                 }}
                             >
                                 <TabPanel value={value} index={0}>
-                                    <FirstPage />
+                                    <Purchases />
                                 </TabPanel>
                                 <TabPanel value={value} index={1}>
-                                    <FirstPage />
+                                    <AvailablePackages />
                                 </TabPanel>
                                 <TabPanel value={value} index={2}>
-                                    <FirstPage />
+                                    <UnavailablePackages />
                                 </TabPanel>
                                 <TabPanel value={value} index={3}>
-                                    <FirstPage />
+                                    <StudioCredit />
+                                </TabPanel>
+                                <TabPanel value={value} index={4}>
+                                    <UpcomingClasses />
+                                </TabPanel>
+                                <TabPanel value={value} index={5}>
+                                    <PastClasses />
+                                </TabPanel>
+                                <TabPanel value={value} index={6}>
+                                    <DroppedClasses />
+                                </TabPanel>
+                                <TabPanel value={value} index={7}>
+                                    <FlashCredits />
                                 </TabPanel>
                             </CardContent>
                         </Grid>

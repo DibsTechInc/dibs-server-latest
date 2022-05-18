@@ -294,17 +294,6 @@ async function getDashboardSalesGrowthData(req, res) {
     };
 
     await getrevenuebypackage();
-    console.log(`\n\n\n\n ran getrevenuebypackage - retailrevenuedata: ${JSON.stringify(retailrevenuedata)}`);
-
-    console.log(`singleids are: ${JSON.stringify(singleidarray)}`);
-    console.log(`packageidarray are: ${JSON.stringify(packageidarray)}`);
-    console.log(`membershipidarray are: ${JSON.stringify(membershipidarray)}`);
-    console.log(`retailrevenuedata after reverse: ${JSON.stringify(retailrevenuedata)}`);
-    console.log(`membershiprevenuedata is: ${JSON.stringify(membershipdata)}`);
-    console.log(`packagedata is: ${JSON.stringify(packagedata)}`);
-    console.log(`singles data is: ${JSON.stringify(singledata)}`);
-    console.log(`totalsdata is: ${JSON.stringify(totaldata)}`);
-    console.log(`giftcarddata is: ${JSON.stringify(giftcarddata)}\n\n\n\n`);
 }
 
 module.exports = getDashboardSalesGrowthData;

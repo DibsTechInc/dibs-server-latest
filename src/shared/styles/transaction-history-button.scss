@@ -26,6 +26,9 @@
       &.refunded {
         font-size: 14px  !important;
       }
+      &.drop-option {
+        color: #9b9b9b;
+      }
     }
 
     &:disabled {

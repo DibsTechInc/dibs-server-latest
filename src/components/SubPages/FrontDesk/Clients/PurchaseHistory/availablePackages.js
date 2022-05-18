@@ -8,9 +8,9 @@ import Table from 'shared/components/Table';
 
 import { useSelector } from 'store';
 
-// ==============================|| TRANSACTION HISTORY - TYPE PURCHASES ||============================== //
+// ==============================|| TRANSACTION HISTORY - TYPE AVAILABLE PACKAGES ||============================== //
 
-const TransactionHistoryPurchases = () => {
+const TransactionHistoryAvailablePackages = () => {
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     const { userid } = useParams();
@@ -19,7 +19,7 @@ const TransactionHistoryPurchases = () => {
     const [didRun, setDidRun] = React.useState(false);
     React.useEffect(() => {
         const getTransactions = async () => {
-            const type = 'purchases';
+            const type = 'available-packs';
             setLoading(true);
             await getClientTransactions(dibsStudioId, userid, type).then((transactions) => {
                 setTransactions(transactions);
@@ -34,21 +34,18 @@ const TransactionHistoryPurchases = () => {
         };
         if (!didRun && !loading) getTransactions();
     }, [dibsStudioId, userid, loading, didRun]);
-    const getHeaderEntries = () => {
-        const purchaseHeaderEntries = ['Purchase Date', 'Item Type', 'Amount Charged', 'Refund'];
-        return purchaseHeaderEntries;
-    };
+    const getHeaderEntries = () => ['Purchase Date', 'Item', 'Expiration', 'Amount Charged', 'Available Uses', 'Edit'];
     return (
         <Grid container direction="column">
             <Grid item xs={12}>
                 {loading ? (
                     <Typography variant="h5">Loading...</Typography>
                 ) : (
-                    <Table loading={loading} data={transactions} typeprop="purchases" headers={getHeaderEntries()} />
+                    <Table loading={loading} data={transactions} typeprop="availablePacks" headers={getHeaderEntries()} />
                 )}
             </Grid>
         </Grid>
     );
 };
 
-export default TransactionHistoryPurchases;
+export default TransactionHistoryAvailablePackages;
