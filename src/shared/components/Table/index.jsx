@@ -11,10 +11,9 @@ import Paper from '@mui/material/Paper';
 // import Button from '@mui/material/Button';
 import EditButton from 'shared/components/TransactionHistory/Buttons/EditButton';
 import RefundButton from 'shared/components/TransactionHistory/Buttons/RefundButton';
-import * as getCredit from 'helpers/transaction-history/get-detailed-credit-transaction';
 
 export default function DefaultTable(props) {
-    const { headers, data, loading } = props;
+    const { headers, data, loading, noneString } = props;
     let alignment = 'left';
     return (
         <TableContainer component={Paper}>
@@ -34,11 +33,17 @@ export default function DefaultTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
+                    {!loading && !data.length ? (
+                        <TableRow>
+                            <TableCell colSpan={6} align="center" sx={{ pt: 8, pb: 8 }}>
+                                {noneString}
+                            </TableCell>
+                        </TableRow>
+                    ) : null}
                     {data.map((row) => {
-                        console.log(`row is: ${JSON.stringify(row)}`);
                         let typetoshow = '';
                         let disableRefundButton = true;
-                        const { type } = props;
+                        const { typeprop } = props;
                         const { id, createdAt, event, expiresAt, amount, retail, passPurchased, chargeAmount } = row;
                         if (event) typetoshow = event.name;
                         const amountPaid = `$${amount}`;
@@ -60,8 +65,18 @@ export default function DefaultTable(props) {
                                 availableUses = 'Unlimited';
                             }
                         }
-                        console.log(`disabledRefundButton is: ${disableRefundButton}`);
-                        console.log(`type is: ${type}`);
+                        if (passPurchased && typeprop === 'unavailablePacks') {
+                            if (passPurchased.totalUses < 90) {
+                                const numberUses = passPurchased.totalUses - passPurchased.usesCount;
+                                availableUses = `${numberUses} forfeited`;
+                                if (numberUses === 0) {
+                                    availableUses = 'N/A';
+                                }
+                            } else {
+                                availableUses = 'Unlimited';
+                            }
+                        }
+                        const showExpiration = typeprop === 'availablePacks' || typeprop === 'unavailablePacks';
                         if (!loading) {
                             return (
                                 <TableRow key={id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -71,10 +86,10 @@ export default function DefaultTable(props) {
                                     <TableCell component="th" scope="row" align="center">
                                         {typetoshow}
                                     </TableCell>
-                                    {type === 'availablePacks' ? <TableCell align="center">{expirationToShow}</TableCell> : null}
+                                    {showExpiration ? <TableCell align="center">{expirationToShow}</TableCell> : null}
                                     <TableCell align="center">{amountPaid}</TableCell>
-                                    {type === 'availablePacks' ? <TableCell align="center">{availableUses}</TableCell> : null}
-                                    {type === 'purchases' ? (
+                                    {showExpiration ? <TableCell align="center">{availableUses}</TableCell> : null}
+                                    {typeprop === 'purchases' ? (
                                         <TableCell align="right" sx={{ pr: 1 }}>
                                             <RefundButton disabled={disableRefundButton} />
                                         </TableCell>
@@ -97,5 +112,6 @@ DefaultTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.object),
     loading: PropTypes.bool,
-    type: PropTypes.string
+    typeprop: PropTypes.string,
+    noneString: PropTypes.string
 };

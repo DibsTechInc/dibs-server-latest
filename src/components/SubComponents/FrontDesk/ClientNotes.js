@@ -19,7 +19,6 @@ const ClientNotes = (props) => {
             // setIsLoading(true);
             await getNotesFromDB(userid, dibsStudioId).then((notes) => {
                 if (notes.length > 0) {
-                    console.log(`notes are: ${JSON.stringify(notes)}`);
                     setClientNotes(notes);
                 }
                 setAlreadyRan(true);

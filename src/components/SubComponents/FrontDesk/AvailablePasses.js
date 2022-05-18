@@ -21,7 +21,6 @@ const AvailablePasses = (props) => {
             // setIsLoading(true);
             await getAvailablePasses(userid, dibsStudioId).then((passes) => {
                 if (passes.length > 0) {
-                    console.log(`passes are: ${JSON.stringify(passes)}`);
                     setAvailablePasses(passes);
                     setHasPasses(true);
                 }

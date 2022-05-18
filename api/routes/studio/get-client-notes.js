@@ -11,15 +11,11 @@ async function getClientNotes(req, res) {
             }
         });
         if (notesfromdb) {
-            console.log(`\n\n\ndid get notes from db. notes are: ${JSON.stringify(notesfromdb)}`);
-            console.log('sending em off');
             res.json({
                 msg: 'success',
                 clientNotes: notesfromdb.client_notes
             });
         } else {
-            console.log(`\n\n\ndid NOT - check user get notes from db. notes are: ${JSON.stringify(notesfromdb)}`);
-            console.log('sending em off');
             res.json({
                 msg: 'success',
                 clientNotes: 'This client does not have any notes yet.'
