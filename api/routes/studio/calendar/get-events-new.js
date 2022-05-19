@@ -9,7 +9,7 @@ async function getAllEvents(req, res) {
         const classestoreturn = await models.event.findAll({
             attributes: [
                 'eventid',
-                'name',
+                ['name', 'title'],
                 'eventtype',
                 'trainerid',
                 'start_date',

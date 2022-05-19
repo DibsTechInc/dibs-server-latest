@@ -1,5 +1,6 @@
 // third-party
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment-timezone';
 
 // project imports
 import axios from 'utils/axios';
@@ -52,10 +53,28 @@ export function getEvents(dibsStudioId) {
     return async () => {
         try {
             const response = await axios.post('/api/studio/calendar/events', { dibsid: dibsStudioId });
-            console.log(`response from getcalendar events is: ${JSON.stringify(response.data)}`);
+            // const response = await axios.get('/api/calendar/events');
+            // console.log(`response from getcalendar events is: ${JSON.stringify(response.data)}`);
             const { data } = response;
-            dispatch(calendar.actions.getEventsSuccess(data.classEvents));
+            const { classEvents } = data;
+            console.log(`classEvents is: ${JSON.stringify(classEvents)}`);
+            await classEvents.map((event) => {
+                console.log(`\n\n\nev in getEvents api call: ${JSON.stringify(event)}`);
+                event.title = `${event.title} w/ ${event.instructor.firstname}`;
+                event.start = moment.utc(event.start_date).format('YYYY-MM-DDTHH:mm:ssZ');
+                event.end = moment.utc(event.end_date).format('YYYY-MM-DDTHH:mm:ssZ');
+                if (event.private) {
+                    event.backgroundColor = '#d3e2d5';
+                }
+                // event.start = moment.utc(event.start_date).utcOffset(0, true).format();
+                console.log(`\n\n\nAfter changing it in getEvents api call: ${JSON.stringify(event)}`);
+                return event;
+            });
+            // newEvents();
+            dispatch(calendar.actions.getEventsSuccess(classEvents));
+            console.log(`made the calendar dispatch call`);
         } catch (error) {
+            console.log(`error is: ${JSON.stringify(error)}`);
             dispatch(calendar.actions.hasError(error));
         }
     };

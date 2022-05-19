@@ -47,6 +47,8 @@ const Calendar = () => {
         setEvents(calendarState.events);
     }, [calendarState]);
 
+    console.log(`events is: ${JSON.stringify(events)}`);
+
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState(matchSm ? 'listWeek' : 'dayGridMonth');
 
@@ -116,7 +118,7 @@ const Calendar = () => {
 
     const handleEventSelect = (arg) => {
         if (arg.event.id) {
-            const selectEvent = events.find((_event) => _event.id === arg.event.id);
+            const selectEvent = events.find((_event) => _event.eventid === arg.event.eventid);
             setSelectedEvent(selectEvent);
         } else {
             setSelectedEvent(null);
@@ -210,6 +212,8 @@ const Calendar = () => {
                         eventClick={handleEventSelect}
                         eventResize={handleEventUpdate}
                         height={matchSm ? 'auto' : 720}
+                        eventColor="#cedae5"
+                        eventTextColor="#000"
                         plugins={[listPlugin, dayGridPlugin, timelinePlugin, timeGridPlugin, interactionPlugin]}
                     />
                 </SubCard>

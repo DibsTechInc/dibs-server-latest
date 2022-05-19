@@ -30,6 +30,7 @@ const reducer = combineReducers({
     // dashboard: dashboardReducer,
     dashboard: persistReducer({ key: 'dibsdashboard', storage, keyPrefix: 'dibsdashboard-' }, dashboardReducer),
     currentclient: currentclientReducer,
+    calendar: calendarReducer,
     retail: retailReducer,
     // clientsearch: clientsearchReducer,
     clientsearch: persistReducer({ key: 'clientsearch', storage, keyPrefix: 'clientsearch-' }, clientsearchReducer),
@@ -48,7 +49,6 @@ const reducer = combineReducers({
     contact: contactReducer,
     product: productReducer,
     chat: chatReducer,
-    calendar: calendarReducer,
     mail: mailReducer,
     user: userReducer
 });
