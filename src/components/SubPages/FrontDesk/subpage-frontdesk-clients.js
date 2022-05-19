@@ -37,7 +37,7 @@ const FrontDeskClients = () => (
                 {newAccountGuidance}
             </Typography>
         </Grid>
-        <Grid item xs={9} sx={{ marginTop: '45px', marginBottom: '200px' }}>
+        <Grid item xs={8} sx={{ marginTop: '45px', marginBottom: '200px' }}>
             <NewClientAccount />
         </Grid>
     </Grid>

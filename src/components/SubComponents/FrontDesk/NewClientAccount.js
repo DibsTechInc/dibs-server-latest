@@ -52,9 +52,9 @@ const NewClientAccountForm = () => {
 
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid item xs={7} lg={7}>
+            <Grid item xs={12} md={9}>
                 <Grid container spacing={3}>
-                    <Grid item xs={4}>
+                    <Grid item xs={5}>
                         <TextField
                             fullWidth
                             id="first-name"
@@ -65,7 +65,7 @@ const NewClientAccountForm = () => {
                             onChange={formik.handleChange}
                         />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={5}>
                         <TextField
                             fullWidth
                             id="last-name"
@@ -78,7 +78,7 @@ const NewClientAccountForm = () => {
                     </Grid>
                 </Grid>
                 <Grid container spacing={3}>
-                    <Grid item xs={6} sx={{ marginTop: '15px' }}>
+                    <Grid item xs={7} sx={{ marginTop: '15px' }}>
                         <TextField
                             fullWidth
                             id="email"
@@ -94,17 +94,6 @@ const NewClientAccountForm = () => {
                 </Grid>
                 <Grid container spacing={3}>
                     <Grid item xs={4} sx={{ marginTop: '15px' }}>
-                        {/* <TextField
-                            fullWidth
-                            id="phone"
-                            size="small"
-                            name="phone"
-                            label="Phone #"
-                            value={formik.values.phone}
-                            onChange={formik.handleChange}
-                            error={formik.touched.phone && Boolean(formik.errors.phone)}
-                            helperText={formik.touched.phone && formik.errors.phone}
-                        /> */}
                         <Grid item sx={{ marginTop: '3px' }}>
                             <NumberFormat
                                 id="phone2"
