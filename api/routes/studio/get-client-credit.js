@@ -15,7 +15,6 @@ async function getClientCredit(req, res) {
             if (credittosend === 'NaN') {
                 credittosend = 0;
             }
-            console.log(`\n\n\ndid get credit from db. credit is: ${JSON.stringify(credit)}`);
             res.json({
                 msg: 'success',
                 credit: credittosend

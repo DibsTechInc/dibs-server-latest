@@ -19,6 +19,7 @@ import dashboardReducer from './slices/dashboard';
 import dibsstudioReducer from './slices/dibsstudio';
 import currentclientReducer from './slices/currentclient';
 import clientsearchReducer from './slices/clientsearch';
+import retailReducer from './slices/retail';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -29,6 +30,7 @@ const reducer = combineReducers({
     // dashboard: dashboardReducer,
     dashboard: persistReducer({ key: 'dibsdashboard', storage, keyPrefix: 'dibsdashboard-' }, dashboardReducer),
     currentclient: currentclientReducer,
+    retail: retailReducer,
     // clientsearch: clientsearchReducer,
     clientsearch: persistReducer({ key: 'clientsearch', storage, keyPrefix: 'clientsearch-' }, clientsearchReducer),
     menu: menuReducer,

@@ -13,7 +13,11 @@ import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlin
 import SettingsIcon from '@mui/icons-material/Settings';
 import ClientAccountPage from '../SubPages/FrontDesk/Clients/index';
 import ClientPurchaseHistory from '../SubPages/FrontDesk/Clients/purchaseHistory';
+import BuyRetail from '../SubPages/FrontDesk/Clients/buyRetail';
 import FrontDeskPromoCodesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-promocodes';
+import { useSelector, useDispatch } from 'store';
+import { setRetailProducts } from 'store/slices/retail';
+import GetRetailData from 'actions/studios/getRetailProductData';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -54,7 +58,14 @@ export default function ColorTabs() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+        GetRetailData(config.dibsStudioId).then((result) => {
+            dispatch(setRetailProducts(result.data));
+        });
+    }, [config.dibsStudioId, dibsStudioId, dispatch]);
     return (
         <>
             <Tabs
@@ -124,7 +135,7 @@ export default function ColorTabs() {
                 <ClientPurchaseHistory />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <FrontDeskPromoCodesSubPage />
+                <BuyRetail />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <FrontDeskPromoCodesSubPage />
