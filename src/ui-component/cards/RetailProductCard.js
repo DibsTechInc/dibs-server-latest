@@ -19,11 +19,12 @@ const prodImage = require.context('assets/images/e-commerce', true);
 
 // ==============================|| RETAIL PRODUCT CARD ||============================== //
 
-const RetailProductCard = ({ id, color, name, image, description, offerPrice, salePrice, rating }) => {
+const RetailProductCard = ({ id, color, name, image, description, offerPrice, salePrice, quickbuy }) => {
     const dispatch = useDispatch();
 
     const prodProfile = image && prodImage(`./${image}`).default;
     const cart = useSelector((state) => state.cart);
+    const borderColorToUse = quickbuy ? '#55c797' : '#cdc8c8e5';
 
     const addCart = () => {
         dispatch(addProduct({ id, name, image, salePrice, offerPrice, color, size: 8, quantity: 1 }, cart.checkout.products));
@@ -61,7 +62,7 @@ const RetailProductCard = ({ id, color, name, image, description, offerPrice, sa
                         display: 'flex',
                         flexDirection: 'column',
                         width: '220px',
-                        borderColor: '#cdc8c8e5'
+                        borderColor: borderColorToUse
                     }}
                 >
                     <CardMedia
@@ -90,7 +91,7 @@ const RetailProductCard = ({ id, color, name, image, description, offerPrice, sa
                             )}
                         </Grid>
                     </CardContent>
-                    <CardActions sx={{ marginTop: 'auto', pl: 2.5, pb: 3 }}>
+                    <CardActions sx={{ marginTop: 'auto', pl: 2, pb: 3, pr: 2.5 }}>
                         <Grid item xs={12}>
                             <Stack direction="row" justifyContent="space-between" alignItems="center">
                                 <Grid container spacing={1} maxWidth="lg">
@@ -118,7 +119,7 @@ RetailProductCard.propTypes = {
     description: PropTypes.string,
     offerPrice: PropTypes.number,
     salePrice: PropTypes.number,
-    rating: PropTypes.number
+    quickbuy: PropTypes.bool
 };
 
 export default RetailProductCard;

@@ -243,7 +243,12 @@ const ProductsList = () => {
             {products.length > 0 && (
                 <Grid item xs={12}>
                     <Grid container alignItems="center" justifyContent="space-between" spacing={matchDownMD ? 0.5 : 2}>
-                        <Grid item xs={12} align="right" sx={{ mt: 3, pr: 3 }}>
+                        <Grid item xs={4} align="left" sx={{ mt: 3, pr: 3, ml: 2, fontStyle: 'italic' }}>
+                            <Typography variant="h7" component="h2">
+                                (Items in green are available for quick buy)
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={7} align="right" sx={{ mt: 3, pr: 3 }}>
                             <TextField
                                 sx={{ width: { xs: 140, md: 'auto' } }}
                                 InputProps={{
@@ -271,7 +276,7 @@ const ProductsList = () => {
                             handelFilter={handelFilter}
                             initialState={initialState}
                         />
-                        <Grid container spacing={3} maxWidth="90%" sx={{ ml: 2, mr: 2, mt: 2 }}>
+                        <Grid container spacing={3} maxWidth="90%" sx={{ ml: 2, mr: 2, mt: 2, mb: 6 }}>
                             {isLoading
                                 ? [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                                       <Grid key={item} item xs={12} sm={6} md={4} lg={3}>
