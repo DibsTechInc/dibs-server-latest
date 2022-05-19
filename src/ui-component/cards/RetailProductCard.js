@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
-import { Button, CardContent, CardMedia, Grid, Rating, Stack, Typography } from '@mui/material';
+import { Button, CardContent, CardMedia, Grid, CardActions, Stack, Typography } from '@mui/material';
 
 // project import
 import MainCard from './MainCard';
@@ -19,11 +19,10 @@ const prodImage = require.context('assets/images/e-commerce', true);
 
 // ==============================|| RETAIL PRODUCT CARD ||============================== //
 
-const ProductCard = ({ id, color, name, image, description, offerPrice, salePrice, rating }) => {
+const RetailProductCard = ({ id, color, name, image, description, offerPrice, salePrice, rating }) => {
     const dispatch = useDispatch();
 
     const prodProfile = image && prodImage(`./${image}`).default;
-    const [productRating] = useState(rating);
     const cart = useSelector((state) => state.cart);
 
     const addCart = () => {
@@ -58,73 +57,60 @@ const ProductCard = ({ id, color, name, image, description, offerPrice, salePric
                         '&:hover': {
                             transform: 'scale3d(1.02, 1.02, 1)',
                             transition: 'all .4s ease-in-out'
-                        }
+                        },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '220px',
+                        borderColor: '#cdc8c8e5'
                     }}
                 >
                     <CardMedia
-                        sx={{ height: 220 }}
+                        sx={{ height: 80 }}
                         image={prodProfile}
                         title="Contemplative Reptile"
                         component={Link}
                         to={`/e-commerce/product-details/${id}`}
                     />
-                    <CardContent sx={{ p: 2 }}>
+                    <CardContent sx={{ p: 3 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} align="center">
                                 <Typography
                                     component={Link}
                                     to={`/e-commerce/product-details/${id}`}
                                     variant="subtitle1"
-                                    sx={{ textDecoration: 'none' }}
+                                    sx={{ textDecoration: 'none', fontWeight: 'bold' }}
                                 >
                                     {name}
                                 </Typography>
                             </Grid>
                             {description && (
-                                <Grid item xs={12}>
-                                    <Typography
-                                        variant="body2"
-                                        sx={{
-                                            overflow: 'hidden',
-                                            height: 45
-                                        }}
-                                    >
-                                        {description}
-                                    </Typography>
+                                <Grid item xs={12} align="center">
+                                    <Typography variant="body2">{description}</Typography>
                                 </Grid>
                             )}
-                            <Grid item xs={12} sx={{ pt: '8px !important' }}>
-                                <Stack direction="row" alignItems="center" spacing={1}>
-                                    <Rating precision={0.5} name="size-small" value={productRating} size="small" readOnly />
-                                    <Typography variant="caption">({offerPrice}+)</Typography>
-                                </Stack>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                    <Grid container spacing={1}>
-                                        <Grid item>
-                                            <Typography variant="h4">${offerPrice}</Typography>
-                                        </Grid>
-                                        <Grid item>
-                                            <Typography variant="h6" sx={{ color: 'grey.500', textDecoration: 'line-through' }}>
-                                                ${salePrice}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                    <Button variant="contained" sx={{ minWidth: 0 }} onClick={addCart}>
-                                        <ShoppingCartTwoToneIcon fontSize="small" />
-                                    </Button>
-                                </Stack>
-                            </Grid>
                         </Grid>
                     </CardContent>
+                    <CardActions sx={{ marginTop: 'auto', pl: 2.5, pb: 3 }}>
+                        <Grid item xs={12}>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <Grid container spacing={1} maxWidth="lg">
+                                    <Grid item sx={{ ml: 2.5 }}>
+                                        <Typography variant="h4">${offerPrice}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Button variant="contained" sx={{ minWidth: 0 }} onClick={addCart}>
+                                    <ShoppingCartTwoToneIcon fontSize="small" />
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    </CardActions>
                 </MainCard>
             )}
         </>
     );
 };
 
-ProductCard.propTypes = {
+RetailProductCard.propTypes = {
     id: PropTypes.number,
     color: PropTypes.string,
     name: PropTypes.string,
@@ -135,4 +121,4 @@ ProductCard.propTypes = {
     rating: PropTypes.number
 };
 
-export default ProductCard;
+export default RetailProductCard;

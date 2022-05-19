@@ -26,7 +26,7 @@ import SortOptions from './SortOptions';
 import ProductEmpty from './ProductEmpty';
 import ProductFilter from './ProductFilter';
 import ProductFilterView from './ProductFilterView';
-import ProductCard from 'ui-component/cards/ProductCard';
+import RetailProductCard from 'ui-component/cards/RetailProductCard';
 import FloatingCart from 'ui-component/cards/FloatingCart';
 import SkeletonProductPlaceholder from 'ui-component/cards/Skeleton/ProductPlaceholder';
 import useConfig from 'hooks/useConfig';
@@ -90,11 +90,11 @@ const ProductsList = () => {
 
     // product data
     const [products, setProducts] = useState([]);
-    const productState = useSelector((state) => state.product);
+    const retailState = useSelector((state) => state.retail);
 
     useEffect(() => {
-        setProducts(productState.products);
-    }, [productState]);
+        setProducts(retailState.products);
+    }, [retailState]);
 
     useEffect(() => {
         dispatch(getProducts());
@@ -216,16 +216,15 @@ const ProductsList = () => {
     let productResult = <></>;
     if (products && products.length > 0) {
         productResult = products.map((product, index) => (
-            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                <ProductCard
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ display: 'flex' }}>
+                <RetailProductCard
                     id={product.id}
                     image={product.image}
                     name={product.name}
                     description={product.description}
-                    offerPrice={product.offerPrice}
-                    salePrice={product.salePrice}
-                    rating={product.rating}
-                    color={product.colors ? product.colors[0] : undefined}
+                    salePrice={product.price}
+                    offerPrice={product.price}
+                    quickbuy={product.display_on_roster}
                 />
             </Grid>
         ));
@@ -244,7 +243,7 @@ const ProductsList = () => {
             {products.length > 0 && (
                 <Grid item xs={12}>
                     <Grid container alignItems="center" justifyContent="space-between" spacing={matchDownMD ? 0.5 : 2}>
-                        <Grid item xs={12} align="right" sx={{ mt: 1, pr: 3 }}>
+                        <Grid item xs={12} align="right" sx={{ mt: 3, pr: 3 }}>
                             <TextField
                                 sx={{ width: { xs: 140, md: 'auto' } }}
                                 InputProps={{
@@ -272,7 +271,7 @@ const ProductsList = () => {
                             handelFilter={handelFilter}
                             initialState={initialState}
                         />
-                        <Grid container spacing={gridSpacing}>
+                        <Grid container spacing={3} maxWidth="90%" sx={{ ml: 2, mr: 2, mt: 2 }}>
                             {isLoading
                                 ? [1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
                                       <Grid key={item} item xs={12} sm={6} md={4} lg={3}>
