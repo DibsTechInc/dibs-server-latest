@@ -25,19 +25,21 @@ import AddEventForm from './AddEventForm';
 // assets
 import AddAlarmTwoToneIcon from '@mui/icons-material/AddAlarmTwoTone';
 
-// ==============================|| APPLICATION CALENDAR ||============================== //
+// ==============================|| STUDIO CLASSES CALENDAR ||============================== //
 
 const Calendar = () => {
     const dispatch = useDispatch();
     const calendarRef = useRef(null);
     const matchSm = useMediaQuery((theme) => theme.breakpoints.down('md'));
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
 
     // fetch events data
     const [events, setEvents] = useState([]);
     const calendarState = useSelector((state) => state.calendar);
 
     useEffect(() => {
-        dispatch(getEvents());
+        dispatch(getEvents(dibsStudioId));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -12,6 +12,7 @@
     "proxy": "http://localhost:8080",
     "dependencies": {
         "@auth0/auth0-spa-js": "^1.19.4",
+        "@dibs-tech/dibs-error-handler": "^2.1.2",
         "@dibs-tech/mail-client": "^2.1.5",
         "@dibs-tech/models": "^3.1.0",
         "@dibs-tech/redis-interface": "^2.1.5",

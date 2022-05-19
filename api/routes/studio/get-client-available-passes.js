@@ -1,5 +1,5 @@
 const models = require('@dibs-tech/models');
-const { Op, sequelize } = require('sequelize');
+const { Op } = require('sequelize');
 const moment = require('moment-timezone');
 
 async function getAvailablePasses(req, res) {

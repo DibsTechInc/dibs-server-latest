@@ -9,7 +9,6 @@ export const GetRetailData = async (dibsStudioId) => {
         });
         const { data } = retailData;
         const { products } = data;
-        console.log('retailData', JSON.stringify(retailData));
         return { msg: 'success', data: products };
     } catch (err) {
         console.log(`error getting retail products data for studioid: ${dibsStudioId}\nerr is: ${err}`);

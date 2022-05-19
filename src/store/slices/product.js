@@ -72,10 +72,14 @@ export default slice.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getProducts() {
+export function getProducts(dibsStudioId) {
     return async () => {
         try {
-            const response = await axios.get('/api/products/list');
+            console.log(`reducer - getProducts is running now`);
+            // const response = await axios.get('/api/products/list');
+            const response = await axios.post('/api/studio/retail/get-retail-products', {
+                dibsStudioId
+            });
             dispatch(slice.actions.getProductsSuccess(response.data.products));
         } catch (error) {
             dispatch(slice.actions.hasError(error));

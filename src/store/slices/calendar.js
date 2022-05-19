@@ -12,7 +12,7 @@ const initialState = {
     events: []
 };
 
-const slice = createSlice({
+const calendar = createSlice({
     name: 'calendar',
     initialState,
     reducers: {
@@ -44,17 +44,19 @@ const slice = createSlice({
 });
 
 // Reducer
-export default slice.reducer;
+export default calendar.reducer;
 
 // ----------------------------------------------------------------------
 
-export function getEvents() {
+export function getEvents(dibsStudioId) {
     return async () => {
         try {
-            const response = await axios.get('/api/calendar/events');
-            dispatch(slice.actions.getEventsSuccess(response.data.events));
+            const response = await axios.post('/api/studio/calendar/events', { dibsid: dibsStudioId });
+            console.log(`response from getcalendar events is: ${JSON.stringify(response.data)}`);
+            const { data } = response;
+            dispatch(calendar.actions.getEventsSuccess(data.classEvents));
         } catch (error) {
-            dispatch(slice.actions.hasError(error));
+            dispatch(calendar.actions.hasError(error));
         }
     };
 }
@@ -63,9 +65,9 @@ export function addEvent(event) {
     return async () => {
         try {
             const response = await axios.post('/api/calendar/events/new', event);
-            dispatch(slice.actions.addEventSuccess(response.data));
+            dispatch(calendar.actions.addEventSuccess(response.data));
         } catch (error) {
-            dispatch(slice.actions.hasError(error));
+            dispatch(calendar.actions.hasError(error));
         }
     };
 }
@@ -74,9 +76,9 @@ export function updateEvent(event) {
     return async () => {
         try {
             const response = await axios.post('/api/calendar/events/update', event);
-            dispatch(slice.actions.updateEventSuccess(response.data.events));
+            dispatch(calendar.actions.updateEventSuccess(response.data.events));
         } catch (error) {
-            dispatch(slice.actions.hasError(error));
+            dispatch(calendar.actions.hasError(error));
         }
     };
 }
@@ -85,9 +87,9 @@ export function removeEvent(eventId) {
     return async () => {
         try {
             const response = await axios.post('/api/calendar/events/remove', { eventId });
-            dispatch(slice.actions.removeEventSuccess(response.data));
+            dispatch(calendar.actions.removeEventSuccess(response.data));
         } catch (error) {
-            dispatch(slice.actions.hasError(error));
+            dispatch(calendar.actions.hasError(error));
         }
     };
 }

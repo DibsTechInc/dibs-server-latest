@@ -91,16 +91,6 @@ const ClientSearch = () => {
     // const { term } = useSelector((state) => state.clientsearch);
     const [value, setValue] = useState('');
 
-    // const handleChange = ({ target: { value } }) => {
-    //     console.log(`handlechange is happening = ${value}`);
-    //     setValue(value);
-    //     dispatch(setSearchTerm(value));
-    // };
-    // does the value match cached results
-    // if not, make a call to the database to search for user
-    // add cached search to the redux store
-    // actually - i think add cached search to redis interface
-
     return (
         <>
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
