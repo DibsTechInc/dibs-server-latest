@@ -6,7 +6,8 @@ module.exports = async function getRetailProducts(req, res) {
     try {
         const products = await models.retail_product.findAll({
             where: { dibs_studio_id: req.body.dibsStudioId },
-            order: [['sortIndex', 'DESC']],
+            // order: [['sortIndex', 'DESC']],
+            order: [['sortIndex', 'desc'], ['price']],
             paranoid: !includeDeleted
         });
         res.json(apiSuccessWrapper({ products }, 'Successfully retrieved products'));
