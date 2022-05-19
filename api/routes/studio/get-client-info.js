@@ -24,6 +24,11 @@ async function getClientInfo(req, res) {
                 'snooze_flash_credits_until',
                 'venmo_name',
                 'proof_of_vax',
+                'address1',
+                'address2',
+                'city',
+                'state',
+                'zip',
                 'suppression_lists'
             ],
             where: {

@@ -14,7 +14,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ClientAccountPage from '../SubPages/FrontDesk/Clients/index';
 import ClientPurchaseHistory from '../SubPages/FrontDesk/Clients/purchaseHistory';
 import BuyRetail from '../SubPages/FrontDesk/Clients/buyRetail';
-import FrontDeskPromoCodesSubPage from '../SubPages/FrontDesk/subpage-frontdesk-promocodes';
+import AccountSettings from '../SubPages/FrontDesk/Clients/accountSettings';
 import { useSelector, useDispatch } from 'store';
 import { setRetailProducts } from 'store/slices/retail';
 import GetRetailData from 'actions/studios/getRetailProductData';
@@ -49,7 +49,7 @@ function a11yPropsclient(index) {
     };
 }
 
-// ================================|| UI TABS - COLOR ||================================ //
+// ================================|| CLIENT ACCOUNT TABS ||================================ //
 
 export default function ColorTabs() {
     const theme = useTheme();
@@ -57,6 +57,7 @@ export default function ColorTabs() {
     let selectedIndex = 0;
     if (location.pathname.includes('transactions')) selectedIndex = 1;
     if (location.pathname.includes('retail')) selectedIndex = 2;
+    if (location.pathname.includes('account-settings')) selectedIndex = 3;
     const [value, setValue] = React.useState(selectedIndex);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -141,7 +142,7 @@ export default function ColorTabs() {
                 <BuyRetail />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <FrontDeskPromoCodesSubPage />
+                <AccountSettings />
             </TabPanel>
         </>
     );
