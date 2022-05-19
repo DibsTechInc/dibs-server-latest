@@ -49,6 +49,10 @@ const MainRoutes = {
             element: <ClientAccountPage selectedTab="1" />
         },
         {
+            path: '/front-desk/clients/:userid/retail',
+            element: <ClientAccountPage selectedTab="2" />
+        },
+        {
             path: '/reporting',
             element: <ReportingPage />
         },

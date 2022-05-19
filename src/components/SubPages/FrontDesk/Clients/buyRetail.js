@@ -1,16 +1,13 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { useParams } from 'react-router-dom';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Grid } from '@mui/material';
 
-import useConfig from 'hooks/useConfig';
 import SubCard from 'ui-component/cards/SubCard';
 import { gridSpacing } from 'store/constant';
-import { useDispatch, useSelector } from 'store';
-
+import { useSelector } from 'store';
+import RetailProductGrid from 'components/SubComponents/FrontDesk/RetailProducts/RetailProductGrid';
 // assets
 
 // ==============================|| CLIENT BUY RETAIL ||============================== //
@@ -36,7 +33,7 @@ const BuyRetail = () => {
                 <SubCard title={retailtitle} content={false}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            Retail goes here
+                            <RetailProductGrid />
                         </Grid>
                     </Grid>
                 </SubCard>

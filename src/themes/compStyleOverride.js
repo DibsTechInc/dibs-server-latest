@@ -4,8 +4,8 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
     const menuSelectedBack = mode === 'dark' ? theme.palette.secondary.main + 15 : theme.palette.secondary.light;
     const menuSelected = mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark;
     const buttonColor = theme.palette.primary.dark;
-    // const buttonHoverColor = theme.palette.primary[400];
-    const buttonHoverColor = theme.palette.secondary.main;
+    const buttonHoverColor = theme.palette.primary[400];
+    // const buttonHoverColor = theme.palette.secondary.main;
     const checkboxcolor = theme.palette.secondary.notaslight;
     const checkboxChecked = theme.palette.secondary.main;
 
@@ -13,8 +13,10 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontWeight: 500,
+                    fontWeight: 300,
                     borderRadius: '4px',
+                    color: '#fff',
+                    fontSize: '12px',
                     backgroundColor: buttonColor,
                     '&:hover': {
                         backgroundColor: buttonHoverColor

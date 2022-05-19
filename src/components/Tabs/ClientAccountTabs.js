@@ -54,7 +54,10 @@ function a11yPropsclient(index) {
 export default function ColorTabs() {
     const theme = useTheme();
     const location = useLocation();
-    const [value, setValue] = React.useState(location.pathname.includes('transactions') ? 1 : 0);
+    let selectedIndex = 0;
+    if (location.pathname.includes('transactions')) selectedIndex = 1;
+    if (location.pathname.includes('retail')) selectedIndex = 2;
+    const [value, setValue] = React.useState(selectedIndex);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
