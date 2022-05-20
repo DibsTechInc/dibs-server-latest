@@ -20,6 +20,29 @@ const ExperimentalStyled = styled('div')(({ theme }) => ({
         fontFamily: theme.typography.fontFamily
     },
 
+    // time
+    '& .fc .fc-event-time': {
+        fontWeight: 'bold'
+    },
+    '& .fc-theme-standard .fc-timegrid-slot': {
+        borderColor: '#efefef'
+    },
+    '& .fc-theme-standard .fc-timegrid-col': {
+        borderColor: '#efefef'
+    },
+    '& .fc-theme-standard .fc-day-past': {
+        borderColor: '#efefef'
+    },
+    '& .fc-theme-standard .fc-day-future': {
+        borderColor: '#efefef'
+    },
+    '& .fc-theme-standard .fc-day-today': {
+        borderColor: '#efefef'
+    },
+    '& .fc .fc-timegrid-axis-frame': {
+        borderColor: '#efefef'
+    },
+
     // date text
     '& .fc .fc-daygrid-day-top': {
         display: 'grid',
@@ -28,6 +51,15 @@ const ExperimentalStyled = styled('div')(({ theme }) => ({
             marginTop: 12,
             marginBottom: 12
         }
+    },
+    // '& .fc-daygrid-event': {
+    //     minHeight: '60px'
+    // },
+    '& .fc-h-event .fc-event-main-frame': {
+        display: 'block'
+    },
+    '& .fc-daygrid-event .fc-event-time': {
+        paddingRight: 4
     },
 
     // weekday

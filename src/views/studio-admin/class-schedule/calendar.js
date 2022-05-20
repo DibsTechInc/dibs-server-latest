@@ -47,10 +47,9 @@ const Calendar = () => {
         setEvents(calendarState.events);
     }, [calendarState]);
 
-    console.log(`events is: ${JSON.stringify(events)}`);
-
     const [date, setDate] = useState(new Date());
-    const [view, setView] = useState(matchSm ? 'listWeek' : 'dayGridMonth');
+    const [view, setView] = useState(matchSm ? 'timeGridWeek' : 'dayGridMonth');
+    // const [view, setView] = useState('listWeek');
 
     // calendar toolbar events
     const handleDateToday = () => {
@@ -126,6 +125,14 @@ const Calendar = () => {
         setIsModalOpen(true);
     };
 
+    const renderEventContent = (eventInfo) => (
+        <>
+            <b>{eventInfo.timeText}</b>
+            {eventInfo.title}
+            {eventInfo.spots_booked}
+        </>
+    );
+
     const handleEventUpdate = async ({ event }) => {
         try {
             dispatch(
@@ -174,7 +181,7 @@ const Calendar = () => {
 
     return (
         <MainCard
-            title="Event Calendar"
+            title="Class Schedule"
             secondary={
                 <Button color="secondary" variant="contained" onClick={handleAddClick}>
                     <AddAlarmTwoToneIcon fontSize="small" sx={{ mr: 0.75 }} />
@@ -197,12 +204,23 @@ const Calendar = () => {
                         editable
                         droppable
                         selectable
+                        views={{
+                            day: {
+                                titleFormat: { month: 'numeric', day: 'numeric', weekday: 'short' }
+                            }
+                        }}
+                        // eventContent={renderEventContent}
+                        displayEventEnd={false}
                         events={events}
                         ref={calendarRef}
                         rerenderDelay={10}
                         initialDate={date}
+                        slotEventOverlap
+                        slotDuration="00:15:00"
+                        allDaySlot={false}
                         initialView={view}
-                        dayMaxEventRows={3}
+                        dayMaxEventRows={8}
+                        firstDay={1}
                         eventDisplay="block"
                         headerToolbar={false}
                         allDayMaintainDuration

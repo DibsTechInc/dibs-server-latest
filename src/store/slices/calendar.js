@@ -54,18 +54,18 @@ export function getEvents(dibsStudioId) {
         try {
             const response = await axios.post('/api/studio/calendar/events', { dibsid: dibsStudioId });
             // const response = await axios.get('/api/calendar/events');
-            // console.log(`response from getcalendar events is: ${JSON.stringify(response.data)}`);
             const { data } = response;
             const { classEvents } = data;
-            console.log(`classEvents is: ${JSON.stringify(classEvents)}`);
             await classEvents.map((event) => {
                 console.log(`\n\n\nev in getEvents api call: ${JSON.stringify(event)}`);
-                event.title = `${event.title} w/ ${event.instructor.firstname}`;
+                event.title = `${event.title} w/ ${event.instructor.firstname} (${event.spots_booked})`;
+                event.description = `${event.spots_booked} spots booked`;
                 event.start = moment.utc(event.start_date).format('YYYY-MM-DDTHH:mm:ssZ');
                 event.end = moment.utc(event.end_date).format('YYYY-MM-DDTHH:mm:ssZ');
                 if (event.private) {
                     event.backgroundColor = '#d3e2d5';
                 }
+                event.allDay = false;
                 // event.start = moment.utc(event.start_date).utcOffset(0, true).format();
                 console.log(`\n\n\nAfter changing it in getEvents api call: ${JSON.stringify(event)}`);
                 return event;
