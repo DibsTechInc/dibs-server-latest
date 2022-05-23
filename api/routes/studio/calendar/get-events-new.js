@@ -38,7 +38,7 @@ async function getAllEvents(req, res) {
                 start_date: {
                     [Op.and]: {
                         [Op.gte]: moment().tz('America/New_York').startOf('month'),
-                        [Op.lte]: moment().tz('America/New_York').endOf('month')
+                        [Op.lte]: moment().tz('America/New_York').add(3, 'months')
                     }
                 }
             },

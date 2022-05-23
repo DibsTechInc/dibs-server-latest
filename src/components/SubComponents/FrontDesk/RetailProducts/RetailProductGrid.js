@@ -216,7 +216,7 @@ const ProductsList = () => {
     let productResult = <></>;
     if (products && products.length > 0) {
         productResult = products.map((product, index) => (
-            <Grid key={index} item xs={12} sm={6} md={4} lg={2} sx={{ display: 'flex' }}>
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ display: 'flex' }}>
                 <RetailProductCard
                     id={product.id}
                     image={product.image}

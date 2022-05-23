@@ -7,18 +7,21 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Tab, Tabs } from '@mui/material';
 
 // assets
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+// import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 // import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
-import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 // import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 // import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
 // import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 
-// Reporting subpages mapped to tabs
-import ReportingSalesRevenueSubPage from '../SubPages/Reporting/subpage-reporting-sales-revenue';
-import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
-// import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
-// import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
+// Settings subpages mapped to tabs
+import GeneralSettingsPage from '../SubPages/Settings/subpage-settings-general';
+import CommunicationSettingsPage from '../SubPages/Settings/subpage-settings-communication';
+import RevenueManagementSettingsPage from '../SubPages/Settings/subpage-settings-revenue-management';
+import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-integrations';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -50,7 +53,7 @@ function a11yProps(index) {
     };
 }
 
-// ================================|| UI TABS - COLOR ||================================ //
+// ================================|| SETTINGS TABS ||================================ //
 
 export default function SettingsTabs() {
     const theme = useTheme();
@@ -58,6 +61,7 @@ export default function SettingsTabs() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    const classpass = true;
 
     return (
         <>
@@ -95,29 +99,43 @@ export default function SettingsTabs() {
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<PersonOutlineIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Main Settings"
-                    sx={{
-                        width: '500px'
-                    }}
+                    icon={<SettingsOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="General"
                     {...a11yProps(0)}
                 />
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<LibraryBooksOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Email Settings"
-                    sx={{
-                        width: '350px'
-                    }}
+                    icon={<MailOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Communication"
+                    {...a11yProps(1)}
+                />
+                <Tab
+                    component={Link}
+                    to="#"
+                    icon={<AttachMoneyOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Revenue Management"
+                    {...a11yProps(1)}
+                />
+                <Tab
+                    component={Link}
+                    to="#"
+                    icon={<ExitToAppOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Integrations"
                     {...a11yProps(1)}
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <ReportingSalesRevenueSubPage />
+                <GeneralSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ReportingAttendanceRevenueSubPage />
+                <CommunicationSettingsPage />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <RevenueManagementSettingsPage />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <IntegrationsSettingsPage classpass={classpass} gympass={false} />
             </TabPanel>
         </>
     );

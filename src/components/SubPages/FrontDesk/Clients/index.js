@@ -475,23 +475,6 @@ const ClientAccountPage = () => {
             </Grid>
             <Grid item lg={8} xs={12}>
                 <Grid container direction="column" spacing={gridSpacing}>
-                    <Grid item xs={12}>
-                        <SubCard
-                            title="Upcoming Classes"
-                            secondary={
-                                <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
-                                    <Button
-                                        onClick={(event) => getNewSetupIntent(event)}
-                                        sx={{ width: '120px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
-                                    >
-                                        Add Client To Class
-                                    </Button>
-                                </Grid>
-                            }
-                        >
-                            <UpcomingClasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
-                        </SubCard>
-                    </Grid>
                     <Grid item xs={12} sx={{ mb: 0 }}>
                         <SubCard
                             title="Active Passes"
@@ -509,6 +492,23 @@ const ClientAccountPage = () => {
                             <Grid container direction="column" justifyContent="flex-start">
                                 <AvailablePasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                             </Grid>
+                        </SubCard>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <SubCard
+                            title="Upcoming Classes"
+                            secondary={
+                                <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
+                                    <Button
+                                        onClick={(event) => getNewSetupIntent(event)}
+                                        sx={{ width: '120px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
+                                    >
+                                        Add Client To Class
+                                    </Button>
+                                </Grid>
+                            }
+                        >
+                            <UpcomingClasses firstname={firstname} userid={userid} dibsStudioId={dibsStudioId} />
                         </SubCard>
                     </Grid>
                     <Grid item xs={12}>

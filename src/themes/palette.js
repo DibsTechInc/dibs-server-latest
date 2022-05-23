@@ -88,7 +88,8 @@ const Palette = (navType, presetColor) => {
                 light: colors.successLight,
                 200: colors.success200,
                 main: colors.successMain,
-                dark: colors.successDark
+                dark: colors.successDark,
+                dibsgreen: colors.successDibsGreen
             },
             packages: {
                 light: colors.packageLight,
@@ -124,7 +125,7 @@ const Palette = (navType, presetColor) => {
                 secondary: navType === 'dark' ? colors.darkTextSecondary : colors.grey500,
                 clientProfile: navType === 'dark' ? colors.darkTextPrimary : colors.grey650,
                 dark: navType === 'dark' ? colors.darkTextPrimary : colors.grey900,
-                hint: colors.grey100
+                hint: colors.grey400
             },
             divider: navType === 'dark' ? colors.darkTextPrimary : colors.grey300,
             background: {

@@ -136,6 +136,17 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                 }
             }
         },
+        MuiFormControlLabel: {
+            styleOverrides: {
+                label: {
+                    color: theme.palette.text.dark,
+                    '&.Mui-disabled': {
+                        color: theme.palette.text.dark,
+                        fontSize: '0.875rem'
+                    }
+                }
+            }
+        },
         MuiOutlinedInput: {
             styleOverrides: {
                 root: {

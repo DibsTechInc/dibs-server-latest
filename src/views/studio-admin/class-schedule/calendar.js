@@ -48,8 +48,8 @@ const Calendar = () => {
     }, [calendarState]);
 
     const [date, setDate] = useState(new Date());
-    const [view, setView] = useState(matchSm ? 'timeGridWeek' : 'dayGridMonth');
-    // const [view, setView] = useState('listWeek');
+    // const [view, setView] = useState(matchSm ? 'timeGridWeek' : 'dayGridMonth');
+    const [view, setView] = useState('timeGridWeek');
 
     // calendar toolbar events
     const handleDateToday = () => {
