@@ -155,7 +155,7 @@ export default function SettingsTabs() {
                 <CommunicationSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <RevenueManagementSettingsPage />
+                <RevenueManagementSettingsPage dynamicpricing />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />

@@ -79,6 +79,9 @@ const Palette = (navType, presetColor) => {
                 main: colors.orangeMain,
                 dark: colors.orangeDark
             },
+            dibstextfield: {
+                main: colors.dibsTextFieldMain
+            },
             warning: {
                 light: colors.warningLight,
                 main: colors.warningMain,

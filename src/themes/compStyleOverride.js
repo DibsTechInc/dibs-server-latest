@@ -20,7 +20,8 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                     backgroundColor: buttonColor,
                     '&:hover': {
                         backgroundColor: buttonHoverColor
-                    }
+                    },
+                    height: '30px'
                 },
                 iconSizeSmall: {
                     alignItems: 'center',

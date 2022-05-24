@@ -67,6 +67,11 @@ const ColorsOptions = [
         bg: 'orange.main'
     },
     {
+        label: 'Dibs Text Field',
+        value: 'dibsTextFieldMain',
+        bg: 'dibstextfield.main'
+    },
+    {
         label: 'Dark Orange',
         value: 'orangeDark',
         bg: 'orange.dark'
