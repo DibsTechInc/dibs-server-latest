@@ -1,6 +1,6 @@
 // material-ui
 import PropTypes from 'prop-types';
-import { Grid, Typography, Divider, Stack } from '@mui/material';
+import { Grid, Typography, Divider } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -25,10 +25,11 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 const IntegrationsSettingsPage = (props) => {
     const theme = useTheme();
     const { classpass, gympass } = props;
-    const cptext = `Contact studios@ondibs.com to turn Classpass integration ${classpass ? 'off' : 'on'}.`;
-    const gptext = `Contact studios@ondibs.com to turn Gympass integration ${gympass ? 'off' : 'on'}.`;
+    const cptext = `Contact studios@ondibs.com to turn the Classpass integration ${classpass ? 'off' : 'on'}.`;
+    const gptext = `Contact studios@ondibs.com to turn the Gympass integration ${gympass ? 'off' : 'on'}.`;
     const classpasslabel = `Classpass is ${classpass ? 'on' : 'off'}`;
     const gympasslabel = `Gympass is ${gympass ? 'on' : 'off'}`;
+    const helptext = `Need an integration that's not listed? Contact us at studios@ondibs.com. We'll see if we can add it.`;
     return (
         <Grid container direction="column" rowSpacing={0} sx={{ height: '100vh' }}>
             <Grid item xs={12}>
@@ -71,13 +72,22 @@ const IntegrationsSettingsPage = (props) => {
                         {gptext}
                     </Typography>
                 </Grid>
+                <Divider />
+                <Grid item xs={12} sx={{ marginTop: 3, marginBottom: 5 }}>
+                    <Typography
+                        gutterBottom
+                        sx={{ color: theme.palette.text.hint, pt: 3, fontWeight: 400, fontSize: '14px', fontStyle: 'italic' }}
+                    >
+                        {helptext}
+                    </Typography>
+                </Grid>
             </Grid>
         </Grid>
     );
 };
 
 IntegrationsSettingsPage.propTypes = {
-    classpass: PropTypes.bool.isRequired,
+    classpass: PropTypes.bool,
     gympass: PropTypes.bool
 };
 export default IntegrationsSettingsPage;

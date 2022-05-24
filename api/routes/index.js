@@ -18,6 +18,7 @@ const getClientCredit = require('./studio/get-client-credit');
 const getUserTransactions = require('./studio/user/get-transactions');
 const getRetailProducts = require('./studio/retail/get-retail-products');
 const getStudioEvents = require('./studio/calendar/get-events-new');
+const getIntegrationStatus = require('./studio/settings/get-integration-status');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -40,6 +41,7 @@ router.post('/get-client-credit', getClientCredit);
 router.post('/transactions/:type', getUserTransactions);
 router.post('/studio/retail/get-retail-products', getRetailProducts);
 router.post('/studio/calendar/events', getStudioEvents);
+router.post('/studio/settings/integrations', getIntegrationStatus);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

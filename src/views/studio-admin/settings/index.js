@@ -6,35 +6,32 @@ import SettingsEntryPage from '../../../components/EntryPages/settings';
 
 // ==============================|| FrontDesk Page ||============================== //
 
-const Settings = () => {
-    console.log('instructors page');
-    return (
-        <Paper
-            sx={{
-                bgcolor: '#ffffff',
-                borderRadius: 2,
-                elevation: 0
-            }}
-        >
-            <Grid container>
-                <Box
-                    xs={12}
-                    sx={{
-                        marginTop: '20px',
-                        marginLeft: '20px',
-                        marginRight: '20px',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        width: '100%'
-                    }}
-                >
-                    <Grid item xs={12}>
-                        <SettingsEntryPage />
-                    </Grid>
-                </Box>
-            </Grid>
-        </Paper>
-    );
-};
+const Settings = () => (
+    <Paper
+        sx={{
+            bgcolor: '#ffffff',
+            borderRadius: 2,
+            elevation: 0
+        }}
+    >
+        <Grid container>
+            <Box
+                xs={12}
+                sx={{
+                    marginTop: '20px',
+                    marginLeft: '20px',
+                    marginRight: '20px',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    width: '100%'
+                }}
+            >
+                <Grid item xs={12}>
+                    <SettingsEntryPage />
+                </Grid>
+            </Box>
+        </Grid>
+    </Paper>
+);
 
 export default Settings;

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -22,6 +22,12 @@ import GeneralSettingsPage from '../SubPages/Settings/subpage-settings-general';
 import CommunicationSettingsPage from '../SubPages/Settings/subpage-settings-communication';
 import RevenueManagementSettingsPage from '../SubPages/Settings/subpage-settings-revenue-management';
 import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-integrations';
+
+// actions
+import GetIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
+import { setClasspass, setGympass } from 'store/slices/dibsstudio';
+
+import { useSelector, useDispatch } from 'store';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -57,11 +63,28 @@ function a11yProps(index) {
 
 export default function SettingsTabs() {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
+    const [classpass, setFileClasspass] = React.useState(false);
+    const [gympass, setFileGympass] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    const classpass = true;
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    useEffect(() => {
+        // check for classpass status
+        const getSettings = async () => {
+            await GetIntegrationStatus(dibsStudioId).then((settings) => {
+                const { statustosend } = settings;
+                setFileClasspass(statustosend.classpass);
+                setFileGympass(statustosend.gympass);
+                dispatch(setClasspass(statustosend.classpass));
+                dispatch(setGympass(statustosend.gympass));
+            });
+        };
+        getSettings();
+    }, [dibsStudioId]);
 
     return (
         <>
@@ -135,7 +158,7 @@ export default function SettingsTabs() {
                 <RevenueManagementSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <IntegrationsSettingsPage classpass={classpass} gympass={false} />
+                <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />
             </TabPanel>
         </>
     );

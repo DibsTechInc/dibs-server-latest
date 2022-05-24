@@ -19,6 +19,10 @@ const initialState = {
         lastname: '',
         financialAccess: false,
         settingsAccess: false
+    },
+    integrations: {
+        classpass: false,
+        gymPass: false
     }
 };
 
@@ -33,12 +37,19 @@ const dibsstudio = createSlice({
         // ADD STUDIO DATA
         addStudioData(state, action) {
             state.config = action.payload;
+        },
+        setClasspass(state, action) {
+            console.log(`setClasspass - action.payload is: ${JSON.stringify(action.payload)}`);
+            state.integrations.classpass = action.payload;
+        },
+        setGympass(state, action) {
+            state.integrations.gympass = action.payload;
         }
     }
 });
 
 // Reducer
 export default dibsstudio.reducer;
-export const { addStudioData, hasError } = dibsstudio.actions;
+export const { addStudioData, hasError, setClasspass, setGympass } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------
