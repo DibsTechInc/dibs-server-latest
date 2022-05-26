@@ -7,7 +7,10 @@ import { useTheme, alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
 // project imports
+import { useSelector } from 'store';
 import GlobalPriceSettings from './RevenueManagement/GlobalPriceSettings';
+import FlashCreditsSettings from './RevenueManagement/FlashCreditsSettings';
+import updateDymanicPricingStatus from 'actions/studios/settings/updateDynamicPricingStatus';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> REVENUE MANAGEMENT ||============================== //
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -28,14 +31,18 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 
 const RevenueManagementSettingsPage = (props) => {
     const { dynamicpricing } = props;
+    console.log(`passed into revenue management settings page: ${JSON.stringify(dynamicpricing)}`);
     const theme = useTheme();
     const dptext = `When dynamic pricing is turned on, Dibs will price all of your classes according to demand.`;
     const dplabel = `Dynamic Pricing is ${dynamicpricing ? 'on' : 'off'}`;
+    const flashcreditlabel = `Flash Credits are ${dynamicpricing ? 'on' : 'off'}`;
     const [checked, setChecked] = useState(dynamicpricing);
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
 
     const handleChange = (event) => {
-        console.log(`event is: ${event}`);
         setChecked(event.target.checked);
+        updateDymanicPricingStatus(dibsStudioId, event.target.checked);
     };
     return (
         <Grid container direction="column">
@@ -60,15 +67,23 @@ const RevenueManagementSettingsPage = (props) => {
                 <Divider />
                 <Grid item xs={12} sx={{ marginTop: 3, marginBottom: 5 }}>
                     <Typography gutterBottom variant="h5">
-                        Dynamic Pricing: Settings
+                        Dynamic Price Settings
                     </Typography>
                     <GlobalPriceSettings />
                 </Grid>
                 <Divider />
                 <Grid item xs={12} sx={{ marginTop: 3, marginBottom: 5 }}>
-                    <Typography gutterBottom variant="h6">
+                    <Typography gutterBottom variant="h5">
                         Flash credits
                     </Typography>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={<GreenSwitch checked={checked} onChange={handleChange} />}
+                            label={flashcreditlabel}
+                            sx={{ fontColor: '#ff0000' }}
+                        />
+                    </FormGroup>
+                    <FlashCreditsSettings />
                 </Grid>
             </Grid>
         </Grid>

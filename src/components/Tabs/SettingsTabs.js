@@ -25,6 +25,7 @@ import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-inte
 
 // actions
 import GetIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
+import GetDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
 import { setClasspass, setGympass } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -66,6 +67,7 @@ export default function SettingsTabs() {
     const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
     const [classpass, setFileClasspass] = React.useState(false);
+    const [dp, setDp] = React.useState(false);
     const [gympass, setFileGympass] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -82,9 +84,16 @@ export default function SettingsTabs() {
                 dispatch(setClasspass(statustosend.classpass));
                 dispatch(setGympass(statustosend.gympass));
             });
+            await GetDynamicPricing(dibsStudioId).then((status) => {
+                console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);
+                const { dp } = status;
+                console.log(`dp is: ${dp.hasDynamicPricing}`);
+                setDp(dp.hasDynamicPricing);
+                // dispatch(setClasspass(dynamicpricingtosend));
+            });
         };
         getSettings();
-    }, [dibsStudioId]);
+    }, [dibsStudioId, dispatch]);
 
     return (
         <>
@@ -155,7 +164,7 @@ export default function SettingsTabs() {
                 <CommunicationSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <RevenueManagementSettingsPage dynamicpricing />
+                <RevenueManagementSettingsPage dynamicpricing={dp} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />
