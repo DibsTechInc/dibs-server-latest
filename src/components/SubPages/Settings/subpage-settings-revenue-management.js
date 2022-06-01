@@ -7,11 +7,14 @@ import { useTheme, alpha, styled } from '@mui/material/styles';
 import { green } from '@mui/material/colors';
 
 // project imports
-import { useSelector } from 'store';
+import { useSelector, useDispatch } from 'store';
 import GlobalPriceSettings from './RevenueManagement/GlobalPriceSettings';
 import FlashCreditsSettings from './RevenueManagement/FlashCreditsSettings';
 import updateDymanicPricingStatus from 'actions/studios/settings/updateDynamicPricingStatus';
 import UpdateFlashCreditStatus from 'actions/studios/settings/updateFlashCreditStatus';
+
+// actions
+import { setDynamicPricing, setFlashCreditsStore, setGlobalPrices } from 'store/slices/dibsstudio';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> REVENUE MANAGEMENT ||============================== //
 const GreenSwitch = styled(Switch)(({ theme }) => ({
@@ -31,23 +34,28 @@ const GreenSwitch = styled(Switch)(({ theme }) => ({
 }));
 
 const RevenueManagementSettingsPage = (props) => {
-    const { dynamicpricing, flashcredits, minp, maxp } = props;
-    const theme = useTheme();
-    const dptext = `When dynamic pricing is turned on, Dibs will price all of your classes according to demand.`;
-    const [checked, setChecked] = useState(dynamicpricing);
-    const [fcChecked, setFcChecked] = useState(flashcredits);
-    const { config } = useSelector((state) => state.dibsstudio);
+    const { minp, maxp } = props;
+    const { config, settings } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
+    const { dynamicPricing, flashCredits } = settings;
+    const theme = useTheme();
+    const dispatch = useDispatch();
+    const dptext = `When dynamic pricing is turned on, Dibs will price all of your classes according to demand.`;
+    const [checked, setChecked] = useState(dynamicPricing);
+    // need to dispatch dynamic pricing status to redux store so that it does not lose status
+    const [fcChecked, setFcChecked] = useState(flashCredits);
     const dplabel = `Dynamic Pricing is ${checked ? 'on' : 'off'}`;
     const flashcreditlabel = `Flash Credits are ${fcChecked ? 'on' : 'off'}`;
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
         updateDymanicPricingStatus(dibsStudioId, event.target.checked);
+        dispatch(setDynamicPricing(event.target.checked));
     };
     const handleFCChange = (event) => {
         setFcChecked(event.target.checked);
         UpdateFlashCreditStatus(dibsStudioId, event.target.checked);
+        dispatch(setFlashCreditsStore(event.target.checked));
     };
     return (
         <Grid container direction="column">
@@ -96,8 +104,8 @@ const RevenueManagementSettingsPage = (props) => {
 };
 
 RevenueManagementSettingsPage.propTypes = {
-    dynamicpricing: PropTypes.bool,
-    flashcredits: PropTypes.bool
+    minp: PropTypes.number,
+    maxp: PropTypes.number
 };
 
 export default RevenueManagementSettingsPage;

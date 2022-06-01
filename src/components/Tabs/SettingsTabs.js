@@ -28,7 +28,15 @@ import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus'
 import getDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
 import getFlashCredits from 'actions/studios/settings/getFlashCreditStatus';
 import getMinMaxpricing from 'actions/studios/settings/getMinMaxPricing';
-import { setClasspass, setGympass } from 'store/slices/dibsstudio';
+import GetGeneralLocationData from 'actions/studios/settings/getGeneralLocationData';
+import {
+    setClasspass,
+    setGympass,
+    setDynamicPricing,
+    setFlashCreditsStore,
+    setGlobalPrices,
+    setGeneralLocationData
+} from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
 
@@ -68,10 +76,11 @@ export default function SettingsTabs() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
+    // get dynamic pricing status
     const [classpass, setFileClasspass] = React.useState(false);
-    const [dp, setDp] = React.useState(false);
+    // const [dp, setDp] = React.useState(false);
     const [gympass, setFileGympass] = React.useState(false);
-    const [flashcredits, setFlashCredits] = React.useState(false);
+    // const [flashcredits, setFlashCredits] = React.useState(false);
     const [minp, setMinP] = React.useState(10);
     const [maxp, setMaxP] = React.useState(100);
     const handleChange = (event, newValue) => {
@@ -90,27 +99,36 @@ export default function SettingsTabs() {
                 dispatch(setGympass(statustosend.gympass));
             });
             await getDynamicPricing(dibsStudioId).then((status) => {
-                console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);
+                // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);
                 const { dp } = status;
-                console.log(`dp is: ${dp.hasDynamicPricing}`);
-                setDp(dp.hasDynamicPricing);
-                // dispatch(setClasspass(dynamicpricingtosend));
+                // console.log(`dp is: ${dp.hasDynamicPricing}`);
+                // setDp(dp.hasDynamicPricing);
+                dispatch(setDynamicPricing(dp.hasDynamicPricing));
             });
             await getFlashCredits(dibsStudioId).then((status) => {
-                console.log(`status from flash credits is: ${JSON.stringify(status)}`);
                 const { fc } = status;
-                console.log(`fc is: ${JSON.stringify(fc)}`);
-                setFlashCredits(fc);
+                // setFlashCredits(fc);
+                dispatch(setFlashCreditsStore(fc));
                 // dispatch(setClasspass(dynamicpricingtosend));
             });
             await getMinMaxpricing(dibsStudioId).then((status) => {
-                console.log(`status from min max pricing is: ${JSON.stringify(status)}`);
                 const { statustosend } = status;
                 const { min, max } = statustosend;
-                console.log(`min is: ${JSON.stringify(min)} and max: ${JSON.stringify(max)}`);
                 setMinP(min);
                 setMaxP(max);
-                // dispatch(setClasspass(dynamicpricingtosend));
+                const prices = {
+                    minPrice: min,
+                    maxPrice: max
+                };
+                dispatch(setGlobalPrices(prices));
+            });
+            await GetGeneralLocationData(dibsStudioId).then((status) => {
+                dispatch(
+                    setGeneralLocationData({
+                        serviceEmail: status[0].customer_service_email,
+                        servicePhone: status[0].customer_service_phone
+                    })
+                );
             });
         };
         getSettings();
@@ -185,7 +203,7 @@ export default function SettingsTabs() {
                 <CommunicationSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <RevenueManagementSettingsPage dynamicpricing={dp} flashcredits={flashcredits} minp={minp} maxp={maxp} />
+                <RevenueManagementSettingsPage minp={minp} maxp={maxp} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />

@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { format as formatCurrency } from 'currency-formatter';
 import TextField from '@mui/material/TextField';
-import { Grid, Typography, Stack, Button, Input } from '@mui/material';
-import { useTheme, alpha, styled } from '@mui/material/styles';
+import { Grid, Typography, Stack, Button } from '@mui/material';
+import { useTheme, styled } from '@mui/material/styles';
+import { useSelector, useDispatch } from 'store';
+
+import updateGlobalPriceSettings from 'actions/studios/settings/updateGlobalPriceSettings';
+import { setGlobalPrices } from 'store/slices/dibsstudio';
 
 const PriceTextField = styled(TextField)({
     '& .MuiInput-underline:before': {
@@ -21,61 +23,97 @@ const PriceTextField = styled(TextField)({
     }
 });
 
-const CssTextField = styled(Input)({
-    '& .MuiInput-root:before': {
-        borderBottomColor: '#c96248',
-        borderBottom: '1px solid'
-    },
-    '& .MuiInput-underline:after': {
-        borderBottomColor: '#c96248',
-        borderBottom: 2
-    },
-    '& .MuiOutlinedInput-root': {
-        '& fieldset': {
-            borderColor: 'orange'
-        },
-        '&:hover fieldset': {
-            borderColor: 'yellow'
-        },
-        '&.Mui-focused fieldset': {
-            borderColor: 'orange'
-        }
-    }
-});
-
-const GlobalPriceSettings = (props) => {
+const GlobalPriceSettings = () => {
     const theme = useTheme();
-    const [minPrice, setMinPrice] = React.useState('');
+    const dispatch = useDispatch();
+    const { config, settings } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    const { minPrice, maxPrice } = settings;
+    // const { minp, maxp, dibsstudioid } = props;
+    const min = `$${minPrice}`;
+    const max = `$${maxPrice}`;
+    const [minPriceFile, setMinPriceFile] = React.useState(min);
     const [isEditing, setIsEditing] = React.useState(false);
-    const [maxPrice, setMaxPrice] = React.useState('');
+    const [maxPriceFile, setMaxPriceFile] = React.useState(max);
+    const [madeMinBlank, setMadeMinBlank] = React.useState(false);
+    const [madeMaxBlank, setMadeMaxBlank] = React.useState(false);
+    const [error, setError] = React.useState('');
+    const [hasError, setHasError] = React.useState(false);
+    const [hasSuccessMsg, setHasSuccessMsg] = React.useState(false);
+    const [successMsg, setSuccessMsg] = React.useState('');
 
-    const resetState = () => {
+    // const resetState = () => {
+    //     setIsEditing(false);
+    //     setMinPrice('');
+    //     setMaxPrice('');
+    // };
+    // const toggleEdit = () => {
+    //     setIsEditing({ isEditing: !isEditing }, () => {
+    //         if (!isEditing) resetState();
+    //     });
+    // };
+    const handleMinFocus = () => {
+        if (!madeMinBlank) {
+            setMinPriceFile('$');
+            setMadeMinBlank(true);
+        }
+    };
+    const handleMaxFocus = () => {
+        if (!madeMaxBlank) {
+            setMaxPriceFile('$');
+            setMadeMaxBlank(true);
+        }
+    };
+    const handleCancel = () => {
         setIsEditing(false);
-        setMinPrice('');
-        setMaxPrice('');
+        setHasError(false);
     };
-    const toggleEdit = () => {
-        setIsEditing({ isEditing: !isEditing }, () => {
-            if (!isEditing) resetState();
-        });
+    const handleMinChange = (event) => {
+        setMinPriceFile(event.target.value);
     };
-    const handleChange = ({ target: { name, value: _value } }) => {
-        // let value = isNaN(_value[0]) ? +_value.slice(1) : +_value;
-        // if (!value) value = '';
-        // else value = formatCurrency(value, { code: this.props.currency, precision: 0 });
-        // this.setState({ [name]: value });
+    const handleMaxChange = (event) => {
+        setMaxPriceFile(event.target.value);
     };
-    const handleSubmit = () => {
-        // const minPrice = +(minPrice.slice(1) || this.props.minPrice);
-        // const maxPrice = +(this.state.maxPrice.slice(1) || this.props.maxPrice);
-        // if (!maxPrice && !minPrice) return null;
-        // if (minPrice === this.props.minPrice && maxPrice === this.props.maxPrice) return null;
-        // if (minPrice > maxPrice) return this.props.addError('The minimum price must be less than or equal to the maximum price');
-        // this.props.clearError();
-        // this.props.clearNotice();
-        // return this.props.updateGlobalPriceSettings({ minPrice, maxPrice }, (err) => {
-        //     if (!err) this.resetState();
-        // });
+    const handleEdit = () => {
+        setIsEditing(!isEditing);
+    };
+    const handleSubmit = async () => {
+        setMadeMinBlank(false);
+        setMadeMaxBlank(false);
+        const minPriceToSend = +(minPriceFile.slice(1) || minPriceFile);
+        const maxPriceToSend = +(maxPriceFile.slice(1) || maxPriceFile);
+        if (!maxPriceFile && !minPriceFile) return null;
+        if (minPriceToSend > maxPriceToSend) {
+            setHasError(true);
+            setError('Oops! The minimum price must be less than or equal to the maximum price');
+            setMadeMinBlank(false);
+            setTimeout(() => {
+                setHasError(false);
+                setError('');
+            }, 7000);
+            return 0;
+        }
+        const res = await updateGlobalPriceSettings(dibsStudioId, minPriceToSend, maxPriceToSend);
+        if (res.msg === 'success') {
+            setIsEditing(false);
+            setMinPriceFile(`$${minPriceToSend}`);
+            setMaxPriceFile(`$${maxPriceToSend}`);
+            const prices = { minPrice: minPriceToSend, maxPrice: maxPriceToSend };
+            dispatch(setGlobalPrices(prices));
+            setHasSuccessMsg(true);
+            setSuccessMsg('Successfully updated your global price settings.');
+            setTimeout(() => {
+                setHasSuccessMsg(false);
+            }, 7000);
+        } else {
+            setHasError(true);
+            setError(res.error);
+            setMadeMinBlank(false);
+            setTimeout(() => {
+                setHasError(false);
+            }, 7000);
+        }
+        return 6;
     };
     return (
         <Grid container>
@@ -87,61 +125,107 @@ const GlobalPriceSettings = (props) => {
                     amounts are whole numbers - any decimals will be rounded to the nearest whole dollar amount.
                     <br />
                     <br />
-                    Note: If dynamic pricing is not enabled, your min/max price will have no impact on pricing.
+                    Note: If dynamic pricing is not enabled, your min/max price will be set to the default price for the class.
                     <br />
                 </Typography>
             </Grid>
             <Grid item xs={7} sx={{ mt: 4 }}>
+                {hasError && (
+                    <Grid item xs={12}>
+                        <Typography variant="body1" color="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Typography>
+                    </Grid>
+                )}
+                {hasSuccessMsg && (
+                    <Grid item xs={12}>
+                        <Typography variant="body1" sx={{ mb: 2, color: theme.palette.success.dark }}>
+                            {successMsg}
+                        </Typography>
+                    </Grid>
+                )}
                 <Stack direction="row" spacing={2}>
                     <Grid item xs={3}>
                         <Typography variant="h6">Global Minimum Price</Typography>
-                        <PriceTextField variant="standard" sx={{ width: '50px' }} />
+                        {isEditing ? (
+                            <PriceTextField
+                                variant="standard"
+                                onChange={(e) => handleMinChange(e)}
+                                onFocus={() => handleMinFocus()}
+                                sx={{ width: '50px' }}
+                                value={minPriceFile}
+                            />
+                        ) : (
+                            <Typography variant="h6" sx={{ mt: 1 }}>
+                                {minPriceFile}
+                            </Typography>
+                        )}
                     </Grid>
                     <Grid item xs={3}>
                         <Typography variant="h6">Global Maximum Price</Typography>
-                        <PriceTextField variant="standard" sx={{ width: '50px' }} />
+                        {isEditing ? (
+                            <PriceTextField
+                                variant="standard"
+                                onFocus={() => handleMaxFocus()}
+                                onChange={(e) => handleMaxChange(e)}
+                                sx={{ width: '50px' }}
+                                value={maxPriceFile}
+                            />
+                        ) : (
+                            <Typography variant="h6" sx={{ mt: 1 }}>
+                                {maxPriceFile}
+                            </Typography>
+                        )}
                     </Grid>
                 </Stack>
             </Grid>
             <Grid item xs={12} sx={{ mt: 4 }}>
-                <Button disableElevation variant="contained" color="primary" onClick={handleSubmit}>
-                    Edit
-                </Button>
+                {isEditing ? (
+                    <Stack direction="row" spacing={3}>
+                        <Button
+                            disableElevation
+                            variant="contained"
+                            color="primary"
+                            onClick={handleSubmit}
+                            sx={{
+                                bgcolor: theme.palette.globalcolors.submit,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.globalcolors.hoverSubmit
+                                }
+                            }}
+                        >
+                            Submit
+                        </Button>
+                        <Button
+                            disableElevation
+                            variant="contained "
+                            color="secondary"
+                            onClick={handleCancel}
+                            sx={{
+                                // color: '#fff',
+                                bgcolor: theme.palette.globalcolors.cancel,
+                                '&:hover': {
+                                    backgroundColor: theme.palette.globalcolors.hover
+                                }
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                    </Stack>
+                ) : (
+                    <Button disableElevation variant="contained" color="primary" onClick={handleEdit}>
+                        Edit
+                    </Button>
+                )}
             </Grid>
         </Grid>
     );
 };
 
 // GlobalPriceSettings.propTypes = {
-//     currency: PropTypes.string,
-//     minPrice: PropTypes.number,
-//     maxPrice: PropTypes.number,
-//     formattedMinPrice: PropTypes.string,
-//     formattedMaxPrice: PropTypes.string,
-//     isFetching: PropTypes.bool,
-//     isUpdating: PropTypes.bool,
-//     addError: PropTypes.func,
-//     clearError: PropTypes.func,
-//     clearNotice: PropTypes.func,
-//     updateGlobalPriceSettings: PropTypes.func
+//     minp: PropTypes.number,
+//     maxp: PropTypes.number,
+//     dibsstudioid: PropTypes.number
 // };
-
-// const mapStateToProps = (state) => ({
-//     currency: getUserStudioCurrency(state),
-//     minPrice: getGlobalMinimumPrice(state),
-//     maxPrice: getGlobalMaximumPrice(state),
-//     formattedMinPrice: getFormattedGlobalMinimumPrice(state),
-//     formattedMaxPrice: getFormattedGlobalMaximumPrice(state),
-//     isFetching: getIfGettingPriceSettings(state),
-//     isUpdating: getIfUpdatingPriceSettings(state)
-// });
-// const mapDispatchToProps = {
-//     addError,
-//     clearError,
-//     clearNotice,
-//     updateGlobalPriceSettings
-// };
-
-// const SmartGlobalPriceSettings = connect(mapStateToProps, mapDispatchToProps)(GlobalPriceSettings);
 
 export default GlobalPriceSettings;

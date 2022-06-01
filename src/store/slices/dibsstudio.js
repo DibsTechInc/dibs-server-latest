@@ -20,6 +20,16 @@ const initialState = {
         financialAccess: false,
         settingsAccess: false
     },
+    customerService: {
+        customerServiceEmail: '',
+        customerServicePhone: ''
+    },
+    settings: {
+        dynamicPricing: false,
+        flashCredits: false,
+        minPrice: 20,
+        maxPrice: 30
+    },
     integrations: {
         classpass: false,
         gymPass: false
@@ -39,17 +49,42 @@ const dibsstudio = createSlice({
             state.config = action.payload;
         },
         setClasspass(state, action) {
-            console.log(`setClasspass - action.payload is: ${JSON.stringify(action.payload)}`);
             state.integrations.classpass = action.payload;
+        },
+        setDynamicPricing(state, action) {
+            state.settings.dynamicPricing = action.payload;
+        },
+        setFlashCreditsStore(state, action) {
+            state.settings.flashCredits = action.payload;
         },
         setGympass(state, action) {
             state.integrations.gympass = action.payload;
+        },
+        setGlobalPrices(state, action) {
+            console.log(`setGlobalPrices action is: ${JSON.stringify(action.payload)}`);
+            console.log(`action.payload.minPrice is: ${action.payload.minPrice}`);
+            state.settings.minPrice = action.payload.minPrice;
+            state.settings.maxPrice = action.payload.maxPrice;
+        },
+        setGeneralLocationData(state, action) {
+            console.log(`setGeneralLocationData action is: ${JSON.stringify(action.payload)}`);
+            state.customerService.customerServiceEmail = action.payload.serviceEmail;
+            state.customerService.customerServicePhone = action.payload.servicePhone;
         }
     }
 });
 
 // Reducer
 export default dibsstudio.reducer;
-export const { addStudioData, hasError, setClasspass, setGympass } = dibsstudio.actions;
+export const {
+    addStudioData,
+    hasError,
+    setClasspass,
+    setGympass,
+    setDynamicPricing,
+    setFlashCreditsStore,
+    setGlobalPrices,
+    setGeneralLocationData
+} = dibsstudio.actions;
 
 // ----------------------------------------------------------------------
