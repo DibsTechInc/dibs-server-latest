@@ -3,16 +3,17 @@ const models = require('@dibs-tech/models');
 async function getIntegrationStatusDb(req, res) {
     try {
         const integrations = await models.dibs_studio.findOne({
-            attributes: ['liveClassPass', 'liveGympass'],
+            attributes: ['liveClassPass', 'live_gympass'],
             where: {
                 id: req.body.dibsStudioId
             }
         });
         if (integrations) {
-            const classpassStatus = integrations.liveClassPass;
+            // eslint-disable-next-line camelcase
+            const { liveClassPass, live_gympass } = integrations;
             const statusCpGp = {
-                classpass: classpassStatus,
-                gympass: false
+                classpass: liveClassPass,
+                gympass: live_gympass
             };
             res.json({
                 msg: 'success',
@@ -21,7 +22,7 @@ async function getIntegrationStatusDb(req, res) {
         } else {
             res.json({
                 msg: 'success',
-                status: {
+                integrationstatus: {
                     classpass: false,
                     gympass: false
                 }

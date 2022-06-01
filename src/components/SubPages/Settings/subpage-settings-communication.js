@@ -1,5 +1,5 @@
 // material-ui
-import { Grid, Typography, Divider } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 
 // project imports
 

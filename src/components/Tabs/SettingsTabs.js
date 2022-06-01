@@ -24,8 +24,10 @@ import RevenueManagementSettingsPage from '../SubPages/Settings/subpage-settings
 import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-integrations';
 
 // actions
-import GetIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
-import GetDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
+import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
+import getDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
+import getFlashCredits from 'actions/studios/settings/getFlashCreditStatus';
+import getMinMaxpricing from 'actions/studios/settings/getMinMaxPricing';
 import { setClasspass, setGympass } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -69,6 +71,9 @@ export default function SettingsTabs() {
     const [classpass, setFileClasspass] = React.useState(false);
     const [dp, setDp] = React.useState(false);
     const [gympass, setFileGympass] = React.useState(false);
+    const [flashcredits, setFlashCredits] = React.useState(false);
+    const [minp, setMinP] = React.useState(10);
+    const [maxp, setMaxP] = React.useState(100);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -77,18 +82,34 @@ export default function SettingsTabs() {
     useEffect(() => {
         // check for classpass status
         const getSettings = async () => {
-            await GetIntegrationStatus(dibsStudioId).then((settings) => {
+            await getIntegrationStatus(dibsStudioId).then((settings) => {
                 const { statustosend } = settings;
                 setFileClasspass(statustosend.classpass);
                 setFileGympass(statustosend.gympass);
                 dispatch(setClasspass(statustosend.classpass));
                 dispatch(setGympass(statustosend.gympass));
             });
-            await GetDynamicPricing(dibsStudioId).then((status) => {
+            await getDynamicPricing(dibsStudioId).then((status) => {
                 console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);
                 const { dp } = status;
                 console.log(`dp is: ${dp.hasDynamicPricing}`);
                 setDp(dp.hasDynamicPricing);
+                // dispatch(setClasspass(dynamicpricingtosend));
+            });
+            await getFlashCredits(dibsStudioId).then((status) => {
+                console.log(`status from flash credits is: ${JSON.stringify(status)}`);
+                const { fc } = status;
+                console.log(`fc is: ${JSON.stringify(fc)}`);
+                setFlashCredits(fc);
+                // dispatch(setClasspass(dynamicpricingtosend));
+            });
+            await getMinMaxpricing(dibsStudioId).then((status) => {
+                console.log(`status from min max pricing is: ${JSON.stringify(status)}`);
+                const { statustosend } = status;
+                const { min, max } = statustosend;
+                console.log(`min is: ${JSON.stringify(min)} and max: ${JSON.stringify(max)}`);
+                setMinP(min);
+                setMaxP(max);
                 // dispatch(setClasspass(dynamicpricingtosend));
             });
         };
@@ -164,7 +185,7 @@ export default function SettingsTabs() {
                 <CommunicationSettingsPage />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <RevenueManagementSettingsPage dynamicpricing={dp} />
+                <RevenueManagementSettingsPage dynamicpricing={dp} flashcredits={flashcredits} minp={minp} maxp={maxp} />
             </TabPanel>
             <TabPanel value={value} index={3}>
                 <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />

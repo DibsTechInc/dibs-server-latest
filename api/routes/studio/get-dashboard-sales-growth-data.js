@@ -242,7 +242,6 @@ async function getDashboardSalesGrowthData(req, res) {
         const promisesTotals = [];
         const promisesGifts = [];
         for (let i = 0; i < periodstoshow; i += 1) {
-            console.log(`i = ${i}`);
             fromdate = moment().startOf(timeperiod).subtract(i, period);
             todate = moment().endOf(timeperiod).subtract(i, period);
             promises.push(getRetailRevData(fromdate, todate, i, 'retail'));

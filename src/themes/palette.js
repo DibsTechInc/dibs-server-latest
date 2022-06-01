@@ -60,7 +60,8 @@ const Palette = (navType, presetColor) => {
                 dark: navType === 'dark' ? colors.darkSecondaryDark : colors.secondaryDark,
                 200: navType === 'dark' ? colors.darkSecondary200 : colors.secondary200,
                 800: navType === 'dark' ? colors.darkSecondary800 : colors.secondary800,
-                400: colors.secondary400
+                400: colors.secondary400,
+                button: colors.primaryButton
             },
             chart: {
                 light: colors.chartLight,
@@ -81,6 +82,12 @@ const Palette = (navType, presetColor) => {
             },
             dibstextfield: {
                 main: colors.dibsTextFieldMain
+            },
+            globalcolors: {
+                cancel: colors.grey300,
+                hover: colors.grey400,
+                submit: colors.successDibsGreen,
+                hoverSubmit: colors.submitGreen
             },
             warning: {
                 light: colors.warningLight,

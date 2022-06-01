@@ -21,6 +21,10 @@ const getStudioEvents = require('./studio/calendar/get-events-new');
 const getIntegrationStatus = require('./studio/settings/get-integration-status');
 const getDynamicPricingStatus = require('./studio/settings/get-dynamic-pricing-status');
 const updateDynamicPricingStatus = require('./studio/settings/update-dynamic-pricing-status');
+const updateFlashCreditStatus = require('./studio/settings/update-flash-credit-status');
+const getFlashCreditStatus = require('./studio/settings/get-flash-credit-status');
+const getPriceData = require('./studio/settings/get-price-min-max');
+const updateGlobalPricingMinMax = require('./studio/settings/update-global-price-settings');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -46,6 +50,10 @@ router.post('/studio/calendar/events', getStudioEvents);
 router.post('/studio/settings/integrations', getIntegrationStatus);
 router.post('/studio/settings/dynamic-pricing', getDynamicPricingStatus);
 router.post('/studio/settings/dynamic-pricing/update', updateDynamicPricingStatus);
+router.post('/studio/settings/flash-credit/update', updateFlashCreditStatus);
+router.post('/studio/settings/flash-credits', getFlashCreditStatus);
+router.post('/studio/settings/price-data', getPriceData);
+router.post('/studio/settings/global-price-settings/update', updateGlobalPricingMinMax);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;
