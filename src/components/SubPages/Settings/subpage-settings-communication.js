@@ -5,6 +5,7 @@ import { Grid, Typography, Divider } from '@mui/material';
 // project imports
 import CustomerServiceSettings from './Communication/CustomerServiceSettings';
 import CustomSendingDomain from './Communication/CustomSendingDomain';
+import Address from './Communication/Address';
 import { useSelector } from 'store';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> COMMUNICATION ||============================== //
@@ -39,7 +40,7 @@ const CommunicationSettingsPage = () => {
                     <Typography gutterBottom variant="h5">
                         Address
                     </Typography>
-                    <CustomSendingDomain dibsstudioid={dibsStudioId} />
+                    <Address dibsstudioid={dibsStudioId} />
                 </Grid>
                 <Divider />
                 <Grid item xs={12} sx={{ marginTop: 4, marginBottom: 4 }}>

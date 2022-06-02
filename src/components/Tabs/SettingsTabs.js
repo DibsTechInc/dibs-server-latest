@@ -128,7 +128,12 @@ export default function SettingsTabs() {
                 dispatch(
                     setGeneralLocationData({
                         serviceEmail: status[0].customer_service_email,
-                        servicePhone: status[0].customer_service_phone
+                        servicePhone: status[0].customer_service_phone,
+                        address: status[0].address,
+                        address2: status[0].address2,
+                        city: status[0].city,
+                        state: status[0].state,
+                        zipcode: status[0].zipcode
                     })
                 );
             });

@@ -35,13 +35,12 @@ const CustomerServiceSettings = () => {
     const [isEditing, setIsEditing] = React.useState(false);
     const [error, setError] = React.useState('');
     const [email, setEmail] = React.useState(customerServiceEmail);
-    const [phoneAsNumber, setPhoneAsNumber] = React.useState(customerServicePhone);
+    // const [phoneAsNumber, setPhoneAsNumber] = React.useState(customerServicePhone);
     const [hasError, setHasError] = React.useState(false);
     const [hasSuccessMsg, setHasSuccessMsg] = React.useState(false);
     const [successMsg, setSuccessMsg] = React.useState('');
     const [madeEmailBlank, setMadeEmailBlank] = React.useState(false);
     const [madePhoneBlank, setMadePhoneBlank] = React.useState(false);
-    console.log(`customerServicePhone passing to google is: ${customerServicePhone}`);
     const number = phoneUtil.parseAndKeepRawInput(customerServicePhone, 'US');
     const labelphone = phoneUtil.format(number, PNF.NATIONAL);
     const [phone, setPhone] = React.useState(labelphone);
@@ -60,7 +59,7 @@ const CustomerServiceSettings = () => {
     };
     const handlePhoneChange = (e) => {
         setPhone(e.target.value);
-        setPhoneAsNumber(e.target.value);
+        // setPhoneAsNumber(e.target.value);
     };
     const handlePhoneFocus = () => {
         if (!madePhoneBlank) {
@@ -72,7 +71,7 @@ const CustomerServiceSettings = () => {
         setIsEditing(false);
         setHasError(false);
         setPhone(labelphone);
-        setPhoneAsNumber(customerServicePhone);
+        // setPhoneAsNumber(customerServicePhone);
         setEmail(customerServiceEmail);
         setMadePhoneBlank(false);
         setMadeEmailBlank(false);
@@ -86,26 +85,27 @@ const CustomerServiceSettings = () => {
             setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
             setHasError(true);
             setMadeEmailBlank(false);
+            setEmail(customerServiceEmail);
             setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
             return null;
         }
+        const testnumber = phone.replace(/\D/g, '');
         // const numbertest = phoneUtil.parseAndKeepRawInput(phone, 'US');
         // console.log(`numbertest: ${numbertest}`);
         let validphone = true;
         // if letters in phone number - throw an error
         try {
-            const numbertotest = phoneUtil.parseAndKeepRawInput(phone, 'US');
-            console.log('real number');
+            const numbertotest = phoneUtil.parseAndKeepRawInput(testnumber, 'US');
             validphone = phoneUtil.isValidNumber(numbertotest);
         } catch (err) {
             setError(`The phone number you entered doesn't seem to be valid. Can you try again?`);
             setHasError(true);
             setMadePhoneBlank(false);
             setPhone(labelphone);
-            setPhoneAsNumber(customerServicePhone);
+            // setPhoneAsNumber(customerServicePhone);
             setTimeout(() => {
                 setHasError(false);
                 setError('');
@@ -122,34 +122,31 @@ const CustomerServiceSettings = () => {
             }, 7000);
             return null;
         }
-        if (!isValidEmail) {
-            setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
-            setHasError(true);
-            setMadeEmailBlank(false);
-            setEmail(customerServiceEmail);
-            setTimeout(() => {
-                setHasError(false);
-                setError('');
-            }, 7000);
-            return null;
-        }
+        // if (!isValidEmail) {
+        //     setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
+        //     setHasError(true);
+        //     setMadeEmailBlank(false);
+        //     setEmail(customerServiceEmail);
+        //     setTimeout(() => {
+        //         setHasError(false);
+        //         setError('');
+        //     }, 7000);
+        //     return null;
+        // }
         // make the update to the db
-        console.log(`going to pass these to the database: ${email} ${phoneAsNumber}`);
-        const res = await updateGeneralLocationSettings(dibsStudioId, email, phoneAsNumber);
-        console.log(`cutomer service settings - ${JSON.stringify(res)}`);
+        const res = await updateGeneralLocationSettings(dibsStudioId, email, testnumber);
         if (res.msg === 'success') {
-            console.log(`got successful response`);
             setSuccessMsg(`Successfully updated the customer service email and phone number.`);
             setHasSuccessMsg(true);
-            console.log('line 142');
             setIsEditing(false);
+            const formatnumber = phoneUtil.parseAndKeepRawInput(testnumber, 'US');
+            const postSuccessNumber = phoneUtil.format(formatnumber, PNF.NATIONAL);
+            setPhone(postSuccessNumber);
             setTimeout(() => {
                 setHasSuccessMsg(false);
                 setSuccessMsg('');
             }, 7000);
-            console.log('line 148');
-            const ld = { serviceEmail: email, servicePhone: phoneAsNumber };
-            console.log(`ld: ${JSON.stringify(ld)}`);
+            const ld = { serviceEmail: email, servicePhone: testnumber };
             dispatch(setGeneralLocationData(ld));
         } else {
             setError(res.error);
@@ -163,7 +160,6 @@ const CustomerServiceSettings = () => {
         // setIsEditing(false);
         return null;
     };
-
     return (
         <Grid container>
             <Grid item xs={12}>
@@ -188,7 +184,7 @@ const CustomerServiceSettings = () => {
                     </Grid>
                 )}
                 <Stack direction="row" spacing={2}>
-                    <Grid item xs={3} sx={{ mr: 2 }}>
+                    <Grid item xs={4} sx={{ mr: 3 }}>
                         <Typography variant="h6">Email</Typography>
                         {isEditing ? (
                             <CommunicationTextField
@@ -204,7 +200,7 @@ const CustomerServiceSettings = () => {
                             </Typography>
                         )}
                     </Grid>
-                    <Grid item xs={3}>
+                    <Grid item xs={4}>
                         <Typography variant="h6">Phone #</Typography>
                         {isEditing ? (
                             <CommunicationTextField

@@ -23,7 +23,8 @@ const initialState = {
     customerService: {
         customerServiceEmail: '',
         customerServicePhone: '',
-        customEmailToSendFrom: ''
+        customEmailToSendFrom: '',
+        address: ''
     },
     settings: {
         dynamicPricing: false,
@@ -68,9 +69,13 @@ const dibsstudio = createSlice({
             state.settings.maxPrice = action.payload.maxPrice;
         },
         setGeneralLocationData(state, action) {
-            console.log(`setGeneralLocationData action is: ${JSON.stringify(action.payload)}`);
             state.customerService.customerServiceEmail = action.payload.serviceEmail;
             state.customerService.customerServicePhone = action.payload.servicePhone;
+            state.customerService.address = action.payload.address;
+            state.customerService.address2 = action.payload.address2;
+            state.customerService.city = action.payload.city;
+            state.customerService.state = action.payload.state;
+            state.customerService.zipcode = action.payload.zipcode;
         },
         setCustomEmailToSendFrom(state, action) {
             state.customerService.customEmailToSendFrom = action.payload;
