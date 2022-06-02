@@ -4,6 +4,9 @@ async function updateGeneralLocationData(req, res) {
     // TO DO - WILL NEED TO UPDATE FOR MORE LOCATIONS
     try {
         const { dibsStudioId, email, phone } = req.body;
+        console.log(`\n\n\n\n\nemail = ${email}`);
+        console.log(`phone = ${phone}`);
+        console.log(`dibsStudioId = ${dibsStudioId}`);
         await models.dibs_studio_locations.update(
             {
                 customer_service_email: email,

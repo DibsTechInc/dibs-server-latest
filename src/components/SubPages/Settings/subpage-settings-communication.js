@@ -1,6 +1,6 @@
 // material-ui
 import { Grid, Typography, Divider } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 
 // project imports
 import CustomerServiceSettings from './Communication/CustomerServiceSettings';
@@ -9,8 +9,8 @@ import { useSelector } from 'store';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> COMMUNICATION ||============================== //
 
-const CommunicationSettingsPage = (props) => {
-    const theme = useTheme();
+const CommunicationSettingsPage = () => {
+    // const theme = useTheme();
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     return (

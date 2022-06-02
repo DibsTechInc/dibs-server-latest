@@ -22,7 +22,8 @@ const initialState = {
     },
     customerService: {
         customerServiceEmail: '',
-        customerServicePhone: ''
+        customerServicePhone: '',
+        customEmailToSendFrom: ''
     },
     settings: {
         dynamicPricing: false,
@@ -70,6 +71,9 @@ const dibsstudio = createSlice({
             console.log(`setGeneralLocationData action is: ${JSON.stringify(action.payload)}`);
             state.customerService.customerServiceEmail = action.payload.serviceEmail;
             state.customerService.customerServicePhone = action.payload.servicePhone;
+        },
+        setCustomEmailToSendFrom(state, action) {
+            state.customerService.customEmailToSendFrom = action.payload;
         }
     }
 });
@@ -84,7 +88,8 @@ export const {
     setDynamicPricing,
     setFlashCreditsStore,
     setGlobalPrices,
-    setGeneralLocationData
+    setGeneralLocationData,
+    setCustomEmailToSendFrom
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

@@ -135,7 +135,7 @@ const Palette = (navType, presetColor) => {
                 secondary: navType === 'dark' ? colors.darkTextSecondary : colors.grey500,
                 clientProfile: navType === 'dark' ? colors.darkTextPrimary : colors.grey650,
                 dark: navType === 'dark' ? colors.darkTextPrimary : colors.grey900,
-                hint: colors.grey400
+                hint: colors.grey500
             },
             divider: navType === 'dark' ? colors.darkTextPrimary : colors.grey300,
             background: {

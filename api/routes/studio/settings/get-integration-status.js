@@ -3,7 +3,7 @@ const models = require('@dibs-tech/models');
 async function getIntegrationStatusDb(req, res) {
     try {
         const integrations = await models.dibs_studio.findOne({
-            attributes: ['liveClassPass', 'live_gympass'],
+            attributes: ['liveClassPass', 'live_gympass', 'customSendingDomain'],
             where: {
                 id: req.body.dibsStudioId
             }
@@ -13,7 +13,8 @@ async function getIntegrationStatusDb(req, res) {
             const { liveClassPass, live_gympass } = integrations;
             const statusCpGp = {
                 classpass: liveClassPass,
-                gympass: live_gympass
+                gympass: live_gympass,
+                customEmailSentFrom: integrations.customSendingDomain
             };
             res.json({
                 msg: 'success',
@@ -24,7 +25,8 @@ async function getIntegrationStatusDb(req, res) {
                 msg: 'success',
                 integrationstatus: {
                     classpass: false,
-                    gympass: false
+                    gympass: false,
+                    customEmailSentFrom: null
                 }
             });
         }

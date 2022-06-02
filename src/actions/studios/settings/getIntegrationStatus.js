@@ -6,7 +6,8 @@ export const GetIntegrationStatus = async (dibsStudioId) => {
     try {
         const statustosend = {
             classpass: false,
-            gympass: false
+            gympass: false,
+            customEmailSentFrom: null
         };
         await axios
             .post('/api/studio/settings/integrations', {
@@ -15,9 +16,10 @@ export const GetIntegrationStatus = async (dibsStudioId) => {
             .then((res) => {
                 const { data } = res;
                 const { integrationstatus } = data;
-                const { classpass, gympass } = integrationstatus;
+                const { classpass, gympass, customEmailSentFrom } = integrationstatus;
                 statustosend.classpass = classpass;
                 statustosend.gympass = gympass;
+                statustosend.customEmailSentFrom = customEmailSentFrom;
             });
         return { msg: 'success', statustosend };
     } catch (err) {

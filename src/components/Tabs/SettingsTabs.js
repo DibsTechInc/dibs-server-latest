@@ -35,7 +35,8 @@ import {
     setDynamicPricing,
     setFlashCreditsStore,
     setGlobalPrices,
-    setGeneralLocationData
+    setGeneralLocationData,
+    setCustomEmailToSendFrom
 } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -97,6 +98,7 @@ export default function SettingsTabs() {
                 setFileGympass(statustosend.gympass);
                 dispatch(setClasspass(statustosend.classpass));
                 dispatch(setGympass(statustosend.gympass));
+                dispatch(setCustomEmailToSendFrom(statustosend.customEmailSentFrom));
             });
             await getDynamicPricing(dibsStudioId).then((status) => {
                 // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);

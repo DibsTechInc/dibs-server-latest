@@ -2,14 +2,13 @@ import axios from 'axios';
 
 // ==============================|| UPDATE GLOBAL PRICE SETTINGS FOR STUDIO ||============================== //
 
-export const UpdateGeneralLocationSettings = async (dibsStudioId, email, phone) => {
+export const UpdateSendingDomain = async (dibsStudioId, customEmail) => {
     try {
-        const response = await axios.post('/api/studio/settings/general-location-data/update', {
+        const response = await axios.post('/api/studio/settings/sending-domain/update', {
             dibsStudioId,
-            email,
-            phone
+            customEmail
         });
-        console.log(`response from update is: ${JSON.stringify(response)}`);
+        console.log(`response from update sending domain is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
             return { msg: 'success' };
         }
@@ -20,4 +19,4 @@ export const UpdateGeneralLocationSettings = async (dibsStudioId, email, phone) 
     return 0;
 };
 
-export default UpdateGeneralLocationSettings;
+export default UpdateSendingDomain;

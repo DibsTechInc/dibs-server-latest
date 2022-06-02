@@ -26,6 +26,8 @@ const getFlashCreditStatus = require('./studio/settings/get-flash-credit-status'
 const getPriceData = require('./studio/settings/get-price-min-max');
 const updateGlobalPricingMinMax = require('./studio/settings/update-global-price-settings');
 const getGeneralLocationData = require('./studio/settings/get-general-location-data');
+const updateGeneralLocationData = require('./studio/settings/update-general-location-data');
+const updateSendingDomain = require('./studio/settings/update-sending-domain');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -56,6 +58,8 @@ router.post('/studio/settings/flash-credits', getFlashCreditStatus);
 router.post('/studio/settings/price-data', getPriceData);
 router.post('/studio/settings/global-price-settings/update', updateGlobalPricingMinMax);
 router.post('/studio/settings/general-location-data', getGeneralLocationData);
+router.post('/studio/settings/general-location-data/update', updateGeneralLocationData);
+router.post('/studio/settings/sending-domain/update', updateSendingDomain);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;
