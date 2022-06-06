@@ -4,8 +4,6 @@ async function updateSendingDomain(req, res) {
     // TO DO - WILL NEED TO UPDATE FOR MORE LOCATIONS
     try {
         const { dibsStudioId, customEmail } = req.body;
-        console.log(`\n\n\n\n\ncustomEmail = ${customEmail}`);
-        console.log(`dibsStudioId = ${dibsStudioId}`);
         await models.dibs_studio.update(
             {
                 customSendingDomain: customEmail

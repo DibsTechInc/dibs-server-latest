@@ -20,6 +20,22 @@ const initialState = {
         financialAccess: false,
         settingsAccess: false
     },
+    studioConfig: {
+        terms: '',
+        color: '',
+        intervalEnd: '',
+        autopayNotice: '',
+        use_spot_booking: '',
+        show_credit_load: '',
+        first_class_fixed_price: '',
+        display_giftcards: '',
+        spot_label: '',
+        vod_access_period: '',
+        imageUrls: {
+            color_logo: '',
+            hero_url: ''
+        }
+    },
     customerService: {
         customerServiceEmail: '',
         customerServicePhone: '',
@@ -79,6 +95,12 @@ const dibsstudio = createSlice({
         },
         setCustomEmailToSendFrom(state, action) {
             state.customerService.customEmailToSendFrom = action.payload;
+        },
+        setStudioConfigData(state, action) {
+            state.studioConfig = action.payload;
+        },
+        setStudioImageUrls(state, action) {
+            state.studioConfig.imageUrls = action.payload;
         }
     }
 });
@@ -94,7 +116,9 @@ export const {
     setFlashCreditsStore,
     setGlobalPrices,
     setGeneralLocationData,
-    setCustomEmailToSendFrom
+    setCustomEmailToSendFrom,
+    setStudioConfigData,
+    setStudioImageUrls
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

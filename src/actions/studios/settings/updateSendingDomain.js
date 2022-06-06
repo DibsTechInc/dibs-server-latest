@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// ==============================|| UPDATE GLOBAL PRICE SETTINGS FOR STUDIO ||============================== //
+// ==============================|| UPDATE SENDING DOMAIN FOR STUDIO ||============================== //
 
 export const UpdateSendingDomain = async (dibsStudioId, customEmail) => {
     try {
