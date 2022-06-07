@@ -1,12 +1,11 @@
 import React from 'react';
-import validator from 'email-validator';
 import TextField from '@mui/material/TextField';
 import { Grid, Typography, Stack, Button } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
 import { useSelector, useDispatch } from 'store';
 
 import { setCustomEmailToSendFrom } from 'store/slices/dibsstudio';
-import UpdateSendingDomain from 'actions/studios/settings/updateSendingDomain';
+import UpdateStudioAddress from 'actions/studios/settings/updateStudioAddress';
 
 const CommunicationTextField = styled(TextField)({
     '& .MuiInput-underline:before': {
@@ -44,69 +43,130 @@ const Address = () => {
     const [cityValue, setCityValue] = React.useState(city);
     const [stateValue, setStateValue] = React.useState(state);
     const [zipValue, setZipValue] = React.useState(zipcode);
-    const guidance = `Enter the address for your studio. If you have a virtual studio (i.e. if you only offer online classes), you can leave this section blank.`;
+    const guidance = `Enter the address for your studio. This information is included in confirmation emails. If you have a virtual studio (i.e. if you only offer online classes), you can leave this section blank.`;
 
+    React.useEffect(() => {
+        if (addressValue === null) {
+            setAddressValue('Not entered');
+        }
+        if (address2Value === null) {
+            setAddress2Value('N/A');
+        }
+        if (cityValue === null) {
+            setCityValue('Not entered');
+        }
+        if (stateValue === null) {
+            setStateValue('Not entered');
+        }
+        if (zipValue === null) {
+            setZipValue('Not entered');
+        }
+    }, [addressValue, address2Value, cityValue, stateValue, zipValue]);
     console.log(`addressvalue is: ${addressValue}`);
     const handleEdit = () => {
         setIsEditing(!isEditing);
     };
 
-    // const handleAddressFocus = () => {
-    //     if (!madeCustomDomainBlank) {
-    //         setCustomEmail('');
-    //         setMadeCustomDomainBlank(true);
-    //     }
-    // };
-    // const handleDomainChange = (e) => {
-    //     setCustomEmail(e.target.value);
-    // };
+    const handleAddressFocus = () => {
+        if (!madeAddressBlank) {
+            setAddressValue('');
+            setMadeAddressBlank(true);
+        }
+    };
+    const handleAddress2Focus = () => {
+        if (!madeAddress2Blank) {
+            setAddress2Value('');
+            setMade2AddressBlank(true);
+        }
+    };
+    const handleCityFocus = () => {
+        if (!madeCityBlank) {
+            setCityValue('');
+            setMadeCityBlank(true);
+        }
+    };
+    const handleStateFocus = () => {
+        if (!madeStateBlank) {
+            setStateValue('');
+            setMadeStateBlank(true);
+        }
+    };
+    const handleZipFocus = () => {
+        if (!madeZipBlank) {
+            setZipValue('');
+            setMadeZipBlank(true);
+        }
+    };
+    const handleAddressChange = (e) => {
+        console.log(`address value is: ${e.target.value}`);
+        setAddressValue(e.target.value);
+    };
+    const handleAddress2Change = (e) => {
+        setAddress2Value(e.target.value);
+    };
+    const handleCityChange = (e) => {
+        setCityValue(e.target.value);
+    };
+    const handleStateChange = (e) => {
+        setStateValue(e.target.value);
+    };
+    const handleZipChange = (e) => {
+        setZipValue(e.target.value);
+    };
     const handleCancel = () => {
+        console.log(`address value is: ${address}`);
         setIsEditing(false);
         setHasError(false);
         setHasSuccessMsg(false);
         setError('');
+        setAddressValue(address);
+        setAddress2Value(address2);
+        setCityValue(city);
+        setStateValue(state);
+        setZipValue(zipcode);
         // setCustomEmail(customEmailToSendFrom);
         // setMadeCustomDomainBlank(false);
     };
-    // const handleSubmit = async () => {
-    //     setMadeCustomDomainBlank(false);
-    //     const isValidEmail = validator.validate(customEmail);
-    //     if (!isValidEmail) {
-    //         setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
-    //         setHasError(true);
-    //         setTimeout(() => {
-    //             setHasError(false);
-    //             setError('');
-    //         }, 7000);
-    //         return null;
-    //     }
-    //     await UpdateSendingDomain(dibsStudioId, customEmail).then((res) => {
-    //         if (res.msg === 'success') {
-    //             setHasSuccessMsg(true);
-    //             setSuccessMsg(`Your email address has been updated.`);
-    //             setTimeout(() => {
-    //                 setHasSuccessMsg(false);
-    //                 setSuccessMsg('');
-    //             }, 7000);
-    //             setIsEditing(false);
-    //             setHasError(false);
-    //             setError('');
-    //             dispatch(setCustomEmailToSendFrom(customEmail));
-    //         } else {
-    //             setHasError(true);
-    //             setError(`There was an error updating your email address. Please try again.`);
-    //             setTimeout(() => {
-    //                 setHasError(false);
-    //                 setError('');
-    //             }, 7000);
-    //         }
-    //     });
-    //     return null;
-    // };
+    const handleSubmit = async () => {
+        setMade2AddressBlank(false);
+        setMadeCityBlank(false);
+        setMadeStateBlank(false);
+        setMadeZipBlank(false);
+        setMadeAddressBlank(false);
+        const addressObject = {
+            addressValue,
+            address2Value,
+            cityValue,
+            stateValue,
+            zipValue
+        };
+        await UpdateStudioAddress(dibsStudioId, addressObject).then((res) => {
+            if (res.msg === 'success') {
+                setHasSuccessMsg(true);
+                setSuccessMsg(`Your studio's address has been updated.`);
+                setTimeout(() => {
+                    setHasSuccessMsg(false);
+                    setSuccessMsg('');
+                }, 7000);
+                setIsEditing(false);
+                setHasError(false);
+                setError('');
+                // dispatch(setCustomEmailToSendFrom(customEmail));
+            } else {
+                setHasError(true);
+                setError(`There was an error updating your studio's address. Please try again.`);
+                setTimeout(() => {
+                    setHasError(false);
+                    setError('');
+                }, 7000);
+            }
+        });
+        return null;
+    };
 
     return (
         <Grid container>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
                 <Typography variant="h6" sx={{ color: theme.palette.text.hint, mt: 1, fontWeight: 400 }}>
                     {guidance}
                     <br />
@@ -134,11 +194,10 @@ const Address = () => {
                             {isEditing ? (
                                 <CommunicationTextField
                                     variant="standard"
-                                    // onChange={(e) => handleDomainChange(e)}
-                                    // onFocus={() => handleDomainFocus()}
+                                    onChange={(e) => handleAddressChange(e)}
+                                    onFocus={() => handleAddressFocus()}
                                     sx={{ width: '230px', mt: 2 }}
-                                    value="Address here"
-                                    label="Address"
+                                    value={addressValue}
                                 />
                             ) : (
                                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -151,11 +210,10 @@ const Address = () => {
                             {isEditing ? (
                                 <CommunicationTextField
                                     variant="standard"
-                                    // onChange={(e) => handleDomainChange(e)}
-                                    // onFocus={() => handleDomainFocus()}
+                                    onChange={(e) => handleAddress2Change(e)}
+                                    onFocus={() => handleAddress2Focus()}
                                     sx={{ width: '230px', mt: 2 }}
-                                    value="Address2 here"
-                                    label="Address"
+                                    value={address2Value}
                                 />
                             ) : (
                                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -164,15 +222,14 @@ const Address = () => {
                             )}
                         </Grid>
                         <Grid item xs={6} sx={{ mt: 2 }}>
-                            <Typography variant="h6">city:</Typography>
+                            <Typography variant="h6">City:</Typography>
                             {isEditing ? (
                                 <CommunicationTextField
                                     variant="standard"
-                                    // onChange={(e) => handleDomainChange(e)}
-                                    // onFocus={() => handleDomainFocus()}
+                                    onChange={(e) => handleCityChange(e)}
+                                    onFocus={() => handleCityFocus()}
                                     sx={{ width: '230px', mt: 2 }}
-                                    value="city here"
-                                    label="city"
+                                    value={cityValue}
                                 />
                             ) : (
                                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -181,15 +238,14 @@ const Address = () => {
                             )}
                         </Grid>
                         <Grid item xs={6} sx={{ mt: 2 }}>
-                            <Typography variant="h6">state:</Typography>
+                            <Typography variant="h6">State:</Typography>
                             {isEditing ? (
                                 <CommunicationTextField
                                     variant="standard"
-                                    // onChange={(e) => handleDomainChange(e)}
-                                    // onFocus={() => handleDomainFocus()}
-                                    sx={{ width: '230px', mt: 2 }}
-                                    value="state here"
-                                    label="state"
+                                    onChange={(e) => handleStateChange(e)}
+                                    onFocus={() => handleStateFocus()}
+                                    sx={{ width: '100px', mt: 2 }}
+                                    value={stateValue}
                                 />
                             ) : (
                                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -198,15 +254,14 @@ const Address = () => {
                             )}
                         </Grid>
                         <Grid item xs={6} sx={{ mt: 2 }}>
-                            <Typography variant="h6">zip:</Typography>
+                            <Typography variant="h6">Zip:</Typography>
                             {isEditing ? (
                                 <CommunicationTextField
                                     variant="standard"
-                                    // onChange={(e) => handleDomainChange(e)}
-                                    // onFocus={() => handleDomainFocus()}
-                                    sx={{ width: '230px', mt: 2 }}
-                                    value="zip here"
-                                    label="zip"
+                                    onChange={(e) => handleZipChange(e)}
+                                    onFocus={() => handleZipFocus()}
+                                    sx={{ width: '100px', mt: 2 }}
+                                    value={zipValue}
                                 />
                             ) : (
                                 <Typography variant="h6" sx={{ fontWeight: 300 }}>
@@ -224,7 +279,7 @@ const Address = () => {
                             disableElevation
                             variant="contained"
                             color="primary"
-                            // onClick={handleSubmit}
+                            onClick={handleSubmit}
                             sx={{
                                 bgcolor: theme.palette.globalcolors.submit,
                                 '&:hover': {

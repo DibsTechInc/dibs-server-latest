@@ -5,6 +5,9 @@ import { Grid, Typography, Divider } from '@mui/material';
 // project imports
 import CustomerServiceSettings from './Communication/CustomerServiceSettings';
 import CustomSendingDomain from './Communication/CustomSendingDomain';
+import TermsAndConditions from './Communication/TermsAndConditions';
+import HeroURL from './Communication/HeroURL';
+import LogoURL from './Communication/LogoURL';
 import Address from './Communication/Address';
 import { useSelector } from 'store';
 
@@ -47,21 +50,21 @@ const CommunicationSettingsPage = () => {
                     <Typography gutterBottom variant="h5">
                         Terms & Conditions
                     </Typography>
-                    <CustomSendingDomain dibsstudioid={dibsStudioId} />
+                    <TermsAndConditions dibsstudioid={dibsStudioId} />
                 </Grid>
                 <Divider />
                 <Grid item xs={12} sx={{ marginTop: 4, marginBottom: 4 }}>
                     <Typography gutterBottom variant="h5">
                         Hero URL
                     </Typography>
-                    <CustomSendingDomain dibsstudioid={dibsStudioId} />
+                    <HeroURL dibsstudioid={dibsStudioId} />
                 </Grid>
                 <Divider />
                 <Grid item xs={12} sx={{ marginTop: 4, marginBottom: 4 }}>
                     <Typography gutterBottom variant="h5">
-                        Color Logo
+                        Logo URL
                     </Typography>
-                    <CustomSendingDomain dibsstudioid={dibsStudioId} />
+                    <LogoURL dibsstudioid={dibsStudioId} />
                 </Grid>
             </Grid>
         </Grid>

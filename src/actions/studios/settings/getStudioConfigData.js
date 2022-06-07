@@ -9,7 +9,12 @@ export const GetStudioConfigData = async (dibsStudioId) => {
         });
         console.log(`\n\n\n\nresponse from GET STUDIO CONFIG DATA is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
-            return { msg: 'success', studioConfigData: response.data.studioconfigdata, imageUrls: response.data.imageUrls };
+            return {
+                msg: 'success',
+                studioConfigData: response.data.studioconfigdata,
+                imageUrls: response.data.imageUrls,
+                cancelTime: response.data.cancelTime
+            };
         }
         return { msg: 'failure', error: response.data.error };
     } catch (err) {

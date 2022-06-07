@@ -96,11 +96,21 @@ const dibsstudio = createSlice({
         setCustomEmailToSendFrom(state, action) {
             state.customerService.customEmailToSendFrom = action.payload;
         },
+        setNumDaysToShowCalendar(state, action) {
+            console.log(`action payload is: ${JSON.stringify(action.payload)}`);
+            state.studioConfig.interval_end = action.payload;
+        },
+        setRafAwardRedux(state, action) {
+            state.studioConfig.raf_award = action.payload;
+        },
         setStudioConfigData(state, action) {
             state.studioConfig = action.payload;
         },
         setStudioImageUrls(state, action) {
             state.studioConfig.imageUrls = action.payload;
+        },
+        setStudioCancelTime(state, action) {
+            state.studioConfig.cancelTime = action.payload;
         },
         setStudioColorRedux(state, action) {
             state.studioConfig.color = action.payload;
@@ -122,7 +132,10 @@ export const {
     setCustomEmailToSendFrom,
     setStudioConfigData,
     setStudioImageUrls,
-    setStudioColorRedux
+    setStudioColorRedux,
+    setNumDaysToShowCalendar,
+    setRafAwardRedux,
+    setStudioCancelTime
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

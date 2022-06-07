@@ -140,7 +140,7 @@ const CustomSendingDomain = () => {
                                 value={customEmail}
                             />
                         ) : (
-                            <Typography variant="h6" sx={{ mt: 2 }}>
+                            <Typography variant="h7" sx={{ mt: 2 }}>
                                 {customEmail}
                             </Typography>
                         )}

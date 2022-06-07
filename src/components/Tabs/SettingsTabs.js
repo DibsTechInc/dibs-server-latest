@@ -26,6 +26,7 @@ import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-inte
 // actions
 import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
 import getDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
+import GetStudioConfigData from 'actions/studios/settings/getStudioConfigData';
 import getFlashCredits from 'actions/studios/settings/getFlashCreditStatus';
 import getMinMaxpricing from 'actions/studios/settings/getMinMaxPricing';
 import GetGeneralLocationData from 'actions/studios/settings/getGeneralLocationData';
@@ -36,7 +37,10 @@ import {
     setFlashCreditsStore,
     setGlobalPrices,
     setGeneralLocationData,
-    setCustomEmailToSendFrom
+    setCustomEmailToSendFrom,
+    setStudioConfigData,
+    setStudioImageUrls,
+    setStudioCancelTime
 } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -99,6 +103,11 @@ export default function SettingsTabs() {
                 dispatch(setClasspass(statustosend.classpass));
                 dispatch(setGympass(statustosend.gympass));
                 dispatch(setCustomEmailToSendFrom(statustosend.customEmailSentFrom));
+            });
+            await GetStudioConfigData(dibsStudioId).then((sc) => {
+                dispatch(setStudioConfigData(sc.studioConfigData));
+                dispatch(setStudioImageUrls(sc.imageUrls));
+                dispatch(setStudioCancelTime(sc.cancelTime));
             });
             await getDynamicPricing(dibsStudioId).then((status) => {
                 // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);

@@ -31,6 +31,9 @@ const updateSendingDomain = require('./studio/settings/update-sending-domain');
 const updateStudioAddress = require('./studio/settings/update-studio-address-data');
 const getGeneralConfigData = require('./studio/settings/get-general-config-data');
 const updateStudioColor = require('./studio/settings/update-studio-color');
+const updateCalendarInterval = require('./studio/settings/update-calendar-interval');
+const updateRafAward = require('./studio/settings/update-raf-award');
+const updateCancelTime = require('./studio/settings/update-cancel-time');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -66,6 +69,9 @@ router.post('/studio/settings/sending-domain/update', updateSendingDomain);
 router.post('/studio/settings/address/update', updateStudioAddress);
 router.post('/studio/settings/general-config-data', getGeneralConfigData);
 router.post('/studio/settings/update-studio-color', updateStudioColor);
+router.post('/studio/settings/update-calendar-interval', updateCalendarInterval);
+router.post('/studio/settings/update-raf-award', updateRafAward);
+router.post('/studio/settings/update-cancel-time', updateCancelTime);
 
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 

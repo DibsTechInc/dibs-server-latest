@@ -14,7 +14,8 @@ async function getGeneralConfigData(req, res) {
                 'first_class_fixed_price',
                 'display_giftcards',
                 'spot_label',
-                'vod_access_period'
+                'vod_access_period',
+                'raf_award'
             ],
             where: {
                 dibs_studio_id: dibsStudioId
@@ -26,11 +27,18 @@ async function getGeneralConfigData(req, res) {
                 id: dibsStudioId
             }
         });
+        const cancelTime = await models.dibs_studio.findOne({
+            attributes: ['cancel_time'],
+            where: {
+                id: dibsStudioId
+            }
+        });
         console.log(`\n\n\n\ngeneralconfigdata is: ${JSON.stringify(studioconfigdata)}`);
         res.json({
             msg: 'success',
             studioconfigdata,
-            imageUrls
+            imageUrls,
+            cancelTime: cancelTime.cancel_time
         });
     } catch (err) {
         console.log(`error in getGeneralConfigData api call: ${err}`);
