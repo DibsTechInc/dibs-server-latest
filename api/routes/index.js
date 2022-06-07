@@ -28,6 +28,9 @@ const updateGlobalPricingMinMax = require('./studio/settings/update-global-price
 const getGeneralLocationData = require('./studio/settings/get-general-location-data');
 const updateGeneralLocationData = require('./studio/settings/update-general-location-data');
 const updateSendingDomain = require('./studio/settings/update-sending-domain');
+const updateStudioAddress = require('./studio/settings/update-studio-address-data');
+const getGeneralConfigData = require('./studio/settings/get-general-config-data');
+const updateStudioColor = require('./studio/settings/update-studio-color');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -60,6 +63,10 @@ router.post('/studio/settings/global-price-settings/update', updateGlobalPricing
 router.post('/studio/settings/general-location-data', getGeneralLocationData);
 router.post('/studio/settings/general-location-data/update', updateGeneralLocationData);
 router.post('/studio/settings/sending-domain/update', updateSendingDomain);
+router.post('/studio/settings/address/update', updateStudioAddress);
+router.post('/studio/settings/general-config-data', getGeneralConfigData);
+router.post('/studio/settings/update-studio-color', updateStudioColor);
+
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

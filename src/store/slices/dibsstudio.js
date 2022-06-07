@@ -101,6 +101,9 @@ const dibsstudio = createSlice({
         },
         setStudioImageUrls(state, action) {
             state.studioConfig.imageUrls = action.payload;
+        },
+        setStudioColorRedux(state, action) {
+            state.studioConfig.color = action.payload;
         }
     }
 });
@@ -118,7 +121,8 @@ export const {
     setGeneralLocationData,
     setCustomEmailToSendFrom,
     setStudioConfigData,
-    setStudioImageUrls
+    setStudioImageUrls,
+    setStudioColorRedux
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------
