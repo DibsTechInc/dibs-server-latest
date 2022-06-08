@@ -9,7 +9,6 @@ export const UpdateGeneralLocationSettings = async (dibsStudioId, email, phone) 
             email,
             phone
         });
-        console.log(`response from update is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
             return { msg: 'success' };
         }

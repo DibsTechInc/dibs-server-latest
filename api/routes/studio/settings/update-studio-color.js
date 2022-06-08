@@ -3,7 +3,6 @@ const models = require('@dibs-tech/models');
 async function updateStudioColor(req, res) {
     try {
         const { dibsStudioId, studioColor } = req.body;
-        console.log(`studioColor is: ${studioColor}`);
         await models.dibs_config.update(
             {
                 color: studioColor

@@ -34,6 +34,8 @@ const updateStudioColor = require('./studio/settings/update-studio-color');
 const updateCalendarInterval = require('./studio/settings/update-calendar-interval');
 const updateRafAward = require('./studio/settings/update-raf-award');
 const updateCancelTime = require('./studio/settings/update-cancel-time');
+const updateTaxRates = require('./studio/settings/update-tax-rate-data');
+const updateStudioProfileAccount = require('./studio/account-profile/update-profile-account');
 // const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
 
 const router = express();
@@ -72,7 +74,8 @@ router.post('/studio/settings/update-studio-color', updateStudioColor);
 router.post('/studio/settings/update-calendar-interval', updateCalendarInterval);
 router.post('/studio/settings/update-raf-award', updateRafAward);
 router.post('/studio/settings/update-cancel-time', updateCancelTime);
-
+router.post('/studio/settings/update-tax-rates', updateTaxRates);
+router.post('/studio/account/update-profile', updateStudioProfileAccount);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

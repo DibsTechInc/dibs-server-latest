@@ -6,6 +6,7 @@ import WidgetColorPicker from './General/WidgetColorPicker';
 import DaysToShowCalendar from './General/DaysToShowCalendar';
 import FriendReferralSetting from './General/FriendReferralSetting';
 import CancelationSetting from './General/CancelationSetting';
+import TaxSettings from './General/TaxSettings';
 import { useSelector } from 'store';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> GENERAL ||============================== //
@@ -49,27 +50,13 @@ const GeneralSettingsPage = () => {
                     </Typography>
                     <CancelationSetting dibsstudioid={dibsStudioId} />
                 </Grid>
-                {/* 
-                <Typography gutterBottom variant="h6">
-                    I collect taxes
-                    Tax Rates (sales & retail)
-                </Typography>
-                <Typography gutterBottom variant="h6">
-                    friend referral amount
-                </Typography>
-                <Typography gutterBottom variant="h6">
-                    cancellation window
-                </Typography>
-                <Typography gutterBottom variant="h6">
-                    display gift cards
-                </Typography>
-                <Typography gutterBottom variant="h6">
-                    Require waiver - show the link to waiver
-                </Typography>
-                <Typography gutterBottom variant="h6">
-                    default price per class (min and max if dynamic pricing is set) -> move this to revenue management section
-                </Typography>
-                 */}
+                <Divider />
+                <Grid item xs={12} sx={{ marginTop: 4, marginBottom: 4 }}>
+                    <Typography gutterBottom variant="h5">
+                        Tax Rates
+                    </Typography>
+                    <TaxSettings dibsstudioid={dibsStudioId} />
+                </Grid>
             </Grid>
         </Grid>
     );

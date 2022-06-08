@@ -4,13 +4,11 @@ import axios from 'axios';
 
 export const UpdateGlobalPriceSettings = async (dibsStudioId, minPrice, maxPrice) => {
     try {
-        console.log(`min price that was sent is: ${minPrice}`);
         const response = await axios.post('/api/studio/settings/global-price-settings/update', {
             dibsStudioId,
             minPrice,
             maxPrice
         });
-        console.log(`response from update is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
             return { msg: 'success' };
         }

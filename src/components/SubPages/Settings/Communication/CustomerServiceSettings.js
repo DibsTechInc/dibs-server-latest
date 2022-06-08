@@ -122,18 +122,6 @@ const CustomerServiceSettings = () => {
             }, 7000);
             return null;
         }
-        // if (!isValidEmail) {
-        //     setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
-        //     setHasError(true);
-        //     setMadeEmailBlank(false);
-        //     setEmail(customerServiceEmail);
-        //     setTimeout(() => {
-        //         setHasError(false);
-        //         setError('');
-        //     }, 7000);
-        //     return null;
-        // }
-        // make the update to the db
         const res = await updateGeneralLocationSettings(dibsStudioId, email, testnumber);
         if (res.msg === 'success') {
             setSuccessMsg(`Successfully updated the customer service email and phone number.`);

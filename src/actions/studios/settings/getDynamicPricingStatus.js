@@ -12,7 +12,6 @@ export const GetDynamicPricing = async (dibsStudioId) => {
             .then((res) => {
                 const { data } = res;
                 const { pricingData } = data;
-                console.log(`dynamicpricing: ${JSON.stringify(data)}`);
                 dynamicpricingtosend = pricingData;
             });
         return { msg: 'success', dp: dynamicpricingtosend };

@@ -36,7 +36,6 @@ const WidgetColorPicker = () => {
     const [hasSuccess, setHasSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    console.log(`studioColor is: ${studioColor}`);
     const [studioColorHex, setStudioColorHex] = useState(`#${studioColor}`);
     const [isEditingWidgetPicker, setIsEditingWidgetPicker] = useState(false);
     const [abilityTypeColor, setAbilityTypeColor] = useState(false);

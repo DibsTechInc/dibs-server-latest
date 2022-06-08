@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Tab, Tabs } from '@mui/material';
 
 // assets
-// import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 // import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
@@ -18,10 +18,8 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 // import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 
 // Settings subpages mapped to tabs
-import GeneralSettingsPage from '../SubPages/Settings/subpage-settings-general';
-import CommunicationSettingsPage from '../SubPages/Settings/subpage-settings-communication';
-import RevenueManagementSettingsPage from '../SubPages/Settings/subpage-settings-revenue-management';
-import IntegrationsSettingsPage from '../SubPages/Settings/subpage-settings-integrations';
+import AccountInformationPage from '../SubPages/Account/General';
+import BillingInformationPage from '../SubPages/Account/Billing';
 
 // actions
 import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
@@ -189,42 +187,29 @@ export default function SettingsTabs() {
                     component={Link}
                     to="#"
                     icon={<SettingsOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="General"
+                    label="My Settings"
                     {...a11yProps(0)}
                 />
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<MailOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Communication"
-                    {...a11yProps(1)}
-                />
-                <Tab
-                    component={Link}
-                    to="#"
                     icon={<AttachMoneyOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Revenue Management"
+                    label="Billing"
                     {...a11yProps(1)}
                 />
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<ExitToAppOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Integrations"
-                    {...a11yProps(1)}
+                    icon={<PersonOutlineIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Create Accounts"
+                    {...a11yProps(0)}
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <GeneralSettingsPage />
+                <AccountInformationPage />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <CommunicationSettingsPage />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <RevenueManagementSettingsPage minp={minp} maxp={maxp} />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
-                <IntegrationsSettingsPage classpass={classpass} gympass={gympass} />
+                <BillingInformationPage />
             </TabPanel>
         </>
     );

@@ -57,7 +57,6 @@ export function getEvents(dibsStudioId) {
             const { data } = response;
             const { classEvents } = data;
             await classEvents.map((event) => {
-                console.log(`\n\n\nev in getEvents api call: ${JSON.stringify(event)}`);
                 event.title = `${event.title} w/ ${event.instructor.firstname} (${event.spots_booked})`;
                 event.description = `${event.spots_booked} spots booked`;
                 event.start = moment.utc(event.start_date).format('YYYY-MM-DDTHH:mm:ssZ');
@@ -67,12 +66,10 @@ export function getEvents(dibsStudioId) {
                 }
                 event.allDay = false;
                 // event.start = moment.utc(event.start_date).utcOffset(0, true).format();
-                console.log(`\n\n\nAfter changing it in getEvents api call: ${JSON.stringify(event)}`);
                 return event;
             });
             // newEvents();
             dispatch(calendar.actions.getEventsSuccess(classEvents));
-            console.log(`made the calendar dispatch call`);
         } catch (error) {
             console.log(`error is: ${JSON.stringify(error)}`);
             dispatch(calendar.actions.hasError(error));

@@ -12,7 +12,6 @@ export const GetGeneralLocationData = async (dibsStudioId) => {
             .then((res) => {
                 const { data } = res;
                 const { locationdata } = data;
-                console.log(`general location data is: ${JSON.stringify(locationdata)}`);
                 returndata = locationdata;
                 return locationdata;
             });

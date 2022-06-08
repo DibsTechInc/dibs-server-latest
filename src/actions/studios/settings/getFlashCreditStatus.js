@@ -12,7 +12,6 @@ export const GetFlashCreditStatus = async (dibsStudioId) => {
             .then((res) => {
                 const { data } = res;
                 const { status } = data;
-                console.log(`fc: ${JSON.stringify(status)}`);
                 flashcreditstatus = status;
             });
         return { msg: 'success', fc: flashcreditstatus };

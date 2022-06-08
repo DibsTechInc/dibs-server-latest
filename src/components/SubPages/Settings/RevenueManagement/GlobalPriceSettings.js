@@ -125,7 +125,7 @@ const GlobalPriceSettings = () => {
                     amounts are whole numbers - any decimals will be rounded to the nearest whole dollar amount.
                     <br />
                     <br />
-                    Note: If dynamic pricing is not enabled, your min/max price will be set to the default price for the class.
+                    Note: If dynamic pricing is not enabled, your minimum price will be used as the default price for your classes.
                     <br />
                 </Typography>
             </Grid>

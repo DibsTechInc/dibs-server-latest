@@ -268,10 +268,8 @@ async function getDashboardSalesGrowthData(req, res) {
                 singledata.reverse();
                 totaldata.reverse();
                 giftcarddata.reverse();
-                console.log(`\n\nfinished reversing the data`);
             })
             .then(() => {
-                console.log(`\n\nsending a response now`);
                 res.json({
                     success: true,
                     revenuedata: {

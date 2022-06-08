@@ -34,7 +34,9 @@ const initialState = {
         imageUrls: {
             color_logo: '',
             hero_url: ''
-        }
+        },
+        salesTax: 0,
+        retailTax: 0
     },
     customerService: {
         customerServiceEmail: '',
@@ -79,10 +81,14 @@ const dibsstudio = createSlice({
             state.integrations.gympass = action.payload;
         },
         setGlobalPrices(state, action) {
-            console.log(`setGlobalPrices action is: ${JSON.stringify(action.payload)}`);
-            console.log(`action.payload.minPrice is: ${action.payload.minPrice}`);
             state.settings.minPrice = action.payload.minPrice;
             state.settings.maxPrice = action.payload.maxPrice;
+        },
+        setStudioProfileAccountInfo(state, action) {
+            state.config.firstName = action.payload.firstName;
+            state.config.lastName = action.payload.lastName;
+            state.config.email = action.payload.email;
+            state.config.phone = action.payload.phone;
         },
         setGeneralLocationData(state, action) {
             state.customerService.customerServiceEmail = action.payload.serviceEmail;
@@ -92,9 +98,15 @@ const dibsstudio = createSlice({
             state.customerService.city = action.payload.city;
             state.customerService.state = action.payload.state;
             state.customerService.zipcode = action.payload.zipcode;
+            state.studioConfig.salesTax = action.payload.salesTax;
+            state.studioConfig.retailTax = action.payload.retailTax;
         },
         setCustomEmailToSendFrom(state, action) {
             state.customerService.customEmailToSendFrom = action.payload;
+        },
+        setTaxesRedux(state, action) {
+            state.studioConfig.salesTax = action.payload.salesTax;
+            state.studioConfig.retailTax = action.payload.retailTax;
         },
         setNumDaysToShowCalendar(state, action) {
             console.log(`action payload is: ${JSON.stringify(action.payload)}`);
@@ -135,7 +147,9 @@ export const {
     setStudioColorRedux,
     setNumDaysToShowCalendar,
     setRafAwardRedux,
-    setStudioCancelTime
+    setStudioCancelTime,
+    setTaxesRedux,
+    setStudioProfileAccountInfo
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

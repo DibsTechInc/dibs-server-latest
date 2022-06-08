@@ -2,17 +2,17 @@
 import { Grid } from '@mui/material';
 
 // project imports
-// import InstructorsTabs from '../Tabs/InstructorsTabs';
+import AccountTabs from '../Tabs/StudioAccountTabs';
 import { gridSpacing } from 'store/constant';
 
-// ================================|| UI TABS ||================================ //
+// ================================|| ENTRY PAGE - STUDIO ACCOUNT ||================================ //
 
-const AccountsEntryPage = () => (
+const UITabs = () => (
     <Grid container spacing={gridSpacing}>
         <Grid item xs={12} md={12}>
-            Accounts Page Goes Here
+            <AccountTabs />
         </Grid>
     </Grid>
 );
 
-export default AccountsEntryPage;
+export default UITabs;

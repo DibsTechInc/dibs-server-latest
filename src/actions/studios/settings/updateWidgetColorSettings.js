@@ -8,7 +8,6 @@ export const UpdateWidgetColor = async (dibsStudioId, color) => {
             dibsStudioId,
             studioColor: color
         });
-        console.log(`response from update is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
             return { msg: 'success' };
         }

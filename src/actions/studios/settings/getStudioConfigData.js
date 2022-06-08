@@ -7,7 +7,6 @@ export const GetStudioConfigData = async (dibsStudioId) => {
         const response = await axios.post('/api/studio/settings/general-config-data', {
             dibsStudioId
         });
-        console.log(`\n\n\n\nresponse from GET STUDIO CONFIG DATA is: ${JSON.stringify(response)}`);
         if (response.data.msg === 'success') {
             return {
                 msg: 'success',

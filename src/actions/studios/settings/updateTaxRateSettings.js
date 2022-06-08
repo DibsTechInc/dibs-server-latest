@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-// ==============================|| UPDATE CANCEL TIME FOR STUDIO ||============================== //
+// ==============================|| UPDATE TAX RATE FOR STUDIO ||============================== //
 
-export const UpdateCancelTime = async (dibsStudioId, cancelTime) => {
+export const UpdateTaxRates = async (dibsStudioId, retailTax, salesTax) => {
     try {
-        const response = await axios.post('/api/studio/settings/update-cancel-time', {
+        const response = await axios.post('/api/studio/settings/update-tax-rates', {
             dibsStudioId,
-            cancelTime
+            retailTax,
+            salesTax
         });
         if (response.data.msg === 'success') {
             return { msg: 'success' };
@@ -18,4 +19,4 @@ export const UpdateCancelTime = async (dibsStudioId, cancelTime) => {
     return 0;
 };
 
-export default UpdateCancelTime;
+export default UpdateTaxRates;
