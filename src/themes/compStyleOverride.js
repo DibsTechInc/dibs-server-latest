@@ -21,7 +21,9 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                     '&:hover': {
                         backgroundColor: buttonHoverColor
                     },
-                    height: '30px'
+                    height: '30px',
+                    paddingLeft: '14px',
+                    paddingRight: '14px'
                 },
                 iconSizeSmall: {
                     alignItems: 'center',

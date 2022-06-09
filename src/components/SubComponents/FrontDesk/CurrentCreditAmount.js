@@ -21,7 +21,6 @@ const CurrentCreditAmount = (props) => {
             // setIsLoading(true);
             await getCredit(userid, dibsStudioId).then((credit) => {
                 if (credit > 0) {
-                    console.log(`credit is: ${JSON.stringify(credit)}`);
                     setCredit(credit);
                     setHasCredit(true);
                 }

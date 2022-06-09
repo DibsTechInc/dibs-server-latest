@@ -20,6 +20,7 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 // Settings subpages mapped to tabs
 import AccountInformationPage from '../SubPages/Account/General';
 import BillingInformationPage from '../SubPages/Account/Billing';
+import CreateAccountsPage from '../SubPages/Account/CreateAccount';
 
 // actions
 import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
@@ -71,79 +72,25 @@ function a11yProps(index) {
     };
 }
 
-// ================================|| SETTINGS TABS ||================================ //
+// ================================|| ACCOUNTS TABS ||================================ //
 
 export default function SettingsTabs() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
-    // get dynamic pricing status
-    const [classpass, setFileClasspass] = React.useState(false);
-    // const [dp, setDp] = React.useState(false);
-    const [gympass, setFileGympass] = React.useState(false);
     // const [flashcredits, setFlashCredits] = React.useState(false);
-    const [minp, setMinP] = React.useState(10);
-    const [maxp, setMaxP] = React.useState(100);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
     useEffect(() => {
-        // check for classpass status
-        const getSettings = async () => {
-            await getIntegrationStatus(dibsStudioId).then((settings) => {
-                const { statustosend } = settings;
-                setFileClasspass(statustosend.classpass);
-                setFileGympass(statustosend.gympass);
-                dispatch(setClasspass(statustosend.classpass));
-                dispatch(setGympass(statustosend.gympass));
-                dispatch(setCustomEmailToSendFrom(statustosend.customEmailSentFrom));
-            });
+        const getAccountInfo = async () => {
             await GetStudioConfigData(dibsStudioId).then((sc) => {
                 dispatch(setPaymentInfo(sc.paymentInfo));
             });
-            await getDynamicPricing(dibsStudioId).then((status) => {
-                // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);
-                const { dp } = status;
-                // console.log(`dp is: ${dp.hasDynamicPricing}`);
-                // setDp(dp.hasDynamicPricing);
-                dispatch(setDynamicPricing(dp.hasDynamicPricing));
-            });
-            await getFlashCredits(dibsStudioId).then((status) => {
-                const { fc } = status;
-                // setFlashCredits(fc);
-                dispatch(setFlashCreditsStore(fc));
-                // dispatch(setClasspass(dynamicpricingtosend));
-            });
-            await getMinMaxpricing(dibsStudioId).then((status) => {
-                const { statustosend } = status;
-                const { min, max } = statustosend;
-                setMinP(min);
-                setMaxP(max);
-                const prices = {
-                    minPrice: min,
-                    maxPrice: max
-                };
-                dispatch(setGlobalPrices(prices));
-            });
-            await GetGeneralLocationData(dibsStudioId).then((status) => {
-                dispatch(
-                    setGeneralLocationData({
-                        serviceEmail: status[0].customer_service_email,
-                        servicePhone: status[0].customer_service_phone,
-                        address: status[0].address,
-                        address2: status[0].address2,
-                        city: status[0].city,
-                        state: status[0].state,
-                        zipcode: status[0].zipcode,
-                        salesTax: status[0].tax_rate,
-                        retailTax: status[0].retail_tax_rate
-                    })
-                );
-            });
         };
-        getSettings();
+        getAccountInfo();
     }, [dibsStudioId, dispatch]);
 
     return (
@@ -206,6 +153,9 @@ export default function SettingsTabs() {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <BillingInformationPage />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <CreateAccountsPage />
             </TabPanel>
         </>
     );

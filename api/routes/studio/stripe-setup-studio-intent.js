@@ -10,10 +10,10 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
 
 async function setupStripeStudioIntent(req, res) {
     try {
-        const { dibsStudioId, stripeid, billingContact, billingEmail } = req.body;
+        const { dibsStudioId, stripeidValue, billingContact, billingEmail } = req.body;
         let stripeidtouse;
-        if (stripeid) {
-            stripeidtouse = stripeid;
+        if (stripeidValue) {
+            stripeidtouse = stripeidValue;
             console.log(`\n\nthere is a stripe id`);
         } else {
             console.log(`\n\nthere is NOT a stripe id`);

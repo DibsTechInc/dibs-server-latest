@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // import React from 'react';
 // import ReactDOM from 'react-dom';
 import axios from 'axios';
@@ -6,16 +7,20 @@ import { loadStripe } from '@stripe/stripe-js';
 import { useState, useEffect } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 import { Grid, Typography, Button } from '@mui/material';
-import { useSelector } from 'store';
+import { useSelector, useDispatch } from 'store';
+import { setIsEditingCreditCardRedux, setNeedToGetCardInfoFromStripeRedux } from 'store/slices/actionstatus';
 
 import './stripe.css';
 
 import StudioCheckoutForm from './StudioCheckoutForm';
 
 const StudioPaymentForm = (props) => {
+    const dispatch = useDispatch();
     const { stripeid, billingContact, billingEmail } = props;
     const { config } = useSelector((state) => state.dibsstudio);
+    const { isEditingCreditCardViaStripe, needToGetCardInfoFromStripe } = useSelector((state) => state.actionstatus);
     const { dibsStudioId } = config;
+    const [getCardInfoAgain, setGetCardInfoAgain] = useState(needToGetCardInfoFromStripe);
     const [publishableKey, setPublishableKey] = useState('');
     const [hasPaymentMethod, setHasPaymentMethod] = useState(false);
     const [lastFour, setLastFour] = useState('');
@@ -29,14 +34,15 @@ const StudioPaymentForm = (props) => {
     const [doneLoadingPaymentMethods, setDoneLoadingPaymentMethods] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [stripePromise, setStripePromise] = useState(null);
-    const appearance = {
-        theme: 'stripe'
-    };
-    const options = {
-        clientSecret,
-        appearance
-    };
+    // const appearance = {
+    //     theme: 'stripe'
+    // };
+    // const options = {
+    //     clientSecret,
+    //     appearance
+    // };
     useEffect(() => {
+        if (needToGetCardInfoFromStripe) setGetCardInfoAgain(true);
         const getKey = async () => {
             await axios.post('api/get-stripe-publishable-key').then((res) => {
                 setPublishableKey(res.data.stripePublishableKey);
@@ -47,16 +53,14 @@ const StudioPaymentForm = (props) => {
             setStripePromiseLoaded(true);
         };
         const getClientSecret = async () => {
-            console.log(`inside of getClientSecret`);
             await axios
                 .post('/api/stripe-setup-studio-intent', {
                     dibsStudioId,
-                    stripeid,
+                    stripeidValue,
                     billingContact,
                     billingEmail
                 })
                 .then((response) => {
-                    console.log(`response from getting client secret is: ${JSON.stringify(response.data)}`);
                     setClientSecret(response.data.stripeIntent);
                     setStripeidValue(response.data.stripeId);
                     setDoneGettingClientSecret(true);
@@ -78,6 +82,8 @@ const StudioPaymentForm = (props) => {
                             setExpMonth(exp_month);
                             setExpYear(exp_year);
                             setDoneLoadingPaymentMethods(true);
+                            setGetCardInfoAgain(false);
+                            dispatch(setNeedToGetCardInfoFromStripeRedux(false));
                         }
                     } else {
                         setHasPaymentMethod(false);
@@ -86,21 +92,26 @@ const StudioPaymentForm = (props) => {
         };
         if (publishableKey === '') getKey();
         if (publishableKey !== '' && !stripePromiseLoaded) loadStripePromise();
-        if (stripeid && !doneLoadingPaymentMethods) getPaymentMethods();
-        console.log(`isupdatingcreditcard: ${isUpdatingCreditCard}`);
+        if (stripeidValue && !doneLoadingPaymentMethods) getPaymentMethods();
+        if (getCardInfoAgain) getPaymentMethods();
         if (isUpdatingCreditCard) getClientSecret();
     }, [
-        publishableKey,
         stripeid,
+        publishableKey,
+        stripeidValue,
         isUpdatingCreditCard,
         dibsStudioId,
         billingContact,
         billingEmail,
         doneLoadingPaymentMethods,
-        stripePromiseLoaded
+        stripePromiseLoaded,
+        getCardInfoAgain,
+        needToGetCardInfoFromStripe,
+        dispatch
     ]);
     const handleEditCreditCardClick = () => {
         setIsUpdatingCreditCard(true);
+        dispatch(setIsEditingCreditCardRedux(true));
     };
     if (!doneLoadingPaymentMethods) {
         return (
@@ -111,13 +122,13 @@ const StudioPaymentForm = (props) => {
             </Grid>
         );
     }
-    if (hasPaymentMethod && !isUpdatingCreditCard) {
+    if ((hasPaymentMethod && !isUpdatingCreditCard) || !isEditingCreditCardViaStripe) {
         const cc = `XXXX-XXXX-XXXX-${lastFour}`;
         const exp = `${expMonth}/${expYear}`;
         return (
             <Grid container sx={{ mt: 4 }}>
                 <Grid item xs={7}>
-                    <Grid item xs={12} sx={{ mt: 4 }}>
+                    <Grid item xs={12} sx={{ mt: 2 }}>
                         <Grid container sx={{ mb: 3, mt: 1 }}>
                             <Grid item xs={11}>
                                 <Typography variant="h5">Credit Card Information</Typography>
@@ -143,9 +154,9 @@ const StudioPaymentForm = (props) => {
     }
     if (isUpdatingCreditCard && doneGettingClientSecret) {
         return (
-            <Elements id="stripe-checkout" options={options} stripe={stripePromise}>
+            <Elements id="stripe-checkout" stripe={stripePromise}>
                 <StudioCheckoutForm
-                    stripeid={stripeid}
+                    stripeid={stripeidValue}
                     clientSecret={clientSecret}
                     billingContact={billingContact}
                     billingEmail={billingEmail}

@@ -17,6 +17,7 @@ import kanbanReducer from './slices/kanban';
 import menuReducer from './slices/menu';
 import dashboardReducer from './slices/dashboard';
 import dibsstudioReducer from './slices/dibsstudio';
+import actionstatusReducer from './slices/actionstatus';
 import currentclientReducer from './slices/currentclient';
 import clientsearchReducer from './slices/clientsearch';
 import retailReducer from './slices/retail';
@@ -30,6 +31,7 @@ const reducer = combineReducers({
     // dashboard: dashboardReducer,
     dashboard: persistReducer({ key: 'dibsdashboard', storage, keyPrefix: 'dibsdashboard-' }, dashboardReducer),
     currentclient: currentclientReducer,
+    actionstatus: actionstatusReducer,
     calendar: calendarReducer,
     retail: retailReducer,
     // clientsearch: clientsearchReducer,
