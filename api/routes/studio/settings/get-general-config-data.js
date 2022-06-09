@@ -33,12 +33,29 @@ async function getGeneralConfigData(req, res) {
                 id: dibsStudioId
             }
         });
+        const paymentInfo = await models.dibs_studio.findOne({
+            attributes: [
+                'stripe_account_id',
+                'stripeid',
+                'stripe_cardid',
+                'subscription_fee',
+                'total_monthly_charge',
+                'date_of_charge',
+                'cp_amount',
+                'billing_contact',
+                'billing_email'
+            ],
+            where: {
+                id: dibsStudioId
+            }
+        });
         console.log(`\n\n\n\ngeneralconfigdata is: ${JSON.stringify(studioconfigdata)}`);
         res.json({
             msg: 'success',
             studioconfigdata,
             imageUrls,
-            cancelTime: cancelTime.cancel_time
+            cancelTime: cancelTime.cancel_time,
+            paymentInfo
         });
     } catch (err) {
         console.log(`error in getGeneralConfigData api call: ${err}`);

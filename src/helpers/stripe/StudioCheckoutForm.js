@@ -4,44 +4,63 @@ import propTypes from 'prop-types';
 // import { loadStripe } from '@stripe/stripe-js';
 import { useState, useEffect } from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-
+import { useSelector, useDispatch } from 'store';
 import './stripe.css';
 
-const CheckoutForm = (props) => {
+const StudioCheckoutForm = (props) => {
     const stripe = useStripe();
     const elements = useElements();
-    const { clientSecret, setCardValueChanged, addSpace } = props;
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    const { addSpace, clientSecret, billingContact, billingEmail, stripeid } = props;
     const [message, setMessage] = useState(null);
+    // const [clientSecretValue, setClientSecretValue] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [buttonnote, setButtonNote] = useState(`Add card to client's account`);
+    const [buttonnote, setButtonNote] = useState(`Add Card`);
     const [processing, setProcessing] = useState(false);
     const [successfulIntent, setSuccessfulIntent] = useState(false);
-    // const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN');
-
+    const [alreadyStarted, setAlreadyStarted] = useState(false);
     useEffect(() => {
-        if (!stripe) return;
-        // const clientSecret = new URLSearchParams(window.location.search).get('payment_intent_client_secret');
-        if (!clientSecret) {
-            return;
-        }
-        console.log(`inside of useEffect of the checkout form`);
-        stripe.retrieveSetupIntent(clientSecret).then(({ setupIntent }) => {
-            switch (setupIntent.status) {
-                case 'succeeded':
-                    setMessage(`Card info has been saved.`);
-                    break;
-                case 'processing':
-                    setMessage('Your payment is processing.');
-                    break;
-                case 'requires_payment_method':
-                    setMessage('');
-                    break;
-                default:
-                    setMessage('Something went wrong.');
-                    break;
-            }
-        });
-    }, [clientSecret, stripe]);
+        console.log(`inside of useEffect of the studio checkout form`);
+        // const createClientSecret = async () => {
+        //     await axios
+        //         .post('/api/stripe-setup-intent', {
+        //             dibsStudioId,
+        //             billingEmail,
+        //             billingContact,
+        //             stripeid
+        //         })
+        //         .then((response) => {
+        //             console.log(`response from setting up intent is: ${JSON.stringify(response.data)}`);
+        //             // setClientSecret(response.data.stripeIntent);
+        //             // setStripeid(response.data.stripeId);
+        //             // setDoneGettingClientSecret(true);
+        //         });
+        // };
+        // const getSetupIntent = async () => {
+        //     setAlreadyStarted(true);
+        //     stripe.retrieveSetupIntent(clientSecret).then(({ setupIntent }) => {
+        //         switch (setupIntent.status) {
+        //             case 'succeeded':
+        //                 setMessage(`Card info has been saved.`);
+        //                 break;
+        //             case 'processing':
+        //                 setMessage('Your payment is processing.');
+        //                 break;
+        //             case 'requires_payment_method':
+        //                 setMessage('');
+        //                 break;
+        //             default:
+        //                 setMessage('Something went wrong.');
+        //                 break;
+        //         }
+        //     });
+        // };
+        // if (message === 'null' && !alreadyStarted) {
+        //     getSetupIntent();
+        // }
+        // createClientSecret();
+    }, []);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -66,7 +85,7 @@ const CheckoutForm = (props) => {
                         setSuccessfulIntent(true);
                         setButtonNote('Edit card');
                         setProcessing(false);
-                        setCardValueChanged(true);
+                        // setCardValueChanged(true);
                     }
                 }
             });
@@ -116,10 +135,11 @@ const CheckoutForm = (props) => {
         </form>
     );
 };
-CheckoutForm.propTypes = {
-    clientSecret: propTypes.string,
-    setCardValueChanged: propTypes.func,
-    addSpace: propTypes.bool
+StudioCheckoutForm.propTypes = {
+    stripeid: propTypes.string,
+    addSpace: propTypes.bool,
+    billingContact: propTypes.string,
+    billingEmail: propTypes.string
 };
 
-export default CheckoutForm;
+export default StudioCheckoutForm;

@@ -36,7 +36,15 @@ const initialState = {
             hero_url: ''
         },
         salesTax: 0,
-        retailTax: 0
+        retailTax: 0,
+        billing: {
+            stripe_account_id: '',
+            stripeid: '',
+            stripe_cardid: '',
+            subscription_fee: '',
+            total_monthly_charge: '',
+            date_of_charge: ''
+        }
     },
     customerService: {
         customerServiceEmail: '',
@@ -52,7 +60,8 @@ const initialState = {
     },
     integrations: {
         classpass: false,
-        gymPass: false
+        gymPass: false,
+        cp_amount: 0
     }
 };
 
@@ -89,6 +98,9 @@ const dibsstudio = createSlice({
             state.config.lastName = action.payload.lastName;
             state.config.email = action.payload.email;
             state.config.phone = action.payload.phone;
+        },
+        setPaymentInfo(state, action) {
+            state.studioConfig.billing = action.payload;
         },
         setGeneralLocationData(state, action) {
             state.customerService.customerServiceEmail = action.payload.serviceEmail;
@@ -149,7 +161,8 @@ export const {
     setRafAwardRedux,
     setStudioCancelTime,
     setTaxesRedux,
-    setStudioProfileAccountInfo
+    setStudioProfileAccountInfo,
+    setPaymentInfo
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

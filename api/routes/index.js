@@ -8,7 +8,9 @@ const findOrCreateStripeCustomer = require('./studio/find-or-create-stripe-custo
 const getClientSearchResults = require('./studio/get-client-search-results');
 const getClientInfo = require('./studio/get-client-info');
 const stripeSetupIntent = require('./studio/stripe-setup-intent');
+const stripeStudioSetupIntent = require('./studio/stripe-setup-studio-intent');
 const stripeGetPaymentMethods = require('./studio/stripe-get-payment-methods');
+const stripeGetStudioPaymentMethods = require('./studio/stripe-get-studio-payment-methods');
 const updateClientInfo = require('./studio/update-client-info');
 const getNumberVisits = require('./studio/get-number-visits');
 const getUpcomingClasses = require('./studio/get-client-upcoming-classes');
@@ -36,7 +38,8 @@ const updateRafAward = require('./studio/settings/update-raf-award');
 const updateCancelTime = require('./studio/settings/update-cancel-time');
 const updateTaxRates = require('./studio/settings/update-tax-rate-data');
 const updateStudioProfileAccount = require('./studio/account-profile/update-profile-account');
-// const stripeSetUpIntentMoreCards = require('./studio/stripe-setup-intent-more-cards');
+const getStripePublishableKey = require('./studio/get-stripe-publishable-key');
+const updateBillingContact = require('./studio/account-profile/update-billing-contact');
 
 const router = express();
 
@@ -48,7 +51,10 @@ router.post('/find-or-create-stripe-customer', findOrCreateStripeCustomer);
 router.post('/get-client-search-results', getClientSearchResults);
 router.post('/get-client-info', getClientInfo);
 router.post('/stripe-setup-intent', stripeSetupIntent);
+router.post('/stripe-setup-studio-intent', stripeStudioSetupIntent);
 router.post('/stripe-get-payment-methods', stripeGetPaymentMethods);
+router.post('/stripe-get-studio-payment-methods', stripeGetStudioPaymentMethods);
+router.post('/get-stripe-publishable-key', getStripePublishableKey);
 router.post('/update-client-info', updateClientInfo);
 router.post('/get-number-visits', getNumberVisits);
 router.post('/get-upcoming-classes', getUpcomingClasses);
@@ -76,6 +82,7 @@ router.post('/studio/settings/update-raf-award', updateRafAward);
 router.post('/studio/settings/update-cancel-time', updateCancelTime);
 router.post('/studio/settings/update-tax-rates', updateTaxRates);
 router.post('/studio/account/update-profile', updateStudioProfileAccount);
+router.post('/studio/account/update-billing-contact', updateBillingContact);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

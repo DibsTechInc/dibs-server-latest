@@ -9,9 +9,9 @@ import { Box, Tab, Tabs } from '@mui/material';
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+// import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 // import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
-import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
+// import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 // import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 // import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
@@ -36,9 +36,7 @@ import {
     setGlobalPrices,
     setGeneralLocationData,
     setCustomEmailToSendFrom,
-    setStudioConfigData,
-    setStudioImageUrls,
-    setStudioCancelTime
+    setPaymentInfo
 } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -103,9 +101,7 @@ export default function SettingsTabs() {
                 dispatch(setCustomEmailToSendFrom(statustosend.customEmailSentFrom));
             });
             await GetStudioConfigData(dibsStudioId).then((sc) => {
-                dispatch(setStudioConfigData(sc.studioConfigData));
-                dispatch(setStudioImageUrls(sc.imageUrls));
-                dispatch(setStudioCancelTime(sc.cancelTime));
+                dispatch(setPaymentInfo(sc.paymentInfo));
             });
             await getDynamicPricing(dibsStudioId).then((status) => {
                 // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);

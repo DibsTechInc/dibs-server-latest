@@ -6,17 +6,13 @@ import { useState } from 'react';
 import { Elements } from '@stripe/react-stripe-js';
 
 import CheckoutForm from './CheckoutForm';
-// import Payment from 'views/application/e-commerce/Checkout/Payment';
-
-// const stripePromise = loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', {
-//     apiVersion: '2020-08-27'
-// });
 
 const PaymentForm = (props) => {
     // const { clientSecret, dibsCardInfo, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
     const { clientSecret, studioCardInfo, hasPaymentMethod, setCardValueChanged, addSpace } = props;
+    const stripePublishableKey = process.env.STRIPE_PUBLISHABLE_KEY;
     // eslint-disable-next-line no-unused-vars
-    const [stripePromise, setStripePromise] = useState(() => loadStripe('pk_test_7PNwQZV5OJNWDC2wh7RoqePN', { apiVersion: '2020-08-27' }));
+    const [stripePromise, setStripePromise] = useState(() => loadStripe(stripePublishableKey, { apiVersion: '2020-08-27' }));
     const appearance = {
         theme: 'stripe'
     };

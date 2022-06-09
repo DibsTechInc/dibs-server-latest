@@ -12,7 +12,8 @@ export const GetStudioConfigData = async (dibsStudioId) => {
                 msg: 'success',
                 studioConfigData: response.data.studioconfigdata,
                 imageUrls: response.data.imageUrls,
-                cancelTime: response.data.cancelTime
+                cancelTime: response.data.cancelTime,
+                paymentInfo: response.data.paymentInfo
             };
         }
         return { msg: 'failure', error: response.data.error };

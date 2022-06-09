@@ -49,7 +49,7 @@ import PhonelinkRingTwoToneIcon from '@mui/icons-material/PhonelinkRingTwoTone';
 import MailTwoToneIcon from '@mui/icons-material/MailTwoTone';
 import CakeTwoToneIcon from '@mui/icons-material/CakeTwoTone';
 import { useSelector, useDispatch } from 'store';
-import CollectPaymentInfo from '../../../stripe/CardPayments';
+import CollectPaymentInfo from 'helpers/stripe/CardPayments';
 import ErrorMessage from 'ui-component/modals/ErrorMessage';
 
 // actions
@@ -434,8 +434,6 @@ const ClientAccountPage = () => {
                 </SubCard>
                 <Grid item xs={12} sx={{ mt: 1 }}>
                     <SubCard title="Payment Information">
-                        {/* {clientSecret && <CollectPaymentInfo clientSecret={clientSecret} />}
-                        {doneLoading && <CollectPaymentInfo dibsCardInfo={dibsCardInfo} studioCardInfo={studioCardInfo} />} */}
                         {ready && (
                             <CollectPaymentInfo
                                 dibsCardInfo={dibsCardInfo}
