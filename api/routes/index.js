@@ -41,6 +41,7 @@ const updateStudioProfileAccount = require('./studio/account-profile/update-prof
 const getStripePublishableKey = require('./studio/get-stripe-publishable-key');
 const updateBillingContact = require('./studio/account-profile/update-billing-contact');
 const createNewEmployeeAccount = require('./studio/account-profile/create-new-employee-account');
+const getEmployeeAccounts = require('./studio/account-profile/get-employee-accounts');
 
 const router = express();
 
@@ -85,6 +86,7 @@ router.post('/studio/settings/update-tax-rates', updateTaxRates);
 router.post('/studio/account/update-profile', updateStudioProfileAccount);
 router.post('/studio/account/update-billing-contact', updateBillingContact);
 router.post('/studio/account/create-new-employee', createNewEmployeeAccount);
+router.post('/studio/account/get-employee-accounts', getEmployeeAccounts);
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

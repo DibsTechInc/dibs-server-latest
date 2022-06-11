@@ -9,36 +9,18 @@ import { Box, Tab, Tabs } from '@mui/material';
 // assets
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-// import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
-// import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
-// import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-// import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
-// import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
-// import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 
 // Settings subpages mapped to tabs
 import AccountInformationPage from '../SubPages/Account/General';
 import BillingInformationPage from '../SubPages/Account/Billing';
 import CreateAccountsPage from '../SubPages/Account/CreateAccount';
+import ManageAccountsPage from '../SubPages/Account/ManageAccounts';
 
 // actions
-import getIntegrationStatus from 'actions/studios/settings/getIntegrationStatus';
-import getDynamicPricing from 'actions/studios/settings/getDynamicPricingStatus';
 import GetStudioConfigData from 'actions/studios/settings/getStudioConfigData';
-import getFlashCredits from 'actions/studios/settings/getFlashCreditStatus';
-import getMinMaxpricing from 'actions/studios/settings/getMinMaxPricing';
-import GetGeneralLocationData from 'actions/studios/settings/getGeneralLocationData';
-import {
-    setClasspass,
-    setGympass,
-    setDynamicPricing,
-    setFlashCreditsStore,
-    setGlobalPrices,
-    setGeneralLocationData,
-    setCustomEmailToSendFrom,
-    setPaymentInfo
-} from 'store/slices/dibsstudio';
+import { setPaymentInfo } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
 
@@ -78,7 +60,6 @@ export default function SettingsTabs() {
     const theme = useTheme();
     const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
-    // const [flashcredits, setFlashCredits] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -147,6 +128,13 @@ export default function SettingsTabs() {
                     label="Create Accounts"
                     {...a11yProps(0)}
                 />
+                <Tab
+                    component={Link}
+                    to="#"
+                    icon={<ManageAccountsOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Manage Accounts"
+                    {...a11yProps(0)}
+                />
             </Tabs>
             <TabPanel value={value} index={0}>
                 <AccountInformationPage />
@@ -156,6 +144,9 @@ export default function SettingsTabs() {
             </TabPanel>
             <TabPanel value={value} index={2}>
                 <CreateAccountsPage />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+                <ManageAccountsPage />
             </TabPanel>
         </>
     );

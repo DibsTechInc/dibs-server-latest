@@ -13,7 +13,7 @@ async function createNewEmployeeAccount(req, res) {
         if (alreadyhasaccount) {
             res.json({
                 msg: 'failure',
-                error: `A staff account with this email address (${email}) already exists. Edit or disable the account by clicking on the 'View Accounts' tab above.`
+                error: `A staff account with this email address (${email}) already exists. Edit or disable the account by clicking on the 'Manage Accounts' tab above.`
             });
         }
         const employee = await models.studio_employee.createNewEmployee({
