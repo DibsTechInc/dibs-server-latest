@@ -7,7 +7,6 @@ const {
 async function getEmployeeAccounts(req, res) {
     try {
         const { dibsStudioId } = req.body;
-        console.log(`\n\n\n\ndibsStudioId is: ${dibsStudioId}`);
         const activeEmployeeAccounts = await models.studio_employee.findAll({
             attributes: ['id', 'firstName', 'lastName', 'email', 'admin', 'instructor_only', 'phone'],
             where: {
@@ -16,10 +15,10 @@ async function getEmployeeAccounts(req, res) {
             },
             order: [
                 ['admin', 'DESC'],
+                ['id', 'ASC'],
                 ['lastName', 'ASC'],
                 ['firstName', 'ASC'],
-                ['instructor_only', 'DESC'],
-                ['id', 'ASC']
+                ['instructor_only', 'DESC']
             ]
         });
         console.log(`\n\n\n\nactiveEmployeeAccounts is: ${JSON.stringify(activeEmployeeAccounts)}`);

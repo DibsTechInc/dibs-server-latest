@@ -6,7 +6,6 @@ import { useTheme } from '@mui/material/styles';
 import {
     Box,
     CardContent,
-    Checkbox,
     Grid,
     IconButton,
     InputAdornment,
@@ -28,16 +27,12 @@ import { visuallyHidden } from '@mui/utils';
 // project imports
 import Chip from 'ui-component/extended/Chip';
 import MainCard from 'ui-component/cards/MainCard';
-import { useDispatch, useSelector } from 'store';
-import { getCustomers } from 'store/slices/customer';
+import ModalAccountEditor from './ModalAccountEditor';
+import { formatPhone } from 'helpers/general';
 
 // assets
 import DeleteIcon from '@mui/icons-material/Delete';
-import FilterListIcon from '@mui/icons-material/FilterListTwoTone';
-import PrintIcon from '@mui/icons-material/PrintTwoTone';
-import FileCopyIcon from '@mui/icons-material/FileCopyTwoTone';
 import SearchIcon from '@mui/icons-material/Search';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 
 // table sort
@@ -86,10 +81,62 @@ const headCells = [
         align: 'center'
     }
 ];
+// ==============================|| MODAL EDITOR ||============================== //
+
+// const style = {
+//     position: 'absolute',
+//     top: '50%',
+//     left: '50%',
+//     transform: 'translate(-50%, -50%)',
+//     width: 350,
+//     bgcolor: 'background.paper',
+//     border: '2px solid #cedae5',
+//     boxShadow: 24,
+//     p: 3,
+//     borderRadius: '6px'
+// };
+
+// function ModalAccountEditor({ openStatus, employeeId, firstname, lastname, email, instructor, admin, phone }) {
+//     const [open, setOpen] = React.useState(false);
+//     const handleOpen = () => setOpen(true);
+//     const handleClose = () => setOpen(false);
+//     console.log(`modal should be: ${openStatus}`);
+//     console.log(`employeeId: ${employeeId}`);
+//     React.useEffect(() => {
+//         if (openStatus) {
+//             handleOpen();
+//         }
+//     }, [openStatus]);
+
+//     return (
+//         <div>
+//             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+//                 <Box sx={style}>
+//                     <Typography id="modal-modal-title" variant="h6" component="h2">
+//                         Edit Employee Account
+//                     </Typography>
+//                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+//                         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+//                     </Typography>
+//                 </Box>
+//             </Modal>
+//         </div>
+//     );
+// }
+// ModalAccountEditor.propTypes = {
+//     openStatus: PropTypes.bool,
+//     employeeId: PropTypes.number,
+//     firstname: PropTypes.string,
+//     lastname: PropTypes.string,
+//     email: PropTypes.string,
+//     admin: PropTypes.bool,
+//     instructor: PropTypes.bool,
+//     phone: PropTypes.string
+// };
 
 // ==============================|| TABLE HEADER ||============================== //
 
-function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort, selected }) {
+function EnhancedTableHead({ order, orderBy, numSelected, onRequestSort, selected }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -97,17 +144,6 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
     return (
         <TableHead>
             <TableRow>
-                {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                    <Checkbox
-                        color="primary"
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts'
-                        }}
-                    />
-                </TableCell> */}
                 {numSelected > 0 && (
                     <TableCell padding="none" colSpan={6}>
                         <EnhancedTableToolbar numSelected={selected.length} />
@@ -149,10 +185,8 @@ EnhancedTableHead.propTypes = {
     selected: PropTypes.array,
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired
+    orderBy: PropTypes.string.isRequired
 };
 
 // ==============================|| TABLE HEADER TOOLBAR ||============================== //
@@ -196,13 +230,20 @@ EnhancedTableToolbar.propTypes = {
 
 const EmployeeAccountList = (props) => {
     const theme = useTheme();
-    const dispatch = useDispatch();
-    const { list } = props;
+    const { list, setRefreshData } = props;
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
+    const [isEditing, setIsEditing] = React.useState(false);
+    const [rowEditing, setRowEditing] = React.useState(null);
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
+    const [firstNameEditing, setFirstNameEditing] = React.useState('');
+    const [lastNameEditing, setLastNameEditing] = React.useState('');
+    const [emailEditing, setEmailEditing] = React.useState('');
+    const [phoneEditing, setPhoneEditing] = React.useState('');
+    const [instructorEditing, setInstructorEditing] = React.useState(false);
+    const [adminEditing, setAdminEditing] = React.useState(false);
     const [search, setSearch] = React.useState('');
     const [rows, setRows] = React.useState([]);
     React.useEffect(() => {
@@ -210,7 +251,6 @@ const EmployeeAccountList = (props) => {
     }, [list]);
     const handleSearch = (event) => {
         const newString = event?.target.value;
-        console.log(`searching for ${newString}`);
         setSearch(newString || '');
 
         if (newString) {
@@ -221,7 +261,6 @@ const EmployeeAccountList = (props) => {
                 let containsQuery = false;
 
                 properties.forEach((property) => {
-                    console.log(`property is: ${property}`);
                     if (row[property].toString().toLowerCase().includes(newString.toString().toLowerCase())) {
                         containsQuery = true;
                     }
@@ -230,7 +269,6 @@ const EmployeeAccountList = (props) => {
                 if (!containsQuery) {
                     matches = false;
                 }
-                console.log(`matches is: ${matches}`);
                 return matches;
                 // trying to figure out where the search string is happening
             });
@@ -239,7 +277,23 @@ const EmployeeAccountList = (props) => {
             setRows(list);
         }
     };
-
+    const handleEditClick = (event, rowId, fname, lname, email, phone, instructorOnly, admin) => {
+        // console.log(`event target is: ${JSON.stringify(event.target)}`);
+        setRowEditing(rowId);
+        setFirstNameEditing(fname);
+        setLastNameEditing(lname);
+        setSearch('');
+        setEmailEditing(email);
+        setPhoneEditing(phone);
+        setInstructorEditing(instructorOnly);
+        setAdminEditing(admin);
+        setIsEditing(true);
+    };
+    const handleModalClose = () => {
+        setIsEditing(false);
+        setRowEditing(null);
+        setSearch('');
+    };
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
@@ -254,7 +308,6 @@ const EmployeeAccountList = (props) => {
         }
         setSelected([]);
     };
-
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
         let newSelected = [];
@@ -307,6 +360,18 @@ const EmployeeAccountList = (props) => {
                     </Grid>
                 </Grid>
             </CardContent>
+            <ModalAccountEditor
+                openStatus={isEditing}
+                employeeId={rowEditing}
+                firstname={firstNameEditing}
+                lastname={lastNameEditing}
+                email={emailEditing}
+                instructor={instructorEditing}
+                admin={adminEditing}
+                phone={phoneEditing}
+                handleModalClose={handleModalClose}
+                setRefreshData={setRefreshData}
+            />
             {/* table */}
             <TableContainer>
                 <Table sx={{ minWidth: 750, ml: 2 }} aria-labelledby="tableTitle">
@@ -335,7 +400,8 @@ const EmployeeAccountList = (props) => {
                                 } else {
                                     row.accessLevel = 3;
                                 }
-
+                                // console.log(`row is: ${JSON.stringify(row)}`);
+                                const phoneToShow = formatPhone(row.phone);
                                 return (
                                     <TableRow
                                         hover
@@ -345,15 +411,6 @@ const EmployeeAccountList = (props) => {
                                         key={index}
                                         selected={isItemSelected}
                                     >
-                                        {/* <TableCell padding="checkbox" sx={{ pl: 3 }} onClick={(event) => handleClick(event, row.firstName)}>
-                                            <Checkbox
-                                                color="primary"
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId
-                                                }}
-                                            />
-                                        </TableCell> */}
                                         <TableCell
                                             component="th"
                                             id={labelId}
@@ -370,7 +427,7 @@ const EmployeeAccountList = (props) => {
                                             </Typography>
                                             <Typography variant="caption"> {row.email} </Typography>
                                         </TableCell>
-                                        <TableCell align="center">{row.phone || 'Not Provided'}</TableCell>
+                                        <TableCell align="center">{phoneToShow}</TableCell>
                                         <TableCell align="center">
                                             {row.accessLevel === 1 && <Chip label="Manager Access" size="small" chipcolor="success" />}
                                             {row.accessLevel === 2 && (
@@ -378,7 +435,22 @@ const EmployeeAccountList = (props) => {
                                             )}
                                         </TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
-                                            <IconButton color="secondary" size="large">
+                                            <IconButton
+                                                onClick={(e) =>
+                                                    handleEditClick(
+                                                        e,
+                                                        row.id,
+                                                        row.firstName,
+                                                        row.lastName,
+                                                        row.email,
+                                                        row.phone,
+                                                        row.instructor_only,
+                                                        row.admin
+                                                    )
+                                                }
+                                                color="secondary"
+                                                size="large"
+                                            >
                                                 <EditTwoToneIcon sx={{ fontSize: '1.3rem' }} />
                                             </IconButton>
                                         </TableCell>
@@ -412,7 +484,8 @@ const EmployeeAccountList = (props) => {
     );
 };
 EmployeeAccountList.propTypes = {
-    list: PropTypes.array
+    list: PropTypes.array,
+    setRefreshData: PropTypes.func
 };
 
 export default EmployeeAccountList;
