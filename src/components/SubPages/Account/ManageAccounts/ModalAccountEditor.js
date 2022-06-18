@@ -132,7 +132,7 @@ export default function ModalAccountEditor({
             setCheckedManager(true);
             setAllowManagerAccess(true);
         }
-    }, [openStatus, firstname, lastname, email, phoneString, admin]);
+    }, [openStatus, firstname, lastname, email, phoneString, admin, handleClose]);
     const allowManagerAccessLabel = `Allow manager access is ${checkedManager ? 'ON' : 'OFF'}`;
     const deactiveThisAccount = `Deactivate this account`;
     const handleChange = (event) => {

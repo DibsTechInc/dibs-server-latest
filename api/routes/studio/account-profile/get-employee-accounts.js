@@ -21,17 +21,25 @@ async function getEmployeeAccounts(req, res) {
                 ['instructor_only', 'DESC']
             ]
         });
-        console.log(`\n\n\n\nactiveEmployeeAccounts is: ${JSON.stringify(activeEmployeeAccounts)}`);
+        console.log(`\n\n\n\ndibsStudioId for inactive employee accounts: ${dibsStudioId}`);
         const inactiveEmployeeAccounts = await models.studio_employee.findAll({
-            attributes: ['id', 'firstName', 'lastName', 'email', 'admin', 'instructor_only', 'phone'],
+            attributes: ['id', 'firstName', 'lastName', 'email', 'admin', 'instructor_only', 'phone', 'deletedAt'],
             where: {
                 dibs_studio_id: dibsStudioId,
                 deletedAt: {
                     [Op.ne]: null
                 }
-            }
+            },
+            order: [
+                ['admin', 'DESC'],
+                ['id', 'ASC'],
+                ['lastName', 'ASC'],
+                ['firstName', 'ASC'],
+                ['instructor_only', 'DESC']
+            ],
+            paranoid: false
         });
-        console.log(`activeEmployeeAccounts is: ${JSON.stringify(activeEmployeeAccounts)}`);
+        console.log(`\n\n\n\ninactiveEmployeeAccounts is: ${JSON.stringify(inactiveEmployeeAccounts)}`);
         res.json({
             msg: 'success',
             activeEmployeeAccounts,

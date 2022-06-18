@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'store';
 import getEmployeeAccounts from 'actions/studios/account/getStudioEmployeeAccounts';
@@ -13,6 +13,7 @@ const ManageAccountsComponent = () => {
     const [refreshData, setRefreshData] = useState(false);
     const [inactiveAccounts, setInactiveAccounts] = useState([]);
     const [doneLoadingAccounts, setDoneLoadingAccounts] = useState(false);
+    const [viewingActiveAccounts, setViewingActiveAccounts] = useState(true);
     useEffect(() => {
         const getAccountInfo = async () => {
             getEmployeeAccounts(dibsStudioId).then((sc) => {
@@ -26,17 +27,30 @@ const ManageAccountsComponent = () => {
         };
         getAccountInfo();
     }, [dibsStudioId, refreshData]);
+    const toggleActiveAccounts = () => {
+        setViewingActiveAccounts(!viewingActiveAccounts);
+    };
+    const accountsToSend = viewingActiveAccounts ? activeAccounts : inactiveAccounts;
+    const guidancetext = viewingActiveAccounts ? 'to see your disabled accounts. ' : 'to go back to your active accounts.';
+    const firstguidancetext = viewingActiveAccounts ? 'If you want to reactivate disabled accounts, ' : '';
     return (
         <Grid container direction="column">
             <Grid item xs={12}>
-                <Typography gutterBottom variant="h6" sx={{ color: theme.palette.text.hint, mt: 1, fontWeight: 400 }}>
-                    Click on a staff account below to manage the account. If you need to re-enable disabled accounts, click here to see all
-                    of your disabled accounts.
+                <Typography gutterBottom variant="h5" sx={{ color: theme.palette.text.hint, mt: 1, fontWeight: 400 }}>
+                    Click on a staff account below to manage the account. {firstguidancetext}
+                    <Button variant="text" onClick={toggleActiveAccounts}>
+                        click here
+                    </Button>{' '}
+                    {guidancetext}
                 </Typography>
             </Grid>
             {doneLoadingAccounts && (
                 <Grid item xs={7} sx={{ mt: 3 }}>
-                    <EmployeeAccountList list={activeAccounts} setRefreshData={setRefreshData} />
+                    <EmployeeAccountList
+                        list={accountsToSend}
+                        viewingActiveAccounts={viewingActiveAccounts}
+                        setRefreshData={setRefreshData}
+                    />
                 </Grid>
             )}
             {!doneLoadingAccounts && (

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
+import moment from 'moment-timezone';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -20,7 +21,8 @@ import {
     TextField,
     Toolbar,
     Tooltip,
-    Typography
+    Typography,
+    Stack
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 
@@ -81,58 +83,6 @@ const headCells = [
         align: 'center'
     }
 ];
-// ==============================|| MODAL EDITOR ||============================== //
-
-// const style = {
-//     position: 'absolute',
-//     top: '50%',
-//     left: '50%',
-//     transform: 'translate(-50%, -50%)',
-//     width: 350,
-//     bgcolor: 'background.paper',
-//     border: '2px solid #cedae5',
-//     boxShadow: 24,
-//     p: 3,
-//     borderRadius: '6px'
-// };
-
-// function ModalAccountEditor({ openStatus, employeeId, firstname, lastname, email, instructor, admin, phone }) {
-//     const [open, setOpen] = React.useState(false);
-//     const handleOpen = () => setOpen(true);
-//     const handleClose = () => setOpen(false);
-//     console.log(`modal should be: ${openStatus}`);
-//     console.log(`employeeId: ${employeeId}`);
-//     React.useEffect(() => {
-//         if (openStatus) {
-//             handleOpen();
-//         }
-//     }, [openStatus]);
-
-//     return (
-//         <div>
-//             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-//                 <Box sx={style}>
-//                     <Typography id="modal-modal-title" variant="h6" component="h2">
-//                         Edit Employee Account
-//                     </Typography>
-//                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-//                         Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-//                     </Typography>
-//                 </Box>
-//             </Modal>
-//         </div>
-//     );
-// }
-// ModalAccountEditor.propTypes = {
-//     openStatus: PropTypes.bool,
-//     employeeId: PropTypes.number,
-//     firstname: PropTypes.string,
-//     lastname: PropTypes.string,
-//     email: PropTypes.string,
-//     admin: PropTypes.bool,
-//     instructor: PropTypes.bool,
-//     phone: PropTypes.string
-// };
 
 // ==============================|| TABLE HEADER ||============================== //
 
@@ -226,11 +176,11 @@ EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired
 };
 
-// ==============================|| CUSTOMER LIST ||============================== //
+// ==============================|| EMPLOYEE ACCOUNT LIST ||============================== //
 
 const EmployeeAccountList = (props) => {
     const theme = useTheme();
-    const { list, setRefreshData } = props;
+    const { list, setRefreshData, viewingActiveAccounts } = props;
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
     const [selected, setSelected] = React.useState([]);
@@ -277,6 +227,7 @@ const EmployeeAccountList = (props) => {
             setRows(list);
         }
     };
+    const titleOfSection = viewingActiveAccounts ? 'Active Employee Accounts' : 'Inactive Employee Accounts';
     const handleEditClick = (event, rowId, fname, lname, email, phone, instructorOnly, admin) => {
         // console.log(`event target is: ${JSON.stringify(event.target)}`);
         setRowEditing(rowId);
@@ -339,7 +290,7 @@ const EmployeeAccountList = (props) => {
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
-        <MainCard title="Active Employee Accounts" content={false}>
+        <MainCard title={titleOfSection} content={false}>
             <CardContent>
                 <Grid container justifyContent="space-between" alignItems="center" spacing={2}>
                     <Grid item xs={12} sm={6} sx={{ mt: 2, ml: 1, mb: 2 }}>
@@ -400,8 +351,14 @@ const EmployeeAccountList = (props) => {
                                 } else {
                                     row.accessLevel = 3;
                                 }
+                                if (row.lastName === null) {
+                                    row.lastName = '';
+                                }
                                 // console.log(`row is: ${JSON.stringify(row)}`);
                                 const phoneToShow = formatPhone(row.phone);
+                                const momentDeleted = moment(row.deleted_at).format('MM/DD/YYYY');
+                                const deletedText = viewingActiveAccounts ? '' : `Deactivated on: ${momentDeleted}`;
+                                const chipcolortoshow = viewingActiveAccounts ? 'success' : 'successDeactivated';
                                 return (
                                     <TableRow
                                         hover
@@ -418,18 +375,23 @@ const EmployeeAccountList = (props) => {
                                             onClick={(event) => handleClick(event, row.firstName)}
                                             sx={{ cursor: 'pointer' }}
                                         >
-                                            <Typography
-                                                variant="subtitle1"
-                                                sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
-                                            >
-                                                {' '}
-                                                {`${row.firstName} ${row.lastName}`}{' '}
-                                            </Typography>
-                                            <Typography variant="caption"> {row.email} </Typography>
+                                            <Stack>
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
+                                                >
+                                                    {' '}
+                                                    {`${row.firstName} ${row.lastName}`}{' '}
+                                                </Typography>
+                                                <Typography variant="caption"> {row.email} </Typography>
+                                                {!viewingActiveAccounts && <Typography variant="caption"> {deletedText} </Typography>}
+                                            </Stack>
                                         </TableCell>
                                         <TableCell align="center">{phoneToShow}</TableCell>
                                         <TableCell align="center">
-                                            {row.accessLevel === 1 && <Chip label="Manager Access" size="small" chipcolor="success" />}
+                                            {row.accessLevel === 1 && (
+                                                <Chip label="Manager Access" size="small" chipcolor={chipcolortoshow} />
+                                            )}
                                             {row.accessLevel === 2 && (
                                                 <Chip label="Instructor Access Only" size="small" chipcolor="orange" />
                                             )}
@@ -485,7 +447,8 @@ const EmployeeAccountList = (props) => {
 };
 EmployeeAccountList.propTypes = {
     list: PropTypes.array,
-    setRefreshData: PropTypes.func
+    setRefreshData: PropTypes.func,
+    viewingActiveAccounts: PropTypes.bool
 };
 
 export default EmployeeAccountList;
