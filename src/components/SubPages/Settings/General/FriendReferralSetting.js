@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'store';
 import { setRafAwardRedux } from 'store/slices/dibsstudio';
 import { Grid, Typography, Button, TextField } from '@mui/material';
@@ -38,7 +38,16 @@ const FriendReferralSetting = () => {
     const [rafAward, setRafAward] = useState(raf_award);
     const [madeRafAwardBlank, setMadeRafAwardBlank] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
     const studioMessage = `On Dibs, clients get rewarded when they refer friends. You can set the amount of the reward here. The default amount is $5.`;
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const editRafAward = () => {
         setIsEditing(!isEditing);
     };
@@ -75,10 +84,11 @@ const FriendReferralSetting = () => {
                     setErrorMessage('');
                     setIsEditing(false);
                     dispatch(setRafAwardRedux(awardToSend));
-                    setTimeout(() => {
+                    const id = setTimeout(() => {
                         setHasSuccess(false);
                         setSuccessMessage('');
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, id]);
                     setMadeRafAwardBlank(false);
                 } else {
                     setHasError(true);
@@ -86,9 +96,10 @@ const FriendReferralSetting = () => {
                     setMadeRafAwardBlank(false);
                     setHasSuccess(false);
                     setSuccessMessage('');
-                    setTimeout(() => {
+                    const id2 = setTimeout(() => {
                         setHasError(false);
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, id2]);
                 }
                 setMadeRafAwardBlank(false);
             } else {
@@ -96,20 +107,22 @@ const FriendReferralSetting = () => {
                 setHasSuccess(false);
                 setErrorMessage('You must enter an integer (without symbols) as the award amount. Please try again.');
                 setMadeRafAwardBlank(false);
-                setTimeout(() => {
+                const id3 = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, id3]);
                 return null;
             }
         } catch (error) {
             setHasError(true);
             setHasSuccess(false);
             setErrorMessage('You must enter an integer as the award amount. Please try again.');
-            setTimeout(() => {
+            const id4 = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, id4]);
             setMadeRafAwardBlank(false);
             return null;
         }

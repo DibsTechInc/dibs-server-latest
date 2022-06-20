@@ -322,6 +322,7 @@ const EmployeeAccountList = (props) => {
                 phone={phoneEditing}
                 handleModalClose={handleModalClose}
                 setRefreshData={setRefreshData}
+                viewingActiveAccounts={viewingActiveAccounts}
             />
             {/* table */}
             <TableContainer>
@@ -366,13 +367,25 @@ const EmployeeAccountList = (props) => {
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={index}
+                                        onClick={(e) =>
+                                            handleEditClick(
+                                                e,
+                                                row.id,
+                                                row.firstName,
+                                                row.lastName,
+                                                row.email,
+                                                row.phone,
+                                                row.instructor_only,
+                                                row.admin
+                                            )
+                                        }
                                         selected={isItemSelected}
                                     >
                                         <TableCell
                                             component="th"
                                             id={labelId}
                                             scope="row"
-                                            onClick={(event) => handleClick(event, row.firstName)}
+                                            // onClick={(event) => handleClick(event, row.firstName)}
                                             sx={{ cursor: 'pointer' }}
                                         >
                                             <Stack>

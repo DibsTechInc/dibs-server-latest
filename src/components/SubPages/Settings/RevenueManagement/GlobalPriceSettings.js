@@ -41,17 +41,16 @@ const GlobalPriceSettings = () => {
     const [hasError, setHasError] = React.useState(false);
     const [hasSuccessMsg, setHasSuccessMsg] = React.useState(false);
     const [successMsg, setSuccessMsg] = React.useState('');
+    const [timeoutArray, setTimeoutArray] = React.useState([]);
+    React.useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
 
-    // const resetState = () => {
-    //     setIsEditing(false);
-    //     setMinPrice('');
-    //     setMaxPrice('');
-    // };
-    // const toggleEdit = () => {
-    //     setIsEditing({ isEditing: !isEditing }, () => {
-    //         if (!isEditing) resetState();
-    //     });
-    // };
     const handleMinFocus = () => {
         if (!madeMinBlank) {
             setMinPriceFile('$');
@@ -87,10 +86,11 @@ const GlobalPriceSettings = () => {
             setHasError(true);
             setError('Oops! The minimum price must be less than or equal to the maximum price');
             setMadeMinBlank(false);
-            setTimeout(() => {
+            const tid = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid]);
             return 0;
         }
         const res = await updateGlobalPriceSettings(dibsStudioId, minPriceToSend, maxPriceToSend);
@@ -102,16 +102,18 @@ const GlobalPriceSettings = () => {
             dispatch(setGlobalPrices(prices));
             setHasSuccessMsg(true);
             setSuccessMsg('Successfully updated your global price settings.');
-            setTimeout(() => {
+            const tid2 = setTimeout(() => {
                 setHasSuccessMsg(false);
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid2]);
         } else {
             setHasError(true);
             setError(res.error);
             setMadeMinBlank(false);
-            setTimeout(() => {
+            const tid3 = setTimeout(() => {
                 setHasError(false);
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid3]);
         }
         return 6;
     };

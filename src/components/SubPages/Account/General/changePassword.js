@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { Grid, TextField, Button, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
@@ -36,6 +36,15 @@ const ChangePassword = () => {
     const [passwordOld, setPasswordOld] = useState('******');
     const [madePasswordBlank, setMadePasswordBlank] = useState(false);
     const newPassword = password;
+    const [timeoutArray, setTimeoutArray] = useState([]);
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const reauthenticateUser = async (pwd) => {
         const credential = EmailAuthProvider.credential(email, pwd);
         await reauthenticateWithCredential(user, credential)
@@ -53,10 +62,11 @@ const ChangePassword = () => {
             console.log('Passwords do not match');
             setHasError(true);
             setErrorMessage('Passwords do not match. Please enter your the passwords again.');
-            setTimeout(() => {
+            const tid = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid]);
             return;
         }
         const authenticated = reauthenticateUser(passwordOld);
@@ -68,10 +78,11 @@ const ChangePassword = () => {
                     setMadePasswordBlank(false);
                     setHasSuccess(true);
                     setSuccessMessage('Password updated successfully.');
-                    setTimeout(() => {
+                    const tid = setTimeout(() => {
                         setHasSuccess(false);
                         setSuccessMessage('');
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, tid]);
                 })
                 .catch((error) => {
                     console.log(`error setting password: ${error}`);
@@ -79,10 +90,11 @@ const ChangePassword = () => {
                     setErrorMessage(
                         `There was an error updating your password. Did you enter your old password before pressing submit? Error: ${error} Contact studios@ondibs.com if you continue to have problems.`
                     );
-                    setTimeout(() => {
+                    const tidnext = setTimeout(() => {
                         setHasError(false);
                         setErrorMessage('');
                     }, 12000);
+                    setTimeoutArray([...timeoutArray, tidnext]);
                 });
         }
     };

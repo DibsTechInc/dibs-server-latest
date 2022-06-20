@@ -42,8 +42,17 @@ const CustomerServiceSettings = () => {
     const [madeEmailBlank, setMadeEmailBlank] = React.useState(false);
     const [madePhoneBlank, setMadePhoneBlank] = React.useState(false);
     const number = phoneUtil.parseAndKeepRawInput(customerServicePhone, 'US');
+    const [timeoutArray, setTimeoutArray] = React.useState([]);
     const labelphone = phoneUtil.format(number, PNF.NATIONAL);
     const [phone, setPhone] = React.useState(labelphone);
+    React.useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
 
     const handleEdit = () => {
         setIsEditing(!isEditing);
@@ -86,10 +95,11 @@ const CustomerServiceSettings = () => {
             setHasError(true);
             setMadeEmailBlank(false);
             setEmail(customerServiceEmail);
-            setTimeout(() => {
+            const tid = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid]);
             return null;
         }
         const testnumber = phone.replace(/\D/g, '');
@@ -106,20 +116,22 @@ const CustomerServiceSettings = () => {
             setMadePhoneBlank(false);
             setPhone(labelphone);
             // setPhoneAsNumber(customerServicePhone);
-            setTimeout(() => {
+            const tid = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid]);
         }
         if (!validphone) {
             setError(`The phone number you entered doesn't seem to be valid. Can you try again?`);
             setHasError(true);
             setMadePhoneBlank(false);
             setPhone(labelphone);
-            setTimeout(() => {
+            const tid = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid]);
             return null;
         }
         const res = await updateGeneralLocationSettings(dibsStudioId, email, testnumber);
@@ -130,20 +142,22 @@ const CustomerServiceSettings = () => {
             const formatnumber = phoneUtil.parseAndKeepRawInput(testnumber, 'US');
             const postSuccessNumber = phoneUtil.format(formatnumber, PNF.NATIONAL);
             setPhone(postSuccessNumber);
-            setTimeout(() => {
+            const tid2 = setTimeout(() => {
                 setHasSuccessMsg(false);
                 setSuccessMsg('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid2]);
             const ld = { serviceEmail: email, servicePhone: testnumber };
             dispatch(setGeneralLocationData(ld));
         } else {
             setError(res.error);
             setMadePhoneBlank(false);
             setMadeEmailBlank(false);
-            setTimeout(() => {
+            const tid3 = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid3]);
         }
         // setIsEditing(false);
         return null;

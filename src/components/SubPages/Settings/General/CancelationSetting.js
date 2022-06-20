@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'store';
 import { setStudioCancelTime } from 'store/slices/dibsstudio';
 import { Grid, Typography, Button, TextField } from '@mui/material';
@@ -38,7 +38,16 @@ const CancelationSetting = () => {
     const [cancelTimePage, setCancelTimePage] = useState(cancelTime);
     const [madeCancelTimeBlank, setMadeCancelTimeBlank] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
     const studioMessage = `Set the cancelation window here. If a client cancels outside of the cancelation window, they will not be penalized. The default cancelation window is 12 hours.`;
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const editAmount = () => {
         setIsEditing(!isEditing);
     };
@@ -74,10 +83,11 @@ const CancelationSetting = () => {
                     setErrorMessage('');
                     setIsEditing(false);
                     dispatch(setStudioCancelTime(timeToSend));
-                    setTimeout(() => {
+                    const id = setTimeout(() => {
                         setHasSuccess(false);
                         setSuccessMessage('');
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, id]);
                     setMadeCancelTimeBlank(false);
                 } else {
                     setHasError(true);
@@ -85,9 +95,10 @@ const CancelationSetting = () => {
                     setMadeCancelTimeBlank(false);
                     setHasSuccess(false);
                     setSuccessMessage('');
-                    setTimeout(() => {
+                    const tid = setTimeout(() => {
                         setHasError(false);
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, tid]);
                 }
                 setMadeCancelTimeBlank(false);
             } else {
@@ -95,20 +106,22 @@ const CancelationSetting = () => {
                 setHasSuccess(false);
                 setErrorMessage('You must enter an integer as the number of hours for the cancelation window. Please try again.');
                 setMadeCancelTimeBlank(false);
-                setTimeout(() => {
+                const tid2 = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid2]);
                 return null;
             }
         } catch (error) {
             setHasError(true);
             setHasSuccess(false);
             setErrorMessage('You must enter an integer as the award amount. Please try again.');
-            setTimeout(() => {
+            const tid4 = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid4]);
             setMadeCancelTimeBlank(false);
             return null;
         }

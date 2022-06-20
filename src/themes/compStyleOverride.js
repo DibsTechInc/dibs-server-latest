@@ -36,21 +36,21 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                     '&.Mui-disabled': {
                         color: '#fff000'
                     }
-                },
-                text: {
-                    fontWeight: 500,
-                    backgroundColor: 'transparent',
-                    fontSize: '1rem',
-                    color: theme.palette.secondary.main,
-                    marginLeft: '0px',
-                    marginRight: '0px',
-                    paddingLeft: '2px',
-                    paddingRight: '2px',
-                    marginBottom: 1.1,
-                    '&:hover': {
-                        backgroundColor: '#ccc'
-                    }
                 }
+                // text: {
+                //     fontWeight: 500,
+                //     backgroundColor: 'transparent',
+                //     fontSize: '1rem',
+                //     color: theme.palette.secondary.main,
+                //     marginLeft: '0px',
+                //     marginRight: '0px',
+                //     paddingLeft: '2px',
+                //     paddingRight: '2px',
+                //     marginBottom: 1.1,
+                //     '&:hover': {
+                //         backgroundColor: '#ccc'
+                //     }
+                // }
             }
         },
         MuiPaper: {

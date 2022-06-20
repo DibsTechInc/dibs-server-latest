@@ -31,16 +31,34 @@ const ManageAccountsComponent = () => {
         setViewingActiveAccounts(!viewingActiveAccounts);
     };
     const accountsToSend = viewingActiveAccounts ? activeAccounts : inactiveAccounts;
-    const guidancetext = viewingActiveAccounts ? 'to see your disabled accounts. ' : 'to go back to your active accounts.';
-    const firstguidancetext = viewingActiveAccounts ? 'If you want to reactivate disabled accounts, ' : '';
+    const guidancetext = viewingActiveAccounts ? 'to see your disabled accounts.' : 'to go back to your active accounts.';
+    const firstguidancetext = viewingActiveAccounts
+        ? 'If you want to re-activate disabled accounts,'
+        : 'You are viewing disabled accounts.';
     return (
         <Grid container direction="column">
             <Grid item xs={12}>
                 <Typography gutterBottom variant="h5" sx={{ color: theme.palette.text.hint, mt: 1, fontWeight: 400 }}>
                     Click on a staff account below to manage the account. {firstguidancetext}
-                    <Button variant="text" onClick={toggleActiveAccounts}>
+                    <Button
+                        variant="text"
+                        onClick={toggleActiveAccounts}
+                        sx={{
+                            fontWeight: 500,
+                            backgroundColor: 'transparent',
+                            color: theme.palette.secondary.main,
+                            fontSize: '1rem',
+                            ml: 0,
+                            mr: 0,
+                            mb: 0.3,
+                            px: 0.5,
+                            '&:hover': {
+                                backgroundColor: '#ccc'
+                            }
+                        }}
+                    >
                         click here
-                    </Button>{' '}
+                    </Button>
                     {guidancetext}
                 </Typography>
             </Grid>

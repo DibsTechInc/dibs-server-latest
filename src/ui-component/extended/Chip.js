@@ -89,11 +89,11 @@ const Chip = ({ chipcolor, disabled, sx = {}, variant, ...others }) => {
             else
                 defaultSX = {
                     color: theme.palette.mode === 'dark' ? theme.palette.success.light : theme.palette.text.hint,
-                    bgcolor: theme.palette.mode === 'dark' ? theme.palette.success.dark : theme.palette.success.light - 60,
-                    ':hover': {
-                        color: theme.palette.success.light,
-                        bgcolor: theme.palette.mode === 'dark' ? theme.palette.success.dark + 90 : theme.palette.success.dark
-                    }
+                    bgcolor: theme.palette.mode === 'dark' ? theme.palette.success.dark : theme.palette.success.light - 60
+                    // ':hover': {
+                    //     color: theme.palette.success.light,
+                    //     bgcolor: theme.palette.mode === 'dark' ? theme.palette.success.dark + 90 : theme.palette.success.dark
+                    // }
                 };
             break;
         case 'error':

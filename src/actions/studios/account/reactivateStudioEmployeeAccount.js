@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-// ==============================|| DEACTIVATE STUDIO EMPLOYEE ACCOUNT ||============================== //
+// ==============================|| REACTIVATE STUDIO EMPLOYEE ACCOUNT ||============================== //
 
-export const DeactivateStudioEmployeeAccount = async (id) => {
+export const ReactivateStudioEmployeeAccount = async (id) => {
     try {
-        const response = await axios.post('/api/studio/account/deactivate-employee-account', {
+        const response = await axios.post('/api/studio/account/reactivate-employee-account', {
             id
         });
         if (response.data.msg === 'success') {
@@ -17,4 +17,4 @@ export const DeactivateStudioEmployeeAccount = async (id) => {
     return 0;
 };
 
-export default DeactivateStudioEmployeeAccount;
+export default ReactivateStudioEmployeeAccount;

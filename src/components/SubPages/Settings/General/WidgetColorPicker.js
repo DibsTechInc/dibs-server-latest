@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'store';
 import { setStudioColorRedux } from 'store/slices/dibsstudio';
 import { Grid, Typography, Box, Button, TextField } from '@mui/material';
@@ -39,6 +39,7 @@ const WidgetColorPicker = () => {
     const [studioColorHex, setStudioColorHex] = useState(`#${studioColor}`);
     const [isEditingWidgetPicker, setIsEditingWidgetPicker] = useState(false);
     const [abilityTypeColor, setAbilityTypeColor] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
     const studioMessage = `You can customize your widget by choosing an accent color.`;
     const isValidHex = (color) => {
         let acceptableChars = [];
@@ -62,6 +63,14 @@ const WidgetColorPicker = () => {
         setHasError(false);
         setErrorMessage('');
     };
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const handleHexColorChange = (e) => {
         setStudioColorHex(e.target.value);
     };
@@ -80,10 +89,11 @@ const WidgetColorPicker = () => {
         if (!isValid) {
             setHasError(true);
             setErrorMessage(`Your hex color is not valid. Please check the color and try again.`);
-            setTimeout(() => {
+            const timeoutid = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutid]);
             return null;
         }
         const res = await UpdateWidgetColor(dibsStudioId, newHex);
@@ -95,17 +105,19 @@ const WidgetColorPicker = () => {
             setHasError(false);
             setErrorMessage('');
             dispatch(setStudioColorRedux(newHex));
-            setTimeout(() => {
+            const timeoutid = setTimeout(() => {
                 setHasSuccess(true);
                 setSuccessMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutid]);
         } else {
             setErrorMessage(res.error);
             setHasError(true);
-            setTimeout(() => {
+            const timeoutarray = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutarray]);
         }
         return null;
     };

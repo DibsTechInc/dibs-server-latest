@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Grid, Typography, Button, TextField } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import validator from 'email-validator';
@@ -37,7 +37,15 @@ const BillingContactInfo = () => {
     const [billingContact, setBillingContact] = useState(billing_contact);
     const [billingEmail, setBillingEmail] = useState(billing_email);
     const [isEditingBillingContact, setIsEditingBillingContact] = useState(false);
-
+    const [timeoutArray, setTimeoutArray] = useState([]);
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const editBillingContact = () => {
         setIsEditingBillingContact(true);
     };
@@ -59,29 +67,32 @@ const BillingContactInfo = () => {
             setHasError(true);
             setHasSuccess(false);
             setErrorMessage('The email you entered is not valid. Please try again.');
-            setTimeout(() => {
+            const timeoutid = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutid]);
             return null;
         }
         if (billingContact.length < 3) {
             setHasError(true);
             setErrorMessage('Please enter a full name as your billing contact');
-            setTimeout(() => {
+            const timeoutid = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutid]);
             return null;
         }
         await UpdateBillingContact(dibsStudioId, billingContact, billingEmail).then((response) => {
             if (response.msg === 'success') {
                 setHasSuccess(true);
                 setSuccessMessage('Your billing contact information has been updated.');
-                setTimeout(() => {
+                const timeoutid = setTimeout(() => {
                     setHasSuccess(false);
                     setSuccessMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, timeoutid]);
                 setIsEditingBillingContact(false);
                 GetStudioConfigData(dibsStudioId).then((sc) => {
                     dispatch(setPaymentInfo(sc.paymentInfo));
@@ -89,10 +100,11 @@ const BillingContactInfo = () => {
             } else {
                 setHasError(true);
                 setErrorMessage(response.error);
-                setTimeout(() => {
+                const timeoutid = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, timeoutid]);
             }
         });
         return null;

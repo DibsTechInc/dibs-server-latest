@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import validator from 'email-validator';
 import { getAuth, updateEmail } from 'firebase/auth';
 import { Grid, Typography, TextField, Button } from '@mui/material';
@@ -41,6 +41,15 @@ const AccountInfo = () => {
     const [firstNameValue, setFirstNameValue] = useState(firstName);
     const [lastNameValue, setLastNameValue] = useState(lastName);
     const [isEditing, setIsEditing] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     let labelphone = '';
     if (phone && phone.length > 0) {
         const number = phoneUtil.parseAndKeepRawInput(phone, 'US');
@@ -70,10 +79,11 @@ const AccountInfo = () => {
         if (!isValidEmail) {
             setHasError(true);
             setErrorMessage(`The email address you entered doesn't seem to be valid. Can you try again?`);
-            setTimeout(() => {
+            const timeoutid = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, timeoutid]);
             return null;
         }
         if (phoneValue.length > 0) {
@@ -86,20 +96,22 @@ const AccountInfo = () => {
                 setErrorMessage(`The phone number you entered doesn't seem to be valid. Can you try again?`);
                 setHasError(true);
                 setPhoneValue(labelphone);
-                setTimeout(() => {
+                const timeoutid = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, timeoutid]);
                 return null;
             }
             if (!validphone) {
                 setErrorMessage(`The phone number you entered doesn't seem to be valid. Can you try again?`);
                 setHasError(true);
                 setPhoneValue(labelphone);
-                setTimeout(() => {
+                const timeoutid = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, timeoutid]);
                 return null;
             }
         }
@@ -110,10 +122,11 @@ const AccountInfo = () => {
             if (res.msg === 'success') {
                 setHasSuccess(true);
                 setSuccessMessage(`Your account information has been updated.`);
-                setTimeout(() => {
+                const timeoutid = setTimeout(() => {
                     setHasSuccess(false);
                     setSuccessMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, timeoutid]);
                 setIsEditing(false);
                 const datatosend = { email: newemail, firstName: newfirstname, lastName: newlastname, phone: phoneValue };
                 setFirstNameValue(newfirstname);
@@ -131,18 +144,20 @@ const AccountInfo = () => {
                         setErrorMessage(
                             `There was an error updating the authorization credentials associated with your email address. To address this issue, contact studios@ondibs.com and provide error code 66175.`
                         );
-                        setTimeout(() => {
+                        const timeoutId = setTimeout(() => {
                             setHasError(false);
                             setErrorMessage('');
                         }, 7000);
+                        setTimeoutArray([...timeoutArray, timeoutId]);
                     });
             } else {
                 setHasError(true);
                 setErrorMessage(res.error);
-                setTimeout(() => {
+                const tid = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid]);
             }
         });
         return null;

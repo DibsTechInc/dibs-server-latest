@@ -40,13 +40,19 @@ const CustomSendingDomain = () => {
     let guidance = `Confirmation emails are being sent from the ${doesHaveCustom ? 'custom' : ''} email address listed below.`;
     const secondMsg = `Dibs can be configured to send confirmation emails from your own email domain (e.g. no-reply@yourbusiness.com). If you'd like to use your own domain, please contact us at studios@ondibs.com. We'll help you set up the configuration.`;
     if (!doesHaveCustom) guidance += ` ${secondMsg}`;
+    const [timeoutArray, setTimeoutArray] = React.useState([]);
 
     React.useEffect(() => {
         if (customEmailToSendFrom !== null && customEmailToSendFrom.indexOf('ondibs') === -1) {
             setDoesHaveCustom(true);
             setCustomEmail(customEmailToSendFrom);
         }
-    }, [customEmailToSendFrom]);
+        return () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        };
+    }, [customEmailToSendFrom, timeoutArray]);
 
     const handleEdit = () => {
         setIsEditing(!isEditing);
@@ -75,20 +81,22 @@ const CustomSendingDomain = () => {
         if (!isValidEmail) {
             setError(`The email address you entered doesn't seem to be valid. Can you try again?`);
             setHasError(true);
-            setTimeout(() => {
+            const id = setTimeout(() => {
                 setHasError(false);
                 setError('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, id]);
             return null;
         }
         await UpdateSendingDomain(dibsStudioId, customEmail).then((res) => {
             if (res.msg === 'success') {
                 setHasSuccessMsg(true);
                 setSuccessMsg(`Your email address has been updated.`);
-                setTimeout(() => {
+                const id = setTimeout(() => {
                     setHasSuccessMsg(false);
                     setSuccessMsg('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, id]);
                 setIsEditing(false);
                 setHasError(false);
                 setError('');
@@ -96,10 +104,11 @@ const CustomSendingDomain = () => {
             } else {
                 setHasError(true);
                 setError(`There was an error updating your email address. Please try again.`);
-                setTimeout(() => {
+                const tid = setTimeout(() => {
                     setHasError(false);
                     setError('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid]);
             }
         });
         return null;

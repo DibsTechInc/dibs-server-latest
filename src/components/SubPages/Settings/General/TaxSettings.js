@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'store';
 import { setTaxesRedux } from 'store/slices/dibsstudio';
 import { Grid, Typography, Button, TextField } from '@mui/material';
@@ -40,7 +40,16 @@ const CancelationSetting = () => {
     const [madeSalesTaxBlank, setMadeSalesTaxBlank] = useState(false);
     const [madeRetailTaxBlank, setMadeRetailTaxBlank] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
     const studioMessage = `Set your tax rates for sales and retail. Dibs will collect taxes on your behalf and transfer the collected amount to your bank account at the end of each quarter.`;
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const editAmount = () => {
         setIsEditing(!isEditing);
     };
@@ -107,10 +116,11 @@ const CancelationSetting = () => {
                 );
                 setMadeRetailTaxBlank(false);
                 setMadeSalesTaxBlank(false);
-                setTimeout(() => {
+                const tid = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid]);
                 return null;
             }
             if (retailTaxInputNumber > 0 || salesTaxInputNumber > 0) {
@@ -124,10 +134,11 @@ const CancelationSetting = () => {
                     setRetailTaxInput(retailTaxInputNumber);
                     setIsEditing(false);
                     dispatch(setTaxesRedux({ retailTax: retailTaxInputNumber, salesTax: salesTaxInputNumber }));
-                    setTimeout(() => {
+                    const tid2 = setTimeout(() => {
                         setHasSuccess(false);
                         setSuccessMessage('');
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, tid2]);
                     setMadeRetailTaxBlank(false);
                     setMadeSalesTaxBlank(false);
                 } else {
@@ -137,9 +148,10 @@ const CancelationSetting = () => {
                     setMadeSalesTaxBlank(false);
                     setHasSuccess(false);
                     setSuccessMessage('');
-                    setTimeout(() => {
+                    const tid3 = setTimeout(() => {
                         setHasError(false);
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, tid3]);
                 }
                 setMadeRetailTaxBlank(false);
                 setMadeSalesTaxBlank(false);
@@ -149,20 +161,22 @@ const CancelationSetting = () => {
                 setErrorMessage('You must enter a number greater than or equal to zero for the tax rates. Please try again.');
                 setMadeRetailTaxBlank(false);
                 setMadeSalesTaxBlank(false);
-                setTimeout(() => {
+                const tid4 = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid4]);
                 return null;
             }
         } catch (error) {
             setHasError(true);
             setHasSuccess(false);
             setErrorMessage('You must enter a number for the tax rates. Please try again.');
-            setTimeout(() => {
+            const tid5 = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid5]);
             setMadeRetailTaxBlank(false);
             setMadeSalesTaxBlank(false);
             return null;

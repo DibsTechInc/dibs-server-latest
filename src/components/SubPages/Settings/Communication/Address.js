@@ -43,6 +43,7 @@ const Address = () => {
     const [cityValue, setCityValue] = React.useState(city);
     const [stateValue, setStateValue] = React.useState(state);
     const [zipValue, setZipValue] = React.useState(zipcode);
+    const [timeoutArray, setTimeoutArray] = React.useState([]);
     const guidance = `Enter the address for your studio. This information is included in confirmation emails. If you have a virtual studio (i.e. if you only offer online classes), you can leave this section blank.`;
 
     React.useEffect(() => {
@@ -61,7 +62,12 @@ const Address = () => {
         if (zipValue === null) {
             setZipValue('Not entered');
         }
-    }, [addressValue, address2Value, cityValue, stateValue, zipValue]);
+        return () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        };
+    }, [addressValue, address2Value, cityValue, stateValue, zipValue, timeoutArray]);
     console.log(`addressvalue is: ${addressValue}`);
     const handleEdit = () => {
         setIsEditing(!isEditing);
@@ -144,10 +150,11 @@ const Address = () => {
             if (res.msg === 'success') {
                 setHasSuccessMsg(true);
                 setSuccessMsg(`Your studio's address has been updated.`);
-                setTimeout(() => {
+                const tid = setTimeout(() => {
                     setHasSuccessMsg(false);
                     setSuccessMsg('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid]);
                 setIsEditing(false);
                 setHasError(false);
                 setError('');
@@ -155,10 +162,11 @@ const Address = () => {
             } else {
                 setHasError(true);
                 setError(`There was an error updating your studio's address. Please try again.`);
-                setTimeout(() => {
+                const tid2 = setTimeout(() => {
                     setHasError(false);
                     setError('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid2]);
             }
         });
         return null;

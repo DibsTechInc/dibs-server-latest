@@ -12,6 +12,7 @@ import validator from 'email-validator';
 import { validatePhone, formatPhone } from 'helpers/general';
 import UpdateStudioEmployeeAccount from 'actions/studios/account/updateStudioEmployeeAccount';
 import DeactivateStudioEmployeeAccount from 'actions/studios/account/deactivateStudioEmployeeAccount';
+import ReactivateStudioEmployeeAccount from 'actions/studios/account/reactivateStudioEmployeeAccount';
 
 // ==============================|| MODAL EDITOR ||============================== //
 
@@ -81,7 +82,8 @@ export default function ModalAccountEditor({
     admin,
     phone,
     handleModalClose,
-    setRefreshData
+    setRefreshData,
+    viewingActiveAccounts
 }) {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
@@ -99,21 +101,15 @@ export default function ModalAccountEditor({
     const [emailStr, setEmailStr] = React.useState(email);
     const [firstnameStr, setFirstnameStr] = React.useState(firstname);
     const [lastnameStr, setLastnameStr] = React.useState(lastname);
-    const handleClose = () => {
-        setOpen(false);
-        setHasSuccess(false);
-        setHasError(false);
-        setClickedDeactivate(false);
-        setDeactivateAccount(false);
-        handleModalClose();
-    };
+    const [timeoutArray, setTimeoutArray] = React.useState([]);
 
     React.useEffect(() => {
+        console.log('use effect is running');
         if (openStatus) {
             handleOpen();
         }
         if (!openStatus) {
-            handleClose();
+            setOpen(false);
         }
         if (firstname.length > 1) {
             setFirstnameStr(firstname);
@@ -132,7 +128,24 @@ export default function ModalAccountEditor({
             setCheckedManager(true);
             setAllowManagerAccess(true);
         }
-    }, [openStatus, firstname, lastname, email, phoneString, admin, handleClose]);
+        if (!admin) {
+            setCheckedManager(false);
+            setAllowManagerAccess(false);
+        }
+        return () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        };
+    }, [employeeId, openStatus, firstname, lastname, email, phoneString, admin, timeoutArray]);
+    const handleClose = () => {
+        setOpen(false);
+        setHasSuccess(false);
+        setHasError(false);
+        setClickedDeactivate(false);
+        setDeactivateAccount(false);
+        handleModalClose();
+    };
     const allowManagerAccessLabel = `Allow manager access is ${checkedManager ? 'ON' : 'OFF'}`;
     const deactiveThisAccount = `Deactivate this account`;
     const handleChange = (event) => {
@@ -141,12 +154,15 @@ export default function ModalAccountEditor({
     };
     const handleDeactivateChange = (event) => {
         setDeactivateAccount(!deactivateAccount);
-        setTimeout(() => {
+        const tid = setTimeout(() => {
             setClickedDeactivate(!clickedDeactivate);
         }, 700);
+        setTimeoutArray([...timeoutArray, tid]);
     };
     // const managerText = `Managers have access to all areas of the platform including financial data and reporting. If you do not enable manager access, this account will be limited to the 'Front Desk' and 'Class Schedule' sections of the platform.`;
     const handleTextChange = (e) => {
+        console.log(`targetid is: ${e.target.id}`);
+        console.log(`target value is: ${e.target.value}`);
         if (e.target.id === 'phone') setPhoneStr(e.target.value);
         if (e.target.id === 'email') setEmailStr(e.target.value);
         if (e.target.id === 'firstname') setFirstnameStr(e.target.value);
@@ -164,19 +180,21 @@ export default function ModalAccountEditor({
         setHasSuccess(false);
         setErrorMessage(errorMsg);
         setHasError(true);
-        setTimeout(() => {
+        const tid = setTimeout(() => {
             setHasError(false);
             setErrorMessage('');
         }, 10000);
+        setTimeoutArray([...timeoutArray, tid]);
     };
     const handleSuccessProcess = (successMsg) => {
         setHasError(false);
         setSuccessMessage(successMsg);
         setHasSuccess(true);
-        setTimeout(() => {
+        const tid = setTimeout(() => {
             setHasSuccess(false);
             setSuccessMessage('');
         }, 7000);
+        setTimeoutArray([...timeoutArray, tid]);
         clearData();
         handleClose();
     };
@@ -186,6 +204,18 @@ export default function ModalAccountEditor({
     };
     const handleDeactivateSubmit = async () => {
         await DeactivateStudioEmployeeAccount(employeeId).then((res) => {
+            if (res.msg === 'failure') {
+                handleErrorProcess(res.error);
+            }
+            if (res.msg === 'success') {
+                handleSuccessProcess(`Successfully deactivated ${firstnameStr}'s account. You can re-enable it at any time.`);
+                setRefreshData(true);
+            }
+        });
+    };
+    const handleReactivateSubmit = async () => {
+        await ReactivateStudioEmployeeAccount(employeeId).then((res) => {
+            console.log(`response is: ${JSON.stringify(res)}`);
             if (res.msg === 'failure') {
                 handleErrorProcess(res.error);
             }
@@ -221,14 +251,18 @@ export default function ModalAccountEditor({
         });
     };
     const areYouSure = `Are you sure you want to deactivate ${firstnameStr}'s account?`;
+    const reactivateAccountString = `You must enable ${firstnameStr}'s account before you can make edits. Do you want to enable the account now?`;
     const noteToReactive = `You can enable it again at any time by viewing your inactive accounts and clicking 'Reactivate'`;
+    const noteToReactivation = `Once you enable ${firstnameStr}'s account, you will be able to edit account information by clicking the link above to return to 'Active Accounts'.`;
     return (
         <div>
             <Modal open={open} onClose={handleModalClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Edit Employee Account
-                    </Typography>
+                    {!viewingActiveAccounts && (
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Edit Employee Account
+                        </Typography>
+                    )}
                     {hasError && (
                         <Grid item xs={12}>
                             <Typography variant="body1" color="error" sx={{ mb: 2 }}>
@@ -289,7 +323,7 @@ export default function ModalAccountEditor({
                         </Fade>
                     )}
                     {/* end of deactivate account question */}
-                    {!clickedDeactivate && (
+                    {!clickedDeactivate && viewingActiveAccounts && (
                         <Grid container spacing={2}>
                             <Grid item xs={12} sx={{ mt: 2.5 }}>
                                 <CreateAccountTextField
@@ -338,7 +372,7 @@ export default function ModalAccountEditor({
                                     />
                                 </FormGroup>
                             </Grid>
-                            {!clickedDeactivate && (
+                            {!clickedDeactivate && viewingActiveAccounts && (
                                 <>
                                     <Grid container spacing={2} sx={{ mt: 2, ml: 0.1 }}>
                                         <Grid item>
@@ -381,6 +415,48 @@ export default function ModalAccountEditor({
                             )}
                         </Grid>
                     )}
+                    {!viewingActiveAccounts && (
+                        <Grid container>
+                            <Grid item xs={12} sx={{ mt: 2 }}>
+                                <Typography variant="h4" sx={{ color: theme.palette.success.dark }}>
+                                    {reactivateAccountString}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={12} sx={{ mt: 2 }}>
+                                <Typography variant="h7" sx={{ fontStyle: 'italic' }}>
+                                    {noteToReactivation}
+                                </Typography>
+                            </Grid>
+                            <Grid container spacing={2} sx={{ mt: 2 }}>
+                                <Grid item>
+                                    <Button
+                                        onClick={handleCancel}
+                                        sx={{
+                                            bgcolor: theme.palette.globalcolors.cancel,
+                                            '&:hover': {
+                                                backgroundColor: theme.palette.globalcolors.hover
+                                            }
+                                        }}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
+                                <Grid item>
+                                    <Button
+                                        onClick={handleReactivateSubmit}
+                                        sx={{
+                                            bgcolor: theme.palette.globalcolors.submit,
+                                            '&:hover': {
+                                                backgroundColor: theme.palette.globalcolors.hoverSubmit
+                                            }
+                                        }}
+                                    >
+                                        Yes
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    )}
                 </Box>
             </Modal>
         </div>
@@ -395,5 +471,6 @@ ModalAccountEditor.propTypes = {
     admin: PropTypes.bool,
     phone: PropTypes.string,
     handleModalClose: PropTypes.func,
-    setRefreshData: PropTypes.func
+    setRefreshData: PropTypes.func,
+    viewingActiveAccounts: PropTypes.bool
 };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'store';
 import { setNumDaysToShowCalendar } from 'store/slices/dibsstudio';
 import { Grid, Typography, Button, TextField } from '@mui/material';
@@ -38,7 +38,16 @@ const DaysToShowCalendar = () => {
     const [numDays, setNumDays] = useState(interval_end);
     const [madeNumDaysBlank, setMadeNumDaysBlank] = useState(false);
     const [isEditingNumDays, setIsEditingNumDays] = useState(false);
+    const [timeoutArray, setTimeoutArray] = useState([]);
     const studioMessage = `Set the number of days that your clients can book in advance. The default # of days is 14.`;
+    useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     const editNumDays = () => {
         setIsEditingNumDays(!isEditingNumDays);
     };
@@ -74,10 +83,11 @@ const DaysToShowCalendar = () => {
                     setErrorMessage('');
                     setIsEditingNumDays(false);
                     dispatch(setNumDaysToShowCalendar(newInterval));
-                    setTimeout(() => {
+                    const id = setTimeout(() => {
                         setHasSuccess(false);
                         setSuccessMessage('');
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, id]);
                     setMadeNumDaysBlank(false);
                 } else {
                     setHasError(true);
@@ -85,9 +95,10 @@ const DaysToShowCalendar = () => {
                     setMadeNumDaysBlank(false);
                     setHasSuccess(false);
                     setSuccessMessage('');
-                    setTimeout(() => {
+                    const tid = setTimeout(() => {
                         setHasError(false);
                     }, 7000);
+                    setTimeoutArray([...timeoutArray, tid]);
                 }
                 setMadeNumDaysBlank(false);
             } else {
@@ -95,20 +106,22 @@ const DaysToShowCalendar = () => {
                 setHasSuccess(false);
                 setErrorMessage('You must enter an integer as the number of days. Please try again.');
                 setMadeNumDaysBlank(false);
-                setTimeout(() => {
+                const tid1 = setTimeout(() => {
                     setHasError(false);
                     setErrorMessage('');
                 }, 7000);
+                setTimeoutArray([...timeoutArray, tid1]);
                 return null;
             }
         } catch (error) {
             setHasError(true);
             setHasSuccess(false);
             setErrorMessage('You must enter an integer as the number of days. Please try again.');
-            setTimeout(() => {
+            const tid2 = setTimeout(() => {
                 setHasError(false);
                 setErrorMessage('');
             }, 7000);
+            setTimeoutArray([...timeoutArray, tid2]);
             setMadeNumDaysBlank(false);
             return null;
         }

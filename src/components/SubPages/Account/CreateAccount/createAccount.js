@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { Grid, TextField, Typography, Button, Switch, FormGroup, FormControlLabel } from '@mui/material';
 import { styled, useTheme, alpha } from '@mui/material/styles';
@@ -53,6 +53,15 @@ const CreateAccountComponent = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [hasSuccess, setHasSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [timeoutArray, setTimeoutArray] = useState([]);
+    React.useEffect(
+        () => () => {
+            timeoutArray.forEach((timeout) => {
+                clearTimeout(timeout);
+            });
+        },
+        [timeoutArray]
+    );
     // not including instructor account for now because it is not high demand
     const handleChange = (event) => {
         setCheckedManager(event.target.checked);
@@ -70,26 +79,30 @@ const CreateAccountComponent = () => {
         setHasSuccess(false);
         setErrorMessage(errorMsg);
         setHasError(true);
-        setTimeout(() => {
+        const timeoutiderror = setTimeout(() => {
             setHasError(false);
             setErrorMessage('');
         }, 10000);
+        setTimeoutArray([...timeoutArray, timeoutiderror]);
     };
     const handleSuccessProcess = (successMsg) => {
         setHasError(false);
         setSuccessMessage(successMsg);
         setHasSuccess(true);
-        setTimeout(() => {
+        const timeoutid = setTimeout(() => {
             setHasSuccess(false);
             setSuccessMessage('');
         }, 7000);
         clearData();
+        setTimeoutArray([...timeoutArray, timeoutid]);
     };
     const handleTextChange = (e) => {
         if (e.target.id === 'phone') setPhone(e.target.value);
         if (e.target.id === 'email') setEmail(e.target.value);
         if (e.target.id === 'firstname') setFirstName(e.target.value);
         if (e.target.id === 'lastname') setLastName(e.target.value);
+        if (hasError) setHasError(false);
+        if (hasSuccess) setHasSuccess(false);
     };
     const handleSubmit = async () => {
         console.log(`submitting the new employee account`);
@@ -117,11 +130,12 @@ const CreateAccountComponent = () => {
             }
         });
     };
+    const guidancetext = `Fill in the information below to create new accounts for any staff that should have login access. Note, this is only for staff members that need login privileges to your Dibs software. `;
     return (
         <Grid container>
-            <Grid item xs={12}>
+            <Grid item xs={9}>
                 <Typography gutterBottom variant="h6" sx={{ color: theme.palette.text.hint, fontWeight: 400 }}>
-                    Fill in the information below to create new accounts for your employees and staff.
+                    {guidancetext}
                 </Typography>
             </Grid>
             {hasError && (
