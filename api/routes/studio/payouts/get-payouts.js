@@ -33,6 +33,12 @@ module.exports = async function getPayouts(req, res) {
                 await formatPayouts(payout, index);
             })
         ).then(() => {
+            if (infotosendback[0].type === 'StripeInvalidRequestError') {
+                res.json({
+                    msg: 'failure',
+                    error: `We're having some trouble getting payouts data from Stripe. Our team has been notified. If you believe that you're seeing this message in error, please make sure that you're connected to the internet. If the problem continues, please contact us at studios@ondibs.com.`
+                });
+            }
             res.json({
                 msg: 'success',
                 payouts: infotosendback
@@ -41,6 +47,9 @@ module.exports = async function getPayouts(req, res) {
         });
     } catch (err) {
         console.log(err instanceof Error ? err.stack : err);
+        res.json({
+            msg: 'failure'
+        });
         return errorHelper.handleError({
             opsSubject: 'Get Payouts Error',
             employeeid: id,

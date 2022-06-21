@@ -19,14 +19,25 @@ const Payouts = () => {
     const { id, dibsStudioId } = config;
     const [isLoading, setIsLoading] = useState(false);
     const [payoutsData, setPayoutsData] = useState([]);
+    const [error, setError] = useState('');
+    const [hasError, setHasError] = useState(false);
+    const [showNormal, setShowNormal] = useState(true);
     useEffect(() => {
         const getPayouts = async () => {
             setIsLoading(true);
             await GetPayouts(dibsStudioId, id)
                 .then((payments) => {
-                    const { payouts } = payments;
-                    setPayoutsData(payouts);
-                    setIsLoading(false);
+                    if (payments.msg === 'success') {
+                        const { payouts } = payments;
+                        setPayoutsData(payouts);
+                        setIsLoading(false);
+                    } else {
+                        const { error } = payments;
+                        setError(error);
+                        setHasError(true);
+                        setIsLoading(false);
+                        setShowNormal(false);
+                    }
                 })
                 .catch((err) => {
                     console.log(err);
@@ -37,15 +48,21 @@ const Payouts = () => {
     }, [dibsStudioId, id]);
     return (
         <MainCard title="Payouts" sx={{ borderRadius: 2 }}>
-            {isLoading ? (
+            {hasError && (
+                <Grid container spacing={3}>
+                    <Grid item xs={9} sx={{ ml: 2, mt: 2 }}>
+                        <p>{error}</p>
+                    </Grid>
+                </Grid>
+            )}
+            {isLoading && (
                 <Grid container>
                     <Grid item xs={12} sx={{ ml: 2, mt: 2 }}>
                         Loading...
                     </Grid>
                 </Grid>
-            ) : (
-                <PayoutsMainPage listofpayouts={payoutsData} />
             )}
+            {!isLoading && showNormal && <PayoutsMainPage listofpayouts={payoutsData} />}
         </MainCard>
     );
 };
