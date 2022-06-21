@@ -36,14 +36,15 @@ const Calendar = () => {
     const [events, setEvents] = useState([]);
     const calendarState = useSelector((state) => state.calendar);
 
-    useEffect(() => {
-        dispatch(getEvents());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     dispatch(getEvents());
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     useEffect(() => {
+        dispatch(getEvents());
         setEvents(calendarState.events);
-    }, [calendarState]);
+    }, [calendarState, dispatch]);
 
     const [date, setDate] = useState(new Date());
     const [view, setView] = useState(matchSm ? 'listWeek' : 'dayGridMonth');

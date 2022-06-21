@@ -11,6 +11,7 @@ const stripeSetupIntent = require('./studio/stripe-setup-intent');
 const stripeStudioSetupIntent = require('./studio/stripe-setup-studio-intent');
 const stripeGetPaymentMethods = require('./studio/stripe-get-payment-methods');
 const stripeGetStudioPaymentMethods = require('./studio/stripe-get-studio-payment-methods');
+const getFormattedPayouts = require('./studio/payouts/get-payouts');
 const updateClientInfo = require('./studio/update-client-info');
 const getNumberVisits = require('./studio/get-number-visits');
 const getUpcomingClasses = require('./studio/get-client-upcoming-classes');
@@ -45,6 +46,7 @@ const getEmployeeAccounts = require('./studio/account-profile/get-employee-accou
 const updateEmployeeAccount = require('./studio/account-profile/update-employee-account');
 const deactivateEmployeeAccount = require('./studio/account-profile/deactivate-employee-account');
 const reactivateEmployeeAccount = require('./studio/account-profile/reactivate-employee-account');
+const getPayouts = require('./studio/payouts/get-payouts');
 
 const router = express();
 
@@ -59,6 +61,7 @@ router.post('/stripe-setup-intent', stripeSetupIntent);
 router.post('/stripe-setup-studio-intent', stripeStudioSetupIntent);
 router.post('/stripe-get-payment-methods', stripeGetPaymentMethods);
 router.post('/stripe-get-studio-payment-methods', stripeGetStudioPaymentMethods);
+router.post('/studio/get-payouts', getFormattedPayouts);
 router.post('/get-stripe-publishable-key', getStripePublishableKey);
 router.post('/update-client-info', updateClientInfo);
 router.post('/get-number-visits', getNumberVisits);

@@ -215,7 +215,6 @@ export default function ModalAccountEditor({
     };
     const handleReactivateSubmit = async () => {
         await ReactivateStudioEmployeeAccount(employeeId).then((res) => {
-            console.log(`response is: ${JSON.stringify(res)}`);
             if (res.msg === 'failure') {
                 handleErrorProcess(res.error);
             }

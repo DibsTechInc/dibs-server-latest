@@ -188,6 +188,7 @@ const Calendar = () => {
                     Add New Event
                 </Button>
             }
+            sx={{ borderRadius: 2 }}
         >
             <CalendarStyled>
                 <Toolbar

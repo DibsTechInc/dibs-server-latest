@@ -28,7 +28,6 @@ export const updateClientInfo = async (userid, email = null, name = null, phone 
             console.log(`response.data.error = ${response.data.error}`);
             return { error: response.data.error, nameofuser, emailofuser, errorType: 'phone' };
         }
-        console.log(`response is: ${JSON.stringify(response.data)}`);
         return response.data.error;
     } catch (err) {
         console.log(`error update client information: ${err}`);

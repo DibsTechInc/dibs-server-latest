@@ -65,16 +65,16 @@ const studioAdminMenu = {
             url: '/payouts'
         },
         {
-            id: 'settings',
-            title: <FormattedMessage id="settings" />,
-            type: 'item',
-            url: '/settings'
-        },
-        {
             id: 'account',
             title: <FormattedMessage id="account" />,
             type: 'item',
             url: '/account'
+        },
+        {
+            id: 'settings',
+            title: <FormattedMessage id="settings" />,
+            type: 'item',
+            url: '/settings'
         }
     ]
 };

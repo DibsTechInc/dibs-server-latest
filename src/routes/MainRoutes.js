@@ -78,12 +78,12 @@ const MainRoutes = {
             element: <PayoutsPage />
         },
         {
-            path: '/settings',
-            element: <SettingsPage />
-        },
-        {
             path: '/account',
             element: <AccountPage />
+        },
+        {
+            path: '/settings',
+            element: <SettingsPage />
         }
     ]
 };
