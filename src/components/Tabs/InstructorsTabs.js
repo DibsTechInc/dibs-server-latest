@@ -7,18 +7,12 @@ import { useTheme } from '@mui/material/styles';
 import { Box, Tab, Tabs } from '@mui/material';
 
 // assets
-import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-// import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
-import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-// import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
-// import DiscountOutlinedIcon from '@mui/icons-material/DiscountOutlined';
-// import CollectionsBookmarkOutlinedIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 // Reporting subpages mapped to tabs
-import ReportingSalesRevenueSubPage from '../SubPages/Reporting/subpage-reporting-sales-revenue';
+import InstructorsActive from '../SubPages/Instructors';
 import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
-// import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
-// import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -95,8 +89,8 @@ export default function SettingsTabs() {
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<PersonOutlineIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Main Settings"
+                    icon={<EmojiPeopleIcon sx={{ fontSize: '1.5rem', color: theme.palette.chart.light }} />}
+                    label="Active Instructors"
                     sx={{
                         width: '500px'
                     }}
@@ -105,8 +99,8 @@ export default function SettingsTabs() {
                 <Tab
                     component={Link}
                     to="#"
-                    icon={<LibraryBooksOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
-                    label="Email Settings"
+                    icon={<FaceRetouchingOffIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Inactive Instructors"
                     sx={{
                         width: '350px'
                     }}
@@ -114,7 +108,7 @@ export default function SettingsTabs() {
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
-                <ReportingSalesRevenueSubPage />
+                <InstructorsActive />
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <ReportingAttendanceRevenueSubPage />

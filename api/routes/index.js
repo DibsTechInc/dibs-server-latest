@@ -46,7 +46,10 @@ const getEmployeeAccounts = require('./studio/account-profile/get-employee-accou
 const updateEmployeeAccount = require('./studio/account-profile/update-employee-account');
 const deactivateEmployeeAccount = require('./studio/account-profile/deactivate-employee-account');
 const reactivateEmployeeAccount = require('./studio/account-profile/reactivate-employee-account');
-const getPayouts = require('./studio/payouts/get-payouts');
+const getInstructors = require('./studio/instructors/get-instructors-info');
+const deactivateInstructor = require('./studio/instructors/deactivate-instructor');
+const reactivateInstructor = require('./studio/instructors/reactivate-instructor');
+const updateInstructorInfo = require('./studio/instructors/update-instructor-info');
 
 const router = express();
 
@@ -96,6 +99,11 @@ router.post('/studio/account/get-employee-accounts', getEmployeeAccounts);
 router.post('/studio/account/update-employee-account', updateEmployeeAccount);
 router.post('/studio/account/deactivate-employee-account', deactivateEmployeeAccount);
 router.post('/studio/account/reactivate-employee-account', reactivateEmployeeAccount);
+router.post('/studio/instructors/get-instructors', getInstructors);
+router.post('/studio/instructors/activate', reactivateInstructor);
+router.post('/studio/instructors/deactivate', deactivateInstructor);
+router.post('/studio/instructors/update', updateInstructorInfo);
+
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
 module.exports = router;

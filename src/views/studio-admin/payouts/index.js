@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 // material-ui
 import { Grid } from '@mui/material';
 
 // redux
-import { useDispatch, useSelector } from 'store';
+import { useSelector } from 'store';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';

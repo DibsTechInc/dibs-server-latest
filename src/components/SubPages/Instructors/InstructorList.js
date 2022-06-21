@@ -29,7 +29,7 @@ import { visuallyHidden } from '@mui/utils';
 // project imports
 import Chip from 'ui-component/extended/Chip';
 import MainCard from 'ui-component/cards/MainCard';
-import ModalAccountEditor from './ModalAccountEditor';
+import ModalInstructorEditor from './ModalInstructorEditor';
 import { formatPhone } from 'helpers/general';
 
 // assets
@@ -66,11 +66,11 @@ const headCells = [
     {
         id: 'firstName',
         numeric: false,
-        label: 'Employee Name',
+        label: 'Instructor Name',
         align: 'left'
     },
     {
-        id: 'phone',
+        id: 'mobilephone',
         numeric: true,
         label: 'Phone Number',
         align: 'center',
@@ -79,7 +79,7 @@ const headCells = [
     {
         id: 'accessLevel',
         numeric: true,
-        label: 'Access Level',
+        label: 'Login Privileges',
         align: 'center'
     }
 ];
@@ -178,7 +178,7 @@ EnhancedTableToolbar.propTypes = {
 
 // ==============================|| EMPLOYEE ACCOUNT LIST ||============================== //
 
-const EmployeeAccountList = (props) => {
+const InstructorList = (props) => {
     const theme = useTheme();
     const { list, setRefreshData, viewingActiveAccounts } = props;
     const [order, setOrder] = React.useState('asc');
@@ -187,13 +187,16 @@ const EmployeeAccountList = (props) => {
     const [page, setPage] = React.useState(0);
     const [isEditing, setIsEditing] = React.useState(false);
     const [rowEditing, setRowEditing] = React.useState(null);
-    const [rowsPerPage, setRowsPerPage] = React.useState(15);
+    const [canLogin, setCanLogin] = React.useState(false);
+    const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const [firstNameEditing, setFirstNameEditing] = React.useState('');
     const [lastNameEditing, setLastNameEditing] = React.useState('');
     const [emailEditing, setEmailEditing] = React.useState('');
     const [phoneEditing, setPhoneEditing] = React.useState('');
     const [instructorEditing, setInstructorEditing] = React.useState(false);
+    const [loginStatusInstructor, setLoginStatusInstructor] = React.useState(false);
     const [adminEditing, setAdminEditing] = React.useState(false);
+    const [adminStatus, setAdminStatus] = React.useState(false);
     const [search, setSearch] = React.useState('');
     const [rows, setRows] = React.useState([]);
     React.useEffect(() => {
@@ -207,7 +210,7 @@ const EmployeeAccountList = (props) => {
             const newRows = rows.filter((row) => {
                 let matches = true;
 
-                const properties = ['firstName', 'lastName', 'email'];
+                const properties = ['firstname', 'lastname', 'email'];
                 let containsQuery = false;
 
                 properties.forEach((property) => {
@@ -227,17 +230,18 @@ const EmployeeAccountList = (props) => {
             setRows(list);
         }
     };
-    const titleOfSection = viewingActiveAccounts ? 'Active Employee Accounts' : 'Disabled Employee Accounts';
-    const handleEditClick = (event, rowId, fname, lname, email, phone, instructorOnly, admin) => {
+    const titleOfSection = viewingActiveAccounts ? 'Active Instructor Accounts' : 'Disabled Instructor Accounts';
+    const handleEditClick = (event, rowId, fname, lname, email, phone, canlogin, instructorOnly, admin) => {
         // console.log(`event target is: ${JSON.stringify(event.target)}`);
         setRowEditing(rowId);
         setFirstNameEditing(fname);
         setLastNameEditing(lname);
         setSearch('');
         setEmailEditing(email);
+        setCanLogin(canlogin);
         setPhoneEditing(phone);
-        setInstructorEditing(instructorOnly);
-        setAdminEditing(admin);
+        setLoginStatusInstructor(instructorOnly);
+        setAdminStatus(admin);
         setIsEditing(true);
     };
     const handleModalClose = () => {
@@ -311,22 +315,23 @@ const EmployeeAccountList = (props) => {
                     </Grid>
                 </Grid>
             </CardContent>
-            <ModalAccountEditor
+            <ModalInstructorEditor
                 openStatus={isEditing}
-                employeeId={rowEditing}
+                instructorID={rowEditing}
                 firstname={firstNameEditing}
                 lastname={lastNameEditing}
+                canlogin={canLogin}
+                loginStatusInstructor={loginStatusInstructor}
+                adminStatus={adminStatus}
                 email={emailEditing}
-                instructor={instructorEditing}
-                admin={adminEditing}
                 phone={phoneEditing}
                 handleModalClose={handleModalClose}
                 setRefreshData={setRefreshData}
                 viewingActiveAccounts={viewingActiveAccounts}
             />
             {/* table */}
-            <TableContainer>
-                <Table sx={{ minWidth: 750, ml: 2 }} aria-labelledby="tableTitle">
+            <TableContainer flex="1">
+                <Table sx={{ ml: 2, width: '95%' }} aria-labelledby="tableTitle">
                     <EnhancedTableHead
                         theme={theme}
                         numSelected={selected.length}
@@ -345,21 +350,23 @@ const EmployeeAccountList = (props) => {
                                 if (typeof row === 'number') return null;
                                 const isItemSelected = isSelected(row.name);
                                 const labelId = `enhanced-table-checkbox-${index}`;
-                                if (row.admin) {
-                                    row.accessLevel = 1;
-                                } else if (row.instructor_only) {
-                                    row.accessLevel = 2;
-                                } else {
-                                    row.accessLevel = 3;
-                                }
-                                if (row.lastName === null) {
-                                    row.lastName = '';
-                                }
                                 // console.log(`row is: ${JSON.stringify(row)}`);
-                                const phoneToShow = formatPhone(row.phone);
+                                const phoneToShow = formatPhone(row.mobilephone);
+                                const { hasAccount } = row;
+                                // eslint-disable-next-line camelcase
+                                const { canlogin, instructor_only, admin } = hasAccount;
+                                let loginPrivilege = 'None';
+                                if (canlogin) {
+                                    // eslint-disable-next-line camelcase
+                                    if (instructor_only) loginPrivilege = 'Front Desk Only';
+                                    if (admin) loginPrivilege = 'Admin';
+                                    // eslint-disable-next-line camelcase
+                                    if (!instructor_only && !admin) loginPrivilege = 'Front Desk Only';
+                                }
+                                console.log(`row for this user is: ${JSON.stringify(row)}`);
                                 const momentDeleted = moment(row.deleted_at).format('MM/DD/YYYY');
                                 const deletedText = viewingActiveAccounts ? '' : `Deactivated on: ${momentDeleted}`;
-                                const chipcolortoshow = viewingActiveAccounts ? 'success' : 'successDeactivated';
+                                const chipcolortoshow = canlogin && admin ? 'success' : 'warning';
                                 return (
                                     <TableRow
                                         hover
@@ -371,12 +378,13 @@ const EmployeeAccountList = (props) => {
                                             handleEditClick(
                                                 e,
                                                 row.id,
-                                                row.firstName,
-                                                row.lastName,
+                                                row.firstname,
+                                                row.lastname,
                                                 row.email,
-                                                row.phone,
-                                                row.instructor_only,
-                                                row.admin
+                                                row.mobilephone,
+                                                canlogin,
+                                                instructor_only,
+                                                admin
                                             )
                                         }
                                         selected={isItemSelected}
@@ -394,7 +402,7 @@ const EmployeeAccountList = (props) => {
                                                     sx={{ color: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.900' }}
                                                 >
                                                     {' '}
-                                                    {`${row.firstName} ${row.lastName}`}{' '}
+                                                    {`${row.firstname} ${row.lastname}`}{' '}
                                                 </Typography>
                                                 <Typography variant="caption"> {row.email} </Typography>
                                                 {!viewingActiveAccounts && <Typography variant="caption"> {deletedText} </Typography>}
@@ -402,12 +410,8 @@ const EmployeeAccountList = (props) => {
                                         </TableCell>
                                         <TableCell align="center">{phoneToShow}</TableCell>
                                         <TableCell align="center">
-                                            {row.accessLevel === 1 && (
-                                                <Chip label="Manager Access" size="small" chipcolor={chipcolortoshow} />
-                                            )}
-                                            {row.accessLevel === 2 && (
-                                                <Chip label="Instructor Access Only" size="small" chipcolor="orange" />
-                                            )}
+                                            {canlogin && <Chip label={loginPrivilege} size="small" chipcolor={chipcolortoshow} />}
+                                            {!canlogin && loginPrivilege}
                                         </TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton
@@ -415,12 +419,13 @@ const EmployeeAccountList = (props) => {
                                                     handleEditClick(
                                                         e,
                                                         row.id,
-                                                        row.firstName,
-                                                        row.lastName,
+                                                        row.firstname,
+                                                        row.lastname,
                                                         row.email,
-                                                        row.phone,
-                                                        row.instructor_only,
-                                                        row.admin
+                                                        row.mobilephone,
+                                                        canlogin,
+                                                        instructor_only,
+                                                        admin
                                                     )
                                                 }
                                                 color="secondary"
@@ -447,7 +452,7 @@ const EmployeeAccountList = (props) => {
 
             {/* table pagination */}
             <TablePagination
-                rowsPerPageOptions={[5, 15, 30]}
+                rowsPerPageOptions={[10, 25, 50]}
                 component="div"
                 count={rows.length}
                 rowsPerPage={rowsPerPage}
@@ -458,10 +463,10 @@ const EmployeeAccountList = (props) => {
         </MainCard>
     );
 };
-EmployeeAccountList.propTypes = {
+InstructorList.propTypes = {
     list: PropTypes.array,
     setRefreshData: PropTypes.func,
     viewingActiveAccounts: PropTypes.bool
 };
 
-export default EmployeeAccountList;
+export default InstructorList;
