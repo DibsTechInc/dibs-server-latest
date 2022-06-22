@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // ==============================|| CREATE NEW STUDIO EMPLOYEE ACCOUNT ||============================== //
 
-export const UpdateStudioProfileAccount = async (dibsStudioId, firstname, lastname, email, phone, managerAccess) => {
+export const CreateNewEmployeeAccount = async (dibsStudioId, firstname, lastname, email, phone, managerAccess) => {
     try {
         const response = await axios.post('/api/studio/account/create-new-employee', {
             dibsStudioId,
@@ -17,9 +17,9 @@ export const UpdateStudioProfileAccount = async (dibsStudioId, firstname, lastna
         }
         return { msg: 'failure', error: response.data.error };
     } catch (err) {
-        console.log(`error updating studio profile account settings data for employeeId: ${dibsStudioId}\nerr is: ${err}`);
+        console.log(`error creating new employee account settings data for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);
     }
     return 0;
 };
 
-export default UpdateStudioProfileAccount;
+export default CreateNewEmployeeAccount;

@@ -9,11 +9,14 @@ import { Box, Tab, Tabs } from '@mui/material';
 // assets
 import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 
 // Reporting subpages mapped to tabs
 import InstructorsActive from '../SubPages/Instructors';
 import InstructorsInactive from '../SubPages/Instructors/inactiveInstructors';
-import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
+import CreateInstructors from '../SubPages/Instructors/createInstructor';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -93,7 +96,7 @@ export default function SettingsTabs() {
                     icon={<EmojiPeopleIcon sx={{ fontSize: '1.5rem', color: theme.palette.chart.light }} />}
                     label="Active Instructors"
                     sx={{
-                        width: '500px'
+                        width: '300px'
                     }}
                     {...a11yProps(0)}
                 />
@@ -103,9 +106,19 @@ export default function SettingsTabs() {
                     icon={<FaceRetouchingOffIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
                     label="Inactive Instructors"
                     sx={{
-                        width: '350px'
+                        width: '300px'
                     }}
                     {...a11yProps(1)}
+                />
+                <Tab
+                    component={Link}
+                    to="#"
+                    icon={<GroupAddOutlinedIcon sx={{ fontSize: '1.3rem', color: theme.palette.chart.light }} />}
+                    label="Add New Instructors"
+                    sx={{
+                        width: '300px'
+                    }}
+                    {...a11yProps(2)}
                 />
             </Tabs>
             <TabPanel value={value} index={0}>
@@ -113,6 +126,9 @@ export default function SettingsTabs() {
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <InstructorsInactive />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <CreateInstructors />
             </TabPanel>
         </>
     );

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
-import { Grid, TextField, Typography, Button, Switch, FormGroup, FormControlLabel } from '@mui/material';
-import { styled, useTheme, alpha } from '@mui/material/styles';
-import { green } from '@mui/material/colors';
+import { Grid, TextField, Typography, Button } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import { useSelector } from 'store';
 import validator from 'email-validator';
 import { validatePhone } from 'helpers/general';
-import UpdateStudioProfileAccount from 'actions/studios/account/createNewEmployeeAccount';
+import CreateNewInstructor from 'actions/studios/instructors/createNewInstructorAccount';
 
 const CreateAccountTextField = styled(TextField)({
     '& .MuiInput-underline:before': {
@@ -23,32 +22,13 @@ const CreateAccountTextField = styled(TextField)({
     }
 });
 
-const GreenSwitch = styled(Switch)(({ theme }) => ({
-    '& .MuiSwitch-switchBase.Mui-checked.Mui-disabled': {
-        color: theme.palette.success.dibsgreen,
-        '&:hover': {
-            backgroundColor: alpha(green[600], theme.palette.success.successDibsGreen)
-        }
-    },
-    '& .MuiSwitch-switchBase.Mui-checked': {
-        color: green[600]
-    },
-    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-        backgroundColor: green[600]
-    }
-}));
-
-const CreateAccountComponent = () => {
+const CreateInstructor = () => {
     const theme = useTheme();
-    const { dibsStudioId } = useSelector((state) => state.dibsstudio.config);
+    const { dibsStudioId, studioid } = useSelector((state) => state.dibsstudio.config);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [allowManagerAccess, setAllowManagerAccess] = useState(false);
-    const allowManagerAccessLabel = 'Allow manager access';
-    const managerText = `Managers have access to all areas of the platform including financial data and reporting. If you do not enable manager access, this account will be limited to the 'Front Desk' and 'Class Schedule' sections of the platform.`;
-    const [checkedManager, setCheckedManager] = useState(false);
     const [hasError, setHasError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [hasSuccess, setHasSuccess] = useState(false);
@@ -62,18 +42,11 @@ const CreateAccountComponent = () => {
         },
         [timeoutArray]
     );
-    // not including instructor account for now because it is not high demand
-    const handleChange = (event) => {
-        setCheckedManager(event.target.checked);
-        setAllowManagerAccess(!allowManagerAccess);
-    };
     const clearData = () => {
         setPhone('');
         setEmail('');
         setFirstName('');
         setLastName('');
-        setCheckedManager(false);
-        setAllowManagerAccess(false);
     };
     const handleErrorProcess = (errorMsg) => {
         setHasSuccess(false);
@@ -105,13 +78,13 @@ const CreateAccountComponent = () => {
         if (hasSuccess) setHasSuccess(false);
     };
     const handleSubmit = async () => {
-        console.log(`submitting the new employee account`);
-        const isValidEmail = validator.validate(email);
-        if (!isValidEmail) {
-            handleErrorProcess(`The email address you entered doesn't seem to be valid. Can you try again?`);
-            return;
+        if (email.length > 3) {
+            const isValidEmail = validator.validate(email);
+            if (!isValidEmail) {
+                handleErrorProcess(`The email address you entered doesn't seem to be valid. Can you try again?`);
+                return;
+            }
         }
-        console.log(`phone is: ${phone}`);
         if (phone.length > 2) {
             const isValidPhone = validatePhone(phone);
             if (!isValidPhone) {
@@ -119,7 +92,7 @@ const CreateAccountComponent = () => {
                 return;
             }
         }
-        await UpdateStudioProfileAccount(dibsStudioId, firstName, lastName, email, phone, allowManagerAccess).then((res) => {
+        await CreateNewInstructor(dibsStudioId, firstName, lastName, email, phone, studioid).then((res) => {
             if (res.msg === 'failure') {
                 handleErrorProcess(res.error);
             }
@@ -130,9 +103,9 @@ const CreateAccountComponent = () => {
             }
         });
     };
-    const guidancetext = `Fill in the information below to create new accounts for any staff that should have login access. Note, this is only for staff members that need login privileges to your Dibs software. `;
+    const guidancetext = `Fill in the information below to add new instructors. Note, this will allow instructors to be added to your schedule. This does not grant login privileges to instructors. `;
     return (
-        <Grid container>
+        <Grid container flex={1}>
             <Grid item xs={9}>
                 <Typography gutterBottom variant="h6" sx={{ color: theme.palette.text.hint, fontWeight: 400 }}>
                     {guidancetext}
@@ -152,7 +125,7 @@ const CreateAccountComponent = () => {
                     </Typography>
                 </Grid>
             )}
-            <Grid item xs={7} sx={{ mt: 4 }}>
+            <Grid item xs={7} sx={{ mt: 3 }}>
                 <CreateAccountTextField
                     required
                     id="firstname"
@@ -174,7 +147,6 @@ const CreateAccountComponent = () => {
             </Grid>
             <Grid item xs={7} sx={{ mt: 4 }}>
                 <CreateAccountTextField
-                    required
                     id="email"
                     label="Email"
                     value={email}
@@ -191,26 +163,10 @@ const CreateAccountComponent = () => {
                     onChange={(e) => handleTextChange(e)}
                 />
             </Grid>
-            <Grid item xs={7} sx={{ mt: 4 }}>
-                <FormGroup>
-                    <FormControlLabel
-                        control={<GreenSwitch checked={checkedManager} onChange={handleChange} />}
-                        label={allowManagerAccessLabel}
-                    />
-                </FormGroup>
-                <Typography gutterBottom variant="h6" sx={{ color: theme.palette.text.hint, mt: 1, fontWeight: 400 }}>
-                    {managerText}
-                </Typography>
-            </Grid>
-            {/* <Grid item xs={7} sx={{ mt: 4 }}>
-                <FormGroup>
-                    <FormControlLabel control={<GreenSwitch checked={checkedInstructor} />} label={instructorAccessOnlyLabel} />
-                </FormGroup>
-            </Grid> */}
             <Grid item xs={7} sx={{ mt: 4, mb: 5 }}>
-                <Button onClick={handleSubmit}>Create New Account</Button>
+                <Button onClick={handleSubmit}>Add New Instructor</Button>
             </Grid>
         </Grid>
     );
 };
-export default CreateAccountComponent;
+export default CreateInstructor;

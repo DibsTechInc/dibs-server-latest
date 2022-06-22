@@ -14,7 +14,8 @@ async function getStudioEmployee(req, res) {
                 'profile_picture',
                 'last_login',
                 'demo_account',
-                'instructor_only'
+                'instructor_only',
+                'studioid'
             ],
             where: {
                 email: req.body.email,

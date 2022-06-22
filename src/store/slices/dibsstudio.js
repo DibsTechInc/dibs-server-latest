@@ -12,6 +12,7 @@ const initialState = {
     config: {
         id: 0,
         dibsStudioId: 0,
+        studioid: 0,
         accountType: 'studio-admin',
         userEmail: '',
         role: 'admin',

@@ -25,7 +25,7 @@ const ManageInactiveInstructors = () => {
         };
         getAccountInfo();
     }, [dibsStudioId, refreshData]);
-    const instructorguidance = `Click on an instructor below to edit their account information. If you'd like to grant an instructor login privileges, you must create a user account for the instructor in the 'Accounts' section.`;
+    const instructorguidance = `Click on an instructor below to edit their information. If you'd like to grant an instructor login privileges, you must create a user account for the instructor in the 'Accounts' section.`;
     console.log(`inactive accounts are: ${JSON.stringify(inactiveAccounts)}`);
     return (
         <Grid container>

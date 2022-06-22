@@ -2,21 +2,21 @@
 import { Grid, Typography } from '@mui/material';
 
 // project imports
-import CreateAccount from './createAccount';
+import CreateInstructor from './createInstructorComp';
 
-// ==============================|| STUDIO ADMIN -> ACCOUNT -> CREATE ACCOUNT ||============================== //
+// ==============================|| STUDIO ADMIN -> INSTRUCTORS -> ADD NEW ||============================== //
 
-const CreateAccountPage = () => (
+const CreateInstructorPage = () => (
     // eslint-disable-next-line camelcase
     <Grid container direction="column">
         <Grid item xs={7}>
             <Typography gutterBottom variant="h4">
-                Create Employee Accounts
+                Add New Instructors
             </Typography>
         </Grid>
         <Grid item xs={7} sx={{ mt: 2 }}>
-            <CreateAccount />
+            <CreateInstructor />
         </Grid>
     </Grid>
 );
-export default CreateAccountPage;
+export default CreateInstructorPage;

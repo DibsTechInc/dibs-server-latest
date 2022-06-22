@@ -50,6 +50,7 @@ const getInstructors = require('./studio/instructors/get-instructors-info');
 const deactivateInstructor = require('./studio/instructors/deactivate-instructor');
 const reactivateInstructor = require('./studio/instructors/reactivate-instructor');
 const updateInstructorInfo = require('./studio/instructors/update-instructor-info');
+const createNewInstructor = require('./studio/instructors/create-new-instructor');
 
 const router = express();
 
@@ -103,6 +104,7 @@ router.post('/studio/instructors/get-instructors', getInstructors);
 router.post('/studio/instructors/activate', reactivateInstructor);
 router.post('/studio/instructors/deactivate', deactivateInstructor);
 router.post('/studio/instructors/update', updateInstructorInfo);
+router.post('/studio/instructors/create', createNewInstructor);
 
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 

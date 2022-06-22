@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { Grid, Typography, Button } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useSelector } from 'store';
 import getInstructors from 'actions/studios/instructors/getInstructors';
@@ -28,7 +28,7 @@ const ManageInstructors = () => {
         getAccountInfo();
     }, [dibsStudioId, refreshData]);
     const accountsToSend = viewingActiveAccounts ? activeAccounts : inactiveAccounts;
-    const instructorguidance = `Click on an instructor below to edit their account information. If you'd like to grant an instructor login privileges, you must create a user account for the instructor in the 'Accounts' section.`;
+    const instructorguidance = `Click on an instructor below to edit their information. If you'd like to grant an instructor login privileges, you must create a user account for the instructor in the 'Accounts' section.`;
     return (
         <Grid container>
             <Grid item xs={10}>
