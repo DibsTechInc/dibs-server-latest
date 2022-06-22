@@ -1,9 +1,5 @@
 const models = require('@dibs-tech/models');
 
-const {
-    Sequelize: { Op }
-} = models;
-
 async function getInstructorsInfo(req, res) {
     try {
         const { dibsStudioId } = req.body;
@@ -55,7 +51,7 @@ async function getInstructorsInfo(req, res) {
             where: {
                 dibs_studio_id: dibsStudioId,
                 deletedAt: null,
-                enabled: true
+                enabled: false
             },
             order: [
                 ['lastname', 'ASC'],
@@ -63,7 +59,7 @@ async function getInstructorsInfo(req, res) {
                 // ['createdAt', 'ASC']
             ]
         });
-        const getLoginStatus = async (instructor) => {
+        const addLoginStatus = async (instructor, activeStatus) => {
             const response = await models.studio_employee.findOne({
                 attributes: ['id', 'admin', 'instructor_only'],
                 where: {
@@ -71,27 +67,59 @@ async function getInstructorsInfo(req, res) {
                     email: instructor.email
                 }
             });
-            console.log(`response is: ${JSON.stringify(response)}`);
-            if (response) {
-                console.log(`is a response so this is true`);
-                console.log('returning true');
-                return { canlogin: true, instructor_only: response.instructor_only, admin: response.admin };
-            }
-            console.log('returning false');
-            return { canlogin: false, instructor_only: false, admin: false };
+            const prod = async () =>
+                new Promise((resolve, reject) => {
+                    console.log(`\n\n\n\n*********instructor in addLoginStatus is: ${JSON.stringify(instructor)}`);
+                    console.log(`email is: ${instructor.email}`);
+                    console.log(`\n\n\n#########\n\nresponse from studio employee search is: ${JSON.stringify(response)}\n\n`);
+                    if (activeStatus === 'active') {
+                        if (response !== null) {
+                            activeInstructorstosend.push({
+                                ...instructor.dataValues,
+                                hasLogin: { canlogin: true, instructor_only: response.instructor_only, admin: response.admin }
+                            });
+                            resolve();
+                        } else {
+                            activeInstructorstosend.push({
+                                ...instructor.dataValues,
+                                hasLogin: { canlogin: false, instructor_only: false, admin: false }
+                            });
+                            resolve();
+                        }
+                        reject();
+                    } else if (activeStatus === 'disabled') {
+                        if (response !== null) {
+                            inactiveInstructorstosend.push({
+                                ...instructor.dataValues,
+                                hasLogin: { canlogin: true, instructor_only: response.instructor_only, admin: response.admin }
+                            });
+                            resolve();
+                        } else {
+                            inactiveInstructorstosend.push({
+                                ...instructor.dataValues,
+                                hasLogin: { canlogin: false, instructor_only: false, admin: false }
+                            });
+                            resolve();
+                        }
+                        reject();
+                    }
+                    console.log(`\n\ncount if active is: ${activeInstructorstosend.length}`);
+                    console.log(`\n\ncount if inactive is: ${inactiveInstructorstosend.length}`);
+                    return instructor;
+                });
+            prod();
         };
-        Promise.all(
-            activeInstructors.map(async (instructor) => {
-                const hasAccount = await getLoginStatus(instructor);
-                activeInstructorstosend.push({ ...instructor.dataValues, hasAccount });
-                return instructor;
-            }),
-            disabledInstructors.map(async (instructor) => {
-                const hasAccount = await getLoginStatus(instructor);
-                inactiveInstructorstosend.push({ ...instructor.dataValues, hasAccount });
-                return instructor;
-            })
-        ).then(() => {
+        const promises = [];
+        activeInstructors.forEach((instructor) => {
+            promises.push(addLoginStatus(instructor, 'active'));
+        });
+        disabledInstructors.forEach((instructor) => {
+            promises.push(addLoginStatus(instructor, 'disabled'));
+        });
+        await Promise.all(promises).then(() => {
+            console.log('taking next step');
+            console.log(`\n\n\n\nactiveInstructorstosend count is: ${JSON.stringify(activeInstructorstosend.length)}`);
+            console.log(`\n\n\n\ndisaledInstructorstosend count is: ${JSON.stringify(inactiveInstructorstosend.length)}`);
             res.json({
                 msg: 'success',
                 activeInstructors: activeInstructorstosend,
