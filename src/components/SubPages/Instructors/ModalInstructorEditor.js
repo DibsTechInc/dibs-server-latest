@@ -255,20 +255,20 @@ export default function ModalInstructorEditor({
         });
     };
     const areYouSure = `Are you sure you want to deactivate ${firstnameStr} as an instructor?`;
-    const reactivateAccountString = `You must enable ${firstnameStr}'s account before you can make edits. Do you want to enable the account now?`;
+    const reactivateAccountString = `You must activate ${firstnameStr} as an instructor before you can make edits. Do you want to activate ${firstnameStr} as an instructor now?`;
     const noteToReactive = `You can reactivate ${firstnameStr}'s instructor status at any time by viewing your inactive instructors and clicking 'Reactivate'.`;
     const extranote = `Please Note: Employee accounts are not affected by instructor deactivation. If ${firstnameStr} currently has login privileges, that account will still function as normal unless you explicitly disable it.`;
-    const noteToReactivation = `Once you enable ${firstnameStr}'s account, you will be able to edit account information by clicking the link above to return to 'Active Accounts'.`;
+    const noteToReactivation = `Once you activate ${firstnameStr} as an instructor, you will be able to edit information by clicking the link above to return to 'Active Instructors'.`;
     const titleHeader = `Manage ${firstnameStr}'s Information`;
     const subtext = `This screen helps you collect contact information and manage how ${firstnameStr}'s name appears on your schedule as an instructor.`;
-    const loginInfo = `If you want to update ${firstnameStr}'s login privileges, go to 'Manage Accounts' under the 'Account' section.`;
+    const loginInfo = `If you want to update ${firstnameStr}'s login privileges, you can manage or create accounts on the 'Accounts' tab.`;
     return (
         <div>
             <Modal open={open} onClose={handleModalClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
                     {!viewingActiveAccounts && (
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Edit Employee Account
+                            Edit Instructor Information
                         </Typography>
                     )}
                     {hasError && (

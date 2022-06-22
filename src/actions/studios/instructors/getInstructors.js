@@ -8,7 +8,6 @@ export const GetStudioInstructors = async (dibsStudioId) => {
             dibsStudioId
         });
         if (response.data.msg === 'success') {
-            console.log(`response from api call is: ${JSON.stringify(response.data)}`);
             return {
                 msg: 'success',
                 activeInstructors: response.data.activeInstructors,

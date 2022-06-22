@@ -80,7 +80,8 @@ const headCells = [
         id: 'accessLevel',
         numeric: true,
         label: 'Login Privileges',
-        align: 'center'
+        align: 'center',
+        disablePadding: true
     }
 ];
 
@@ -106,6 +107,9 @@ function EnhancedTableHead({ order, orderBy, numSelected, onRequestSort, selecte
                             align={headCell.align}
                             padding={headCell.disablePadding ? 'none' : 'normal'}
                             sortDirection={orderBy === headCell.id ? order : false}
+                            sx={{
+                                pl: 2
+                            }}
                         >
                             <TableSortLabel
                                 active={orderBy === headCell.id}
@@ -176,7 +180,7 @@ EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired
 };
 
-// ==============================|| EMPLOYEE ACCOUNT LIST ||============================== //
+// ==============================|| INSTRUCTOR LIST ||============================== //
 
 const InstructorList = (props) => {
     const theme = useTheme();
@@ -231,14 +235,14 @@ const InstructorList = (props) => {
         }
     };
     const titleOfSection = viewingActiveAccounts ? 'Active Instructor Accounts' : 'Disabled Instructor Accounts';
-    const handleEditClick = (event, rowId, fname, lname, email, phone, canlogin, instructorOnly, admin) => {
+    const handleEditClick = (event, rowId, fname, lname, email, phone, canLogin, instructorOnly, admin) => {
         // console.log(`event target is: ${JSON.stringify(event.target)}`);
         setRowEditing(rowId);
         setFirstNameEditing(fname);
         setLastNameEditing(lname);
         setSearch('');
         setEmailEditing(email);
-        setCanLogin(canlogin);
+        setCanLogin(canLogin);
         setPhoneEditing(phone);
         setLoginStatusInstructor(instructorOnly);
         setAdminStatus(admin);
@@ -350,11 +354,10 @@ const InstructorList = (props) => {
                                 if (typeof row === 'number') return null;
                                 const isItemSelected = isSelected(row.name);
                                 const labelId = `enhanced-table-checkbox-${index}`;
-                                // console.log(`row is: ${JSON.stringify(row)}`);
                                 const phoneToShow = formatPhone(row.mobilephone);
-                                const { hasAccount } = row;
+                                const { hasLogin } = row;
                                 // eslint-disable-next-line camelcase
-                                const { canlogin, instructor_only, admin } = hasAccount;
+                                const { canlogin, instructor_only, admin } = hasLogin;
                                 let loginPrivilege = 'None';
                                 if (canlogin) {
                                     // eslint-disable-next-line camelcase
@@ -363,10 +366,10 @@ const InstructorList = (props) => {
                                     // eslint-disable-next-line camelcase
                                     if (!instructor_only && !admin) loginPrivilege = 'Front Desk Only';
                                 }
-                                console.log(`row for this user is: ${JSON.stringify(row)}`);
-                                const momentDeleted = moment(row.deleted_at).format('MM/DD/YYYY');
+                                const momentDeleted = moment(row.updatedAt).format('MM/DD/YYYY');
                                 const deletedText = viewingActiveAccounts ? '' : `Deactivated on: ${momentDeleted}`;
-                                const chipcolortoshow = canlogin && admin ? 'success' : 'warning';
+                                let chipcolortoshow = canlogin && admin ? 'success' : 'warning';
+                                if (!viewingActiveAccounts) chipcolortoshow = 'successDeactivated';
                                 return (
                                     <TableRow
                                         hover

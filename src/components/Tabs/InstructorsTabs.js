@@ -12,6 +12,7 @@ import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 // Reporting subpages mapped to tabs
 import InstructorsActive from '../SubPages/Instructors';
+import InstructorsInactive from '../SubPages/Instructors/inactiveInstructors';
 import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
 
 // tab content customize
@@ -111,7 +112,7 @@ export default function SettingsTabs() {
                 <InstructorsActive />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <ReportingAttendanceRevenueSubPage />
+                <InstructorsInactive />
             </TabPanel>
         </>
     );

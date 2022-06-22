@@ -17,6 +17,7 @@ async function getInstructorsInfo(req, res) {
                 'rate_per_class',
                 'rate_per_head',
                 'hurdle',
+                'updatedAt',
                 'bonus_flat',
                 'rev_share_perc',
                 'enabled'
@@ -43,6 +44,7 @@ async function getInstructorsInfo(req, res) {
                 'mobilephone',
                 'rate_per_class',
                 'rate_per_head',
+                'updatedAt',
                 'hurdle',
                 'bonus_flat',
                 'rev_share_perc',

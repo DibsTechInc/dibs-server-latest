@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export const ReactivateInstructor = async (id) => {
     try {
-        const response = await axios.post('/api/studio/instructors/reactivate', {
+        const response = await axios.post('/api/studio/instructors/activate', {
             id
         });
         if (response.data.msg === 'success') {
