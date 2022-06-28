@@ -2,9 +2,8 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import { Grid, Typography, Stack, Button } from '@mui/material';
 import { useTheme, styled } from '@mui/material/styles';
-import { useSelector, useDispatch } from 'store';
+import { useSelector } from 'store';
 
-import { setCustomEmailToSendFrom } from 'store/slices/dibsstudio';
 import UpdateStudioAddress from 'actions/studios/settings/updateStudioAddress';
 
 const CommunicationTextField = styled(TextField)({
@@ -26,7 +25,6 @@ const Address = () => {
     const theme = useTheme();
     const { config, customerService } = useSelector((state) => state.dibsstudio);
     const { address, address2, city, state, zipcode } = customerService;
-    const dispatch = useDispatch();
     const { dibsStudioId } = config;
     const [isEditing, setIsEditing] = React.useState(false);
     const [error, setError] = React.useState('');

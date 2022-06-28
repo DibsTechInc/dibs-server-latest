@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import propTypes from 'prop-types';
 import { HexColorPicker } from 'react-colorful';
 

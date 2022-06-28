@@ -21,6 +21,7 @@ import actionstatusReducer from './slices/actionstatus';
 import currentclientReducer from './slices/currentclient';
 import clientsearchReducer from './slices/clientsearch';
 import retailReducer from './slices/retail';
+import datatablesReducer from './slices/datatables';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -36,6 +37,7 @@ const reducer = combineReducers({
     retail: retailReducer,
     // clientsearch: clientsearchReducer,
     clientsearch: persistReducer({ key: 'clientsearch', storage, keyPrefix: 'clientsearch-' }, clientsearchReducer),
+    datatables: persistReducer({ key: 'datatables', storage, keyPrefix: 'datatables-' }, datatablesReducer),
     menu: menuReducer,
     snackbar: snackbarReducer,
     cart: persistReducer(

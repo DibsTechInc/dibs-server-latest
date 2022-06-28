@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
 
 // material-ui
 import {
@@ -17,6 +18,7 @@ import {
 } from '@mui/material';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { visuallyHidden } from '@mui/utils';
+import { useSelector } from 'store';
 
 // table filter
 function descendingComparator(a, b, orderBy) {
@@ -28,6 +30,18 @@ function descendingComparator(a, b, orderBy) {
     }
     return 0;
 }
+function newDescendingComparator(a, b, orderBy) {
+    console.log(`a is: ${a}`);
+    if (b < a) {
+        return -1;
+    }
+    if (b > a) {
+        return 1;
+    }
+    return 0;
+}
+const getNewComparator = (order, orderBy) =>
+    order === 'desc' ? (a, b) => newDescendingComparator(a, b, orderBy) : (a, b) => -newDescendingComparator(a, b, orderBy);
 
 const getComparator = (order, orderBy) =>
     order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
@@ -48,21 +62,10 @@ function EnhancedTableHead({ order, orderBy, onRequestSort, headers }) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-
+    const theme = useTheme();
     return (
         <TableHead>
-            <TableRow>
-                {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                        <Checkbox
-                            color="primary"
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={rowCount > 0 && numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                            inputProps={{
-                                'aria-label': 'select all desserts'
-                            }}
-                        />
-                    </TableCell> */}
+            <TableRow sx={{ backgroundColor: theme.palette.grey[100] }}>
                 {headers.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -71,18 +74,22 @@ function EnhancedTableHead({ order, orderBy, onRequestSort, headers }) {
                         sortDirection={orderBy === headCell.id ? order : false}
                         sx={{ pl: 3 }}
                     >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : 'asc'}
-                            onClick={createSortHandler(headCell.id)}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <Box component="span" sx={visuallyHidden}>
-                                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                                </Box>
-                            ) : null}
-                        </TableSortLabel>
+                        {headCell.disableSort ? (
+                            <span>{headCell.label}</span>
+                        ) : (
+                            <TableSortLabel
+                                active={orderBy === headCell.id}
+                                direction={orderBy === headCell.id ? order : 'asc'}
+                                onClick={createSortHandler(headCell.id)}
+                            >
+                                {headCell.label}
+                                {orderBy === headCell.id ? (
+                                    <Box component="span" sx={visuallyHidden}>
+                                        {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                                    </Box>
+                                ) : null}
+                            </TableSortLabel>
+                        )}
                     </TableCell>
                 ))}
                 <TableCell sortDirection={false} align="center" sx={{ pr: 3 }}>
@@ -104,10 +111,14 @@ EnhancedTableHead.propTypes = {
 
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
-export default function EnhancedDataTable({ rows, headers }) {
+export default function EnhancedDataTable({ tabletype }) {
     const [order, setOrder] = React.useState('asc');
+    const { promocodes } = useSelector((state) => state.datatables);
+    const { headers, data } = promocodes;
     const [orderBy, setOrderBy] = React.useState('classTitle');
     const [page, setPage] = React.useState(0);
+    // const [headers, setHeaders] = React.useState([]);
+    const rows = data;
     const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
     const handleRequestSort = (event, property) => {
@@ -129,13 +140,14 @@ export default function EnhancedDataTable({ rows, headers }) {
         setPage(0);
     };
     // Avoid a layout jump when reaching the last page with empty rows.
+    console.log(`empty rows = ${Math.max(0, (1 + page) * rowsPerPage - rows.length)}`);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     return (
         <Paper sx={{ width: '95%', mb: 2 }}>
             {/* table */}
             <TableContainer>
-                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                <Table sx={{ minWidth: 750 }}>
                     <EnhancedTableHead
                         order={order}
                         headers={headers}
@@ -149,43 +161,29 @@ export default function EnhancedDataTable({ rows, headers }) {
                             .map((row, index) => {
                                 /** Make sure no display bugs if row isn't an OrderData object */
                                 if (typeof row === 'number') return null;
-                                const labelId = `enhanced-table-checkbox-${index}`;
+                                const labelId = `enhanced-table-${index}`;
                                 return (
-                                    <TableRow
-                                        hover
-                                        onClick={(event) => handleClick(event, row.classTitle)}
-                                        tabIndex={-1}
-                                        key={row.classTitle}
-                                    >
-                                        {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                                                <Checkbox
-                                                    color="primary"
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        'aria-labelledby': labelId
-                                                    }}
-                                                />
-                                            </TableCell> */}
+                                    <TableRow hover onClick={(event) => handleClick(event, row[0])} tabIndex={-1} key={row[0]}>
                                         <TableCell component="th" id={labelId} scope="row" padding="none" sx={{ pl: 3 }}>
-                                            {row.classTitle}
+                                            {row[1]}
                                         </TableCell>
                                         <TableCell align="left" sx={{ pl: 3.5 }}>
-                                            ${row.defaultprice}
+                                            {row[2]}
                                         </TableCell>
                                         <TableCell align="left" sx={{ pl: 3.5 }}>
-                                            {row.classlength} mins
+                                            {row[3]}
                                         </TableCell>
                                         <TableCell sx={{ pl: 3.5 }} align="left">
-                                            {row.defaultDescription}
+                                            {row[4]}
                                         </TableCell>
                                         <TableCell sx={{ pl: 3.5 }} align="left">
-                                            {row.maxCapacity}
+                                            {row[5]}
                                         </TableCell>
                                         <TableCell sx={{ pl: 3.5 }} align="left">
-                                            {row.typeOfClass}
+                                            {row[6]}
                                         </TableCell>
                                         <TableCell sx={{ pl: 3.5 }} align="left">
-                                            {row.onlineStatus}
+                                            {row[7]}
                                         </TableCell>
                                         <TableCell align="center" sx={{ pr: 3 }}>
                                             <IconButton
@@ -214,10 +212,10 @@ export default function EnhancedDataTable({ rows, headers }) {
                         {emptyRows > 0 && (
                             <TableRow
                                 style={{
-                                    height: 53 * emptyRows
+                                    height: 1 * emptyRows
                                 }}
                             >
-                                <TableCell colSpan={6} />
+                                <TableCell colSpan={headers.length + 1} />
                             </TableRow>
                         )}
                     </TableBody>
@@ -238,6 +236,5 @@ export default function EnhancedDataTable({ rows, headers }) {
     );
 }
 EnhancedDataTable.propTypes = {
-    rows: PropTypes.array.isRequired,
-    headers: PropTypes.array.isRequired
+    tabletype: PropTypes.string.isRequired
 };
