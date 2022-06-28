@@ -34,6 +34,7 @@
         "@mui/system": "^5.4.1",
         "@mui/utils": "^5.4.1",
         "@mui/x-data-grid": "^5.5.0",
+        "@mui/x-date-pickers": "^5.0.0-alpha.6",
         "@reduxjs/toolkit": "^1.8.1",
         "@sequelize/core": "^7.0.0-alpha.10",
         "@stripe/react-stripe-js": "^1.7.1",
@@ -122,10 +123,12 @@
         "string-similarity": "^4.0.4",
         "stripe": "^8.216.0",
         "stylis-plugin-rtl": "^2.1.1",
+        "twilio": "^3.77.3",
         "typescript": "^4.5.5",
         "uniqid": "^5.4.0",
         "uuid": "^8.3.2",
         "web-vitals": "^2.1.4",
+        "xml": "^1.0.1",
         "yup": "^0.32.11"
     },
     "eslintConfig": {

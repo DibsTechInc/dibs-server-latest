@@ -2,34 +2,34 @@
 import { Grid, Typography, Divider } from '@mui/material';
 
 // project imports
-import ClientSearch from '../../SubComponents/FrontDesk/ClientSearch';
-import ExistingClasses from '../../SubComponents/FrontDesk/ExistingClasses';
+import PromoCodeSearch from '../../SubComponents/FrontDesk/PromoCodes/searchExistingPromoCodes';
+import ExistingPromoCodes from '../../SubComponents/FrontDesk/PromoCodes/ExistingPromoCodes';
 
-// ==============================|| SAMPLE PAGE ||============================== //
+// ==============================|| PROMO CODE PAGE ||============================== //
 
-const newClassGuidance = `If you'd like to pre-populate class settings, create a new class type. It makes it a bit faster to add new classes to your schedule. Note: This is optional.`;
-const newAccountGuidance = `Here is a list of the classes that you've already created. Click on a class below to make edits.`;
-const FrontDeskClients = () => (
+const guidance = `To create a new promo code, enter the text that you'd like to use for the code.`;
+const newAccountGuidance = `Here is a list of the promo codes that you've already created. Click on a promo code below to make edits.`;
+const FrontDeskPromoCodes = () => (
     <Grid container direction="column">
         <Grid item xs={5}>
             <Typography gutterBottom variant="h4">
                 Create A New Promo Code
             </Typography>
         </Grid>
-        <Grid container sx={{ marginTop: '8px' }}>
+        <Grid item xs={12} sx={{ marginTop: '8px' }}>
             <Typography gutterBottom variant="h7">
-                {newClassGuidance}
+                {guidance}
             </Typography>
         </Grid>
-        <Grid item sx={{ marginTop: '45px' }}>
-            <ClientSearch />
+        <Grid item xs={12} sx={{ marginTop: '40px' }}>
+            <PromoCodeSearch />
         </Grid>
         <Grid item sx={{ marginTop: '60px' }}>
             <Divider variant="fullWidth" />
         </Grid>
         <Grid item sx={{ marginTop: '60px' }}>
             <Typography gutterBottom variant="h4">
-                View Your Existing Promo Codes
+                Active Promo Codes
             </Typography>
         </Grid>
         <Grid item sx={{ marginTop: '8px' }}>
@@ -37,10 +37,10 @@ const FrontDeskClients = () => (
                 {newAccountGuidance}
             </Typography>
         </Grid>
-        <Grid item sx={{ marginTop: '45px', marginBottom: '200px' }}>
-            <ExistingClasses />
+        <Grid item xs={9} sx={{ marginTop: '45px', marginBottom: '200px' }}>
+            <ExistingPromoCodes />
         </Grid>
     </Grid>
 );
 
-export default FrontDeskClients;
+export default FrontDeskPromoCodes;

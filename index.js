@@ -4,6 +4,8 @@ const models = require('@dibs-tech/models');
 const session = require('express-session');
 const flash = require('express-flash');
 
+require('./globals');
+
 if (process.env.NODE_ENV !== 'production') {
     // eslint-disable-next-line global-require
     require('dotenv').config();
@@ -29,10 +31,16 @@ app.use(
         saveUninitialized: false
     })
 );
-
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
 // const { createProxyMiddleware } = require('http-proxy-middleware');
 
 app.use('/api', require('./api/routes'));
+
+// webhook routes
+app.use('/webhooks', require('./routes/webhooks'));
 
 // app.use('/api', createProxyMiddleware({ target: 'http://localhost:8080', changeOrigin: true }));
 
@@ -41,7 +49,7 @@ app.get('/', (req, res) => {
         try {
             const events = await models.event.findAll({
                 where: {
-                    dibs_studio_id: 218,
+                    dibs_studio_id: 153,
                     canceled: 0,
                     deleted: 0,
                     start_date: {

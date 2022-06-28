@@ -54,7 +54,6 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     console.log(`value of today is: ${clientValue}`);
 
     React.useEffect(() => {
-        const 
         const newChartData = {
             ...clientData.options,
             colors: [primary200, primaryDark, secondaryMain, secondaryLight],

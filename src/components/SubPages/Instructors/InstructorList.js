@@ -197,9 +197,9 @@ const InstructorList = (props) => {
     const [lastNameEditing, setLastNameEditing] = React.useState('');
     const [emailEditing, setEmailEditing] = React.useState('');
     const [phoneEditing, setPhoneEditing] = React.useState('');
-    const [instructorEditing, setInstructorEditing] = React.useState(false);
+    // const [instructorEditing, setInstructorEditing] = React.useState(false);
     const [loginStatusInstructor, setLoginStatusInstructor] = React.useState(false);
-    const [adminEditing, setAdminEditing] = React.useState(false);
+    // const [adminEditing, setAdminEditing] = React.useState(false);
     const [adminStatus, setAdminStatus] = React.useState(false);
     const [search, setSearch] = React.useState('');
     const [rows, setRows] = React.useState([]);
@@ -266,22 +266,6 @@ const InstructorList = (props) => {
             return;
         }
         setSelected([]);
-    };
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
-        let newSelected = [];
-
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-        }
-
-        setSelected(newSelected);
     };
 
     const handleChangePage = (event, newPage) => {

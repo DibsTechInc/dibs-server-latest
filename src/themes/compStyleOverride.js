@@ -13,10 +13,10 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
         MuiButton: {
             styleOverrides: {
                 root: {
-                    fontWeight: 300,
+                    fontWeight: 700,
                     borderRadius: '4px',
                     color: '#fff',
-                    fontSize: '12px',
+                    fontSize: '14px',
                     backgroundColor: buttonColor,
                     '&:hover': {
                         backgroundColor: buttonHoverColor
@@ -37,20 +37,69 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                         color: '#fff000'
                     }
                 }
-                // text: {
-                //     fontWeight: 500,
-                //     backgroundColor: 'transparent',
-                //     fontSize: '1rem',
-                //     color: theme.palette.secondary.main,
-                //     marginLeft: '0px',
-                //     marginRight: '0px',
-                //     paddingLeft: '2px',
-                //     paddingRight: '2px',
-                //     marginBottom: 1.1,
-                //     '&:hover': {
-                //         backgroundColor: '#ccc'
-                //     }
-                // }
+            }
+        },
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    background: outlinedFilled ? bgColor : 'transparent',
+                    borderRadius: `${borderRadius}px`,
+                    '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: mode === 'dark' ? theme.palette.text.primary + 28 : theme.palette.grey[400]
+                    },
+                    '&:hover $notchedOutline': {
+                        borderColor: theme.palette.primary.light
+                    },
+                    '&.MuiInputBase-multiline': {
+                        padding: 1
+                    }
+                },
+                input: {
+                    fontWeight: 500,
+                    background: outlinedFilled ? bgColor : 'transparent',
+                    padding: '12px 12px',
+                    borderRadius: `${borderRadius}px`,
+                    '&.MuiInputBase-inputSizeSmall': {
+                        padding: '12px 14px',
+                        '&.MuiInputBase-inputAdornedStart': {
+                            paddingLeft: 0
+                        }
+                    }
+                },
+                inputAdornedStart: {
+                    paddingLeft: 4
+                },
+                notchedOutline: {
+                    borderRadius: `${borderRadius}px`
+                }
+            }
+        },
+        MuiDatePicker: {
+            styleOverrides: {
+                root: {
+                    padding: '0px',
+                    '&.Mui-OutlinedInput-input': {
+                        fontWeight: 100,
+                        background: outlinedFilled ? bgColor : 'transparent',
+                        padding: '0px 0px',
+                        borderRadius: `${borderRadius}px`,
+                        '&.MuiInputBase-inputSizeSmall': {
+                            padding: '2px 2px',
+                            '&.MuiInputBase-inputAdornedStart': {
+                                paddingLeft: 0
+                            }
+                        }
+                    }
+                },
+                input: {
+                    padding: '0px 0px',
+                    color: theme.palette.text.dark,
+                    '&::placeholder': {
+                        color: theme.palette.text.secondary,
+                        fontSize: '0.875rem'
+                    },
+                    paddingTop: '0px'
+                }
             }
         },
         MuiPaper: {
@@ -164,41 +213,41 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                 }
             }
         },
-        MuiOutlinedInput: {
-            styleOverrides: {
-                root: {
-                    background: outlinedFilled ? bgColor : 'transparent',
-                    borderRadius: `${borderRadius}px`,
-                    '& .MuiOutlinedInput-notchedOutline': {
-                        borderColor: mode === 'dark' ? theme.palette.text.primary + 28 : theme.palette.grey[400]
-                    },
-                    '&:hover $notchedOutline': {
-                        borderColor: theme.palette.primary.light
-                    },
-                    '&.MuiInputBase-multiline': {
-                        padding: 1
-                    }
-                },
-                input: {
-                    fontWeight: 500,
-                    background: outlinedFilled ? bgColor : 'transparent',
-                    padding: '15.5px 14px',
-                    borderRadius: `${borderRadius}px`,
-                    '&.MuiInputBase-inputSizeSmall': {
-                        padding: '10px 14px',
-                        '&.MuiInputBase-inputAdornedStart': {
-                            paddingLeft: 0
-                        }
-                    }
-                },
-                inputAdornedStart: {
-                    paddingLeft: 4
-                },
-                notchedOutline: {
-                    borderRadius: `${borderRadius}px`
-                }
-            }
-        },
+        // MuiOutlinedInput: {
+        //     styleOverrides: {
+        //         root: {
+        //             background: outlinedFilled ? bgColor : 'transparent',
+        //             borderRadius: `${borderRadius}px`,
+        //             '& .MuiOutlinedInput-notchedOutline': {
+        //                 borderColor: mode === 'dark' ? theme.palette.text.primary + 28 : theme.palette.grey[400]
+        //             },
+        //             '&:hover $notchedOutline': {
+        //                 borderColor: theme.palette.primary.light
+        //             },
+        //             '&.MuiInputBase-multiline': {
+        //                 padding: 1
+        //             }
+        //         },
+        //         input: {
+        //             fontWeight: 500,
+        //             background: outlinedFilled ? bgColor : 'transparent',
+        //             padding: '14px 14px',
+        //             borderRadius: `${borderRadius}px`,
+        //             '&.MuiInputBase-inputSizeSmall': {
+        //                 padding: '12px 14px',
+        //                 '&.MuiInputBase-inputAdornedStart': {
+        //                     paddingLeft: 0
+        //                 }
+        //             }
+        //         },
+        //         inputAdornedStart: {
+        //             paddingLeft: 4
+        //         },
+        //         notchedOutline: {
+        //             borderRadius: `${borderRadius}px`
+        //         }
+        //     }
+        // },
         MuiSlider: {
             styleOverrides: {
                 root: {

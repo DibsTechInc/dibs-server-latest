@@ -2,29 +2,15 @@ import { useEffect, useState } from 'react';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import {
-    Box,
-    Button,
-    Divider,
-    Drawer,
-    Grid,
-    IconButton,
-    InputAdornment,
-    Menu,
-    MenuItem,
-    Stack,
-    TextField,
-    Typography,
-    useMediaQuery
-} from '@mui/material';
+import { Box, Grid, InputAdornment, TextField, Typography, useMediaQuery } from '@mui/material';
 
 // third party
-import PerfectScrollbar from 'react-perfect-scrollbar';
+// import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // project imports
 import SortOptions from './SortOptions';
 import ProductEmpty from './ProductEmpty';
-import ProductFilter from './ProductFilter';
+// import ProductFilter from './ProductFilter';
 import ProductFilterView from './ProductFilterView';
 import RetailProductCard from 'ui-component/cards/RetailProductCard';
 import FloatingCart from 'ui-component/cards/FloatingCart';

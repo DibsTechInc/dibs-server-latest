@@ -1,5 +1,4 @@
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Box, Button, Grid, Typography } from '@mui/material';
 
 // project imports

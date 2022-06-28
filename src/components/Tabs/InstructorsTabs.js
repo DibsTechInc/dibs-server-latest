@@ -9,8 +9,6 @@ import { Box, Tab, Tabs } from '@mui/material';
 // assets
 import FaceRetouchingOffIcon from '@mui/icons-material/FaceRetouchingOff';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
-import AddReactionOutlinedIcon from '@mui/icons-material/AddReactionOutlined';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 
 // Reporting subpages mapped to tabs

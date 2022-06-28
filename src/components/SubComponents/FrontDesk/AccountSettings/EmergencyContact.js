@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 // material-ui
-import { Box, Card, Stack, CardActions, Button, Grid, Typography, CardContent, Divider } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import { Stack, Button, Grid, Typography } from '@mui/material';
 
 import EmergencyContactInfoDisplay from './EmergencyContactInfoDisplay';
 
@@ -11,7 +10,6 @@ import EmergencyContactInfoDisplay from './EmergencyContactInfoDisplay';
 
 const EmergencyContact = (props) => {
     const { ecName, ecEmail, ecPhone, firstname } = props;
-    console.log(`ecName is: ${ecName}`);
     const [hasEmergencyContactInfo, setHasEmergencyContactInfo] = useState(false);
     const msgtoshow = `${firstname} has not shared emergency contact information yet.`;
     const buttontext = hasEmergencyContactInfo ? 'Edit Emergency Contact' : 'Add Emergency Contact';
@@ -52,7 +50,10 @@ const EmergencyContact = (props) => {
     );
 };
 EmergencyContact.propTypes = {
-    firstname: PropTypes.string
+    firstname: PropTypes.string,
+    ecName: PropTypes.string,
+    ecEmail: PropTypes.string,
+    ecPhone: PropTypes.string
 };
 
 export default EmergencyContact;

@@ -447,7 +447,7 @@ const ClientAccountPage = () => {
                             <Grid item xs={3} sx={{ mt: 4 }}>
                                 <Button
                                     onClick={(event) => getNewSetupIntent(event)}
-                                    sx={{ width: '100px', height: '20px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
+                                    sx={{ width: '120px', height: '25px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
                                 >
                                     Add new card
                                 </Button>
@@ -499,7 +499,7 @@ const ClientAccountPage = () => {
                                 <Grid item xs={3} sx={{ mt: 1, mb: 1 }}>
                                     <Button
                                         onClick={(event) => getNewSetupIntent(event)}
-                                        sx={{ width: '120px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
+                                        sx={{ width: '140px', height: '30px', fontSize: '12px', fontWeight: 200, color: '#fff' }}
                                     >
                                         Add Client To Class
                                     </Button>

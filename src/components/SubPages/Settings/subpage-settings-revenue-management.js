@@ -14,7 +14,7 @@ import updateDymanicPricingStatus from 'actions/studios/settings/updateDynamicPr
 import UpdateFlashCreditStatus from 'actions/studios/settings/updateFlashCreditStatus';
 
 // actions
-import { setDynamicPricing, setFlashCreditsStore, setGlobalPrices } from 'store/slices/dibsstudio';
+import { setDynamicPricing, setFlashCreditsStore } from 'store/slices/dibsstudio';
 
 // ==============================|| STUDIO ADMIN -> SETTINGS -> REVENUE MANAGEMENT ||============================== //
 const GreenSwitch = styled(Switch)(({ theme }) => ({

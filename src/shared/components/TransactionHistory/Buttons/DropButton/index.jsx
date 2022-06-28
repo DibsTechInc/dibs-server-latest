@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { ROSE_MAIN, SOLD_OUT_GREY } from '../../../../constants/ColorConstants';
+import { ROSE_MAIN } from '../../../../constants/ColorConstants';
 import Button from '../Base';
 import XIcon from '../../../../graphics/Icons/XIcon';
 // import ModalContent from './ModalContent';

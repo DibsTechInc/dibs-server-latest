@@ -40,8 +40,7 @@ import {
     setCustomEmailToSendFrom,
     setStudioConfigData,
     setStudioImageUrls,
-    setStudioCancelTime,
-    setPaymentInfo
+    setStudioCancelTime
 } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';

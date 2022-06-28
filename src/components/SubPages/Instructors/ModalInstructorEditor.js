@@ -106,7 +106,6 @@ export default function ModalInstructorEditor({
     const [timeoutArray, setTimeoutArray] = React.useState([]);
 
     React.useEffect(() => {
-        console.log('use effect is running');
         if (openStatus) {
             handleOpen();
         }

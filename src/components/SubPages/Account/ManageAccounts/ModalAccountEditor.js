@@ -104,7 +104,6 @@ export default function ModalAccountEditor({
     const [timeoutArray, setTimeoutArray] = React.useState([]);
 
     React.useEffect(() => {
-        console.log('use effect is running');
         if (openStatus) {
             handleOpen();
         }

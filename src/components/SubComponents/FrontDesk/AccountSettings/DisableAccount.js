@@ -1,4 +1,4 @@
-import { Grid, Typography, Stack, FormControlLabel, FormGroup, Switch, Button } from '@mui/material';
+import { Grid, Typography, Stack, Button } from '@mui/material';
 
 const DisableAccount = () => (
     <Grid container spacing={2}>
