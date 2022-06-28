@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import { Switch, TextField, FormGroup, FormControlLabel, Divider, Fade } from '@mui/material';
-import { styled, useTheme, alpha } from '@mui/material/styles';
-import { green, red, grey } from '@mui/material/colors';
+import { styled, useTheme } from '@mui/material/styles';
+import { red, grey } from '@mui/material/colors';
 import validator from 'email-validator';
 import { validatePhone, formatPhone } from 'helpers/general';
 import UpdateInstructorInfo from 'actions/studios/instructors/updateInstructorInfo';
@@ -31,21 +31,7 @@ const CreateAccountTextField = styled(TextField)({
     }
 });
 
-const GreenSwitch = styled(Switch)(({ theme }) => ({
-    '& .MuiSwitch-switchBase.Mui-checked.Mui-disabled': {
-        color: theme.palette.success.dibsgreen,
-        '&:hover': {
-            backgroundColor: alpha(green[600], theme.palette.success.successDibsGreen)
-        }
-    },
-    '& .MuiSwitch-switchBase.Mui-checked': {
-        color: green[600]
-    },
-    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-        backgroundColor: green[600]
-    }
-}));
-const RedSwitch = styled(Switch)(({ theme }) => ({
+const RedSwitch = styled(Switch)(() => ({
     '& .MuiSwitch-switchBase': {
         color: grey[400]
     },
@@ -79,8 +65,6 @@ export default function ModalInstructorEditor({
     firstname,
     lastname,
     email,
-    adminStatus,
-    loginStatusInstructor,
     canlogin,
     phone,
     handleModalClose,
@@ -89,7 +73,7 @@ export default function ModalInstructorEditor({
 }) {
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
-    const [allowManagerAccess, setAllowManagerAccess] = React.useState(false);
+    // const [allowManagerAccess, setAllowManagerAccess] = React.useState(false);
     const [hasError, setHasError] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState('');
     const [hasSuccess, setHasSuccess] = React.useState(false);
@@ -127,11 +111,11 @@ export default function ModalInstructorEditor({
         }
         if (canlogin) {
             setCheckedManager(true);
-            setAllowManagerAccess(true);
+            // setAllowManagerAccess(true);
         }
         if (!canlogin) {
             setCheckedManager(false);
-            setAllowManagerAccess(false);
+            // setAllowManagerAccess(false);
         }
         return () => {
             timeoutArray.forEach((timeout) => {
@@ -149,11 +133,7 @@ export default function ModalInstructorEditor({
     };
     const displayLoginPrivileges = `${firstnameStr} ${checkedManager ? 'DOES' : 'does NOT'} have login privileges.`;
     const deactiveThisInstructor = `Deactivate this instructor`;
-    const handleChange = (event) => {
-        setCheckedManager(event.target.checked);
-        setAllowManagerAccess(!allowManagerAccess);
-    };
-    const handleDeactivateChange = (event) => {
+    const handleDeactivateChange = () => {
         setDeactivateAccount(!deactivateAccount);
         const tid = setTimeout(() => {
             setClickedDeactivate(!clickedDeactivate);
@@ -175,7 +155,7 @@ export default function ModalInstructorEditor({
         setFirstnameStr('');
         setLastnameStr('');
         setCheckedManager(false);
-        setAllowManagerAccess(false);
+        // setAllowManagerAccess(false);
     };
     const handleErrorProcess = (errorMsg) => {
         setHasSuccess(false);

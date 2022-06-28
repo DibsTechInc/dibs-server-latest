@@ -1,6 +1,6 @@
 import * as React from 'react';
 import propTypes from 'prop-types';
-import { useSelector } from 'store';
+import { useSelector, useDispatch } from 'store';
 import MuiAccordion from '@mui/material/Accordion';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MuiAccordionSummary from '@mui/material/AccordionSummary';
@@ -16,6 +16,7 @@ import SubmitButton from 'shared/components/Button/submitButton';
 import SetLimitsOnUsage from './setLimitsOnUsage';
 import SetCanBeAppliedTo from './setCanBeAppliedTo';
 import CreateNewPromoCode from 'actions/studios/promocodes/createNewPromoCode';
+import { setPromoNeedsRefresh } from 'store/slices/datatables';
 
 const ExpirationDateInfo = (props) => {
     const { setDate } = props;
@@ -163,6 +164,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 export default function PromoCodeAccordian(props) {
     const { codename, clearCodeName } = props;
+    const dispatch = useDispatch();
     const theme = useTheme();
     const { config } = useSelector((state) => state.dibsstudio);
     const { id, studioid, dibsStudioId } = config;
@@ -203,13 +205,16 @@ export default function PromoCodeAccordian(props) {
         setHasError(false);
         setSuccessMessage(successMsg);
         setHasSuccess(true);
-        clearCodeName();
         setExpanded(false);
         const timeoutid = setTimeout(() => {
             setHasSuccess(false);
             setSuccessMessage('');
         }, 7000);
-        setTimeoutArray([...timeoutArray, timeoutid]);
+        const timeoutidname = setTimeout(() => {
+            clearCodeName();
+            dispatch(setPromoNeedsRefresh(true));
+        }, 3000);
+        setTimeoutArray([...timeoutArray, timeoutid, timeoutidname]);
     };
     const handleSubmit = async () => {
         if (allRequirementsFullfilled) {

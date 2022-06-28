@@ -11,7 +11,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     promocodes: {
         headers: {},
-        data: {}
+        data: {},
+        needsRefresh: false
     }
 };
 
@@ -25,12 +26,15 @@ const datatables = createSlice({
         },
         addPromoCodeData(state, action) {
             state.promocodes.data = action.payload;
+        },
+        setPromoNeedsRefresh(state, action) {
+            state.promocodes.needsRefresh = action.payload;
         }
     }
 });
 
 // Reducer
 export default datatables.reducer;
-export const { addPromoCodeHeaders, addPromoCodeData } = datatables.actions;
+export const { addPromoCodeHeaders, addPromoCodeData, setPromoNeedsRefresh } = datatables.actions;
 
 // ----------------------------------------------------------------------

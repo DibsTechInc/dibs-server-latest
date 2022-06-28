@@ -3,7 +3,7 @@ import DataTable from 'shared/components/Table/DataTable';
 import { Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'store';
 import GetActivePromoCodes from 'actions/studios/promocodes/getActivePromoCodes';
-import { addPromoCodeHeaders, addPromoCodeData } from 'store/slices/datatables';
+import { addPromoCodeHeaders, addPromoCodeData, setPromoNeedsRefresh } from 'store/slices/datatables';
 
 // table header
 const headCells = [
@@ -71,8 +71,11 @@ const headCells = [
 export default function PromoCodesTable() {
     const dispatch = useDispatch();
     const [doneLoadingData, setDoneLoadingData] = React.useState(false);
+    const [refreshPromoData, setRefreshPromoData] = React.useState(false);
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
+    const { promocodes } = useSelector((state) => state.datatables);
+    const { needsRefresh } = promocodes;
     React.useEffect(() => {
         const fetchData = async () => {
             await GetActivePromoCodes(dibsStudioId)
@@ -80,12 +83,18 @@ export default function PromoCodesTable() {
                     dispatch(addPromoCodeHeaders(headCells));
                     dispatch(addPromoCodeData(result.promodata));
                     setDoneLoadingData(true);
+                    setRefreshPromoData(false);
+                    dispatch(setPromoNeedsRefresh(false));
                 })
                 .catch((err) => {
                     console.log(err);
                 });
         };
         fetchData();
-    }, [dibsStudioId, dispatch]);
-    return <Grid container>{doneLoadingData ? <DataTable tabletype="promocode" /> : <div>Loading...</div>}</Grid>;
+    }, [dibsStudioId, dispatch, refreshPromoData, needsRefresh]);
+    return (
+        <Grid container>
+            {doneLoadingData ? <DataTable tabletype="promocode" setRefreshPromoData={setRefreshPromoData} /> : <div>Loading...</div>}
+        </Grid>
+    );
 }

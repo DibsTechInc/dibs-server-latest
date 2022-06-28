@@ -8,7 +8,7 @@ import ExistingPromoCodes from '../../SubComponents/FrontDesk/PromoCodes/Existin
 // ==============================|| PROMO CODE PAGE ||============================== //
 
 const guidance = `To create a new promo code, enter the text that you'd like to use for the code.`;
-const newAccountGuidance = `Here is a list of the promo codes that you've already created. Click on a promo code below to make edits.`;
+const newAccountGuidance = `Here is a list of the promo codes that you've already created. Click on a promo code below to deactivate the code. To edit existing promo codes, deactivate the code and create a new code with the same name.`;
 const FrontDeskPromoCodes = () => (
     <Grid container direction="column">
         <Grid item xs={5}>

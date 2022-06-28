@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { gridSpacing } from 'store/constant';
 import { useSelector } from 'store';
 // material-ui
@@ -12,8 +12,17 @@ const PromoCodeSearch = () => {
     const [value, setValue] = useState('');
     const { config } = useSelector((state) => state.dibsstudio);
     const { dibsStudioId } = config;
+    const { promocodes } = useSelector((state) => state.datatables);
+    const { needsRefresh } = promocodes;
     const [codeAlreadyExists, setCodeAlreadyExists] = useState(false);
     const [checkedExistence, setCheckedExistence] = useState(false);
+    // const [newCodeNow, setNewCodeNow] = useState(false);
+    useEffect(() => {
+        if (needsRefresh) {
+            setCodeAlreadyExists(false);
+            setCheckedExistence(false);
+        }
+    }, [needsRefresh]);
     const handleChange = (e) => {
         let nospace = e.target.value;
         nospace = nospace.replace(/\s/g, '');
@@ -42,7 +51,7 @@ const PromoCodeSearch = () => {
             {checkedExistence && codeAlreadyExists && (
                 <Grid item xs={12}>
                     <Typography variant="body1" color="error" sx={{ mb: 2 }}>
-                        This code is already in use. Please choose another text string for the promo code.
+                        This code is already active. Please choose another text string for the promo code.
                     </Typography>
                 </Grid>
             )}

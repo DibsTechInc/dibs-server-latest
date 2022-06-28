@@ -54,6 +54,7 @@ const createNewInstructor = require('./studio/instructors/create-new-instructor'
 const checkCode = require('./studio/promo-codes/check-code-exists');
 const createNewPromoCode = require('./studio/promo-codes/create-new-promocode');
 const getActivePromoCodes = require('./studio/promo-codes/get-active-promocodes');
+const deactivatePromoCode = require('./studio/promo-codes/deactivate-promocode');
 
 const router = express();
 
@@ -111,6 +112,7 @@ router.post('/studio/instructors/create', createNewInstructor);
 router.post('/studio/promo-codes/check-code', checkCode);
 router.post('/studio/promo-codes/create', createNewPromoCode);
 router.post('/studio/promo-codes/get-active', getActivePromoCodes);
+router.post('/studio/promo-codes/deactivate', deactivatePromoCode);
 
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 
