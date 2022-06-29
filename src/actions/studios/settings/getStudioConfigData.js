@@ -13,6 +13,7 @@ export const GetStudioConfigData = async (dibsStudioId) => {
                 studioConfigData: response.data.studioconfigdata,
                 imageUrls: response.data.imageUrls,
                 cancelTime: response.data.cancelTime,
+                timeZone: response.data.timeZone,
                 paymentInfo: response.data.paymentInfo
             };
         }

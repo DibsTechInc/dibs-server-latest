@@ -137,6 +137,9 @@ const dibsstudio = createSlice({
         setStudioCancelTime(state, action) {
             state.studioConfig.cancelTime = action.payload;
         },
+        setStudioTimeZone(state, action) {
+            state.studioConfig.timeZone = action.payload;
+        },
         setStudioColorRedux(state, action) {
             state.studioConfig.color = action.payload;
         }
@@ -163,7 +166,8 @@ export const {
     setStudioCancelTime,
     setTaxesRedux,
     setStudioProfileAccountInfo,
-    setPaymentInfo
+    setPaymentInfo,
+    setStudioTimeZone
 } = dibsstudio.actions;
 
 // ----------------------------------------------------------------------

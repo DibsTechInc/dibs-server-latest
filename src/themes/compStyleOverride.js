@@ -55,7 +55,7 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                     }
                 },
                 input: {
-                    fontWeight: 500,
+                    fontWeight: 400,
                     background: outlinedFilled ? bgColor : 'transparent',
                     padding: '12px 12px',
                     borderRadius: `${borderRadius}px`,

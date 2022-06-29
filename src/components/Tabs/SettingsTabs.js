@@ -40,7 +40,8 @@ import {
     setCustomEmailToSendFrom,
     setStudioConfigData,
     setStudioImageUrls,
-    setStudioCancelTime
+    setStudioCancelTime,
+    setStudioTimeZone
 } from 'store/slices/dibsstudio';
 
 import { useSelector, useDispatch } from 'store';
@@ -108,6 +109,8 @@ export default function SettingsTabs() {
                 dispatch(setStudioConfigData(sc.studioConfigData));
                 dispatch(setStudioImageUrls(sc.imageUrls));
                 dispatch(setStudioCancelTime(sc.cancelTime));
+                console.log(`sc.timeZone is: ${sc.timeZone}`);
+                dispatch(setStudioTimeZone(sc.timeZone));
             });
             await getDynamicPricing(dibsStudioId).then((status) => {
                 // console.log(`status from dynamic pricing is: ${JSON.stringify(status)}`);

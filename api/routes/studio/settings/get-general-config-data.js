@@ -28,7 +28,7 @@ async function getGeneralConfigData(req, res) {
             }
         });
         const cancelTime = await models.dibs_studio.findOne({
-            attributes: ['cancel_time'],
+            attributes: ['cancel_time', 'mainTZ'],
             where: {
                 id: dibsStudioId
             }
@@ -55,6 +55,7 @@ async function getGeneralConfigData(req, res) {
             studioconfigdata,
             imageUrls,
             cancelTime: cancelTime.cancel_time,
+            timeZone: cancelTime.mainTZ,
             paymentInfo
         });
     } catch (err) {

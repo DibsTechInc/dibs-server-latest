@@ -87,7 +87,9 @@ const Palette = (navType, presetColor) => {
                 cancel: colors.grey300,
                 hover: colors.grey400,
                 submit: colors.successDibsGreen,
-                hoverSubmit: colors.submitGreen
+                hoverSubmit: colors.submitGreen,
+                option: colors.grey50,
+                hoverOption: colors.packageLight
             },
             warning: {
                 light: colors.warningLight,
