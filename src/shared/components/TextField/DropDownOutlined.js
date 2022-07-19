@@ -35,7 +35,7 @@ export default function DropDownTextField({ valueString, widthNumber, onChange, 
     );
 }
 DropDownTextField.propTypes = {
-    valueString: propTypes.string,
+    valueString: propTypes.oneOfType([propTypes.string, propTypes.number]),
     widthNumber: propTypes.number,
     onChange: propTypes.func,
     options: propTypes.array
