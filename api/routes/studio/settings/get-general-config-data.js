@@ -49,7 +49,6 @@ async function getGeneralConfigData(req, res) {
                 id: dibsStudioId
             }
         });
-        console.log(`\n\n\n\ngeneralconfigdata is: ${JSON.stringify(studioconfigdata)}`);
         res.json({
             msg: 'success',
             studioconfigdata,

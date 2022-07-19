@@ -6,7 +6,6 @@ import DatePicker from 'shared/components/DatePicker/datePickerNormal';
 // ==============================|| SUBCOMPONENT OF REPORTS - CHOOSE DATE OPTIONS ||============================== //
 
 const ChooseDateOptions = ({ dateRange, setStartDate, setEndDate }) => {
-    console.log(`chooseDateOptions is being called with: ${JSON.stringify(dateRange)}`);
     if (dateRange === 'custom') {
         return (
             <Fade in>

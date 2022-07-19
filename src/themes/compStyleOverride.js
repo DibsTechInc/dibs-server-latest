@@ -398,7 +398,7 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                 }
             }
         },
-        MuiTableCell: {
+        MuiTableHead: {
             styleOverrides: {
                 root: {
                     borderColor: mode === 'dark' ? theme.palette.text.primary + 15 : theme.palette.grey[200],
@@ -407,6 +407,21 @@ export default function componentStyleOverrides(theme, borderRadius, outlinedFil
                         fontSize: '0.775rem',
                         color: theme.palette.grey[600],
                         fontWeight: 500
+                    }
+                }
+            }
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    borderColor: mode === 'dark' ? theme.palette.text.primary + 15 : theme.palette.grey[200],
+                    fontSize: '0.775rem',
+                    '&.MuiTableCell-head': {
+                        fontSize: '0.8rem',
+                        // color: theme.palette.grey[600],
+                        color: theme.palette.secondary.main,
+                        fontWeight: 500,
+                        background: theme.palette.grey[100]
                     }
                 }
             }

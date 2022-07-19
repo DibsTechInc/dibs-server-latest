@@ -9,7 +9,6 @@ export default function ColorToggleButton(props) {
 
     const handleChange = (event, newValue) => {
         setChoice(newValue);
-        console.log(`dateRange is being set to: ${newValue}`);
         setDateRange(newValue);
     };
 

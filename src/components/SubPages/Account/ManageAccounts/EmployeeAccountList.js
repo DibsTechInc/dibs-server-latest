@@ -355,7 +355,6 @@ const EmployeeAccountList = (props) => {
                                 if (row.lastName === null) {
                                     row.lastName = '';
                                 }
-                                // console.log(`row is: ${JSON.stringify(row)}`);
                                 const phoneToShow = formatPhone(row.phone);
                                 const momentDeleted = moment(row.deleted_at).format('MM/DD/YYYY');
                                 const deletedText = viewingActiveAccounts ? '' : `Deactivated on: ${momentDeleted}`;

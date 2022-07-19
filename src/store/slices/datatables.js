@@ -13,6 +13,14 @@ const initialState = {
         headers: {},
         data: {},
         needsRefresh: false
+    },
+    reporting: {
+        title: '',
+        headers: {},
+        data: {},
+        summary: {},
+        csvData: {},
+        needsRefresh: false
     }
 };
 
@@ -29,12 +37,28 @@ const datatables = createSlice({
         },
         setPromoNeedsRefresh(state, action) {
             state.promocodes.needsRefresh = action.payload;
+        },
+        setReportingDataForTable(state, action) {
+            state.reporting.data = action.payload;
+        },
+        setSummaryForTable(state, action) {
+            state.reporting.summary = action.payload;
+        },
+        setCsvDataForTable(state, action) {
+            state.reporting.csvData = action.payload;
         }
     }
 });
 
 // Reducer
 export default datatables.reducer;
-export const { addPromoCodeHeaders, addPromoCodeData, setPromoNeedsRefresh } = datatables.actions;
+export const {
+    addPromoCodeHeaders,
+    addPromoCodeData,
+    setPromoNeedsRefresh,
+    setCsvDataForTable,
+    setReportingDataForTable,
+    setSummaryForTable
+} = datatables.actions;
 
 // ----------------------------------------------------------------------
