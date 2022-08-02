@@ -57,6 +57,8 @@ const getActivePromoCodes = require('./studio/promo-codes/get-active-promocodes'
 const deactivatePromoCode = require('./studio/promo-codes/deactivate-promocode');
 const getSalesData = require('./studio/reporting/get-sales-data');
 const getSalesSummaryData = require('./studio/reporting/get-sales-summary-data');
+const getStudioLocations = require('./studio/get-studio-locations');
+const getAttendanceData = require('./studio/reporting/get-attendance-data');
 
 const router = express();
 
@@ -79,6 +81,7 @@ router.post('/get-upcoming-classes', getUpcomingClasses);
 router.post('/get-available-passes', getAvailablePasses);
 router.post('/get-client-notes', getClientNotes);
 router.post('/get-client-credit', getClientCredit);
+router.post('/get-studio-locations', getStudioLocations);
 router.post('/transactions/:type', getUserTransactions);
 router.post('/studio/retail/get-retail-products', getRetailProducts);
 router.post('/studio/calendar/events', getStudioEvents);
@@ -117,6 +120,7 @@ router.post('/studio/promo-codes/get-active', getActivePromoCodes);
 router.post('/studio/promo-codes/deactivate', deactivatePromoCode);
 router.post('/studio/reporting/get-sales-data', getSalesData);
 router.post('/studio/reporting/get-sales-summary-data', getSalesSummaryData);
+router.post('/studio/reporting/get-attendance-data', getAttendanceData);
 
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 

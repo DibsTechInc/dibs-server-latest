@@ -4,7 +4,7 @@ import DropDownMenu from 'shared/components/TextField/DropDownOutlined';
 import getLocations from 'actions/studios/getStudioLocations';
 
 export default function LocationSelector({ dibsStudioId, onChangeLocation, valueString, widthNumber }) {
-    const menuOptions = useMemo(() => [{ value: 'all', label: 'All Locations' }], []);
+    const menuOptions = useMemo(() => [{ value: '999', label: 'All Locations' }], []);
     const [locationOptions, setLocationOptions] = useState(menuOptions);
     useEffect(() => {
         const getLocationsFromDb = async () => {

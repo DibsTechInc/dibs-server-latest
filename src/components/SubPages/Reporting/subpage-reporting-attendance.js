@@ -14,14 +14,14 @@ import { setReportingDataForTable, setSummaryForTable, setCsvDataForTable } from
 // project imports
 import LocationSelector from 'shared/components/Selectors/LocationSelectors';
 import { useSelector, useDispatch } from 'store';
-import RunReport from 'actions/studios/reporting/runReport';
+import RunAttendanceReport from 'actions/studios/reporting/runAttendanceReport';
 import RunCsvReport from 'actions/studios/reporting/runCSVReport';
 import RunSummaryReport from 'actions/studios/reporting/runSummaryReport';
 import InfoIcon from 'shared/components/HelpInfo/infoIcon';
 
 // ==============================|| SALES REPORTS ||============================== //
 
-const menuOptions = [{ value: 'all', label: 'All Locations' }];
+const menuOptions = [{ value: '999', label: 'All Locations' }];
 const dateOptions = [
     { value: 'today', label: 'Today' },
     { value: 'yesterday', label: 'Yesterday' },
@@ -94,7 +94,7 @@ const ReportingSalesReports = () => {
                 dispatch(setSummaryForTable(res.summaryData));
             }
         });
-        await RunReport(dibsStudioId, reportSpecs, timeZone).then((res) => {
+        await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
             if (res.msg === 'failure') {
                 console.log('it was an error');
             }
