@@ -90,8 +90,8 @@ const ReportingSalesReports = () => {
                 console.log('it was an error');
             }
             if (res.msg === 'success') {
-                setShowLoader(false);
                 dispatch(setSummaryForTable(res.summaryData));
+                setShowLoader(false);
             }
         });
         await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
@@ -100,8 +100,8 @@ const ReportingSalesReports = () => {
             }
             if (res.msg === 'success') {
                 dispatch(setReportingDataForTable(res.reportData));
-                setShowLoader(false);
                 setShowReportResults(true);
+                setShowLoader(false);
             }
         });
         await RunCsvReport(dibsStudioId, reportSpecs, timeZone).then((res) => {
@@ -176,7 +176,7 @@ const ReportingSalesReports = () => {
                 <RunReportButton id="run-report" valueString="Run Report" onClick={handleRunReport} />
             </Grid>
             {showLoader && (
-                <Grid item xs={12} sx={{ mt: 6 }}>
+                <Grid item xs={12} sx={{ mt: 1 }}>
                     <LoaderLinear />
                 </Grid>
             )}

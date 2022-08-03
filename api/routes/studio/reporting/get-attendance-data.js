@@ -21,7 +21,8 @@ module.exports = async function getAttendanceData(req, res) {
                 'checkedin',
                 'dropped',
                 'early_cancel',
-                'spot_id'
+                'spot_id',
+                'serviceName'
             ],
             where: {
                 dibs_studio_id: dibsStudioId,
@@ -54,7 +55,6 @@ module.exports = async function getAttendanceData(req, res) {
                 ['firstname', 'ASC']
             ]
         });
-        console.log(`\n\n\n\n\nattendance reportData: ${JSON.stringify(reportData)}`);
         res.json(apiSuccessWrapper({ reportData }, 'Successfully retrieved attendance data'));
     } catch (err) {
         errorHelper.handleError({

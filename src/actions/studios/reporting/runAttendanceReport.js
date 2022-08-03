@@ -45,12 +45,20 @@ const getAttendedStatus = (checkedin, dropped, earlyCancel) => {
     return 'No Show';
 };
 
+const getClasspassStatus = (serviceName) => {
+    if (serviceName === 'Classpass' || serviceName === 'ClassPass') {
+        return 'ClassPass';
+    }
+    return 'Not Yet Set';
+};
+
 export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone, locationToShow) => {
     try {
         const datatoreturn = [];
         const response = await axios.post('/api/studio/reporting/get-attendance-data', {
             dibsStudioId,
-            attendanceInfo
+            attendanceInfo,
+            locationToShow
         });
         if (response.data.success) {
             console.log(`\n\n\n\n\nattendance reportData: ${JSON.stringify(response.data.reportData)}`);
@@ -63,14 +71,16 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 const nameOfClass = row.events.name;
                 const locationName = row.events.location.name;
                 const locationId = row.events.locationid;
+                const clientName = `${row.firstname} ${row.lastname}`;
                 const instructorName = `${row.events.instructor.firstname} ${row.events.instructor.lastname}`;
                 const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
+                console.log(`serviceName for this row is: ${row.serviceName}`);
+                const paymentType = getClasspassStatus(row.serviceName);
                 const { email } = row;
                 const rowData = [
                     row.id,
                     row.userid,
-                    row.firstname,
-                    row.lastname,
+                    clientName,
                     email,
                     visitDate,
                     visitTime,
@@ -81,8 +91,9 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     row.eventid,
                     attendedStatus,
                     // date booked
-                    // payment type
-                    row.events.dibs_price
+                    paymentType,
+                    row.events.dibs_price,
+                    row.transactionData
                     // promo code applied
                     // flash credit applied
                     // total discounts
@@ -90,10 +101,11 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     // net revenue attributed
                 ];
                 if (locationId === locationToShow || locationToShow === '999') {
+                    // get the transaction data to include
                     datatoreturn.push(rowData);
                 }
             });
-            console.log(`\n\n\n\n\ndataToReturn is:\n\n${JSON.stringify(datatoreturn)}`);
+            console.log(`\n\n\n\n\ndataToReturn is after classpass entry:\n\n${JSON.stringify(datatoreturn)}`);
             return {
                 msg: 'success',
                 reportData: datatoreturn
