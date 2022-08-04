@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
@@ -19,6 +19,12 @@ import ReportingSalesRevenueSubPage from '../SubPages/Reporting/subpage-reportin
 import ReportingAttendanceRevenueSubPage from '../SubPages/Reporting/subpage-reporting-attendance';
 import ReportingClientsSubpage from '../SubPages/Reporting/subpage-reporting-clients';
 import ReportingCustomReportsSubpage from '../SubPages/Reporting/subpage-reporting-custom-reports';
+
+// actions
+import GetStudioConfigData from 'actions/studios/settings/getStudioConfigData';
+import { setPaymentInfo } from 'store/slices/dibsstudio';
+
+import { useSelector, useDispatch } from 'store';
 
 // tab content customize
 function TabPanel({ children, value, index, ...other }) {
@@ -54,7 +60,18 @@ function a11yProps(index) {
 
 export default function ColorTabs() {
     const theme = useTheme();
+    const dispatch = useDispatch();
     const [value, setValue] = React.useState(0);
+    const { config } = useSelector((state) => state.dibsstudio);
+    const { dibsStudioId } = config;
+    useEffect(() => {
+        const gettingPaymentInfo = async () => {
+            await GetStudioConfigData(dibsStudioId).then((sc) => {
+                dispatch(setPaymentInfo(sc.paymentInfo));
+            });
+        };
+        gettingPaymentInfo();
+    }, [dibsStudioId, dispatch]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };

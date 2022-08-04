@@ -14,7 +14,7 @@ import { setReportingDataForTable, setSummaryForTable, setCsvDataForTable } from
 // project imports
 import LocationSelector from 'shared/components/Selectors/LocationSelectors';
 import { useSelector, useDispatch } from 'store';
-import RunAttendanceReport from 'actions/studios/reporting/runAttendanceReport';
+import RunAttendanceReport from 'actions/studios/reporting/runAttendanceReportNew';
 import RunCsvReport from 'actions/studios/reporting/runCSVReport';
 import RunSummaryReport from 'actions/studios/reporting/runSummaryReport';
 import InfoIcon from 'shared/components/HelpInfo/infoIcon';
@@ -95,8 +95,9 @@ const ReportingSalesReports = () => {
             }
         });
         await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
+            console.log(`\n\n\n\n\n\n\n8/4 - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`);
             if (res.msg === 'failure') {
-                console.log('it was an error');
+                console.log('there was an error calling the attendance report');
             }
             if (res.msg === 'success') {
                 dispatch(setReportingDataForTable(res.reportData));
