@@ -53,7 +53,6 @@ module.exports = async function getSalesData(req, res) {
             order: [['createdAt']],
             void: false
         });
-        console.log(`\n\n\n\n\nreportData: ${JSON.stringify(reportData)}`);
         res.json(apiSuccessWrapper({ reportData }, 'Successfully retrieved products'));
     } catch (err) {
         errorHelper.handleError({
