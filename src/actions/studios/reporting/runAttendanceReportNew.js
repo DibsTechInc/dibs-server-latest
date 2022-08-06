@@ -79,11 +79,13 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
         const addDataToReport = async (row) => {
             await new Promise((resolve, reject) => {
                 console.log(`\n\n\n\n\nthis row is: ${JSON.stringify(row)}`);
+                console.log(`timezone is: ${timeZone}`);
                 const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
                 console.log(`attendedStatus for ${row.attendeeID} is ${attendedStatus}`);
-                const visitDate = moment(row.saleDate).tz(timeZone).format('M/D/YY');
-                const visitTime = moment(row.saleDate).tz(timeZone).format('h:mm a');
-                const visitDay = moment(row.saleDate).tz(timeZone).format('ddd');
+                const visitDate = moment(row.visitDate).tz(timeZone).format('M/D/YY');
+                const visitTime = moment(row.visitDate).tz(timeZone).format('h:mm a');
+                const visitDay = moment(row.visitDate).tz(timeZone).format('ddd');
+                const bookedDate = moment(row.createdAt).tz(timeZone).format('M/D/YY');
                 const nameOfClass = row.events.name;
                 const locationName = row.events.location.name;
                 let paymentTypeToSend = 'Not yet set';
@@ -98,29 +100,32 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 const { paymentType, grossRevenue, netRevenue } = paymentInfo;
                 console.log(`\n\n\n\npaymentType for ${row.attendeeID} is ${paymentType}\n\n\n\n`);
                 paymentTypeToSend = paymentType;
-                const grossRevToSend = grossRevenue;
-                const netRevToSend = netRevenue;
+                let grossRevToSend = grossRevenue;
+                let netRevToSend = netRevenue;
                 const getMoreComplexPaymentType = async () => {
                     if (paymentTypeToSend === 'Payment Type - Not yet set') {
                         // create a promise to find the info
                         console.log('about to make the getComplexPaymentStatus call');
                         console.log(`call being made for ${row.attendeeID}`);
-                        const newPaymentInfo = await getComplexPaymentStatus(row.attendeeID)
+                        // const newPaymentInfo =
+                        await getComplexPaymentStatus(row.attendeeID)
                             .then((response) => {
                                 console.log(
                                     `\n\n\n\n\nresponse from the getComplexPaymentStatus call for ${row.attendeeID} is: ${JSON.stringify(
                                         response
                                     )}`
                                 );
-                                const { paymentTypeDB } = response;
+                                const { paymentTypeDB, grossRevenueDB, netRevenueDB } = response;
                                 paymentTypeToSend = paymentTypeDB;
+                                grossRevToSend = grossRevenueDB;
+                                netRevToSend = netRevenueDB;
                             })
                             .catch((err) => {
                                 console.log(
                                     `\n\n\n\n\nerror from the getComplexPaymentStatus call for ${row.attendeeID} is: ${JSON.stringify(err)}`
                                 );
                             });
-                        console.log(`newPaymentInfo that was returned from complex api call is: ${JSON.stringify(newPaymentInfo)}`);
+                        // console.log(`newPaymentInfo that was returned from complex api call is: ${JSON.stringify(newPaymentInfo)}`);
                     }
                     const rowData = [
                         row.id,
@@ -136,7 +141,7 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                         instructorName,
                         row.eventid,
                         attendedStatus,
-                        // date booked
+                        bookedDate,
                         paymentTypeToSend, // paymentType
                         row.events.price_dibs,
                         promCodeApplied,
@@ -156,10 +161,20 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
             reportData.forEach((row) => {
                 promises.push(addDataToReport(row));
             });
-            await Promise.all(promises).then(() => ({
-                msg: 'success',
-                reportData: datatoreturn
-            }));
+            await Promise.all(promises).then(() => {
+                // passestoreturn.sort((a, b) => (a.totalUses === null || a.totalUses < b.totalUses ? 1 : -1));
+                console.log(`datatoreturn[5] is: ${JSON.stringify(datatoreturn[5])}`);
+                datatoreturn.sort((a, b) => (a[5] > b[5] ? 1 : -1));
+                datatoreturn.sort((a, b) => (a[6] > b[6] ? 1 : -1));
+                return {
+                    msg: 'success',
+                    reportData: datatoreturn
+                };
+            });
+            // await Promise.all(promises).then(() => ({
+            //     msg: 'success',
+            //     reportData: datatoreturn
+            // }));
         }
     } catch (err) {
         console.log(`error running attendance report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);

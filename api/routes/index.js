@@ -59,6 +59,7 @@ const getSalesData = require('./studio/reporting/get-sales-data');
 const getSalesSummaryData = require('./studio/reporting/get-sales-summary-data');
 const getStudioLocations = require('./studio/get-studio-locations');
 const getAttendanceData = require('./studio/reporting/get-attendance-data');
+const getTransactionDataForAttendanceReport = require('./studio/reporting/get-transaction-data-for-attendance-report');
 
 const router = express();
 
@@ -121,6 +122,7 @@ router.post('/studio/promo-codes/deactivate', deactivatePromoCode);
 router.post('/studio/reporting/get-sales-data', getSalesData);
 router.post('/studio/reporting/get-sales-summary-data', getSalesSummaryData);
 router.post('/studio/reporting/get-attendance-data', getAttendanceData);
+router.post('/studio/reporting/get-transaction-data-for-attendance', getTransactionDataForAttendanceReport);
 
 // router.post('./stripe-add-next-card', stripeSetUpIntentMoreCards);
 

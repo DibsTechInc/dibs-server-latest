@@ -22,7 +22,8 @@ module.exports = async function getAttendanceData(req, res) {
                 'dropped',
                 'early_cancel',
                 'spot_id',
-                'serviceName'
+                'serviceName',
+                'createdAt'
             ],
             where: {
                 dibs_studio_id: dibsStudioId,
