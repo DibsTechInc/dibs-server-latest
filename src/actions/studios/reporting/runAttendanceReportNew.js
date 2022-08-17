@@ -82,6 +82,7 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 console.log(`timezone is: ${timeZone}`);
                 const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
                 console.log(`attendedStatus for ${row.attendeeID} is ${attendedStatus}`);
+                const startDate = row.visitDate;
                 const visitDate = moment(row.visitDate).tz(timeZone).format('M/D/YY');
                 const visitTime = moment(row.visitDate).tz(timeZone).format('h:mm a');
                 const visitDay = moment(row.visitDate).tz(timeZone).format('ddd');
@@ -104,10 +105,6 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 let netRevToSend = netRevenue;
                 const getMoreComplexPaymentType = async () => {
                     if (paymentTypeToSend === 'Payment Type - Not yet set') {
-                        // create a promise to find the info
-                        console.log('about to make the getComplexPaymentStatus call');
-                        console.log(`call being made for ${row.attendeeID}`);
-                        // const newPaymentInfo =
                         await getComplexPaymentStatus(row.attendeeID)
                             .then((response) => {
                                 console.log(
@@ -127,28 +124,26 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                             });
                         // console.log(`newPaymentInfo that was returned from complex api call is: ${JSON.stringify(newPaymentInfo)}`);
                     }
+                    const grossRevToSendFormatted = formatToDollars(grossRevToSend);
+                    const netRevToSendFormatted = formatToDollars(netRevToSend);
                     const rowData = [
                         row.id,
-                        row.attendeeID,
-                        row.userid,
                         clientName,
                         email,
                         visitDate,
                         visitTime,
-                        visitDay,
+                        startDate,
                         locationName,
                         nameOfClass,
                         instructorName,
-                        row.eventid,
                         attendedStatus,
-                        bookedDate,
                         paymentTypeToSend, // paymentType
-                        row.events.price_dibs,
-                        promCodeApplied,
-                        flastCreditApplied,
-                        totalDiscounts,
-                        grossRevToSend,
-                        netRevToSend
+                        // row.events.price_dibs,
+                        // promCodeApplied,
+                        // flastCreditApplied,
+                        // totalDiscounts,
+                        grossRevToSendFormatted,
+                        netRevToSendFormatted
                     ];
                     datatoreturn.push(rowData);
                     resolve();
@@ -156,25 +151,37 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 getMoreComplexPaymentType();
             });
         };
+        const sortDataByDate = (itemA, itemB) => {
+            if (itemA[5] > itemB[5]) {
+                return 1;
+            }
+            return -1;
+        };
+        const sortName = (itemA, itemB) => {
+            if (itemA[5] === itemB[5]) {
+                if (itemA[1] > itemB[1]) {
+                    return 1;
+                }
+                return -1;
+            }
+            return 0;
+        };
         if (response.data.success) {
             const { reportData } = response.data;
             reportData.forEach((row) => {
                 promises.push(addDataToReport(row));
             });
-            await Promise.all(promises).then(() => {
-                // passestoreturn.sort((a, b) => (a.totalUses === null || a.totalUses < b.totalUses ? 1 : -1));
-                console.log(`datatoreturn[5] is: ${JSON.stringify(datatoreturn[5])}`);
-                datatoreturn.sort((a, b) => (a[5] > b[5] ? 1 : -1));
-                datatoreturn.sort((a, b) => (a[6] > b[6] ? 1 : -1));
-                return {
-                    msg: 'success',
-                    reportData: datatoreturn
-                };
-            });
-            // await Promise.all(promises).then(() => ({
-            //     msg: 'success',
-            //     reportData: datatoreturn
-            // }));
+            await Promise.all(promises)
+                .then(() => {
+                    datatoreturn.sort(sortDataByDate).sort(sortName);
+                })
+                .then(() => {
+                    console.log('now returning the data');
+                    return {
+                        msg: 'success',
+                        reportData: datatoreturn
+                    };
+                });
         }
     } catch (err) {
         console.log(`error running attendance report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);

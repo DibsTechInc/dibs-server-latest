@@ -42,7 +42,8 @@ module.exports = async function getSalesData(req, res) {
                 {
                     model: models.dibs_user,
                     attributes: ['id', 'firstName', 'lastName', 'email'],
-                    as: 'user'
+                    as: 'user',
+                    paranoid: false
                 },
                 {
                     model: models.studio_packages,
@@ -51,7 +52,8 @@ module.exports = async function getSalesData(req, res) {
                 }
             ],
             order: [['createdAt']],
-            void: false
+            void: false,
+            paranoid: false
         });
         res.json(apiSuccessWrapper({ reportData }, 'Successfully retrieved products'));
     } catch (err) {

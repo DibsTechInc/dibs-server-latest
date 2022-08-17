@@ -6,6 +6,9 @@ const {
 
 module.exports = async function getTransactionDataForAttendanceReport(req, res) {
     const { attendeeAsNumber } = req.body;
+    const membershipGross = 19;
+    const membershipNet = 18.22;
+    const membershipText = 'Unlimited Membership';
     try {
         console.log(`attendeeId from getTransactionData for attendance report is: ${attendeeAsNumber}`);
         const paymentData = { paymentTypeDB: 'Not yet set', grossRevenueDB: 0, netRevenueDB: 0 };
@@ -71,14 +74,42 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
             paymentData.paymentTypeDB = packageData.name;
             // find out how much they paid for the package (not unlimited)
             const packagePriceInfo = await models.dibs_transaction.findOne({
-                attributes: ['amount', 'studio_credits_spent', 'stripe_charge_id', 'tax_amount', 'stripe_fee', 'dibs_fee'],
+                attributes: [
+                    'amount',
+                    'discount_amount',
+                    'studio_credits_spent',
+                    'stripe_charge_id',
+                    'tax_amount',
+                    'stripe_fee',
+                    'dibs_fee'
+                ],
                 where: {
                     for_passid: transactionData.with_passid
                 }
             });
             console.log(
-                `They bought with a package\npackagePriceInfo for attendeeId: ${attendeeAsNumber} is: ${JSON.stringify(packagePriceInfo)}`
+                `\n\n\n\n%%%%%%%%%%%%%%%%%%\n\nThey bought with a package\npackagePriceInfo for attendeeId: ${attendeeAsNumber} is: ${JSON.stringify(
+                    packagePriceInfo
+                )}\n\n\n\n\n\n`
             );
+            if (passData.totalUses <= 80) {
+                const grossRev = (packagePriceInfo.amount - packagePriceInfo.discount_amount) / passData.totalUses;
+                const netRev =
+                    (packagePriceInfo.amount -
+                        packagePriceInfo.discount_amount -
+                        packagePriceInfo.tax_amount -
+                        packagePriceInfo.stripe_fee -
+                        packagePriceInfo.dibs_fee) /
+                    passData.totalUses;
+                paymentData.grossRevenueDB = grossRev;
+                paymentData.netRevenueDB = netRev;
+            } else {
+                // need to figure out what the unlimited membership amount is
+                // next - set the membership price before calling the report
+                paymentData.paymentTypeDB = membershipText;
+                paymentData.grossRevenueDB = membershipGross;
+                paymentData.netRevenueDB = membershipNet;
+            }
         }
         // class was purchased with studio credits
         res.json(apiSuccessWrapper({ paymentData }, 'Successfully retrieved transaction data for the attendance report'));

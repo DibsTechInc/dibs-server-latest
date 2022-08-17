@@ -66,6 +66,7 @@
         "firebase": "^9.6.10",
         "formik": "^2.2.9",
         "framer-motion": "^4.1.13",
+        "fs": "0.0.1-security",
         "google-libphonenumber": "^3.2.27",
         "handlebars": "^4.7.7",
         "history": "^5.2.0",

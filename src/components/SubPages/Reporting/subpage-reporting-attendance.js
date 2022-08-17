@@ -5,7 +5,7 @@ import { Grid, Typography, Divider, Stack } from '@mui/material';
 import ToggleButton from 'shared/components/Button/toggleButton';
 import ChooseDateOptions from 'components/SubComponents/Reporting/ChooseDateOptions';
 import RunReportButton from 'shared/components/Button/nonSubmitButtons';
-import ReportsTable from 'shared/components/Table/NewReportsTable';
+import ReportsTable from 'shared/components/Table/AttendanceReportsTable';
 import SummaryForReportTable from 'shared/components/Table/SummaryForReport';
 import ExportToCsv from 'shared/components/Table/ExportToCsv';
 import LoaderLinear from 'shared/components/Progress/ProgressLinear';
@@ -31,31 +31,39 @@ const dateOptions = [
     { value: 'custom', label: 'Custom' }
 ];
 const headers = [
-    'SALE DATE',
-    'USER EMAIL ADDRESS',
-    'DESCRIPTION',
-    'BASE COST',
-    'DISCOUNTS',
-    'PRICE PAID',
-    'CREDIT APPLIED',
-    'GROSS REV',
-    'NET REV'
+    'NAME',
+    'EMAIL',
+    'CLASS DATE',
+    'CLASS TIME',
+    'LOCATION',
+    'CLASS NAME',
+    'INSTRUCTOR',
+    'ATTENDED',
+    'PAYMENT TYPE',
+    'GROSS REV ATTRIBUTED',
+    'NET REV ATTRIBUTED'
 ];
 const csvHeaders = [
-    'TRANSACTION ID',
-    'SALE DATE',
-    'USER EMAIL ADDRESS',
-    'CATEGORY',
-    'DESCRIPTION',
-    'PURCHASE PLACE',
-    'BASE COST',
-    'DISCOUNTS',
-    'PRICE PAID',
-    'CREDIT APPLIED',
-    'GROSS REV',
-    'STRIPE FEE',
-    'DIBS FEE',
-    'NET REV'
+    'ID',
+    'CLASS DATE',
+    'DAY OF WEEK',
+    'CLASS TIME',
+    'CLASS NAME',
+    'LOCATION',
+    'INSTRUCTOR',
+    'EVENTID',
+    'USERID',
+    'EMAIL',
+    'NAME',
+    'ATTENDED',
+    'DATE BOOKED',
+    'PAYMENT TYPE',
+    'ORIGINAL PRICE',
+    'PROMO CODE APPLIED',
+    'FLASH CREDIT APPLIED',
+    'TOTAL DISCOUNTS',
+    'GROSS REVENUE ATTRIBUTED',
+    'NET REVENUE ATTRIBUTED'
 ];
 const summaryTitles = ['Gross Revenue', 'Tax Withheld', 'Dibs Fee', 'Stripe Fee', 'Net Revenue'];
 const widthNumber = 270;
@@ -95,7 +103,7 @@ const ReportingSalesReports = () => {
             }
         });
         await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
-            console.log(`\n\n\n\n\n\n\n8/4 - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`);
+            console.log(`\n\n\n\n\n\n\n8/8 - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`);
             if (res.msg === 'failure') {
                 console.log('there was an error calling the attendance report');
             }

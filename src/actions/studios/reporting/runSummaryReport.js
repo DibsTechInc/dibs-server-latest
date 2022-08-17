@@ -48,7 +48,7 @@ export const RunSalesSummaryReport = async (dibsStudioId, salesInfo) => {
         }
         return { msg: 'failure', error: response.data.error };
     } catch (err) {
-        console.log(`error running report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);
+        console.log(`error running summary report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);
     }
     return 0;
 };
