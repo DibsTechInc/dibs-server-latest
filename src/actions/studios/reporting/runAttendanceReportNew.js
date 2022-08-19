@@ -14,7 +14,6 @@ const formatToDollars = (num) => {
 };
 
 const getAttendedStatus = (checkedin, dropped, earlyCancel) => {
-    console.log(`attended status being checked`);
     if (checkedin) {
         return 'Attended';
     }
@@ -29,32 +28,27 @@ const getAttendedStatus = (checkedin, dropped, earlyCancel) => {
 
 // eslint-disable-next-line consistent-return
 const getEasyPaymentStatus = (serviceName, attendeeId, cpAmount, attendedStatus, priceOfClass) => {
-    console.log(`\n\n\n\n\npayment status being checked for attendeeId: ${attendeeId} attendedStatus: ${attendedStatus}\n\n\n\n\n`);
     if (serviceName === 'Classpass' || serviceName === 'ClassPass') {
         return { paymentType: 'ClassPass', grossRevenue: cpAmount, netRevenue: cpAmount };
     }
     if (attendedStatus === 'Early Drop') {
-        console.log(`attendeeid: ${attendeeId} is an early drop - that is what should be returned`);
         return { paymentType: 'N/A - Early Drop', grossRevenue: 0, netRevenue: 0 };
     }
     if (priceOfClass === 0) {
         console.log(`free class: ${attendeeId} is a free class - that is what should be returned`);
         return { paymentType: 'Free Class', grossRevenue: 0, netRevenue: 0 };
     }
-    console.log('still needs to be set - will take care of that separately');
     return { paymentType: 'Payment Type - Not yet set', grossRevenue: 0, netRevenue: 0 };
 };
 const getComplexPaymentStatus = async (attendeeId) => {
-    console.log(`inside of the getComplexPaymentStatus function`);
     const attendeeAsNumber = Number(attendeeId);
     return new Promise((resolve, reject) => {
         axios
             .post('/api/studio/reporting/get-transaction-data-for-attendance', { attendeeAsNumber })
             .then((response) => {
-                console.log(`\n\n\n\n\nresponse from the api call for attendeeId: ${attendeeId} is: ${JSON.stringify(response)}`);
+                // console.log(`\n\n\n\n\nresponse from the api call for attendeeId: ${attendeeId} is: ${JSON.stringify(response)}`);
                 if (response.data.success) {
                     const { paymentData } = response.data;
-                    console.log(`paymentData --> ${JSON.stringify(paymentData)}`);
                     resolve(paymentData);
                 } else {
                     reject(response.data.error);
@@ -68,6 +62,9 @@ const getComplexPaymentStatus = async (attendeeId) => {
 
 export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone, locationToShow, cpAmount) => {
     const datatoreturn = [];
+    let numAttendees = 0;
+    let totalGrossRevenue = 0;
+    let totalNetRevenue = 0;
     try {
         const promises = [];
         // const paymentTypePromises = [];
@@ -78,28 +75,23 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
         });
         const addDataToReport = async (row) => {
             await new Promise((resolve, reject) => {
-                console.log(`\n\n\n\n\nthis row is: ${JSON.stringify(row)}`);
-                console.log(`timezone is: ${timeZone}`);
                 const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
-                console.log(`attendedStatus for ${row.attendeeID} is ${attendedStatus}`);
                 const startDate = row.visitDate;
                 const visitDate = moment(row.visitDate).tz(timeZone).format('M/D/YY');
                 const visitTime = moment(row.visitDate).tz(timeZone).format('h:mm a');
-                const visitDay = moment(row.visitDate).tz(timeZone).format('ddd');
-                const bookedDate = moment(row.createdAt).tz(timeZone).format('M/D/YY');
+                // const visitDay = moment(row.visitDate).tz(timeZone).format('ddd');
+                // const bookedDate = moment(row.createdAt).tz(timeZone).format('M/D/YY');
                 const nameOfClass = row.events.name;
                 const locationName = row.events.location.name;
                 let paymentTypeToSend = 'Not yet set';
-                const promCodeApplied = null;
-                const flastCreditApplied = null;
-                const totalDiscounts = 0;
+                // const promCodeApplied = null;
+                // const flastCreditApplied = null;
+                // const totalDiscounts = 0;
                 const clientName = `${row.firstname} ${row.lastname}`;
                 const instructorName = `${row.events.instructor.firstname} ${row.events.instructor.lastname}`;
                 const { email } = row;
                 const paymentInfo = getEasyPaymentStatus(row.serviceName, row.attendeeID, cpAmount, attendedStatus, row.events.price_dibs);
-                console.log(`paymentInfo returned for ${row.attendeeID} is ${JSON.stringify(paymentInfo)}`);
                 const { paymentType, grossRevenue, netRevenue } = paymentInfo;
-                console.log(`\n\n\n\npaymentType for ${row.attendeeID} is ${paymentType}\n\n\n\n`);
                 paymentTypeToSend = paymentType;
                 let grossRevToSend = grossRevenue;
                 let netRevToSend = netRevenue;
@@ -107,11 +99,6 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     if (paymentTypeToSend === 'Payment Type - Not yet set') {
                         await getComplexPaymentStatus(row.attendeeID)
                             .then((response) => {
-                                console.log(
-                                    `\n\n\n\n\nresponse from the getComplexPaymentStatus call for ${row.attendeeID} is: ${JSON.stringify(
-                                        response
-                                    )}`
-                                );
                                 const { paymentTypeDB, grossRevenueDB, netRevenueDB } = response;
                                 paymentTypeToSend = paymentTypeDB;
                                 grossRevToSend = grossRevenueDB;
@@ -146,6 +133,9 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                         netRevToSendFormatted
                     ];
                     datatoreturn.push(rowData);
+                    numAttendees += 1;
+                    totalGrossRevenue += grossRevToSend;
+                    totalNetRevenue += netRevToSend;
                     resolve();
                 };
                 getMoreComplexPaymentType();
@@ -176,10 +166,11 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     datatoreturn.sort(sortDataByDate).sort(sortName);
                 })
                 .then(() => {
-                    console.log('now returning the data');
+                    console.log('now returning the data runAttendanceReportNew');
                     return {
                         msg: 'success',
-                        reportData: datatoreturn
+                        reportData: datatoreturn,
+                        summaryData: [numAttendees, formatToDollars(totalGrossRevenue), formatToDollars(totalNetRevenue)]
                     };
                 });
         }
@@ -189,7 +180,8 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
     }
     return {
         msg: 'success',
-        reportData: datatoreturn
+        reportData: datatoreturn,
+        summaryData: [numAttendees, formatToDollars(totalGrossRevenue), formatToDollars(totalNetRevenue)]
     };
 };
 

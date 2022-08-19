@@ -65,7 +65,7 @@ const csvHeaders = [
     'GROSS REVENUE ATTRIBUTED',
     'NET REVENUE ATTRIBUTED'
 ];
-const summaryTitles = ['Gross Revenue', 'Tax Withheld', 'Dibs Fee', 'Stripe Fee', 'Net Revenue'];
+const summaryTitles = ['# of Attendees', 'Gross Revenue To Attribute', 'Net Revenue To Attribute'];
 const widthNumber = 270;
 const attendanceMsg =
     'This report shows each visit in the specified time period. It also shows the actual revenue that can be attributed to each visit. This report does not include retail sales.';
@@ -93,23 +93,28 @@ const ReportingSalesReports = () => {
             endDate
         };
         setShowLoader(true);
-        await RunSummaryReport(dibsStudioId, reportSpecs, timeZone).then((res) => {
-            if (res.msg === 'failure') {
-                console.log('it was an error');
-            }
-            if (res.msg === 'success') {
-                dispatch(setSummaryForTable(res.summaryData));
-                setShowLoader(false);
-            }
-        });
+        // here - going to return summary data in a separate location
+        // await RunSummaryReport(dibsStudioId, reportSpecs, timeZone).then((res) => {
+        //     if (res.msg === 'failure') {
+        //         console.log('it was an error');
+        //     }
+        //     if (res.msg === 'success') {
+        //         dispatch(setSummaryForTable(res.summaryData));
+        //         // setShowLoader(false);
+        //     }
+        // });
         await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
-            console.log(`\n\n\n\n\n\n\n8/8 - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`);
+            console.log(
+                `\n\n\n\n\n\n\n8/19a - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`
+            );
             if (res.msg === 'failure') {
                 console.log('there was an error calling the attendance report');
             }
             if (res.msg === 'success') {
                 dispatch(setReportingDataForTable(res.reportData));
                 setShowReportResults(true);
+                dispatch(setSummaryForTable(res.summaryData));
+                console.log(`setting showing loader to false`);
                 setShowLoader(false);
             }
         });

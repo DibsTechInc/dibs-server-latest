@@ -43,7 +43,6 @@ export const RunSalesReport = async (dibsStudioId, salesInfo, timeZone) => {
         if (response.data.success) {
             response.data.reportData.forEach((row) => {
                 const saleDate = moment(row.saleDate).tz(timeZone).format('M/D/YY');
-                console.log(`row for this user is: ${JSON.stringify(row)}`);
                 const { email } = row.user;
                 const finalPrice = row.original_price - row.discount_amount + row.tax_amount;
                 const grossRev = finalPrice - row.creditApplied;

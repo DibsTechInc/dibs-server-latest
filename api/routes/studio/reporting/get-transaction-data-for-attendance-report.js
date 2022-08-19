@@ -6,11 +6,8 @@ const {
 
 module.exports = async function getTransactionDataForAttendanceReport(req, res) {
     const { attendeeAsNumber } = req.body;
-    const membershipGross = 19;
-    const membershipNet = 18.22;
     const membershipText = 'Unlimited Membership';
     try {
-        console.log(`attendeeId from getTransactionData for attendance report is: ${attendeeAsNumber}`);
         const paymentData = { paymentTypeDB: 'Not yet set', grossRevenueDB: 0, netRevenueDB: 0 };
         const transactionData = await models.dibs_transaction.findOne({
             attributes: [
@@ -22,7 +19,9 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
                 'stripe_fee',
                 'dibs_fee',
                 'with_passid',
-                'studio_credits_spent'
+                'studio_credits_spent',
+                'createdAt',
+                'dibs_studio_id'
             ],
             where: {
                 id: attendeeAsNumber,
@@ -30,9 +29,7 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
             },
             paranoid: false
         });
-        console.log(`\n\n\n\n\n\ntransactionData for this attendee id ${attendeeAsNumber} is: ${JSON.stringify(transactionData)}\n\n\n\n`);
         const updateDibsTransRevData = async (gr, fees, taxes, nr) => {
-            console.log(`id = ${attendeeAsNumber} gr = ${gr}, fees = ${fees}, taxes = ${taxes}, nr = ${nr}`);
             models.dibs_transaction.update(
                 {
                     rev_to_attribute: gr,
@@ -66,7 +63,7 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
                 }
             });
             const packageData = await models.studio_packages.findOne({
-                attributes: ['name'],
+                attributes: ['name', 'unlimited'],
                 where: {
                     id: passData.studio_package_id
                 }
@@ -87,12 +84,7 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
                     for_passid: transactionData.with_passid
                 }
             });
-            console.log(
-                `\n\n\n\n%%%%%%%%%%%%%%%%%%\n\nThey bought with a package\npackagePriceInfo for attendeeId: ${attendeeAsNumber} is: ${JSON.stringify(
-                    packagePriceInfo
-                )}\n\n\n\n\n\n`
-            );
-            if (passData.totalUses <= 80) {
+            if (passData.totalUses <= 80 && passData.totalUses !== null) {
                 const grossRev = (packagePriceInfo.amount - packagePriceInfo.discount_amount) / passData.totalUses;
                 const netRev =
                     (packagePriceInfo.amount -
@@ -103,12 +95,30 @@ module.exports = async function getTransactionDataForAttendanceReport(req, res) 
                     passData.totalUses;
                 paymentData.grossRevenueDB = grossRev;
                 paymentData.netRevenueDB = netRev;
+                // } else if (passData.totalUses > 80 || packageData.unlimited || passData.totalUses === null) {
             } else {
                 // need to figure out what the unlimited membership amount is
-                // next - set the membership price before calling the report
+                const dibsStudioId = transactionData.dibs_studio_id;
+                const dateToCompare = transactionData.createdAt;
+                const membershipRevData = await models.membership_stats.findOne({
+                    attributes: ['rev_per_visit', 'net_rev_per_visit'],
+                    where: {
+                        dibs_studio_id: dibsStudioId,
+                        valid_from: {
+                            [Op.lte]: dateToCompare
+                        },
+                        valid_to: {
+                            [Op.gte]: dateToCompare
+                        }
+                    }
+                });
+                // eslint-disable-next-line camelcase
+                const { rev_per_visit, net_rev_per_visit } = membershipRevData;
                 paymentData.paymentTypeDB = membershipText;
-                paymentData.grossRevenueDB = membershipGross;
-                paymentData.netRevenueDB = membershipNet;
+                // eslint-disable-next-line camelcase
+                paymentData.grossRevenueDB = rev_per_visit;
+                // eslint-disable-next-line camelcase
+                paymentData.netRevenueDB = net_rev_per_visit;
             }
         }
         // class was purchased with studio credits
