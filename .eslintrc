@@ -4,11 +4,17 @@
         "browser": true,
         "es2021": true
     },
-    "extends": ["airbnb", "prettier", "plugin:react/jsx-runtime", "plugin:jsx-a11y/recommended", "plugin:react-hooks/recommended"],
+    // "extends": ["airbnb", "prettier", "plugin:react/jsx-runtime", "plugin:jsx-a11y/recommended", "plugin:react-hooks/recommended"],
+    "extends": ["airbnb", "airbnb/hooks", "plugin:prettier/recommended", "plugin:jsx-a11y/recommended", "plugin:react/jsx-runtime", "plugin:react/recommended"],
     "settings": {
         "import/resolver": {
             "node": {
                 "moduleDirectory": ["node_modules", "src/"]
+            },
+            "fallback": {
+                "fs": false,
+                "os": false,
+                "path": false
             }
         }
     },
@@ -20,15 +26,39 @@
         },
         "ecmaVersion": 12
     },
+    "globals": {
+        "$": true,
+        "_dibs_config": true,
+        "models": true,
+        "sequelize": true,
+        "Sequelize": true,
+        "apiSuccessWrapper": true,
+        "apiFailureWrapper": true,
+        "isAuthenticated": true,
+        "isStudioAuthenticated": true,
+        "isPortalAuthenticated": true,
+        "isStudioAdmin": true,
+        "isDibsAdmin": true,
+        "goog_report_conversion": true,
+        "fbq": true,
+        "ga": true,
+        "goog_snippet_vars_signup": true,
+        "goog_snippet_vars_purchase": true,
+        "_dibsUser": true,
+        "_dibsLiveStudios": true,
+        "optimizely": true
+      },
     "plugins": ["prettier", "react", "react-hooks"],
     "rules": {
-        "react/jsx-filename-extension": 0,
+        // "react/jsx-filename-extension": 0,
         "no-param-reassign": 0,
         "react/prop-types": 1,
         "react/require-default-props": 0,
         "react/no-array-index-key": 0,
         "react/jsx-props-no-spreading": 0,
         "react/forbid-prop-types": 0,
+        "react/react-in-jsx-scope": "off",  
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
         "import/order": 0,
         "import/no-cycle": 0,
         "no-console": 0,
@@ -43,7 +73,7 @@
             }
         ],
         "prettier/prettier": [
-            2,
+            1,
             {
                 "bracketSpacing": true,
                 "printWidth": 140,
