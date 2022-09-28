@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 
 // third-party
-import Carousel from 'react-images';
+// import Carousel from 'react-images';
+import Carousel from 'react-responsive-carousel';
 
 // ==============================|| POPUP IMAGES BOX / LIGHT BOX ||============================== //
 

@@ -1,4 +1,5 @@
 // material-ui
+import React from 'react';
 import { Grid, Paper, Box } from '@mui/material';
 import ReportingTabs from '../../../components/EntryPages/reporting';
 
@@ -6,7 +7,7 @@ import ReportingTabs from '../../../components/EntryPages/reporting';
 
 // ==============================|| FrontDesk Page ||============================== //
 
-const Reporting = () => {
+function Reporting() {
     console.log('reporting page');
     return (
         <Paper
@@ -35,6 +36,6 @@ const Reporting = () => {
             </Grid>
         </Paper>
     );
-};
+}
 
 export default Reporting;

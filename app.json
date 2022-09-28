@@ -1,0 +1,102 @@
+{
+  "name": "dibs-server",
+  "scripts": {
+    "postdeploy": "sequelize db:migrate && webpack --progress"
+  },
+  "env": {
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "CLOUDAMQP_URL": {
+      "required": true
+    },
+    "DATABASE_DIALECT": {
+      "required": true
+    },
+    "FLOWXO_PW": {
+      "required": true
+    },
+    "FLOWXO_USERNAME": {
+      "required": true
+    },
+    "HEROKU_POSTGRESQL_YELLOW_URL": {
+      "required": true
+    },
+    "HOST_NAME": {
+      "required": true
+    },
+    "MAILLAYER_API_KEY": {
+      "required": true
+    },
+    "MEMCACHIER_PASSWORD": {
+      "required": true
+    },
+    "MEMCACHIER_SERVERS": {
+      "required": true
+    },
+    "MEMCACHIER_USERNAME": {
+      "required": true
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "required": true
+    },
+    "NPM_TOKEN": {
+      "required": true
+    },
+    "SPARKPOST_API_KEY": {
+      "required": true
+    },
+    "STAGING": {
+      "required": true
+    },
+    "STRIPE_API_KEY": {
+      "required": true
+    },
+    "TWILIO_ACCOUNT_SID": {
+      "required": true
+    },
+    "TWILIO_AUTH_TOKEN": {
+      "required": true
+    },
+    "WEB_CONCURRENCY": {
+      "required": true
+    },
+    "DATABASE_URL": {
+      "required": true
+    }
+  },
+  "formation": {
+    "transaction-referral-checker": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    },
+    "email-notifier": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    },
+    "run_cron_jobs": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    },
+    "web": {
+      "quantity": 1,
+      "size": "Standard-1X"
+    }
+  },
+  "addons": [
+    "cloudamqp",
+    "logentries",
+    "memcachier",
+    "heroku-postgresql",
+    "quotaguardstatic",
+    "rediscloud"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

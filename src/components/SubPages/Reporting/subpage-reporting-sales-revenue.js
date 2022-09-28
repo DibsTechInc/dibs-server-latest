@@ -1,5 +1,5 @@
 // material-ui
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import { Grid, Typography, Divider, Stack } from '@mui/material';
 import ToggleButton from 'shared/components/Button/toggleButton';
@@ -59,10 +59,11 @@ const csvHeaders = [
     'DIBS FEE',
     'NET REV'
 ];
+const nameOfReport = 'dibs-sales-report.csv';
 const summaryTitles = ['Gross Revenue', 'Tax Withheld', 'Dibs Fee', 'Stripe Fee', 'Net Revenue'];
 const widthNumber = 270;
 
-const ReportingSalesReports = () => {
+function ReportingSalesReports() {
     const dispatch = useDispatch();
     const { studioConfig, config } = useSelector((state) => state.dibsstudio);
     const { timeZone } = studioConfig;
@@ -189,7 +190,7 @@ const ReportingSalesReports = () => {
                         <SummaryForReportTable headers={summaryTitles} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ExportToCsv headers={csvHeaders} />
+                        <ExportToCsv headers={csvHeaders} nameOfReport={nameOfReport} />
                     </Grid>
                     <Grid item xs={12} sx={{ mt: 6 }}>
                         <Divider variant="fullWidth" />
@@ -206,6 +207,6 @@ const ReportingSalesReports = () => {
             )}
         </Grid>
     );
-};
+}
 
 export default ReportingSalesReports;

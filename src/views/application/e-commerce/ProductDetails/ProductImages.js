@@ -12,7 +12,8 @@ import { gridSpacing } from 'store/constant';
 
 // third-party
 import Slider from 'react-slick';
-import Carousel, { Modal, ModalGateway } from 'react-images';
+// import Carousel, { Modal, ModalGateway } from 'react-images';
+import Carousel, { Modal, ModalGateway } from 'react-responsive-carousel';
 
 // assets
 import prod1 from 'assets/images/e-commerce/prod-1.jpg';

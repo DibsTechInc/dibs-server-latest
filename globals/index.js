@@ -1,5 +1,5 @@
 const moment = require('moment-timezone');
-const models = require('../models/sequelize');
+const models = require('@dibs-tech/models');
 const jwt = require('jsonwebtoken');
 
 global.apiSuccessWrapper = require('./apiSuccessWrapper');

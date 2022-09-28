@@ -47,12 +47,10 @@ const getAttendedStatus = (checkedin, dropped, earlyCancel) => {
 
 // eslint-disable-next-line consistent-return
 const getPaymentStatus = async (serviceName, attendeeId, cpAmount, attendedStatus) => {
-    console.log(`\n\n\n\n\nattendeeId: ${attendeeId} attendedStatus: ${attendedStatus}\n\n\n\n\n`);
     if (serviceName === 'Classpass' || serviceName === 'ClassPass') {
         return { paymentType: 'ClassPass', grossRevenue: cpAmount, netRevenue: cpAmount };
     }
     if (attendedStatus === 'Early Drop') {
-        console.log(`attendeeid: ${attendeeId} is an early drop`);
         return { paymentType: 'N/A - Early Drop', grossRevenue: 0, netRevenue: 0 };
     }
     const attendeeAsNumber = Number(attendeeId);
@@ -80,13 +78,13 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
             attendanceInfo,
             locationToShow
         });
+        let summaryAttendees = 0;
         if (response.data.success) {
             // console.log(`\n\n\n\n\n4 - attendance reportData to check: ${JSON.stringify(response.data.reportData)}`);
             // when locationToShow is ALL - it is equal to 999
             let count = 0;
             const updateReportData = new Promise((resolve, reject) => {
                 response.data.reportData.forEach((row, index, array) => {
-                    console.log(`\n\n\n\n\nrow: ${JSON.stringify(row)}`);
                     const visitDate = moment(row.saleDate).tz(timeZone).format('M/D/YY');
                     const visitTime = moment(row.saleDate).tz(timeZone).format('h:mm a');
                     const visitDay = moment(row.saleDate).tz(timeZone).format('ddd');
@@ -101,9 +99,7 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
                     const getpaydetails = async () => {
                         const paymentInfo = await getPaymentStatus(row.serviceName, row.attendeeID, cpAmount, attendedStatus);
-                        console.log(`paymentInfo has been returned - it is: ${JSON.stringify(paymentInfo)}`);
                         const { paymentType, grossRevenue, netRevenue } = paymentInfo;
-                        console.log(`paymentType returned for attendeeid: ${row.attendeeID} is: ${paymentType}`);
                         paymentTypeToSend = paymentType;
                         grossRevToSend = grossRevenue;
                         netRevToSend = netRevenue;
@@ -134,13 +130,10 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                         console.log(`rowData about to pushed into datatoreturn is: ${JSON.stringify(rowData)}`);
                         if (locationId === locationToShow || locationToShow === '999') {
                             // get the transaction data to include
-                            console.log(`inside the if state - rowData is being added`);
                             datatoreturn.push(rowData);
                         }
                         count += 1;
-                        console.log(`index is: ${index}`);
-                        console.log(`array length is: ${array.length}`);
-                        console.log(`count is: ${count}`);
+                        summaryAttendees += 1;
                         if (count === array.length) resolve();
                     };
                     getpaydetails();
@@ -152,7 +145,10 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 );
                 return {
                     msg: 'success',
-                    reportData: datatoreturn
+                    reportData: datatoreturn,
+                    summaryData: {
+                        summaryAttendees
+                    }
                 };
             });
             // console.log(`in the runAttendance report outside return statement`);

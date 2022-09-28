@@ -5,7 +5,8 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Avatar, ButtonBase, Card, CardContent, CardMedia, Grid, Link, Typography } from '@mui/material';
 
 // third-party
-import Carousel, { Modal, ModalGateway } from 'react-images';
+// import Carousel, { Modal, ModalGateway } from 'react-images';
+import Carousel, { Modal, ModalGateway } from 'react-responsive-carousel';
 
 // project imports
 import Slider from './Slider';

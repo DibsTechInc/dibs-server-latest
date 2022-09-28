@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import { ROSE_MAIN, SOLD_OUT_GREY } from '../../../../constants/ColorConstants';
+// import { ROSE_MAIN, SOLD_OUT_GREY } from '../../../../constants/ColorConstants';
 import { TransactionRefundReasons } from '../../../../constants/TransactionHistoryConstants';
 import Button from '../Base';
 // import ModalContent from './ModalContent';
-import XIcon from '../../../../graphics/Icons/XIcon';
+// import XIcon from '../../../../graphics/Icons/XIcon';
 
 const EditPackageButton = (props) => {
     const { disabled, refunding, chargeAmount, refunded } = props;
