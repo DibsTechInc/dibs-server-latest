@@ -6,10 +6,10 @@ const flash = require('express-flash');
 
 require('./globals');
 
-if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line global-require
-    require('dotenv').config();
-}
+// if (process.env.NODE_ENV !== 'production') {
+//     // eslint-disable-next-line global-require
+//     require('dotenv').config();
+// }
 
 const {
     Sequelize: { Op }

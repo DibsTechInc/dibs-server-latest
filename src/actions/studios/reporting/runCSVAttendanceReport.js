@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment-timezone';
 
-// ==============================|| RUN ATTENDANCE REPORT FOR STUDIO ||============================== //
+// ==============================|| RUN CSV REPORT FOR STUDIO ATTENDANCE REPORT ||============================== //
 
 const formatToDollars = (num) => {
     const todayspendformatted = new Intl.NumberFormat('en-US', {
@@ -46,7 +46,7 @@ const getComplexPaymentStatus = async (attendeeId) => {
         axios
             .post('/api/studio/reporting/get-transaction-data-for-attendance', { attendeeAsNumber })
             .then((response) => {
-                console.log(`\n\n\n\n\nresponse from the api call for attendeeId: ${attendeeId} is: ${JSON.stringify(response)}`);
+                // console.log(`\n\n\n\n\nresponse from the api call for attendeeId: ${attendeeId} is: ${JSON.stringify(response)}`);
                 if (response.data.success) {
                     const { paymentData } = response.data;
                     resolve(paymentData);
@@ -60,7 +60,7 @@ const getComplexPaymentStatus = async (attendeeId) => {
     });
 };
 
-export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone, locationToShow, cpAmount) => {
+export const RunCSVAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone, locationToShow, cpAmount) => {
     const datatoreturn = [];
     let numAttendees = 0;
     let totalGrossRevenue = 0;
@@ -78,7 +78,9 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 const attendedStatus = getAttendedStatus(row.checkedin, row.dropped, row.early_cancel);
                 const startDate = row.visitDate;
                 const visitDate = moment(row.visitDate).tz(timeZone).format('M/D/YY');
+                const createdAt = moment(row.createdAt).tz(timeZone).format('M/D/YY');
                 const visitTime = moment(row.visitDate).tz(timeZone).format('h:mm a');
+                const visitDOW = moment(row.visitDate).tz(timeZone).format('ddd');
                 // const visitDay = moment(row.visitDate).tz(timeZone).format('ddd');
                 // const bookedDate = moment(row.createdAt).tz(timeZone).format('M/D/YY');
                 const nameOfClass = row.events.name;
@@ -87,6 +89,7 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                 // const promCodeApplied = null;
                 // const flastCreditApplied = null;
                 // const totalDiscounts = 0;
+                // console.log(`\n\n\nBuilding attendance report\n\nrow is: ${JSON.stringify(row)}`);
                 const clientName = `${row.firstname} ${row.lastname}`;
                 const instructorName = `${row.events.instructor.firstname} ${row.events.instructor.lastname}`;
                 const { email } = row;
@@ -113,19 +116,25 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
                     }
                     const grossRevToSendFormatted = formatToDollars(grossRevToSend);
                     const netRevToSendFormatted = formatToDollars(netRevToSend);
+                    console.log(`\n\n\nall data available to you is: ${JSON.stringify(row)}`);
                     const rowData = [
                         row.id,
-                        clientName,
+                        row.userid,
                         email,
+                        row.firstname,
+                        row.lastname,
                         visitDate,
                         visitTime,
-                        startDate,
+                        visitDOW,
+                        startDate, // we are here
                         locationName,
                         nameOfClass,
                         instructorName,
+                        row.eventid,
                         attendedStatus,
+                        createdAt,
                         paymentTypeToSend, // paymentType
-                        // row.events.price_dibs,
+                        row.events.price_dibs,
                         // promCodeApplied,
                         // flastCreditApplied,
                         // totalDiscounts,
@@ -142,13 +151,13 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
             });
         };
         const sortDataByDate = (itemA, itemB) => {
-            if (itemA[5] > itemB[5]) {
+            if (itemA[8] > itemB[8]) {
                 return 1;
             }
             return -1;
         };
         const sortName = (itemA, itemB) => {
-            if (itemA[5] === itemB[5]) {
+            if (itemA[4] === itemB[4]) {
                 if (itemA[1] > itemB[1]) {
                     return 1;
                 }
@@ -164,9 +173,17 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
             await Promise.all(promises)
                 .then(() => {
                     datatoreturn.sort(sortDataByDate).sort(sortName);
+                    // we are here -> find a way to filter out the startDate from data after it's sorted
+                })
+                .then(() => {
+                    datatoreturn.forEach((el) => {
+                        console.log(`el is equal to: ${JSON.stringify(el)}`);
+                        el.splice(8, 1);
+                    });
                 })
                 .then(() => {
                     console.log('now returning the data runAttendanceReportNew');
+                    console.log(`datatoreturn post slice is: ${JSON.stringify(datatoreturn)}`);
                     return {
                         msg: 'success',
                         reportData: datatoreturn,
@@ -185,4 +202,4 @@ export const RunAttendanceReport = async (dibsStudioId, attendanceInfo, timeZone
     };
 };
 
-export default RunAttendanceReport;
+export default RunCSVAttendanceReport;

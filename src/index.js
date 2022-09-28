@@ -1,4 +1,6 @@
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 
 // third party
 import { BrowserRouter } from 'react-router-dom';
@@ -17,8 +19,10 @@ import { ConfigProvider } from 'contexts/ConfigContext';
 import 'assets/scss/style.scss';
 
 // ==============================|| REACT DOM RENDER  ||============================== //
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 
-ReactDOM.render(
+root.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persister}>
             <ConfigProvider>
@@ -27,8 +31,7 @@ ReactDOM.render(
                 </BrowserRouter>
             </ConfigProvider>
         </PersistGate>
-    </Provider>,
-    document.getElementById('root')
+    </Provider>
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -1,5 +1,5 @@
 // material-ui
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment-timezone';
 import { Grid, Typography, Divider, Stack } from '@mui/material';
 import ToggleButton from 'shared/components/Button/toggleButton';
@@ -15,8 +15,7 @@ import { setReportingDataForTable, setSummaryForTable, setCsvDataForTable } from
 import LocationSelector from 'shared/components/Selectors/LocationSelectors';
 import { useSelector, useDispatch } from 'store';
 import RunAttendanceReport from 'actions/studios/reporting/runAttendanceReportNew';
-import RunCsvReport from 'actions/studios/reporting/runCSVReport';
-import RunSummaryReport from 'actions/studios/reporting/runSummaryReport';
+import RunCsvReport from 'actions/studios/reporting/runCSVAttendanceReport';
 import InfoIcon from 'shared/components/HelpInfo/infoIcon';
 
 // ==============================|| SALES REPORTS ||============================== //
@@ -43,18 +42,20 @@ const headers = [
     'GROSS REV ATTRIBUTED',
     'NET REV ATTRIBUTED'
 ];
+const nameOfReport = 'dibs-attendance-report.csv';
 const csvHeaders = [
     'ID',
-    'CLASS DATE',
-    'DAY OF WEEK',
-    'CLASS TIME',
-    'CLASS NAME',
-    'LOCATION',
-    'INSTRUCTOR',
-    'EVENTID',
     'USERID',
     'EMAIL',
-    'NAME',
+    'FIRST NAME',
+    'LAST NAME',
+    'CLASS DATE',
+    'CLASS TIME',
+    'DAY OF WEEK',
+    'LOCATION',
+    'CLASS NAME',
+    'INSTRUCTOR',
+    'EVENTID',
     'ATTENDED',
     'DATE BOOKED',
     'PAYMENT TYPE',
@@ -70,7 +71,7 @@ const widthNumber = 270;
 const attendanceMsg =
     'This report shows each visit in the specified time period. It also shows the actual revenue that can be attributed to each visit. This report does not include retail sales.';
 
-const ReportingSalesReports = () => {
+function ReportingSalesReports() {
     const dispatch = useDispatch();
     const { studioConfig, config } = useSelector((state) => state.dibsstudio);
     const { timeZone } = studioConfig;
@@ -105,7 +106,7 @@ const ReportingSalesReports = () => {
         // });
         await RunAttendanceReport(dibsStudioId, reportSpecs, timeZone, locationToShow).then((res) => {
             console.log(
-                `\n\n\n\n\n\n\n8/19a - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`
+                `\n\n\n\n\n\n\n8/20 - Got response from running attendance report --> \n\n\n\n${JSON.stringify(res)}\n\n\n\n\n\n\n`
             );
             if (res.msg === 'failure') {
                 console.log('there was an error calling the attendance report');
@@ -208,7 +209,12 @@ const ReportingSalesReports = () => {
                         <SummaryForReportTable headers={summaryTitles} />
                     </Grid>
                     <Grid item xs={12}>
-                        <ExportToCsv headers={csvHeaders} />
+                        <ExportToCsv headers={csvHeaders} nameOfReport={nameOfReport} />
+                    </Grid>
+                    <Grid item xs={12} sx={{ mt: 3 }}>
+                        <Typography gutterBottom variant="h7" sx={{ fontStyle: 'italic' }}>
+                            Note: Exporting to CSV will give you more information about each row.
+                        </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ mt: 6 }}>
                         <Divider variant="fullWidth" />
@@ -225,6 +231,6 @@ const ReportingSalesReports = () => {
             )}
         </Grid>
     );
-};
+}
 
 export default ReportingSalesReports;

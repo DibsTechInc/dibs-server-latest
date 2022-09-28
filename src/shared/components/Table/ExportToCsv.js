@@ -1,10 +1,10 @@
 import propTypes from 'prop-types';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import { useSelector } from 'store';
 import { CSVLink } from 'react-csv';
 
-const ExportToCsv = ({ headers }) => {
+function ExportToCsv({ headers, nameOfReport }) {
     const [transactionData, setTransactionData] = useState([]);
     const { reporting } = useSelector((state) => state.datatables);
     const { csvData } = reporting;
@@ -15,7 +15,7 @@ const ExportToCsv = ({ headers }) => {
     return (
         <Grid item xs={12}>
             {csvData && (
-                <CSVLink headers={headers} data={csvData} filename="dibs-report.csv" style={{ textDecoration: 'none' }} target="_blank">
+                <CSVLink headers={headers} data={csvData} filename={nameOfReport} style={{ textDecoration: 'none' }} target="_blank">
                     <Button onClick={getTransactionData} id="export-report">
                         Export to CSV
                     </Button>
@@ -23,8 +23,9 @@ const ExportToCsv = ({ headers }) => {
             )}
         </Grid>
     );
-};
+}
 ExportToCsv.propTypes = {
-    headers: propTypes.array
+    headers: propTypes.array,
+    nameOfReport: propTypes.string
 };
 export default ExportToCsv;

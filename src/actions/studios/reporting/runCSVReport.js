@@ -72,7 +72,7 @@ export const RunCsvReport = async (dibsStudioId, salesInfo, timeZone) => {
         console.log(`Run Report Data Returned: ${JSON.stringify(response)}`);
         return { msg: 'failure', error: response.data.error };
     } catch (err) {
-        console.log(`error running report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);
+        console.log(`error running CSV report for dibsStudioId: ${dibsStudioId}\nerr is: ${err}`);
     }
     return 0;
 };
