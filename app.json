@@ -1,5 +1,5 @@
 {
-  "name": "dibs-server",
+  "name": "dibs-server-2022",
   "scripts": {
     "postdeploy": "sequelize db:migrate && webpack --progress"
   },
