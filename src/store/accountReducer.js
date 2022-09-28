@@ -9,7 +9,7 @@ const initialState = {
     user: null
 };
 
-const accountReducer = (state = initialState, action) => {
+const accountReducer = (action, state = initialState) => {
     switch (action.type) {
         case REGISTER: {
             const { user } = action.payload;
