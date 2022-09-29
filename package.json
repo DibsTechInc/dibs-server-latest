@@ -13,9 +13,7 @@
         "server": "nodemon index.js --trace-warnings",
         "sequelize": "sequelize",
         "sequelize-cli": "sequelize-cli",
-        "start:production": "node ./bin/www",
         "heroku-postbuild": "npm run build --prefix frontend",
-        "install": "npm install"
     },
     "proxy": "http://localhost:8080",
     "dependencies": {
