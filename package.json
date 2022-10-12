@@ -7,7 +7,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "server": "nodemon index.js --trace-warnings"
+        "server": "nodemon index.js --trace-warnings",
+        "reset": "rm -rf node_modules && rm -f package-lock.json && npm cache verify && npm install"
     },
     "proxy": "http://localhost:8080",
     "dependencies": {

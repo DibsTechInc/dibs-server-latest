@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 app.use('/api', require('./api/routes'));
 
 // webhook routes
-app.use('/webhooks', require('./routes/webhooks'));
+// app.use('/webhooks', require('./routes/webhooks'));
 
 // app.use('/api', createProxyMiddleware({ target: 'http://localhost:8080', changeOrigin: true }));
 

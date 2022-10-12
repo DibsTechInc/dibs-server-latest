@@ -5,6 +5,7 @@ import { Grid, Typography, Divider, Stack } from '@mui/material';
 import ToggleButton from 'shared/components/Button/toggleButton';
 import ChooseDateOptions from 'components/SubComponents/Reporting/ChooseDateOptions';
 import RunReportButton from 'shared/components/Button/nonSubmitButtons';
+// import ReportsTable from 'shared/components/Table/AttendanceReportsTable';
 import ReportsTable from 'shared/components/Table/AttendanceReportsTable';
 import SummaryForReportTable from 'shared/components/Table/SummaryForReport';
 import ExportToCsv from 'shared/components/Table/ExportToCsv';
@@ -16,7 +17,7 @@ import LocationSelector from 'shared/components/Selectors/LocationSelectors';
 import { useSelector, useDispatch } from 'store';
 import RunAttendanceReport from 'actions/studios/reporting/runAttendanceReportNew';
 import RunCsvReport from 'actions/studios/reporting/runCSVReport';
-import RunSummaryReport from 'actions/studios/reporting/runSummaryReport';
+// import RunSummaryReport from 'actions/studios/reporting/runSummaryReport';
 import InfoIcon from 'shared/components/HelpInfo/infoIcon';
 
 // ==============================|| SALES REPORTS ||============================== //
